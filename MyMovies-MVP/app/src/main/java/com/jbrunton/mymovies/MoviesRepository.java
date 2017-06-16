@@ -1,5 +1,7 @@
 package com.jbrunton.mymovies;
 
+import java.util.concurrent.TimeUnit;
+
 import io.reactivex.Observable;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Function;
@@ -11,12 +13,8 @@ public class MoviesRepository {
         this.service = service;
     }
 
-    public Observable getMovie() {
-        Function<MovieResource, Movie> toMovie = new Function<MovieResource, Movie>() {
-            @Override public Movie apply(@NonNull MovieResource movieResource) throws Exception {
-                return movieResource.toMovie();
-            }
-        };
-        return service.getMovie().map(toMovie);
+    public Observable<Movie> getMovie() {
+        return service.getMovie()
+                .map(MovieResource::toMovie);
     }
 }
