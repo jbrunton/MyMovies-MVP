@@ -21,8 +21,8 @@ public class MoviesRepository {
                 .map(MovieResource::toMovie);
     }
 
-    public Observable<List<Movie>> searchMovies() {
-        return service.search()
+    public Observable<List<Movie>> searchMovies(String query) {
+        return service.search(query)
                 .map(MoviesCollection::toCollection);
     }
 }

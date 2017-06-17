@@ -32,7 +32,7 @@ public class MainActivity extends BaseActivity {
         repository.getMovie()
                 .compose(applySchedulers())
                 .subscribe(this::setMovie);
-        repository.searchMovies()
+        repository.searchMovies("Star Trek")
                 .compose(applySchedulers())
                 .subscribe(this::setMovies);
     }
