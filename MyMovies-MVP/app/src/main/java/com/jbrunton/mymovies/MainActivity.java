@@ -1,23 +1,20 @@
 package com.jbrunton.mymovies;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.annotations.NonNull;
-import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import com.jbrunton.mymovies.api.repositories.MoviesRepository;
+import com.jbrunton.mymovies.api.services.MovieService;
+
+import java.util.List;
+
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends BaseActivity {
     private TextView text;
+    private TextView text2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,11 +23,16 @@ public class MainActivity extends BaseActivity {
 
         text = (TextView) findViewById(R.id.text);
         text.setText("Loading...");
+        text2 = (TextView) findViewById(R.id.text2);
+        text2.setText("Loading...");
 
         MoviesRepository repository = new MoviesRepository(createService());
         repository.getMovie()
                 .compose(applySchedulers())
                 .subscribe(this::setMovie);
+        repository.searchMovies()
+                .compose(applySchedulers())
+                .subscribe(this::setMovies);
     }
 
     private MovieService createService() {
@@ -44,5 +46,9 @@ public class MainActivity extends BaseActivity {
 
     private void setMovie(Movie movie) {
         text.setText(movie.getTitle());
+    }
+
+    private void setMovies(List<Movie> movies) {
+        text2.setText(movies.get(0).getTitle());
     }
 }
