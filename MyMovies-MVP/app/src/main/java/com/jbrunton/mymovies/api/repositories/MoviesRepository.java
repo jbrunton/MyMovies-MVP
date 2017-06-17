@@ -16,11 +16,6 @@ public class MoviesRepository {
         this.service = service;
     }
 
-    public Observable<Movie> getMovie() {
-        return service.getMovie()
-                .map(MovieResource::toMovie);
-    }
-
     public Observable<List<Movie>> searchMovies(String query) {
         return service.search(query)
                 .map(MoviesCollection::toCollection);

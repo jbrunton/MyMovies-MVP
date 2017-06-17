@@ -8,9 +8,6 @@ import retrofit2.http.GET;
 import retrofit2.http.Query;
 
 public interface MovieService {
-    @GET("movie/76341")
-    Observable<MovieResource> getMovie();
-
     @GET("search/movie")
     Observable<MoviesCollection> search(@Query("query") String query);
 }
