@@ -4,10 +4,12 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import com.jbrunton.mymovies.api.repositories.MoviesRepository;
+import com.jbrunton.mymovies.api.services.ApiKeyInterceptor;
 import com.jbrunton.mymovies.api.services.MovieService;
 
 import java.util.List;
 
+import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -36,7 +38,12 @@ public class MainActivity extends BaseActivity {
     }
 
     private MovieService createService() {
+        OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(new ApiKeyInterceptor())
+                .build();
+
         Retrofit retrofit = new Retrofit.Builder()
+                .client(client)
                 .baseUrl("https://api.themoviedb.org/3/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
