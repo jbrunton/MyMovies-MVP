@@ -1,6 +1,9 @@
 package com.jbrunton.mymovies;
 
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.TextView;
 
 import com.jbrunton.mymovies.api.repositories.MoviesRepository;
@@ -8,6 +11,8 @@ import com.jbrunton.mymovies.api.services.ApiKeyInterceptor;
 import com.jbrunton.mymovies.api.services.MovieService;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
@@ -15,23 +20,21 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends BaseActivity {
-    private TextView text;
-    private TextView text2;
+    private RecyclerView moviesList;
+    private MoviesAdapter moviesAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        text = (TextView) findViewById(R.id.text);
-        text.setText("Loading...");
-        text2 = (TextView) findViewById(R.id.text2);
-        text2.setText("Loading...");
+        moviesList = (RecyclerView) findViewById(R.id.movies_list);
+        moviesList.setLayoutManager(new LinearLayoutManager(this));
+
+        moviesAdapter = new MoviesAdapter();
+        moviesList.setAdapter(moviesAdapter);
 
         MoviesRepository repository = new MoviesRepository(createService());
-        repository.getMovie()
-                .compose(applySchedulers())
-                .subscribe(this::setMovie);
         repository.searchMovies("Star Trek")
                 .compose(applySchedulers())
                 .subscribe(this::setMovies);
@@ -51,11 +54,34 @@ public class MainActivity extends BaseActivity {
         return retrofit.create(MovieService.class);
     }
 
-    private void setMovie(Movie movie) {
-        text.setText(movie.getTitle());
+    private void setMovies(List<Movie> movies) {
+        moviesAdapter.setDataSource(movies);
     }
 
-    private void setMovies(List<Movie> movies) {
-        text2.setText(movies.get(0).getTitle());
+    private static class MoviesAdapter extends BaseRecyclerAdapter<Movie, MoviesAdapter.ViewHolder> {
+        MoviesAdapter() {
+            super(android.R.layout.simple_list_item_1, new ViewHolderFactory());
+        }
+
+        static class ViewHolder extends RecyclerView.ViewHolder {
+            private TextView textView;
+
+            ViewHolder(View itemView) {
+                super(itemView);
+                textView = (TextView) itemView.findViewById(android.R.id.text1);
+            }
+        }
+
+        protected static class ViewHolderFactory implements BaseRecyclerAdapter.ViewHolderFactory<Movie, ViewHolder> {
+            @Override
+            public ViewHolder createViewHolder(View view) {
+                return new ViewHolder(view);
+            }
+
+            @Override
+            public void bindHolder(ViewHolder holder, Movie item) {
+                holder.textView.setText(item.getTitle());
+            }
+        }
     }
 }
