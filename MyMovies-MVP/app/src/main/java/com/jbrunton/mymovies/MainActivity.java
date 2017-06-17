@@ -3,7 +3,11 @@ package com.jbrunton.mymovies;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.jbrunton.mymovies.api.repositories.MoviesRepository;
@@ -22,11 +26,17 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MainActivity extends BaseActivity {
     private RecyclerView moviesList;
     private MoviesAdapter moviesAdapter;
+    private EditText searchQuery;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
+
+        setTitle("Search Movies");
 
         moviesList = (RecyclerView) findViewById(R.id.movies_list);
         moviesList.setLayoutManager(new LinearLayoutManager(this));
@@ -34,10 +44,27 @@ public class MainActivity extends BaseActivity {
         moviesAdapter = new MoviesAdapter();
         moviesList.setAdapter(moviesAdapter);
 
-        MoviesRepository repository = new MoviesRepository(createService());
-        repository.searchMovies("Star Trek")
-                .compose(applySchedulers())
-                .subscribe(this::setMovies);
+        final MoviesRepository repository = new MoviesRepository(createService());
+
+        searchQuery = (EditText) findViewById(R.id.search_query);
+        searchQuery.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                repository.searchMovies(editable.toString())
+                        .compose(applySchedulers())
+                        .subscribe(MainActivity.this::setMovies);
+            }
+        });
     }
 
     private MovieService createService() {
