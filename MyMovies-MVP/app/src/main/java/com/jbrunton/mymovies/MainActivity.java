@@ -12,9 +12,12 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.jbrunton.mymovies.api.DescriptiveError;
+import com.jbrunton.mymovies.api.MaybeError;
 import com.jbrunton.mymovies.api.repositories.MoviesRepository;
 import com.jbrunton.mymovies.api.services.ApiKeyInterceptor;
 import com.jbrunton.mymovies.api.services.LocalDateAdapter;
@@ -26,6 +29,7 @@ import org.joda.time.LocalDate;
 import java.util.List;
 
 import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -81,6 +85,7 @@ public class MainActivity extends BaseActivity {
 
     private MovieService createService() {
         OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
                 .addInterceptor(new ApiKeyInterceptor())
                 .build();
 
@@ -97,8 +102,12 @@ public class MainActivity extends BaseActivity {
         return retrofit.create(MovieService.class);
     }
 
-    private void setMovies(List<Movie> movies) {
-        moviesAdapter.setDataSource(movies);
+    private void setMovies(MaybeError<List<Movie>> movies) {
+        movies.ifValue(moviesAdapter::setDataSource).elseIfError(this::showError);
+    }
+
+    private void showError(DescriptiveError error) {
+        Toast.makeText(this, error.getMessage(), Toast.LENGTH_LONG).show();
     }
 
     private static class MoviesAdapter extends BaseRecyclerAdapter<Movie, MoviesAdapter.ViewHolder> {
@@ -136,7 +145,11 @@ public class MainActivity extends BaseActivity {
             @Override
             public void bindHolder(ViewHolder holder, Movie item) {
                 holder.titleView.setText(item.getTitle());
-                holder.releaseDateView.setText("" + item.getReleaseDate().getYear());
+                if (item.getReleaseDate().isPresent()) {
+                    holder.releaseDateView.setText("" + item.getReleaseDate().get().getYear());
+                } else {
+                    holder.releaseDateView.setText("");
+                }
                 holder.ratingView.setText(Html.fromHtml("&#9734; " + item.getRating(), FROM_HTML_MODE_COMPACT));
                 Picasso.with(context)
                         .load("http://image.tmdb.org/t/p/w300" + item.getPosterPath())

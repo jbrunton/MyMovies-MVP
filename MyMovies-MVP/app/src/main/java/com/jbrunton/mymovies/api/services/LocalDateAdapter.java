@@ -21,6 +21,11 @@ public class LocalDateAdapter implements JsonSerializer<LocalDate>, JsonDeserial
     @Override
     public LocalDate deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
             throws JsonParseException {
-        return new LocalDate(json.getAsJsonPrimitive().getAsString());
+        String dateString = json.getAsJsonPrimitive().getAsString();
+        if (dateString.isEmpty()) {
+            return null;
+        } else {
+            return new LocalDate(dateString);
+        }
     }
 }

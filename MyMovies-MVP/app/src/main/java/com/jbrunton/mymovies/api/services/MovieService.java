@@ -4,10 +4,11 @@ import com.jbrunton.mymovies.api.resources.MovieResource;
 import com.jbrunton.mymovies.api.resources.MoviesCollection;
 
 import io.reactivex.Observable;
+import retrofit2.adapter.rxjava2.Result;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 
 public interface MovieService {
     @GET("search/movie")
-    Observable<MoviesCollection> search(@Query("query") String query);
+    Observable<Result<MoviesCollection>> search(@Query("query") String query);
 }

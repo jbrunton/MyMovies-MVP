@@ -3,6 +3,8 @@ package com.jbrunton.mymovies;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 
+import java.util.Optional;
+
 public class Movie {
     private final String title;
     private final String posterPath;
@@ -30,8 +32,8 @@ public class Movie {
         return backdropPath;
     }
 
-    public LocalDate getReleaseDate() {
-        return releaseDate;
+    public Optional<LocalDate> getReleaseDate() {
+        return Optional.ofNullable(releaseDate);
     }
 
     public String getRating() {
