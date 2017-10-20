@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -23,6 +24,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.OnTextChanged;
 
 import static android.text.Html.FROM_HTML_MODE_COMPACT;
@@ -34,6 +36,7 @@ public class MainActivity extends BaseActivity {
     @BindView(R.id.error_case) View errorCase;
     @BindView(R.id.error_text) TextView errorText;
     @BindView(R.id.error_image) ImageView errorImage;
+    @BindView(R.id.error_try_again) Button errorTryAgainButton;
     private MoviesRepository repository;
 
     @Override
@@ -62,9 +65,18 @@ public class MainActivity extends BaseActivity {
 
     @OnTextChanged(R.id.search_query)
     public void onQueryChanged(CharSequence text) {
-        String query = text.toString();
+        performSearch();
+    }
+
+    @OnClick(R.id.error_try_again)
+    public void onTryAgain() {
+        performSearch();
+    }
+
+    private void performSearch() {
+        String query = searchQuery.getText().toString();
         if (query.isEmpty()) {
-            showError("Search", R.drawable.ic_search_black_24dp);
+            showError("Search", R.drawable.ic_search_black_24dp, false);
         } else {
             repository.searchMovies(query)
                     .compose(applySchedulers())
@@ -78,7 +90,7 @@ public class MainActivity extends BaseActivity {
 
     private void showMovies(List<Movie> movies) {
         if (movies.isEmpty()) {
-            showError("No Results", R.drawable.ic_search_black_24dp);
+            showError("No Results", R.drawable.ic_search_black_24dp, false);
         } else {
             errorCase.setVisibility(View.GONE);
             moviesList.setVisibility(View.VISIBLE);
@@ -87,15 +99,16 @@ public class MainActivity extends BaseActivity {
     }
 
     private void showError(DescriptiveError error) {
-        showError(error.getMessage(),
-                error.isNetworkError() ? R.drawable.ic_sentiment_dissatisfied_black_24dp : R.drawable.ic_sentiment_very_dissatisfied_black_24dp);
+        @DrawableRes int resId = error.isNetworkError() ? R.drawable.ic_sentiment_dissatisfied_black_24dp : R.drawable.ic_sentiment_very_dissatisfied_black_24dp;
+        showError(error.getMessage(), resId, error.isNetworkError());
     }
 
-    private void showError(String text, @DrawableRes int resId) {
+    private void showError(String text, @DrawableRes int resId, boolean showTryAgain) {
         moviesList.setVisibility(View.GONE);
         errorCase.setVisibility(View.VISIBLE);
         errorText.setText(text);
         errorImage.setImageResource(resId);
+        errorTryAgainButton.setVisibility(showTryAgain ? View.VISIBLE : View.GONE);
     }
 
     private static class MoviesAdapter extends BaseRecyclerAdapter<Movie, MoviesAdapter.ViewHolder> {
