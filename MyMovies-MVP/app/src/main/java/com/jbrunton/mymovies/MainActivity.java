@@ -46,6 +46,7 @@ public class MainActivity extends BaseActivity {
     private MoviesAdapter moviesAdapter;
     @BindView(R.id.search_query) EditText searchQuery;
     @BindView(R.id.empty_case) View emptyCase;
+    @BindView(R.id.error_text) TextView errorText;
     private MoviesRepository repository;
 
     @Override
@@ -92,7 +93,9 @@ public class MainActivity extends BaseActivity {
     }
 
     private void showError(DescriptiveError error) {
-        Toast.makeText(this, error.getMessage(), Toast.LENGTH_LONG).show();
+        moviesList.setVisibility(View.GONE);
+        emptyCase.setVisibility(View.VISIBLE);
+        errorText.setText(error.getMessage());
     }
 
     private static class MoviesAdapter extends BaseRecyclerAdapter<Movie, MoviesAdapter.ViewHolder> {
