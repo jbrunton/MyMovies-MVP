@@ -45,6 +45,7 @@ public class MainActivity extends BaseActivity {
     private RecyclerView moviesList;
     private MoviesAdapter moviesAdapter;
     @BindView(R.id.search_query) EditText searchQuery;
+    @BindView(R.id.empty_case) View emptyCase;
     private MoviesRepository repository;
 
     @Override
@@ -75,7 +76,8 @@ public class MainActivity extends BaseActivity {
     public void onQueryChanged(CharSequence text) {
         String query = text.toString();
         if (query.isEmpty()) {
-            moviesAdapter.setDataSource(Collections.emptyList());
+            emptyCase.setVisibility(View.VISIBLE);
+            moviesList.setVisibility(View.GONE);
         } else {
             repository.searchMovies(query)
                     .compose(applySchedulers())
@@ -84,6 +86,8 @@ public class MainActivity extends BaseActivity {
     }
 
     private void setMovies(MaybeError<List<Movie>> movies) {
+        emptyCase.setVisibility(View.GONE);
+        moviesList.setVisibility(View.VISIBLE);
         movies.ifValue(moviesAdapter::setDataSource).elseIfError(this::showError);
     }
 
