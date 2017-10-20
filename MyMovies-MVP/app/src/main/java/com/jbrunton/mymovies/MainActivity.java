@@ -22,12 +22,17 @@ import com.jbrunton.mymovies.api.repositories.MoviesRepository;
 import com.jbrunton.mymovies.api.services.ApiKeyInterceptor;
 import com.jbrunton.mymovies.api.services.LocalDateAdapter;
 import com.jbrunton.mymovies.api.services.MovieService;
+import com.jbrunton.mymovies.api.services.ServiceFactory;
 import com.squareup.picasso.Picasso;
 
 import org.joda.time.LocalDate;
 
+import java.util.Collections;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnTextChanged;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -39,7 +44,8 @@ import static android.text.Html.FROM_HTML_MODE_COMPACT;
 public class MainActivity extends BaseActivity {
     private RecyclerView moviesList;
     private MoviesAdapter moviesAdapter;
-    private EditText searchQuery;
+    @BindView(R.id.search_query) EditText searchQuery;
+    private MoviesRepository repository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,48 +64,23 @@ public class MainActivity extends BaseActivity {
         moviesAdapter = new MoviesAdapter(this);
         moviesList.setAdapter(moviesAdapter);
 
-        final MoviesRepository repository = new MoviesRepository(createService());
+        repository = new MoviesRepository(ServiceFactory.instance());
 
-        searchQuery = (EditText) findViewById(R.id.search_query);
-        searchQuery.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                repository.searchMovies(editable.toString())
-                        .compose(applySchedulers())
-                        .subscribe(MainActivity.this::setMovies);
-            }
-        });
+        ButterKnife.bind(this);
 
         searchQuery.setText("Star Trek");
     }
 
-    private MovieService createService() {
-        OkHttpClient client = new OkHttpClient.Builder()
-                .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
-                .addInterceptor(new ApiKeyInterceptor())
-                .build();
-
-        Gson gson = new GsonBuilder()
-                .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
-                .create();
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .client(client)
-                .baseUrl("https://api.themoviedb.org/3/")
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .build();
-        return retrofit.create(MovieService.class);
+    @OnTextChanged(R.id.search_query)
+    public void onQueryChanged(CharSequence text) {
+        String query = text.toString();
+        if (query.isEmpty()) {
+            moviesAdapter.setDataSource(Collections.emptyList());
+        } else {
+            repository.searchMovies(query)
+                    .compose(applySchedulers())
+                    .subscribe(MainActivity.this::setMovies);
+        }
     }
 
     private void setMovies(MaybeError<List<Movie>> movies) {
