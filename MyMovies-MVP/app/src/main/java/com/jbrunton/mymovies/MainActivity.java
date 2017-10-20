@@ -2,42 +2,28 @@ package com.jbrunton.mymovies;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.DrawableRes;
+import android.support.annotation.IdRes;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
 import android.text.Html;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.jbrunton.mymovies.api.DescriptiveError;
 import com.jbrunton.mymovies.api.MaybeError;
 import com.jbrunton.mymovies.api.repositories.MoviesRepository;
-import com.jbrunton.mymovies.api.services.ApiKeyInterceptor;
-import com.jbrunton.mymovies.api.services.LocalDateAdapter;
-import com.jbrunton.mymovies.api.services.MovieService;
 import com.jbrunton.mymovies.api.services.ServiceFactory;
 import com.squareup.picasso.Picasso;
 
-import org.joda.time.LocalDate;
-
-import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnTextChanged;
-import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
-import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 import static android.text.Html.FROM_HTML_MODE_COMPACT;
 
@@ -45,8 +31,9 @@ public class MainActivity extends BaseActivity {
     private RecyclerView moviesList;
     private MoviesAdapter moviesAdapter;
     @BindView(R.id.search_query) EditText searchQuery;
-    @BindView(R.id.empty_case) View emptyCase;
+    @BindView(R.id.error_case) View errorCase;
     @BindView(R.id.error_text) TextView errorText;
+    @BindView(R.id.error_image) ImageView errorImage;
     private MoviesRepository repository;
 
     @Override
@@ -77,25 +64,38 @@ public class MainActivity extends BaseActivity {
     public void onQueryChanged(CharSequence text) {
         String query = text.toString();
         if (query.isEmpty()) {
-            emptyCase.setVisibility(View.VISIBLE);
-            moviesList.setVisibility(View.GONE);
+            showError("Search", R.drawable.ic_search_black_24dp);
         } else {
             repository.searchMovies(query)
                     .compose(applySchedulers())
-                    .subscribe(MainActivity.this::setMovies);
+                    .subscribe(MainActivity.this::updateView);
         }
     }
 
-    private void setMovies(MaybeError<List<Movie>> movies) {
-        emptyCase.setVisibility(View.GONE);
-        moviesList.setVisibility(View.VISIBLE);
-        movies.ifValue(moviesAdapter::setDataSource).elseIfError(this::showError);
+    private void updateView(MaybeError<List<Movie>> movies) {
+        movies.ifValue(this::showMovies).elseIfError(this::showError);
+    }
+
+    private void showMovies(List<Movie> movies) {
+        if (movies.isEmpty()) {
+            showError("No Results", R.drawable.ic_search_black_24dp);
+        } else {
+            errorCase.setVisibility(View.GONE);
+            moviesList.setVisibility(View.VISIBLE);
+            moviesAdapter.setDataSource(movies);
+        }
     }
 
     private void showError(DescriptiveError error) {
+        showError(error.getMessage(),
+                error.isNetworkError() ? R.drawable.ic_sentiment_dissatisfied_black_24dp : R.drawable.ic_sentiment_very_dissatisfied_black_24dp);
+    }
+
+    private void showError(String text, @DrawableRes int resId) {
         moviesList.setVisibility(View.GONE);
-        emptyCase.setVisibility(View.VISIBLE);
-        errorText.setText(error.getMessage());
+        errorCase.setVisibility(View.VISIBLE);
+        errorText.setText(text);
+        errorImage.setImageResource(resId);
     }
 
     private static class MoviesAdapter extends BaseRecyclerAdapter<Movie, MoviesAdapter.ViewHolder> {

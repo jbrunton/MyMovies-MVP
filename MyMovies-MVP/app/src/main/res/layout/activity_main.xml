@@ -36,7 +36,7 @@
         android:scrollbars="vertical" />
 
     <android.support.constraint.ConstraintLayout
-        android:id="@+id/empty_case"
+        android:id="@+id/error_case"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone">
