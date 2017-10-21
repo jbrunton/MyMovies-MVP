@@ -2,6 +2,7 @@ package com.jbrunton.mymovies.search;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
+import android.arch.lifecycle.ViewModel;
 import android.support.annotation.DrawableRes;
 
 import com.jbrunton.mymovies.MainActivity;
@@ -19,7 +20,7 @@ import io.reactivex.ObservableTransformer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
-public class SearchPresenter {
+public class SearchViewModel extends ViewModel {
     private final MutableLiveData<SearchViewState> viewState = new MutableLiveData<>();
     private final MoviesRepository repository;
 
@@ -27,7 +28,7 @@ public class SearchPresenter {
         return viewState;
     }
 
-    public SearchPresenter() {
+    public SearchViewModel() {
         repository = new MoviesRepository(ServiceFactory.instance());
     }
 

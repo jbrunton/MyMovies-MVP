@@ -1,9 +1,9 @@
 package com.jbrunton.mymovies;
 
+import android.arch.lifecycle.ViewModelProvider;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.DrawableRes;
-import android.support.annotation.IdRes;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -14,15 +14,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.jbrunton.mymovies.api.DescriptiveError;
-import com.jbrunton.mymovies.api.MaybeError;
-import com.jbrunton.mymovies.api.repositories.MoviesRepository;
-import com.jbrunton.mymovies.api.services.ServiceFactory;
-import com.jbrunton.mymovies.search.SearchPresenter;
+import com.jbrunton.mymovies.search.SearchViewModel;
 import com.jbrunton.mymovies.search.SearchViewState;
 import com.squareup.picasso.Picasso;
-
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,7 +33,7 @@ public class MainActivity extends BaseActivity {
     @BindView(R.id.error_text) TextView errorText;
     @BindView(R.id.error_image) ImageView errorImage;
     @BindView(R.id.error_try_again) Button errorTryAgainButton;
-    private SearchPresenter presenter;
+    private SearchViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,8 +52,8 @@ public class MainActivity extends BaseActivity {
         moviesAdapter = new MoviesAdapter(this);
         moviesList.setAdapter(moviesAdapter);
 
-        presenter = new SearchPresenter();
-        presenter.viewState().observe(this, this::updateView);
+        viewModel = ViewModelProviders.of(this).get(SearchViewModel.class);
+        viewModel.viewState().observe(this, this::updateView);
 
         ButterKnife.bind(this);
 
@@ -68,12 +62,12 @@ public class MainActivity extends BaseActivity {
 
     @OnTextChanged(R.id.search_query)
     public void onQueryChanged(CharSequence text) {
-        presenter.performSearch(text.toString());
+        viewModel.performSearch(text.toString());
     }
 
     @OnClick(R.id.error_try_again)
     public void onTryAgain() {
-        presenter.performSearch(searchQuery.getText().toString());
+        viewModel.performSearch(searchQuery.getText().toString());
     }
 
     private void updateView(SearchViewState viewState) {
