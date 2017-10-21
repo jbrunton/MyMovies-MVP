@@ -8,7 +8,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jbrunton.mymovies.BaseRecyclerAdapter;
-import com.jbrunton.mymovies.MainActivity;
 import com.jbrunton.mymovies.R;
 import com.squareup.picasso.Picasso;
 
