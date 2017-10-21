@@ -71,12 +71,12 @@ public class MainActivity extends BaseActivity {
     }
 
     private void updateView(SearchViewState viewState) {
-        if (viewState.getShowError()) {
+        if (viewState.showError()) {
             moviesList.setVisibility(View.GONE);
             errorCase.setVisibility(View.VISIBLE);
-            errorText.setText(viewState.getErrorMessage());
-            errorImage.setImageResource(viewState.getErrorIcon());
-            if (viewState.getShowTryAgainButton()) {
+            errorText.setText(viewState.errorMessage());
+            errorImage.setImageResource(viewState.errorIcon());
+            if (viewState.showTryAgainButton()) {
                 errorTryAgainButton.setVisibility(View.VISIBLE);
             } else {
                 errorTryAgainButton.setVisibility(View.GONE);
@@ -85,7 +85,7 @@ public class MainActivity extends BaseActivity {
             moviesList.setVisibility(View.VISIBLE);
             errorCase.setVisibility(View.GONE);
         }
-        moviesAdapter.setDataSource(viewState.getMovies());
+        moviesAdapter.setDataSource(viewState.movies());
     }
 
     private static class MoviesAdapter extends BaseRecyclerAdapter<Movie, MoviesAdapter.ViewHolder> {

@@ -2,10 +2,11 @@ package com.jbrunton.mymovies.search;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
+import android.arch.lifecycle.Transformations;
 import android.arch.lifecycle.ViewModel;
 import android.support.annotation.DrawableRes;
+import android.view.View;
 
-import com.jbrunton.mymovies.MainActivity;
 import com.jbrunton.mymovies.Movie;
 import com.jbrunton.mymovies.R;
 import com.jbrunton.mymovies.api.DescriptiveError;
@@ -24,17 +25,20 @@ public class SearchViewModel extends ViewModel {
     private final MutableLiveData<SearchViewState> viewState = new MutableLiveData<>();
     private final MoviesRepository repository;
 
-    public LiveData<SearchViewState> viewState() {
-        return viewState;
-    }
-
     public SearchViewModel() {
         repository = new MoviesRepository(ServiceFactory.instance());
     }
 
+    public LiveData<SearchViewState> viewState() {
+        return viewState;
+    }
+
     public void performSearch(String query) {
         if (query.isEmpty()) {
-            viewState.setValue(new SearchViewState(Collections.emptyList(), true, "Search", R.drawable.ic_search_black_24dp, false));
+            viewState.setValue(errorBuilder()
+                    .setErrorMessage("Search")
+                    .setErrorIcon(R.drawable.ic_search_black_24dp)
+                    .build());
         } else {
             repository.searchMovies(query)
                     .compose(applySchedulers())
@@ -56,19 +60,35 @@ public class SearchViewModel extends ViewModel {
 
     private SearchViewState convertMoviesResponse(List<Movie> movies) {
         if (movies.isEmpty()) {
-            return new SearchViewState(movies, true, "No Results", R.drawable.ic_search_black_24dp, false);
+            return errorBuilder()
+                    .setErrorMessage("No Results")
+                    .setErrorIcon(R.drawable.ic_search_black_24dp)
+                    .build();
         } else {
-            return new SearchViewState(movies, false, "", 0, false);
+            return SearchViewState.builder()
+                    .setShowError(false)
+                    .setMovies(movies)
+                    .build();
         }
     }
 
     private SearchViewState convertErrorResponse(DescriptiveError error) {
         @DrawableRes int resId = error.isNetworkError() ? R.drawable.ic_sentiment_dissatisfied_black_24dp : R.drawable.ic_sentiment_very_dissatisfied_black_24dp;
-        return new SearchViewState(Collections.emptyList(), true, error.getMessage(), resId, true);
+        return errorBuilder()
+                .setErrorMessage(error.getMessage())
+                .setErrorIcon(resId)
+                .setShowTryAgainButton(true)
+                .build();
     }
 
     protected <T> ObservableTransformer<T, T> applySchedulers() {
         return observable -> observable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    private SearchViewState.Builder errorBuilder() {
+        return SearchViewState.builder()
+                .setMovies(Collections.emptyList())
+                .setShowError(true);
     }
 }
