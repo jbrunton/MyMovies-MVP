@@ -3,6 +3,7 @@ package com.jbrunton.mymovies;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.opengl.Visibility;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -71,21 +72,17 @@ public class MainActivity extends BaseActivity {
     }
 
     private void updateView(SearchViewState viewState) {
-        if (viewState.showError()) {
-            moviesList.setVisibility(View.GONE);
-            errorCase.setVisibility(View.VISIBLE);
-            errorText.setText(viewState.errorMessage());
-            errorImage.setImageResource(viewState.errorIcon());
-            if (viewState.showTryAgainButton()) {
-                errorTryAgainButton.setVisibility(View.VISIBLE);
-            } else {
-                errorTryAgainButton.setVisibility(View.GONE);
-            }
-        } else {
-            moviesList.setVisibility(View.VISIBLE);
-            errorCase.setVisibility(View.GONE);
-        }
+        moviesList.setVisibility(toVisibility(!viewState.showError()));
         moviesAdapter.setDataSource(viewState.movies());
+
+        errorCase.setVisibility(toVisibility(viewState.showError()));
+        errorText.setText(viewState.errorMessage());
+        errorImage.setImageResource(viewState.errorIcon());
+        errorTryAgainButton.setVisibility(toVisibility(viewState.showTryAgainButton()));
+    }
+
+    private int toVisibility(boolean show) {
+        return show ? View.VISIBLE : View.GONE;
     }
 
     private static class MoviesAdapter extends BaseRecyclerAdapter<Movie, MoviesAdapter.ViewHolder> {
