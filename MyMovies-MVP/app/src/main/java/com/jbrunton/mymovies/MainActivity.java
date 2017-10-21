@@ -18,6 +18,8 @@ import com.jbrunton.mymovies.api.DescriptiveError;
 import com.jbrunton.mymovies.api.MaybeError;
 import com.jbrunton.mymovies.api.repositories.MoviesRepository;
 import com.jbrunton.mymovies.api.services.ServiceFactory;
+import com.jbrunton.mymovies.search.SearchPresenter;
+import com.jbrunton.mymovies.search.SearchViewState;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -37,7 +39,7 @@ public class MainActivity extends BaseActivity {
     @BindView(R.id.error_text) TextView errorText;
     @BindView(R.id.error_image) ImageView errorImage;
     @BindView(R.id.error_try_again) Button errorTryAgainButton;
-    private MoviesRepository repository;
+    private SearchPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +58,8 @@ public class MainActivity extends BaseActivity {
         moviesAdapter = new MoviesAdapter(this);
         moviesList.setAdapter(moviesAdapter);
 
-        repository = new MoviesRepository(ServiceFactory.instance());
+        presenter = new SearchPresenter();
+        presenter.viewState().observe(this, this::updateView);
 
         ButterKnife.bind(this);
 
@@ -65,50 +68,30 @@ public class MainActivity extends BaseActivity {
 
     @OnTextChanged(R.id.search_query)
     public void onQueryChanged(CharSequence text) {
-        performSearch();
+        presenter.performSearch(text.toString());
     }
 
     @OnClick(R.id.error_try_again)
     public void onTryAgain() {
-        performSearch();
+        presenter.performSearch(searchQuery.getText().toString());
     }
 
-    private void performSearch() {
-        String query = searchQuery.getText().toString();
-        if (query.isEmpty()) {
-            showError("Search", R.drawable.ic_search_black_24dp, false);
+    private void updateView(SearchViewState viewState) {
+        if (viewState.getShowError()) {
+            moviesList.setVisibility(View.GONE);
+            errorCase.setVisibility(View.VISIBLE);
+            errorText.setText(viewState.getErrorMessage());
+            errorImage.setImageResource(viewState.getErrorIcon());
+            if (viewState.getShowTryAgainButton()) {
+                errorTryAgainButton.setVisibility(View.VISIBLE);
+            } else {
+                errorTryAgainButton.setVisibility(View.GONE);
+            }
         } else {
-            repository.searchMovies(query)
-                    .compose(applySchedulers())
-                    .subscribe(MainActivity.this::updateView);
-        }
-    }
-
-    private void updateView(MaybeError<List<Movie>> movies) {
-        movies.ifValue(this::showMovies).elseIfError(this::showError);
-    }
-
-    private void showMovies(List<Movie> movies) {
-        if (movies.isEmpty()) {
-            showError("No Results", R.drawable.ic_search_black_24dp, false);
-        } else {
-            errorCase.setVisibility(View.GONE);
             moviesList.setVisibility(View.VISIBLE);
-            moviesAdapter.setDataSource(movies);
+            errorCase.setVisibility(View.GONE);
         }
-    }
-
-    private void showError(DescriptiveError error) {
-        @DrawableRes int resId = error.isNetworkError() ? R.drawable.ic_sentiment_dissatisfied_black_24dp : R.drawable.ic_sentiment_very_dissatisfied_black_24dp;
-        showError(error.getMessage(), resId, error.isNetworkError());
-    }
-
-    private void showError(String text, @DrawableRes int resId, boolean showTryAgain) {
-        moviesList.setVisibility(View.GONE);
-        errorCase.setVisibility(View.VISIBLE);
-        errorText.setText(text);
-        errorImage.setImageResource(resId);
-        errorTryAgainButton.setVisibility(showTryAgain ? View.VISIBLE : View.GONE);
+        moviesAdapter.setDataSource(viewState.getMovies());
     }
 
     private static class MoviesAdapter extends BaseRecyclerAdapter<Movie, MoviesAdapter.ViewHolder> {
