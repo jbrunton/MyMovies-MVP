@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.jbrunton.mymovies.search.SearchItemViewState;
 import com.jbrunton.mymovies.search.SearchViewModel;
 import com.jbrunton.mymovies.search.SearchViewState;
 import com.squareup.picasso.Picasso;
@@ -85,7 +86,7 @@ public class MainActivity extends BaseActivity {
         return show ? View.VISIBLE : View.GONE;
     }
 
-    private static class MoviesAdapter extends BaseRecyclerAdapter<Movie, MoviesAdapter.ViewHolder> {
+    private static class MoviesAdapter extends BaseRecyclerAdapter<SearchItemViewState, MoviesAdapter.ViewHolder> {
         MoviesAdapter(Context context) {
             super(R.layout.item_movie_card, new ViewHolderFactory(context));
         }
@@ -105,7 +106,7 @@ public class MainActivity extends BaseActivity {
             }
         }
 
-        protected static class ViewHolderFactory implements BaseRecyclerAdapter.ViewHolderFactory<Movie, ViewHolder> {
+        protected static class ViewHolderFactory implements BaseRecyclerAdapter.ViewHolderFactory<SearchItemViewState, ViewHolder> {
             private final Context context;
 
             public ViewHolderFactory(Context context) {
@@ -118,16 +119,12 @@ public class MainActivity extends BaseActivity {
             }
 
             @Override
-            public void bindHolder(ViewHolder holder, Movie item) {
-                holder.titleView.setText(item.getTitle());
-                if (item.getReleaseDate().isPresent()) {
-                    holder.releaseDateView.setText("" + item.getReleaseDate().get().getYear());
-                } else {
-                    holder.releaseDateView.setText("");
-                }
-                holder.ratingView.setText(Html.fromHtml("&#9734; " + item.getRating(), FROM_HTML_MODE_COMPACT));
+            public void bindHolder(ViewHolder holder, SearchItemViewState item) {
+                holder.titleView.setText(item.title());
+                holder.releaseDateView.setText(item.yearReleased());
+                holder.ratingView.setText(Html.fromHtml(item.rating()));
                 Picasso.with(context)
-                        .load("http://image.tmdb.org/t/p/w300" + item.getPosterPath())
+                        .load(item.posterUrl())
                         .resize(185, 275)
                         .centerCrop()
                         .into(holder.poster);

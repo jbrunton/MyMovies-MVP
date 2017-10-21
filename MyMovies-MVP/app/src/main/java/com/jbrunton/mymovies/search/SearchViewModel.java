@@ -5,6 +5,7 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Transformations;
 import android.arch.lifecycle.ViewModel;
 import android.support.annotation.DrawableRes;
+import android.text.Html;
 import android.view.View;
 
 import com.jbrunton.mymovies.Movie;
@@ -13,13 +14,20 @@ import com.jbrunton.mymovies.api.DescriptiveError;
 import com.jbrunton.mymovies.api.MaybeError;
 import com.jbrunton.mymovies.api.repositories.MoviesRepository;
 import com.jbrunton.mymovies.api.services.ServiceFactory;
+import com.squareup.picasso.Picasso;
+
+import org.joda.time.LocalDate;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import io.reactivex.ObservableTransformer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+
+import static android.text.Html.FROM_HTML_MODE_COMPACT;
 
 public class SearchViewModel extends ViewModel {
     private final MutableLiveData<SearchViewState> viewState = new MutableLiveData<>();
@@ -67,7 +75,7 @@ public class SearchViewModel extends ViewModel {
         } else {
             return SearchViewState.builder()
                     .setShowError(false)
-                    .setMovies(movies)
+                    .setMovies(movies.stream().map(this::convertMovie).collect(Collectors.toList()))
                     .build();
         }
     }
@@ -90,5 +98,22 @@ public class SearchViewModel extends ViewModel {
         return SearchViewState.builder()
                 .setMovies(Collections.emptyList())
                 .setShowError(true);
+    }
+
+    private SearchItemViewState convertMovie(Movie movie) {
+        return SearchItemViewState.builder()
+                .setTitle(movie.getTitle())
+                .setYearReleased(convertReleaseDate(movie.getReleaseDate()))
+                .setRating("&#9734; " + movie.getRating())
+                .setPosterUrl("http://image.tmdb.org/t/p/w300" + movie.getPosterPath())
+                .build();
+    }
+
+    private String convertReleaseDate(Optional<LocalDate> date) {
+        if (date.isPresent()) {
+            return Integer.toString(date.get().getYear());
+        } else {
+            return "";
+        }
     }
 }
