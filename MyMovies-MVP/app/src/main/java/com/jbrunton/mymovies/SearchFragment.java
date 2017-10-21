@@ -1,11 +1,17 @@
 package com.jbrunton.mymovies;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -20,7 +26,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnTextChanged;
 
-public class SearchActivity extends BaseActivity {
+public class SearchFragment extends Fragment {
     private RecyclerView moviesList;
     private SearchResultsAdapter searchResultsAdapter;
     @BindView(R.id.search_query) EditText searchQuery;
@@ -30,27 +36,28 @@ public class SearchActivity extends BaseActivity {
     @BindView(R.id.error_try_again) Button errorTryAgainButton;
     private SearchViewModel viewModel;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search);
+    @Nullable @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.activity_search, container, false);
 
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        setSupportActionBar(myToolbar);
+        moviesList = (RecyclerView) view.findViewById(R.id.movies_list);
+        moviesList.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        setTitle("Search Movies");
-
-        moviesList = (RecyclerView) findViewById(R.id.movies_list);
-        //moviesList.setLayoutManager(new GridLayoutManager(this, 2));
-        moviesList.setLayoutManager(new LinearLayoutManager(this));
-
-        searchResultsAdapter = new SearchResultsAdapter(this);
+        searchResultsAdapter = new SearchResultsAdapter(getActivity());
         moviesList.setAdapter(searchResultsAdapter);
+
+        ButterKnife.bind(this, view);
+        return view;
+    }
+
+    @Override public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        Toolbar myToolbar = (Toolbar) getActivity().findViewById(R.id.my_toolbar);
+        ((AppCompatActivity)getActivity()).setSupportActionBar(myToolbar);
 
         viewModel = ViewModelProviders.of(this).get(SearchViewModel.class);
         viewModel.viewState().observe(this, this::updateView);
-
-        ButterKnife.bind(this);
 
         searchQuery.setText("Star Trek");
     }
@@ -73,6 +80,10 @@ public class SearchActivity extends BaseActivity {
         errorText.setText(viewState.errorMessage());
         errorImage.setImageResource(viewState.errorIcon());
         errorTryAgainButton.setVisibility(toVisibility(viewState.showTryAgainButton()));
+    }
+
+    protected int toVisibility(boolean show) {
+        return show ? View.VISIBLE : View.GONE;
     }
 
 }
