@@ -58,8 +58,6 @@ public class SearchFragment extends Fragment {
 
         viewModel = ViewModelProviders.of(this).get(SearchViewModel.class);
         viewModel.viewState().observe(this, this::updateView);
-
-        searchQuery.setText("Star Trek");
     }
 
     @OnTextChanged(R.id.search_query)
