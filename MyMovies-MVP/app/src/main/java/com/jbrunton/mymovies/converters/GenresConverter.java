@@ -2,6 +2,7 @@ package com.jbrunton.mymovies.converters;
 
 import android.support.annotation.DrawableRes;
 
+import com.jbrunton.mymovies.LoadingViewState;
 import com.jbrunton.mymovies.Movie;
 import com.jbrunton.mymovies.R;
 import com.jbrunton.mymovies.api.DescriptiveError;
@@ -27,7 +28,7 @@ public class GenresConverter {
                     .build();
         } else {
             return GenresViewState.builder()
-                    .setShowError(false)
+                    .setCurrentState(LoadingViewState.State.OK)
                     .setGenres(genres)
                     .build();
         }
@@ -45,6 +46,6 @@ public class GenresConverter {
     public GenresViewState.Builder errorBuilder() {
         return GenresViewState.builder()
                 .setGenres(Collections.emptyList())
-                .setShowError(true);
+                .setCurrentState(LoadingViewState.State.ERROR);
     }
 }

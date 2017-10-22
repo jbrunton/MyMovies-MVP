@@ -11,12 +11,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.jbrunton.mymovies.ErrorStateContext;
+import com.jbrunton.mymovies.LoadingStateContext;
 import com.jbrunton.mymovies.R;
 
 import butterknife.BindView;
@@ -30,7 +27,7 @@ public class SearchFragment extends Fragment {
     private SearchResultsAdapter searchResultsAdapter;
     @BindView(R.id.movies_list) RecyclerView moviesList;
     @BindView(R.id.search_query) EditText searchQuery;
-    private final ErrorStateContext errorStateContext = new ErrorStateContext();
+    private final LoadingStateContext loadingStateContext = new LoadingStateContext();
     private SearchViewModel viewModel;
 
     @Nullable @Override
@@ -38,7 +35,7 @@ public class SearchFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_search, container, false);
 
         ButterKnife.bind(this, view);
-        ButterKnife.bind(this.errorStateContext, view);
+        ButterKnife.bind(this.loadingStateContext, view);
 
         moviesList.setLayoutManager(new LinearLayoutManager(getActivity()));
         searchResultsAdapter = new SearchResultsAdapter(getActivity(), R.layout.item_movie_card_list);
@@ -70,6 +67,6 @@ public class SearchFragment extends Fragment {
     private void updateView(SearchViewState viewState) {
         moviesList.setVisibility(toVisibility(!viewState.showError()));
         searchResultsAdapter.setDataSource(viewState.movies());
-        errorStateContext.updateView(viewState);
+        loadingStateContext.updateView(viewState);
     }
 }
