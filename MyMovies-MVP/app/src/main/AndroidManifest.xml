@@ -20,8 +20,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".discover.GenresActivity"></activity>
-        <activity android:name=".discover.GenreResultsActivity"></activity>
+        <activity android:name=".discover.GenresActivity" />
+        <activity android:name=".discover.GenreResultsActivity" />
+        <activity
+            android:name=".api.moviedetails.MovieDetailsActivity"
+            android:label="@string/title_activity_movie_details"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>
