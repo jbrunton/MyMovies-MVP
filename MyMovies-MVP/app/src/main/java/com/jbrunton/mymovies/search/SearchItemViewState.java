@@ -14,16 +14,16 @@ public abstract class SearchItemViewState {
     public abstract String posterUrl();
     public abstract String rating();
 
-    static Builder builder() {
+    public static Builder builder() {
         return new AutoValue_SearchItemViewState.Builder();
     }
 
     @AutoValue.Builder
-    abstract static class Builder {
+    public abstract static class Builder {
         public abstract Builder setTitle(String title);
         public abstract Builder setYearReleased(String yearReleased);
         public abstract Builder setPosterUrl(String posterUrl);
         public abstract Builder setRating(String rating);
-        abstract SearchItemViewState build();
+        public abstract SearchItemViewState build();
     }
 }

@@ -15,7 +15,7 @@ public abstract class SearchViewState {
     public abstract @DrawableRes int errorIcon();
     public abstract boolean showTryAgainButton();
 
-    static Builder builder() {
+    public static Builder builder() {
         return new AutoValue_SearchViewState.Builder()
                 .setErrorIcon(0)
                 .setErrorMessage("")
@@ -23,12 +23,12 @@ public abstract class SearchViewState {
     }
 
     @AutoValue.Builder
-    abstract static class Builder {
-        abstract Builder setMovies(List<SearchItemViewState> movies);
-        abstract Builder setShowError(boolean showError);
-        abstract Builder setErrorMessage(String errorMessage);
-        abstract Builder setErrorIcon(@DrawableRes int errorIcon);
-        abstract Builder setShowTryAgainButton(boolean showTryAgainButton);
-        abstract SearchViewState build();
+    public abstract static class Builder {
+        public abstract Builder setMovies(List<SearchItemViewState> movies);
+        public abstract Builder setShowError(boolean showError);
+        public abstract Builder setErrorMessage(String errorMessage);
+        public abstract Builder setErrorIcon(@DrawableRes int errorIcon);
+        public abstract Builder setShowTryAgainButton(boolean showTryAgainButton);
+        public abstract SearchViewState build();
     }
 }

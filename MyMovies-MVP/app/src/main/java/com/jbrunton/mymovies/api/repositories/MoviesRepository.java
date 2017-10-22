@@ -26,6 +26,11 @@ public class MoviesRepository {
                 .map(this::transformResponse);
     }
 
+    public Observable<MaybeError<List<Movie>>> nowPlaying() {
+        return service.nowPlaying()
+                .map(this::transformResponse);
+    }
+
     private MaybeError<List<Movie>> transformResponse(Result<MoviesCollection> result) {
         if (result.isError()) {
             Throwable throwable = result.error();

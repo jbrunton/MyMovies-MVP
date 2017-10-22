@@ -11,4 +11,7 @@ import retrofit2.http.Query;
 public interface MovieService {
     @GET("search/movie")
     Observable<Result<MoviesCollection>> search(@Query("query") String query);
+
+    @GET("movie/now_playing")
+    Observable<Result<MoviesCollection>> nowPlaying();
 }

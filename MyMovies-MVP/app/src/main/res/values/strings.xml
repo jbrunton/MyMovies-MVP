@@ -2,6 +2,6 @@
     <string name="app_name">MyMovies</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_search">Search</string>
-    <string name="title_dashboard">Dashboard</string>
+    <string name="title_discover">Discover</string>
     <string name="title_notifications">Notifications</string>
 </resources>
