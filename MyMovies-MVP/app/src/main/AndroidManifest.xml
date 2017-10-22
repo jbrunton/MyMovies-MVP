@@ -20,6 +20,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".discover.GenresActivity"></activity>
+        <activity android:name=".discover.GenreResultsActivity"></activity>
     </application>
 
 </manifest>

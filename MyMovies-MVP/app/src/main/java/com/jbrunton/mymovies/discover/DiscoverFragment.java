@@ -1,6 +1,7 @@
 package com.jbrunton.mymovies.discover;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -17,6 +18,7 @@ import com.jbrunton.mymovies.search.SearchViewState;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class DiscoverFragment extends Fragment {
     private SearchResultsAdapter nowPlayingAdapter;
@@ -40,6 +42,12 @@ public class DiscoverFragment extends Fragment {
 
         viewModel = ViewModelProviders.of(this).get(DiscoverViewModel.class);
         viewModel.viewState().observe(this, this::updateView);
+    }
+
+    @OnClick(R.id.genres_link)
+    public void onGenresClick() {
+        Intent intent = new Intent(getActivity(), GenresActivity.class);
+        startActivity(intent);
     }
 
     private void updateView(SearchViewState viewState) {
