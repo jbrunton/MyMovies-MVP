@@ -2,6 +2,8 @@ package com.jbrunton.mymovies.search;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -30,6 +32,9 @@ public class SearchFragment extends Fragment {
     private final LoadingStateContext loadingStateContext = new LoadingStateContext();
     private SearchViewModel viewModel;
 
+    Handler handler = new Handler(Looper.getMainLooper());
+    Runnable performSearch;
+
     @Nullable @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search, container, false);
@@ -56,7 +61,9 @@ public class SearchFragment extends Fragment {
 
     @OnTextChanged(R.id.search_query)
     public void onQueryChanged(CharSequence text) {
-        viewModel.performSearch(text.toString());
+        handler.removeCallbacks(performSearch);
+        performSearch = () -> viewModel.performSearch(text.toString());
+        handler.postDelayed(performSearch, 500);
     }
 
     @OnClick(R.id.error_try_again)
@@ -65,7 +72,7 @@ public class SearchFragment extends Fragment {
     }
 
     private void updateView(SearchViewState viewState) {
-        moviesList.setVisibility(toVisibility(!viewState.showError()));
+        moviesList.setVisibility(toVisibility(viewState.showContent()));
         searchResultsAdapter.setDataSource(viewState.movies());
         loadingStateContext.updateView(viewState);
     }
