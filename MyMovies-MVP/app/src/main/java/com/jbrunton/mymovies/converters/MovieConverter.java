@@ -2,6 +2,7 @@ package com.jbrunton.mymovies.converters;
 
 import android.support.annotation.DrawableRes;
 
+import com.jbrunton.mymovies.LoadingViewState;
 import com.jbrunton.mymovies.Movie;
 import com.jbrunton.mymovies.R;
 import com.jbrunton.mymovies.api.DescriptiveError;
@@ -24,7 +25,7 @@ public class MovieConverter {
                     .build();
         } else {
             return SearchViewState.builder()
-                    .setShowError(false)
+                    .setCurrentState(LoadingViewState.State.OK)
                     .setMovies(movies.stream().map(this::convertMovie).collect(Collectors.toList()))
                     .build();
         }
@@ -42,7 +43,7 @@ public class MovieConverter {
     public SearchViewState.Builder errorBuilder() {
         return SearchViewState.builder()
                 .setMovies(Collections.emptyList())
-                .setShowError(true);
+                .setCurrentState(LoadingViewState.State.ERROR);
     }
 
     private SearchItemViewState convertMovie(Movie movie) {

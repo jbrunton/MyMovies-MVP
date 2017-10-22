@@ -1,15 +1,12 @@
 package com.jbrunton.mymovies.search;
 
-import android.support.annotation.DrawableRes;
-
 import com.google.auto.value.AutoValue;
-import com.jbrunton.mymovies.ErrorViewState;
-import com.jbrunton.mymovies.Movie;
+import com.jbrunton.mymovies.LoadingViewState;
 
 import java.util.List;
 
 @AutoValue
-public abstract class SearchViewState extends ErrorViewState {
+public abstract class SearchViewState extends LoadingViewState {
     public abstract List<SearchItemViewState> movies();
 
     public static Builder builder() {
@@ -19,7 +16,7 @@ public abstract class SearchViewState extends ErrorViewState {
     }
 
     @AutoValue.Builder
-    public abstract static class Builder extends ErrorViewState.Builder<Builder> {
+    public abstract static class Builder extends LoadingViewState.Builder<Builder> {
         public abstract Builder setMovies(List<SearchItemViewState> movies);
         public abstract SearchViewState build();
     }

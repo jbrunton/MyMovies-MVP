@@ -7,14 +7,32 @@ import com.jbrunton.mymovies.search.SearchItemViewState;
 
 import java.util.List;
 
-public abstract class ErrorViewState {
-    public abstract boolean showError();
+public abstract class LoadingViewState {
+    public enum State {
+        OK,
+        LOADING,
+        ERROR
+    }
+
+    public boolean showLoadingIndicator() {
+        return currentState() == State.LOADING;
+    }
+
+    public boolean showError() {
+        return currentState() == State.ERROR;
+    }
+
+    public boolean showContent() {
+        return currentState() == State.OK;
+    }
+
+    public abstract State currentState();
     public abstract String errorMessage();
     public abstract @DrawableRes int errorIcon();
     public abstract boolean showTryAgainButton();
 
     public abstract static class Builder<T extends Builder> {
-        public abstract T setShowError(boolean showError);
+        public abstract T setCurrentState(State currentState);
         public abstract T setErrorMessage(String errorMessage);
         public abstract T setErrorIcon(@DrawableRes int errorIcon);
         public abstract T setShowTryAgainButton(boolean showTryAgainButton);

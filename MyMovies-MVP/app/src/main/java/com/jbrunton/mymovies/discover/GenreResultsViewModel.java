@@ -6,6 +6,7 @@ import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 
 import com.jbrunton.mymovies.BaseViewModel;
+import com.jbrunton.mymovies.LoadingViewState;
 import com.jbrunton.mymovies.Movie;
 import com.jbrunton.mymovies.R;
 import com.jbrunton.mymovies.api.DescriptiveError;
@@ -15,6 +16,7 @@ import com.jbrunton.mymovies.api.services.ServiceFactory;
 import com.jbrunton.mymovies.converters.MovieConverter;
 import com.jbrunton.mymovies.search.SearchViewState;
 
+import java.util.Collections;
 import java.util.List;
 
 public class GenreResultsViewModel extends BaseViewModel {
@@ -24,6 +26,10 @@ public class GenreResultsViewModel extends BaseViewModel {
 
     public GenreResultsViewModel(String genreId) {
         repository = new MoviesRepository(ServiceFactory.instance());
+        viewState.setValue(SearchViewState.builder()
+                .setCurrentState(LoadingViewState.State.LOADING)
+                .setMovies(Collections.emptyList())
+                .build());
         repository.discoverByGenre(genreId)
                 .compose(applySchedulers())
                 .subscribe(this::setResponse);

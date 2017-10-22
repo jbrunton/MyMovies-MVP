@@ -9,6 +9,7 @@ import android.text.Html;
 import android.view.View;
 
 import com.jbrunton.mymovies.BaseViewModel;
+import com.jbrunton.mymovies.LoadingViewState;
 import com.jbrunton.mymovies.Movie;
 import com.jbrunton.mymovies.R;
 import com.jbrunton.mymovies.api.DescriptiveError;
@@ -38,6 +39,10 @@ public class SearchViewModel extends BaseViewModel {
 
     public SearchViewModel() {
         repository = new MoviesRepository(ServiceFactory.instance());
+        viewState.setValue(converter.errorBuilder()
+                .setErrorMessage("Search")
+                .setErrorIcon(R.drawable.ic_search_black_24dp)
+                .build());
     }
 
     public LiveData<SearchViewState> viewState() {
@@ -51,6 +56,9 @@ public class SearchViewModel extends BaseViewModel {
                     .setErrorIcon(R.drawable.ic_search_black_24dp)
                     .build());
         } else {
+            viewState.setValue(converter.errorBuilder()
+                    .setCurrentState(LoadingViewState.State.LOADING)
+                    .build());
             repository.searchMovies(query)
                     .compose(applySchedulers())
                     .subscribe(this::setResponse);
