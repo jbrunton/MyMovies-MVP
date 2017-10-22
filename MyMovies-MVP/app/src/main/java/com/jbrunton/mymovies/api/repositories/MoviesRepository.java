@@ -5,6 +5,7 @@ import com.jbrunton.mymovies.api.MaybeError;
 import com.jbrunton.mymovies.api.resources.MovieResource;
 import com.jbrunton.mymovies.api.resources.MoviesCollection;
 import com.jbrunton.mymovies.api.services.MovieService;
+import com.jbrunton.mymovies.models.Genre;
 
 import java.io.IOException;
 import java.util.List;
@@ -28,6 +29,11 @@ public class MoviesRepository {
 
     public Observable<MaybeError<List<Movie>>> nowPlaying() {
         return service.nowPlaying()
+                .map(this::transformResponse);
+    }
+
+    public Observable<MaybeError<List<Movie>>> discoverByGenre(String genreId) {
+        return service.discoverByGenre(genreId)
                 .map(this::transformResponse);
     }
 

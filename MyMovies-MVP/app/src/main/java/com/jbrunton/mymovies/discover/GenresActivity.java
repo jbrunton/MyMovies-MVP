@@ -2,6 +2,7 @@ package com.jbrunton.mymovies.discover;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -78,9 +79,14 @@ public class GenresActivity extends AppCompatActivity {
             }
 
             TextView genreName = (TextView) convertView.findViewById(android.R.id.text1);
+            genreName.setOnClickListener(view -> {
+                Intent intent = new Intent(getContext(), GenreResultsActivity.class);
+                getContext().startActivity(intent);
+            });
+
             Genre genre = getItem(position);
             genreName.setText(genre.name());
-            
+
             return convertView;
         }
     }

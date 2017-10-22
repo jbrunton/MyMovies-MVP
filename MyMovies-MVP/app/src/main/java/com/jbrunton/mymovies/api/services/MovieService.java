@@ -18,4 +18,7 @@ public interface MovieService {
 
     @GET("genre/movie/list")
     Observable<Result<GenresResponse>> genres();
+
+    @GET("discover/movie")
+    Observable<Result<MoviesCollection>> discoverByGenre(@Query("with_genres") String genreId);
 }
