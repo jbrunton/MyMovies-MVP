@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.jbrunton.mymovies.BaseActivity;
+import com.jbrunton.mymovies.ErrorStateContext;
 import com.jbrunton.mymovies.R;
 import com.jbrunton.mymovies.search.SearchResultsAdapter;
 import com.jbrunton.mymovies.search.SearchViewModel;
@@ -19,14 +21,10 @@ import com.jbrunton.mymovies.search.SearchViewState;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class GenreResultsActivity extends AppCompatActivity {
+public class GenreResultsActivity extends BaseActivity {
 
     private SearchResultsAdapter moviesAdapter;
     @BindView(R.id.movies_list) RecyclerView moviesList;
-    @BindView(R.id.error_case) View errorCase;
-    @BindView(R.id.error_text) TextView errorText;
-    @BindView(R.id.error_image) ImageView errorImage;
-    @BindView(R.id.error_try_again) Button errorTryAgainButton;
     private GenreResultsViewModel viewModel;
 
     @Override
@@ -35,6 +33,7 @@ public class GenreResultsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_genre_results);
 
         ButterKnife.bind(this);
+        bindErrorStateContext(new ErrorStateContext());
 
         moviesAdapter = new SearchResultsAdapter(this, R.layout.item_movie_card_list);
         moviesList.setAdapter(moviesAdapter);
@@ -48,13 +47,9 @@ public class GenreResultsActivity extends AppCompatActivity {
     }
 
     private void updateView(SearchViewState viewState) {
+        super.updateView(viewState);
         moviesList.setVisibility(toVisibility(!viewState.showError()));
         moviesAdapter.setDataSource(viewState.movies());
-
-        errorCase.setVisibility(toVisibility(viewState.showError()));
-        errorText.setText(viewState.errorMessage());
-        errorImage.setImageResource(viewState.errorIcon());
-        errorTryAgainButton.setVisibility(toVisibility(viewState.showTryAgainButton()));
     }
 
     protected int toVisibility(boolean show) {
