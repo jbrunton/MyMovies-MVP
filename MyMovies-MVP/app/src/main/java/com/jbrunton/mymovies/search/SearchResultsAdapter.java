@@ -13,7 +13,7 @@ import com.jbrunton.mymovies.R;
 import com.jbrunton.mymovies.api.moviedetails.MovieDetailsActivity;
 import com.squareup.picasso.Picasso;
 
-public class SearchResultsAdapter extends BaseRecyclerAdapter<SearchItemViewState, SearchResultsAdapter.ViewHolder> {
+public class SearchResultsAdapter extends BaseRecyclerAdapter<MovieViewState, SearchResultsAdapter.ViewHolder> {
     public SearchResultsAdapter(Context context, int layoutId) {
         super(layoutId, new ViewHolderFactory(context));
     }
@@ -35,7 +35,7 @@ public class SearchResultsAdapter extends BaseRecyclerAdapter<SearchItemViewStat
         }
     }
 
-    protected static class ViewHolderFactory implements BaseRecyclerAdapter.ViewHolderFactory<SearchItemViewState, ViewHolder> {
+    protected static class ViewHolderFactory implements BaseRecyclerAdapter.ViewHolderFactory<MovieViewState, ViewHolder> {
         private final Context context;
 
         public ViewHolderFactory(Context context) {
@@ -48,7 +48,7 @@ public class SearchResultsAdapter extends BaseRecyclerAdapter<SearchItemViewStat
         }
 
         @Override
-        public void bindHolder(ViewHolder holder, SearchItemViewState item) {
+        public void bindHolder(ViewHolder holder, MovieViewState item) {
             holder.titleView.setText(item.title());
             if (holder.releaseDateView != null) {
                 holder.releaseDateView.setText(item.yearReleased());
@@ -64,6 +64,7 @@ public class SearchResultsAdapter extends BaseRecyclerAdapter<SearchItemViewStat
             holder.movieCardView.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View view) {
                     Intent intent = new Intent(context, MovieDetailsActivity.class);
+                    intent.putExtra("MOVIE_ID", item.movieId());
                     context.startActivity(intent);
                 }
             });

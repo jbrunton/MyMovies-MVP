@@ -1,29 +1,26 @@
 package com.jbrunton.mymovies.search;
 
-import android.support.annotation.DrawableRes;
-
 import com.google.auto.value.AutoValue;
-import com.jbrunton.mymovies.Movie;
-
-import java.util.List;
 
 @AutoValue
-public abstract class SearchItemViewState {
+public abstract class MovieViewState {
+    public abstract String movieId();
     public abstract String title();
     public abstract String yearReleased();
     public abstract String posterUrl();
     public abstract String rating();
 
     public static Builder builder() {
-        return new AutoValue_SearchItemViewState.Builder();
+        return new AutoValue_MovieViewState.Builder();
     }
 
     @AutoValue.Builder
     public abstract static class Builder {
+        public abstract Builder setMovieId(String movieId);
         public abstract Builder setTitle(String title);
         public abstract Builder setYearReleased(String yearReleased);
         public abstract Builder setPosterUrl(String posterUrl);
         public abstract Builder setRating(String rating);
-        public abstract SearchItemViewState build();
+        public abstract MovieViewState build();
     }
 }

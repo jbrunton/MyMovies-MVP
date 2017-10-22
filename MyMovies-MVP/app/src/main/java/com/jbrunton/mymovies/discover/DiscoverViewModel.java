@@ -10,7 +10,7 @@ import com.jbrunton.mymovies.api.DescriptiveError;
 import com.jbrunton.mymovies.api.MaybeError;
 import com.jbrunton.mymovies.api.repositories.MoviesRepository;
 import com.jbrunton.mymovies.api.services.ServiceFactory;
-import com.jbrunton.mymovies.converters.MovieConverter;
+import com.jbrunton.mymovies.converters.MovieResultsConverter;
 import com.jbrunton.mymovies.search.SearchViewState;
 
 import java.util.Collections;
@@ -19,7 +19,7 @@ import java.util.List;
 public class DiscoverViewModel extends BaseViewModel {
     private final MoviesRepository repository;
     private final MutableLiveData<SearchViewState> viewState = new MutableLiveData<>();
-    private final MovieConverter converter = new MovieConverter();
+    private final MovieResultsConverter converter = new MovieResultsConverter();
 
     DiscoverViewModel() {
         repository = new MoviesRepository(ServiceFactory.instance());
@@ -41,10 +41,10 @@ public class DiscoverViewModel extends BaseViewModel {
     }
 
     private void setMoviesResponse(List<Movie> movies) {
-        viewState.setValue(converter.convertMoviesResponse(movies));
+        viewState.setValue(converter.toSearchViewState(movies));
     }
 
     private void setErrorResponse(DescriptiveError error) {
-        viewState.setValue(converter.convertErrorResponse(error));
+        viewState.setValue(converter.toSearchViewState(error));
     }
 }
