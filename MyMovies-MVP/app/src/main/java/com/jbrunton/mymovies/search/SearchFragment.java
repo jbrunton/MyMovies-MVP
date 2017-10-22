@@ -40,7 +40,7 @@ public class SearchFragment extends Fragment {
         ButterKnife.bind(this, view);
 
         moviesList.setLayoutManager(new LinearLayoutManager(getActivity()));
-        searchResultsAdapter = new SearchResultsAdapter(getActivity());
+        searchResultsAdapter = new SearchResultsAdapter(getActivity(), R.layout.item_movie_card_list);
         moviesList.setAdapter(searchResultsAdapter);
 
         return view;

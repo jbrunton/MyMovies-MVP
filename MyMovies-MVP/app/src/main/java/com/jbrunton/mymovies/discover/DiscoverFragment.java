@@ -28,8 +28,8 @@ public class DiscoverFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_discover, container, false);
         ButterKnife.bind(this, view);
 
-        nowPlayingList.setLayoutManager(new LinearLayoutManager(getActivity()));
-        nowPlayingAdapter = new SearchResultsAdapter(getActivity());
+        nowPlayingList.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+        nowPlayingAdapter = new SearchResultsAdapter(getActivity(), R.layout.item_movie_card_grid);
         nowPlayingList.setAdapter(nowPlayingAdapter);
 
         return view;
