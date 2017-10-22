@@ -1,5 +1,6 @@
 package com.jbrunton.mymovies.api.services;
 
+import com.jbrunton.mymovies.api.resources.GenresResponse;
 import com.jbrunton.mymovies.api.resources.MovieResource;
 import com.jbrunton.mymovies.api.resources.MoviesCollection;
 
@@ -14,4 +15,7 @@ public interface MovieService {
 
     @GET("movie/now_playing")
     Observable<Result<MoviesCollection>> nowPlaying();
+
+    @GET("genre/movie/list")
+    Observable<Result<GenresResponse>> genres();
 }
