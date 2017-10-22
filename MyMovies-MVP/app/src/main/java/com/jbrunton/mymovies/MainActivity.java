@@ -1,78 +1,48 @@
 package com.jbrunton.mymovies;
 
-import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
+import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
+import android.widget.FrameLayout;
 
-import com.jbrunton.mymovies.search.SearchResultsAdapter;
-import com.jbrunton.mymovies.search.SearchViewModel;
-import com.jbrunton.mymovies.search.SearchViewState;
+public class MainActivity extends AppCompatActivity {
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import butterknife.OnTextChanged;
+    private FrameLayout content;
 
-public class MainActivity extends BaseActivity {
-    private RecyclerView moviesList;
-    private SearchResultsAdapter searchResultsAdapter;
-    @BindView(R.id.search_query) EditText searchQuery;
-    @BindView(R.id.error_case) View errorCase;
-    @BindView(R.id.error_text) TextView errorText;
-    @BindView(R.id.error_image) ImageView errorImage;
-    @BindView(R.id.error_try_again) Button errorTryAgainButton;
-    private SearchViewModel viewModel;
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.navigation_search:
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.content, new SearchFragment())
+                            .commit();
+                    return true;
+                case R.id.navigation_dashboard:
+                    return true;
+                case R.id.navigation_notifications:
+                    return true;
+            }
+            return false;
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        setSupportActionBar(myToolbar);
+        content = (FrameLayout) findViewById(R.id.content);
+        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        setTitle("Search Movies");
-
-        moviesList = (RecyclerView) findViewById(R.id.movies_list);
-        //moviesList.setLayoutManager(new GridLayoutManager(this, 2));
-        moviesList.setLayoutManager(new LinearLayoutManager(this));
-
-        searchResultsAdapter = new SearchResultsAdapter(this);
-        moviesList.setAdapter(searchResultsAdapter);
-
-        viewModel = ViewModelProviders.of(this).get(SearchViewModel.class);
-        viewModel.viewState().observe(this, this::updateView);
-
-        ButterKnife.bind(this);
-
-        searchQuery.setText("Star Trek");
-    }
-
-    @OnTextChanged(R.id.search_query)
-    public void onQueryChanged(CharSequence text) {
-        viewModel.performSearch(text.toString());
-    }
-
-    @OnClick(R.id.error_try_again)
-    public void onTryAgain() {
-        viewModel.performSearch(searchQuery.getText().toString());
-    }
-
-    private void updateView(SearchViewState viewState) {
-        moviesList.setVisibility(toVisibility(!viewState.showError()));
-        searchResultsAdapter.setDataSource(viewState.movies());
-
-        errorCase.setVisibility(toVisibility(viewState.showError()));
-        errorText.setText(viewState.errorMessage());
-        errorImage.setImageResource(viewState.errorIcon());
-        errorTryAgainButton.setVisibility(toVisibility(viewState.showTryAgainButton()));
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.content, new SearchFragment())
+                .commit();
     }
 
 }
