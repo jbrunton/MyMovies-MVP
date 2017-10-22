@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<LinearLayout
+    android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Now Playing"
+        style="@style/TextAppearance.AppCompat.Medium"
+        />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/now_playing"
@@ -9,4 +17,4 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>
