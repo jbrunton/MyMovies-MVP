@@ -1,7 +1,6 @@
-package com.jbrunton.mymovies;
+package com.jbrunton.mymovies.search;
 
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -17,9 +16,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.jbrunton.mymovies.search.SearchResultsAdapter;
-import com.jbrunton.mymovies.search.SearchViewModel;
-import com.jbrunton.mymovies.search.SearchViewState;
+import com.jbrunton.mymovies.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -27,8 +24,8 @@ import butterknife.OnClick;
 import butterknife.OnTextChanged;
 
 public class SearchFragment extends Fragment {
-    private RecyclerView moviesList;
     private SearchResultsAdapter searchResultsAdapter;
+    @BindView(R.id.movies_list) RecyclerView moviesList;
     @BindView(R.id.search_query) EditText searchQuery;
     @BindView(R.id.error_case) View errorCase;
     @BindView(R.id.error_text) TextView errorText;
@@ -38,15 +35,14 @@ public class SearchFragment extends Fragment {
 
     @Nullable @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_search, container, false);
-
-        moviesList = (RecyclerView) view.findViewById(R.id.movies_list);
-        moviesList.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-        searchResultsAdapter = new SearchResultsAdapter(getActivity());
-        moviesList.setAdapter(searchResultsAdapter);
+        View view = inflater.inflate(R.layout.fragment_search, container, false);
 
         ButterKnife.bind(this, view);
+
+        moviesList.setLayoutManager(new LinearLayoutManager(getActivity()));
+        searchResultsAdapter = new SearchResultsAdapter(getActivity(), R.layout.item_movie_card_list);
+        moviesList.setAdapter(searchResultsAdapter);
+
         return view;
     }
 

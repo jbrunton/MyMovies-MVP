@@ -7,6 +7,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 
+import com.jbrunton.mymovies.discover.DiscoverFragment;
+import com.jbrunton.mymovies.search.SearchFragment;
+
 public class MainActivity extends AppCompatActivity {
 
     private FrameLayout content;
@@ -22,7 +25,10 @@ public class MainActivity extends AppCompatActivity {
                             .replace(R.id.content, new SearchFragment())
                             .commit();
                     return true;
-                case R.id.navigation_dashboard:
+                case R.id.navigation_discover:
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.content, new DiscoverFragment())
+                            .commit();
                     return true;
                 case R.id.navigation_notifications:
                     return true;

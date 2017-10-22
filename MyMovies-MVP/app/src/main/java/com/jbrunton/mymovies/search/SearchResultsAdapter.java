@@ -12,8 +12,8 @@ import com.jbrunton.mymovies.R;
 import com.squareup.picasso.Picasso;
 
 public class SearchResultsAdapter extends BaseRecyclerAdapter<SearchItemViewState, SearchResultsAdapter.ViewHolder> {
-    public SearchResultsAdapter(Context context) {
-        super(R.layout.item_movie_card, new ViewHolderFactory(context));
+    public SearchResultsAdapter(Context context, int layoutId) {
+        super(layoutId, new ViewHolderFactory(context));
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
@@ -46,8 +46,12 @@ public class SearchResultsAdapter extends BaseRecyclerAdapter<SearchItemViewStat
         @Override
         public void bindHolder(ViewHolder holder, SearchItemViewState item) {
             holder.titleView.setText(item.title());
-            holder.releaseDateView.setText(item.yearReleased());
-            holder.ratingView.setText(Html.fromHtml(item.rating()));
+            if (holder.releaseDateView != null) {
+                holder.releaseDateView.setText(item.yearReleased());
+            }
+            if (holder.ratingView != null) {
+                holder.ratingView.setText(Html.fromHtml(item.rating()));
+            }
             Picasso.with(context)
                     .load(item.posterUrl())
                     .resize(185, 275)
