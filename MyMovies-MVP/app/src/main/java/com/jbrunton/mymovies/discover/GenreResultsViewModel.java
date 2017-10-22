@@ -2,6 +2,8 @@ package com.jbrunton.mymovies.discover;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
+import android.arch.lifecycle.ViewModel;
+import android.arch.lifecycle.ViewModelProvider;
 
 import com.jbrunton.mymovies.BaseViewModel;
 import com.jbrunton.mymovies.Movie;
@@ -20,9 +22,9 @@ public class GenreResultsViewModel extends BaseViewModel {
     private final MoviesRepository repository;
     private final MovieConverter converter = new MovieConverter();
 
-    public GenreResultsViewModel() {
+    public GenreResultsViewModel(String genreId) {
         repository = new MoviesRepository(ServiceFactory.instance());
-        repository.discoverByGenre("28")
+        repository.discoverByGenre(genreId)
                 .compose(applySchedulers())
                 .subscribe(this::setResponse);
     }
@@ -43,5 +45,17 @@ public class GenreResultsViewModel extends BaseViewModel {
         viewState.setValue(converter.convertErrorResponse(error));
     }
 
+    public static class Factory extends ViewModelProvider.NewInstanceFactory {
 
+       private final String genreId;
+
+        public Factory(String genreId) {
+            this.genreId = genreId;
+        }
+
+        @Override public <T extends ViewModel> T create(Class<T> modelClass) {
+            //noinspection unchecked
+            return (T) new GenreResultsViewModel(genreId);
+        }
+    }
 }

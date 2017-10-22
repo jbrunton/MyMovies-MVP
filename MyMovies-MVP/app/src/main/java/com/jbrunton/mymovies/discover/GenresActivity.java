@@ -78,13 +78,14 @@ public class GenresActivity extends AppCompatActivity {
                 convertView = inflater.inflate(android.R.layout.simple_list_item_1, parent, false);
             }
 
+            Genre genre = getItem(position);
+
             TextView genreName = (TextView) convertView.findViewById(android.R.id.text1);
             genreName.setOnClickListener(view -> {
                 Intent intent = new Intent(getContext(), GenreResultsActivity.class);
+                intent.putExtra("GENRE_ID", genre.id());
                 getContext().startActivity(intent);
             });
-
-            Genre genre = getItem(position);
             genreName.setText(genre.name());
 
             return convertView;

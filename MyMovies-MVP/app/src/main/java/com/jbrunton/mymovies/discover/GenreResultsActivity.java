@@ -40,7 +40,10 @@ public class GenreResultsActivity extends AppCompatActivity {
         moviesList.setAdapter(moviesAdapter);
         moviesList.setLayoutManager(new LinearLayoutManager(this));
 
-        viewModel = ViewModelProviders.of(this).get(GenreResultsViewModel.class);
+        GenreResultsViewModel.Factory factory = new GenreResultsViewModel.Factory(
+                getIntent().getExtras().getString("GENRE_ID"));
+        viewModel = ViewModelProviders.of(this, factory)
+                .get(GenreResultsViewModel.class);
         viewModel.viewState().observe(this, this::updateView);
     }
 
