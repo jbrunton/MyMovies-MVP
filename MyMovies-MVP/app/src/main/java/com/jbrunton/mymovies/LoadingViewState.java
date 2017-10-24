@@ -2,11 +2,6 @@ package com.jbrunton.mymovies;
 
 import android.support.annotation.DrawableRes;
 
-import com.google.auto.value.AutoValue;
-import com.jbrunton.mymovies.search.SearchItemViewState;
-
-import java.util.List;
-
 public abstract class LoadingViewState {
     public enum State {
         OK,

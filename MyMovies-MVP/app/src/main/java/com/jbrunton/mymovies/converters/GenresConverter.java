@@ -3,20 +3,13 @@ package com.jbrunton.mymovies.converters;
 import android.support.annotation.DrawableRes;
 
 import com.jbrunton.mymovies.LoadingViewState;
-import com.jbrunton.mymovies.Movie;
 import com.jbrunton.mymovies.R;
 import com.jbrunton.mymovies.api.DescriptiveError;
 import com.jbrunton.mymovies.discover.GenresViewState;
 import com.jbrunton.mymovies.models.Genre;
-import com.jbrunton.mymovies.search.SearchItemViewState;
-import com.jbrunton.mymovies.search.SearchViewState;
-
-import org.joda.time.LocalDate;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class GenresConverter {
     public GenresViewState convertGenresResponse(List<Genre> genres) {
