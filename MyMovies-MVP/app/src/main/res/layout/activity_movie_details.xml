@@ -35,4 +35,6 @@
 
     <include layout="@layout/content_movie_details" />
 
+    <include layout="@layout/layout_loading_state" />
+
 </android.support.design.widget.CoordinatorLayout>
