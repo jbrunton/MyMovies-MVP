@@ -63,6 +63,7 @@ public class MovieResultsConverter {
                 .setYearReleased(convertReleaseDate(movie.getReleaseDate()))
                 .setRating("&#9734; " + movie.getRating())
                 .setPosterUrl("http://image.tmdb.org/t/p/w300" + movie.getPosterPath())
+                .setOverview(movie.getOverview())
                 .build();
     }
 

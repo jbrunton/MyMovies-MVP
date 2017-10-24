@@ -2,19 +2,11 @@ package com.jbrunton.mymovies.api.moviedetails;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
+import android.widget.TextView;
 
-import com.jbrunton.mymovies.LoadingStateContext;
 import com.jbrunton.mymovies.R;
-import com.jbrunton.mymovies.discover.GenreResultsViewModel;
-import com.jbrunton.mymovies.search.SearchResultsAdapter;
-import com.jbrunton.mymovies.search.SearchViewState;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -22,6 +14,8 @@ import butterknife.ButterKnife;
 public class MovieDetailsActivity extends AppCompatActivity {
 
     private MovieDetailsViewModel viewModel;
+    @BindView(R.id.overview) TextView overview;
+    @BindView(R.id.toolbar) Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +23,8 @@ public class MovieDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_movie_details);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        setTitle("");
 
         ButterKnife.bind(this);
 
@@ -42,6 +38,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
     private void updateView(MovieDetailsViewState viewState) {
         if (viewState.movie().isPresent()) {
             setTitle(viewState.movie().get().title());
+            overview.setText(viewState.movie().get().overview().get());
         }
         //moviesList.setVisibility(toVisibility(!viewState.showError()));
         //moviesAdapter.setDataSource(viewState.movies());

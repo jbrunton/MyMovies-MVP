@@ -12,8 +12,9 @@ public class MovieResource {
     private String backdrop_path;
     private LocalDate release_date;
     private String vote_average;
+    private String overview;
 
     public Movie toMovie() {
-        return new Movie(id, original_title, poster_path, backdrop_path, release_date, vote_average);
+        return new Movie(id, original_title, poster_path, backdrop_path, release_date, vote_average, overview);
     }
 }
