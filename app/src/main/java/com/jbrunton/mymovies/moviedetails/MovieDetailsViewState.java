@@ -1,4 +1,4 @@
-package com.jbrunton.mymovies.api.moviedetails;
+package com.jbrunton.mymovies.moviedetails;
 
 import com.google.auto.value.AutoValue;
 import com.jbrunton.mymovies.LoadingViewState;

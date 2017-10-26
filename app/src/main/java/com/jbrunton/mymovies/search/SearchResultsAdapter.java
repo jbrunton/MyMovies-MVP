@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.jbrunton.mymovies.BaseRecyclerAdapter;
 import com.jbrunton.mymovies.R;
-import com.jbrunton.mymovies.api.moviedetails.MovieDetailsActivity;
+import com.jbrunton.mymovies.moviedetails.MovieDetailsActivity;
 import com.squareup.picasso.Picasso;
 
 public class SearchResultsAdapter extends BaseRecyclerAdapter<MovieViewState, SearchResultsAdapter.ViewHolder> {

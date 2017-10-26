@@ -6,7 +6,7 @@ import com.jbrunton.mymovies.LoadingViewState;
 import com.jbrunton.mymovies.models.Movie;
 import com.jbrunton.mymovies.R;
 import com.jbrunton.mymovies.api.DescriptiveError;
-import com.jbrunton.mymovies.api.moviedetails.MovieDetailsViewState;
+import com.jbrunton.mymovies.moviedetails.MovieDetailsViewState;
 import com.jbrunton.mymovies.search.MovieViewState;
 import com.jbrunton.mymovies.search.SearchViewState;
 

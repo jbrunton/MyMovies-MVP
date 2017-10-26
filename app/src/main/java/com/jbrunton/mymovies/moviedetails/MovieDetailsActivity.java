@@ -1,8 +1,7 @@
-package com.jbrunton.mymovies.api.moviedetails;
+package com.jbrunton.mymovies.moviedetails;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
@@ -14,8 +13,6 @@ import com.jbrunton.mymovies.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
-import static com.jbrunton.mymovies.converters.VisibilityConverter.toVisibility;
 
 public class MovieDetailsActivity extends BaseActivity {
 

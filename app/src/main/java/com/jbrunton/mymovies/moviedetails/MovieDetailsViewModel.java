@@ -1,4 +1,4 @@
-package com.jbrunton.mymovies.api.moviedetails;
+package com.jbrunton.mymovies.moviedetails;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
