@@ -1,6 +1,6 @@
 package com.jbrunton.mymovies.api.repositories;
 
-import com.jbrunton.mymovies.models.Movie;
+import com.jbrunton.mymovies.app.models.Movie;
 import com.jbrunton.mymovies.api.MaybeError;
 import com.jbrunton.mymovies.api.resources.MovieResource;
 import com.jbrunton.mymovies.api.resources.MoviesCollection;
