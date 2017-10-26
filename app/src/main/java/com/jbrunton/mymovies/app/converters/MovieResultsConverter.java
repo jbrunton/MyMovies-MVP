@@ -2,13 +2,14 @@ package com.jbrunton.mymovies.app.converters;
 
 import android.support.annotation.DrawableRes;
 
-import com.jbrunton.mymovies.app.shared.LoadingViewState;
 import com.jbrunton.mymovies.R;
 import com.jbrunton.mymovies.api.DescriptiveError;
 import com.jbrunton.mymovies.app.models.Movie;
 import com.jbrunton.mymovies.app.moviedetails.MovieDetailsViewState;
-import com.jbrunton.mymovies.app.search.MovieViewState;
+import com.jbrunton.mymovies.app.movies.MovieSearchResultViewState;
+import com.jbrunton.mymovies.app.movies.MovieViewState;
 import com.jbrunton.mymovies.app.search.SearchViewState;
+import com.jbrunton.mymovies.app.shared.LoadingViewState;
 
 import org.joda.time.LocalDate;
 
@@ -20,21 +21,21 @@ import java.util.stream.Collectors;
 public class MovieResultsConverter {
     public SearchViewState toSearchViewState(List<Movie> movies) {
         if (movies.isEmpty()) {
-            return emptySearchViewState(LoadingViewState.builder()
+            return emptySearchViewState(LoadingViewState.errorBuilder()
                     .setErrorMessage("No Results")
                     .setErrorIcon(R.drawable.ic_search_black_24dp)
                     .build());
         } else {
             return SearchViewState.builder()
                     .setLoadingViewState(LoadingViewState.OK_STATE)
-                    .setMovies(movies.stream().map(this::toMovieViewState).collect(Collectors.toList()))
+                    .setMovies(movies.stream().map(this::toMovieSearchResultViewState).collect(Collectors.toList()))
                     .build();
         }
     }
 
     public SearchViewState toSearchViewState(DescriptiveError error) {
         @DrawableRes int resId = error.isNetworkError() ? R.drawable.ic_sentiment_dissatisfied_black_24dp : R.drawable.ic_sentiment_very_dissatisfied_black_24dp;
-        return  emptySearchViewState(LoadingViewState.builder()
+        return  emptySearchViewState(LoadingViewState.errorBuilder()
                 .setErrorMessage(error.getMessage())
                 .setErrorIcon(resId)
                 .setShowTryAgainButton(true)
@@ -44,7 +45,7 @@ public class MovieResultsConverter {
     public MovieDetailsViewState toMovieDetailsViewState(Movie movie) {
         return MovieDetailsViewState.builder()
                 .setLoadingViewState(LoadingViewState.OK_STATE)
-                .setMovie(Optional.of(toMovieViewState(movie)))
+                .setMovie(toMovieViewState(movie))
                 .build();
     }
 
@@ -56,7 +57,7 @@ public class MovieResultsConverter {
                         .setErrorIcon(resId)
                         .setShowTryAgainButton(true)
                         .build())
-                .setMovie(Optional.empty())
+                .setMovie(MovieViewState.EMPTY)
                 .build();
     }
 
@@ -67,14 +68,32 @@ public class MovieResultsConverter {
                 .build();
     }
 
+    public MovieSearchResultViewState toMovieSearchResultViewState(Movie movie) {
+        return MovieSearchResultViewState.builder()
+                .movieId(movie.id())
+                .title(movie.title())
+                .yearReleased(convertReleaseDate(movie.releaseDate()))
+                .rating("&#9734; " + movie.rating())
+                .posterUrl(posterUrl(movie))
+                .build();
+    }
+
+    private String posterUrl(Movie movie) {
+        if (movie.posterPath().isPresent()) {
+            return "http://image.tmdb.org/t/p/w300" + movie.posterPath().get();
+        } else {
+            return "";
+        }
+    }
+
     public MovieViewState toMovieViewState(Movie movie) {
         return MovieViewState.builder()
-                .setMovieId(movie.id())
-                .setTitle(movie.title())
-                .setYearReleased(convertReleaseDate(movie.releaseDate()))
-                .setRating("&#9734; " + movie.rating())
-                .setPosterUrl("http://image.tmdb.org/t/p/w300" + movie.posterPath())
-                .setOverview(movie.overview())
+                .movieId(movie.id())
+                .title(movie.title())
+                .yearReleased(convertReleaseDate(movie.releaseDate()))
+                .rating("&#9734; " + movie.rating())
+                .posterUrl(posterUrl(movie))
+                .overview(movie.overview().get())
                 .build();
     }
 

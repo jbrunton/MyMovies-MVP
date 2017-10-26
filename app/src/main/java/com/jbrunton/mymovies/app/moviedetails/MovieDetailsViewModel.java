@@ -5,16 +5,15 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 
-import com.jbrunton.mymovies.app.shared.BaseViewModel;
-import com.jbrunton.mymovies.app.shared.LoadingViewState;
-import com.jbrunton.mymovies.app.models.Movie;
 import com.jbrunton.mymovies.api.DescriptiveError;
 import com.jbrunton.mymovies.api.MaybeError;
 import com.jbrunton.mymovies.api.repositories.MoviesRepository;
 import com.jbrunton.mymovies.api.services.ServiceFactory;
 import com.jbrunton.mymovies.app.converters.MovieResultsConverter;
-
-import java.util.Optional;
+import com.jbrunton.mymovies.app.models.Movie;
+import com.jbrunton.mymovies.app.movies.MovieViewState;
+import com.jbrunton.mymovies.app.shared.BaseViewModel;
+import com.jbrunton.mymovies.app.shared.LoadingViewState;
 
 public class MovieDetailsViewModel extends BaseViewModel {
     private final MutableLiveData<MovieDetailsViewState> viewState = new MutableLiveData<>();
@@ -25,7 +24,7 @@ public class MovieDetailsViewModel extends BaseViewModel {
         repository = new MoviesRepository(ServiceFactory.instance());
         viewState.setValue(MovieDetailsViewState.builder()
                 .setLoadingViewState(LoadingViewState.LOADING_STATE)
-                .setMovie(Optional.empty())
+                .setMovie(MovieViewState.EMPTY)
                 .build());
         repository.getMovie(movieId)
                 .compose(applySchedulers())

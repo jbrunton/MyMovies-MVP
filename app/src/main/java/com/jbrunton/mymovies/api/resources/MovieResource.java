@@ -18,7 +18,7 @@ public class MovieResource {
         return Movie.builder()
                 .id(id)
                 .title(original_title)
-                .posterPath(poster_path)
+                .posterPath(Optional.ofNullable(poster_path))
                 .releaseDate(Optional.ofNullable(release_date))
                 .rating(vote_average)
                 .overview(Optional.ofNullable(overview))

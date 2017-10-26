@@ -6,10 +6,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
 
+import com.jbrunton.mymovies.R;
 import com.jbrunton.mymovies.app.shared.BaseActivity;
 import com.jbrunton.mymovies.app.shared.LoadingStateContext;
-import com.jbrunton.mymovies.app.shared.LoadingViewState;
-import com.jbrunton.mymovies.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -42,12 +41,8 @@ public class MovieDetailsActivity extends BaseActivity {
 
     private void updateView(MovieDetailsViewState viewState) {
         updateLoadingView(viewState.loadingViewState());
-        //content.setVisibility(toVisibility(viewState.showContent()));
 
-        // TODO: use a null object here
-        if (viewState.loadingViewState().currentState() == LoadingViewState.State.OK) {
-            setTitle(viewState.movie().get().title());
-            overview.setText(viewState.movie().get().overview().get());
-        }
+        setTitle(viewState.movie().title());
+        overview.setText(viewState.movie().overview());
     }
 }

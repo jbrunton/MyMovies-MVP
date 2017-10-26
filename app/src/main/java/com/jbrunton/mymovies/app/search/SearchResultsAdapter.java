@@ -8,12 +8,13 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.jbrunton.mymovies.app.movies.MovieSearchResultViewState;
 import com.jbrunton.mymovies.app.shared.BaseRecyclerAdapter;
 import com.jbrunton.mymovies.R;
 import com.jbrunton.mymovies.app.moviedetails.MovieDetailsActivity;
 import com.squareup.picasso.Picasso;
 
-public class SearchResultsAdapter extends BaseRecyclerAdapter<MovieViewState, SearchResultsAdapter.ViewHolder> {
+public class SearchResultsAdapter extends BaseRecyclerAdapter<MovieSearchResultViewState, SearchResultsAdapter.ViewHolder> {
     public SearchResultsAdapter(Context context, int layoutId) {
         super(layoutId, new ViewHolderFactory(context));
     }
@@ -35,7 +36,7 @@ public class SearchResultsAdapter extends BaseRecyclerAdapter<MovieViewState, Se
         }
     }
 
-    protected static class ViewHolderFactory implements BaseRecyclerAdapter.ViewHolderFactory<MovieViewState, ViewHolder> {
+    protected static class ViewHolderFactory implements BaseRecyclerAdapter.ViewHolderFactory<MovieSearchResultViewState, ViewHolder> {
         private final Context context;
 
         public ViewHolderFactory(Context context) {
@@ -48,7 +49,7 @@ public class SearchResultsAdapter extends BaseRecyclerAdapter<MovieViewState, Se
         }
 
         @Override
-        public void bindHolder(ViewHolder holder, MovieViewState item) {
+        public void bindHolder(ViewHolder holder, MovieSearchResultViewState item) {
             holder.titleView.setText(item.title());
             if (holder.releaseDateView != null) {
                 holder.releaseDateView.setText(item.yearReleased());
