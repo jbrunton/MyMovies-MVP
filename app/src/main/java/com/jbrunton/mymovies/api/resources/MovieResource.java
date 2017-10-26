@@ -4,6 +4,8 @@ import com.jbrunton.mymovies.models.Movie;
 
 import org.joda.time.LocalDate;
 
+import java.util.Optional;
+
 public class MovieResource {
     private String original_title;
     private String id;
@@ -13,6 +15,13 @@ public class MovieResource {
     private String overview;
 
     public Movie toMovie() {
-        return Movie.create(id, original_title, poster_path, release_date, vote_average, overview);
+        return Movie.builder()
+                .id(id)
+                .title(original_title)
+                .posterPath(poster_path)
+                .releaseDate(Optional.ofNullable(release_date))
+                .rating(vote_average)
+                .overview(Optional.ofNullable(overview))
+                .build();
     }
 }

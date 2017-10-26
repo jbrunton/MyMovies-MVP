@@ -60,7 +60,7 @@ public class MovieResultsConverter {
         return MovieViewState.builder()
                 .setMovieId(movie.id())
                 .setTitle(movie.title())
-                .setYearReleased(convertReleaseDate(movie.getReleaseDate()))
+                .setYearReleased(convertReleaseDate(movie.releaseDate()))
                 .setRating("&#9734; " + movie.rating())
                 .setPosterUrl("http://image.tmdb.org/t/p/w300" + movie.posterPath())
                 .setOverview(movie.overview())
