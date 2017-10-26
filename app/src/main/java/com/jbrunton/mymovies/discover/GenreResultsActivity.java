@@ -41,8 +41,8 @@ public class GenreResultsActivity extends BaseActivity {
     }
 
     private void updateView(SearchViewState viewState) {
-        super.updateView(viewState);
-        moviesList.setVisibility(toVisibility(!viewState.showError()));
+        updateLoadingView(viewState.loadingViewState());
+        moviesList.setVisibility(toVisibility(!viewState.loadingViewState().showError()));
         moviesAdapter.setDataSource(viewState.movies());
     }
 

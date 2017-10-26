@@ -24,7 +24,7 @@ public class DiscoverViewModel extends BaseViewModel {
     DiscoverViewModel() {
         repository = new MoviesRepository(ServiceFactory.instance());
         viewState.setValue(SearchViewState.builder()
-                .setCurrentState(LoadingViewState.State.LOADING)
+                .setLoadingViewState(LoadingViewState.LOADING_STATE)
                 .setMovies(Collections.emptyList())
                 .build());
         repository.nowPlaying()

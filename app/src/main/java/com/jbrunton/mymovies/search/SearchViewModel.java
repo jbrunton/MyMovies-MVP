@@ -22,10 +22,11 @@ public class SearchViewModel extends BaseViewModel {
 
     public SearchViewModel() {
         repository = new MoviesRepository(ServiceFactory.instance());
-        viewState.setValue(SearchViewState.errorBuilder()
-                .setErrorMessage("Search")
-                .setErrorIcon(R.drawable.ic_search_black_24dp)
-                .build());
+        viewState.setValue(converter.emptySearchViewState(
+                LoadingViewState.errorBuilder()
+                        .setErrorMessage("Search")
+                        .setErrorIcon(R.drawable.ic_search_black_24dp)
+                        .build()));
     }
 
     public LiveData<SearchViewState> viewState() {
@@ -34,14 +35,13 @@ public class SearchViewModel extends BaseViewModel {
 
     public void performSearch(String query) {
         if (query.isEmpty()) {
-            viewState.setValue(SearchViewState.errorBuilder()
-                    .setErrorMessage("Search")
-                    .setErrorIcon(R.drawable.ic_search_black_24dp)
-                    .build());
+            viewState.setValue(converter.emptySearchViewState(
+                    LoadingViewState.errorBuilder()
+                        .setErrorMessage("Search")
+                        .setErrorIcon(R.drawable.ic_search_black_24dp)
+                        .build()));
         } else {
-            viewState.setValue(SearchViewState.errorBuilder()
-                    .setCurrentState(LoadingViewState.State.LOADING)
-                    .build());
+            viewState.setValue(converter.emptySearchViewState(LoadingViewState.LOADING_STATE));
             repository.searchMovies(query)
                     .compose(applySchedulers())
                     .subscribe(this::setResponse);

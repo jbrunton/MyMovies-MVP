@@ -41,11 +41,11 @@ public class MovieDetailsActivity extends BaseActivity {
     }
 
     private void updateView(MovieDetailsViewState viewState) {
-        super.updateView(viewState);
+        updateLoadingView(viewState.loadingViewState());
         //content.setVisibility(toVisibility(viewState.showContent()));
 
         // TODO: use a null object here
-        if (viewState.currentState() == LoadingViewState.State.OK) {
+        if (viewState.loadingViewState().currentState() == LoadingViewState.State.OK) {
             setTitle(viewState.movie().get().title());
             overview.setText(viewState.movie().get().overview().get());
         }

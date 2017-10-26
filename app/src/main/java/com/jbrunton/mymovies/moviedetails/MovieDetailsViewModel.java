@@ -24,7 +24,7 @@ public class MovieDetailsViewModel extends BaseViewModel {
     public MovieDetailsViewModel(String movieId) {
         repository = new MoviesRepository(ServiceFactory.instance());
         viewState.setValue(MovieDetailsViewState.builder()
-                .setCurrentState(LoadingViewState.State.LOADING)
+                .setLoadingViewState(LoadingViewState.LOADING_STATE)
                 .setMovie(Optional.empty())
                 .build());
         repository.getMovie(movieId)

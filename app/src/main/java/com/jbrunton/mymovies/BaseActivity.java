@@ -20,7 +20,7 @@ public class BaseActivity extends AppCompatActivity {
         ButterKnife.bind(loadingStateContext, findViewById(android.R.id.content));
     }
 
-    protected void updateView(LoadingViewState viewState) {
+    protected void updateLoadingView(LoadingViewState viewState) {
         loadingStateContext.updateView(viewState);
     }
 }

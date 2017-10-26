@@ -72,8 +72,8 @@ public class SearchFragment extends Fragment {
     }
 
     private void updateView(SearchViewState viewState) {
-        moviesList.setVisibility(toVisibility(viewState.showContent()));
+        moviesList.setVisibility(toVisibility(viewState.loadingViewState().showContent()));
         searchResultsAdapter.setDataSource(viewState.movies());
-        loadingStateContext.updateView(viewState);
+        loadingStateContext.updateView(viewState.loadingViewState());
     }
 }

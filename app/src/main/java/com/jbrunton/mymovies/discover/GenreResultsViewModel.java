@@ -26,7 +26,7 @@ public class GenreResultsViewModel extends BaseViewModel {
     public GenreResultsViewModel(String genreId) {
         repository = new MoviesRepository(ServiceFactory.instance());
         viewState.setValue(SearchViewState.builder()
-                .setCurrentState(LoadingViewState.State.LOADING)
+                .setLoadingViewState(LoadingViewState.LOADING_STATE)
                 .setMovies(Collections.emptyList())
                 .build());
         repository.discoverByGenre(genreId)

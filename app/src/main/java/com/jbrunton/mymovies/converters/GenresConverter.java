@@ -14,14 +14,17 @@ import java.util.List;
 public class GenresConverter {
     public GenresViewState convertGenresResponse(List<Genre> genres) {
         if (genres.isEmpty()) {
-            return errorBuilder()
+            return emptyViewState(LoadingViewState.errorBuilder()
                     .setErrorMessage("Unexpected Error")
                     .setErrorIcon(R.drawable.ic_sentiment_very_dissatisfied_black_24dp)
                     .setShowTryAgainButton(true)
-                    .build();
+                    .build());
         } else {
             return GenresViewState.builder()
-                    .setCurrentState(LoadingViewState.State.OK)
+                    .setLoadingViewState(
+                            LoadingViewState.builder()
+                                    .setCurrentState(LoadingViewState.State.OK)
+                                    .build())
                     .setGenres(genres)
                     .build();
         }
@@ -29,16 +32,17 @@ public class GenresConverter {
 
     public GenresViewState convertErrorResponse(DescriptiveError error) {
         @DrawableRes int resId = error.isNetworkError() ? R.drawable.ic_sentiment_dissatisfied_black_24dp : R.drawable.ic_sentiment_very_dissatisfied_black_24dp;
-        return errorBuilder()
+        return emptyViewState(LoadingViewState.errorBuilder()
                 .setErrorMessage(error.getMessage())
                 .setErrorIcon(resId)
                 .setShowTryAgainButton(true)
-                .build();
+                .build());
     }
 
-    public GenresViewState.Builder errorBuilder() {
+    public GenresViewState emptyViewState(LoadingViewState loadingViewState) {
         return GenresViewState.builder()
                 .setGenres(Collections.emptyList())
-                .setCurrentState(LoadingViewState.State.ERROR);
+                .setLoadingViewState(loadingViewState)
+                .build();
     }
 }

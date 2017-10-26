@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 import com.jbrunton.mymovies.LoadingStateContext;
 import com.jbrunton.mymovies.R;
 import com.jbrunton.mymovies.search.SearchResultsAdapter;
-import com.jbrunton.mymovies.search.SearchViewModel;
 import com.jbrunton.mymovies.search.SearchViewState;
 
 import butterknife.BindView;
@@ -55,9 +54,9 @@ public class DiscoverFragment extends Fragment {
     }
 
     private void updateView(SearchViewState viewState) {
-        discoverContent.setVisibility(toVisibility(viewState.showContent()));
+        discoverContent.setVisibility(toVisibility(viewState.loadingViewState().showContent()));
         nowPlayingAdapter.setDataSource(viewState.movies());
-        loadingStateContext.updateView(viewState);
+        loadingStateContext.updateView(viewState.loadingViewState());
     }
 
     protected int toVisibility(boolean show) {

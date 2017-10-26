@@ -7,18 +7,18 @@ import com.jbrunton.mymovies.models.Genre;
 import java.util.List;
 
 @AutoValue
-public abstract class GenresViewState extends LoadingViewState {
+public abstract class GenresViewState {
+    public abstract LoadingViewState loadingViewState();
     public abstract List<Genre> genres();
 
     public static Builder builder() {
-        Builder builder = new AutoValue_GenresViewState.Builder();
-        builder.setDefaults();
-        return builder;
+        return new AutoValue_GenresViewState.Builder();
     }
 
     @AutoValue.Builder
-    public abstract static class Builder extends LoadingViewState.Builder<Builder> {
+    public abstract static class Builder {
         public abstract Builder setGenres(List<Genre> genres);
+        public abstract Builder setLoadingViewState(LoadingViewState loadingViewState);
         public abstract GenresViewState build();
     }
 }

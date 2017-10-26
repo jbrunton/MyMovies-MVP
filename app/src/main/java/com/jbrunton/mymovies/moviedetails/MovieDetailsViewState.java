@@ -7,23 +7,17 @@ import com.jbrunton.mymovies.search.MovieViewState;
 import java.util.Optional;
 
 @AutoValue
-public abstract class MovieDetailsViewState extends LoadingViewState {
+public abstract class MovieDetailsViewState {
+    public abstract LoadingViewState loadingViewState();
     public abstract Optional<MovieViewState> movie();
 
     public static MovieDetailsViewState.Builder builder() {
-        MovieDetailsViewState.Builder builder = new AutoValue_MovieDetailsViewState.Builder();
-        builder.setDefaults();
-        return builder;
-    }
-
-    public static MovieDetailsViewState.Builder errorBuilder() {
-        return builder()
-                .setMovie(Optional.empty())
-                .setCurrentState(LoadingViewState.State.ERROR);
+        return new AutoValue_MovieDetailsViewState.Builder();
     }
 
     @AutoValue.Builder
-    public abstract static class Builder extends LoadingViewState.Builder<Builder> {
+    public abstract static class Builder {
+        public abstract Builder setLoadingViewState(LoadingViewState loadingViewState);
         public abstract Builder setMovie(Optional<MovieViewState> movie);
         public abstract MovieDetailsViewState build();
     }
