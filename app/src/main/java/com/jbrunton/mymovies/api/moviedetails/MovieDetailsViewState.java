@@ -2,11 +2,8 @@ package com.jbrunton.mymovies.api.moviedetails;
 
 import com.google.auto.value.AutoValue;
 import com.jbrunton.mymovies.LoadingViewState;
-import com.jbrunton.mymovies.Movie;
 import com.jbrunton.mymovies.search.MovieViewState;
-import com.jbrunton.mymovies.search.SearchViewState;
 
-import java.util.Collections;
 import java.util.Optional;
 
 @AutoValue

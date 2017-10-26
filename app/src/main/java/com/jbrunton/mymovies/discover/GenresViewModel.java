@@ -4,12 +4,9 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 
 import com.jbrunton.mymovies.BaseViewModel;
-import com.jbrunton.mymovies.Movie;
-import com.jbrunton.mymovies.R;
 import com.jbrunton.mymovies.api.DescriptiveError;
 import com.jbrunton.mymovies.api.MaybeError;
 import com.jbrunton.mymovies.api.repositories.GenresRepository;
-import com.jbrunton.mymovies.api.repositories.MoviesRepository;
 import com.jbrunton.mymovies.api.services.ServiceFactory;
 import com.jbrunton.mymovies.converters.GenresConverter;
 import com.jbrunton.mymovies.models.Genre;

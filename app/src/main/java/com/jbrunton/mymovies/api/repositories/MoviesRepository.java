@@ -1,16 +1,13 @@
 package com.jbrunton.mymovies.api.repositories;
 
-import com.jbrunton.mymovies.Movie;
+import com.jbrunton.mymovies.models.Movie;
 import com.jbrunton.mymovies.api.MaybeError;
 import com.jbrunton.mymovies.api.resources.MovieResource;
 import com.jbrunton.mymovies.api.resources.MoviesCollection;
 import com.jbrunton.mymovies.api.services.MovieService;
-import com.jbrunton.mymovies.models.Genre;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 import io.reactivex.Observable;
 import retrofit2.Response;

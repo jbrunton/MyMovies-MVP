@@ -3,7 +3,7 @@ package com.jbrunton.mymovies.converters;
 import android.support.annotation.DrawableRes;
 
 import com.jbrunton.mymovies.LoadingViewState;
-import com.jbrunton.mymovies.Movie;
+import com.jbrunton.mymovies.models.Movie;
 import com.jbrunton.mymovies.R;
 import com.jbrunton.mymovies.api.DescriptiveError;
 import com.jbrunton.mymovies.api.moviedetails.MovieDetailsViewState;
@@ -58,12 +58,12 @@ public class MovieResultsConverter {
 
     public MovieViewState toMovieViewState(Movie movie) {
         return MovieViewState.builder()
-                .setMovieId(movie.getId())
-                .setTitle(movie.getTitle())
+                .setMovieId(movie.id())
+                .setTitle(movie.title())
                 .setYearReleased(convertReleaseDate(movie.getReleaseDate()))
-                .setRating("&#9734; " + movie.getRating())
-                .setPosterUrl("http://image.tmdb.org/t/p/w300" + movie.getPosterPath())
-                .setOverview(movie.getOverview())
+                .setRating("&#9734; " + movie.rating())
+                .setPosterUrl("http://image.tmdb.org/t/p/w300" + movie.posterPath())
+                .setOverview(movie.overview())
                 .build();
     }
 
