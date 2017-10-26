@@ -1,6 +1,6 @@
 package com.jbrunton.mymovies.api.resources;
 
-import com.jbrunton.mymovies.Movie;
+import com.jbrunton.mymovies.app.models.Movie;
 
 import java.util.List;
 

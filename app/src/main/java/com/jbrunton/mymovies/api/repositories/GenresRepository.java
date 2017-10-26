@@ -1,11 +1,9 @@
 package com.jbrunton.mymovies.api.repositories;
 
-import com.jbrunton.mymovies.Movie;
 import com.jbrunton.mymovies.api.MaybeError;
 import com.jbrunton.mymovies.api.resources.GenresResponse;
-import com.jbrunton.mymovies.api.resources.MoviesCollection;
 import com.jbrunton.mymovies.api.services.MovieService;
-import com.jbrunton.mymovies.models.Genre;
+import com.jbrunton.mymovies.app.models.Genre;
 
 import java.io.IOException;
 import java.util.List;

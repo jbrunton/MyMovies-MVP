@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.jbrunton.mymovies.discover.GenresActivity">
+    tools:context=".app.discover.GenresActivity">
 
     <ListView
         android:id="@+id/genres_list"
