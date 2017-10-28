@@ -7,7 +7,7 @@ import android.arch.lifecycle.ViewModelProvider;
 
 import com.jbrunton.mymovies.app.shared.BaseViewModel;
 import com.jbrunton.mymovies.app.shared.LoadingViewState;
-import com.jbrunton.mymovies.app.models.Movie;
+import com.jbrunton.mymovies.models.Movie;
 import com.jbrunton.mymovies.api.DescriptiveError;
 import com.jbrunton.mymovies.api.MaybeError;
 import com.jbrunton.mymovies.api.repositories.MoviesRepository;

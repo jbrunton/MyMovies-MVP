@@ -4,7 +4,7 @@ import android.support.annotation.DrawableRes;
 
 import com.jbrunton.mymovies.R;
 import com.jbrunton.mymovies.api.DescriptiveError;
-import com.jbrunton.mymovies.app.models.Movie;
+import com.jbrunton.mymovies.models.Movie;
 import com.jbrunton.mymovies.app.moviedetails.MovieDetailsViewState;
 import com.jbrunton.mymovies.app.movies.MovieSearchResultViewState;
 import com.jbrunton.mymovies.app.movies.MovieViewState;

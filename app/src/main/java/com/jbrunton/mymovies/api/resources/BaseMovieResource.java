@@ -1,6 +1,6 @@
 package com.jbrunton.mymovies.api.resources;
 
-import com.jbrunton.mymovies.app.models.Movie;
+import com.jbrunton.mymovies.models.Movie;
 
 import org.joda.time.LocalDate;
 

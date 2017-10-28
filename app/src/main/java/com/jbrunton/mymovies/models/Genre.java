@@ -1,4 +1,4 @@
-package com.jbrunton.mymovies.app.models;
+package com.jbrunton.mymovies.models;
 
 import com.google.auto.value.AutoValue;
 
