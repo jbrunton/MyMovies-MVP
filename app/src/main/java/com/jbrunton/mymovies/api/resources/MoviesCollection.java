@@ -4,8 +4,8 @@ import com.jbrunton.mymovies.app.models.Movie;
 
 import java.util.List;
 
-public class MoviesCollection extends PagedCollection<MovieResource> {
+public class MoviesCollection extends PagedCollection<MovieSearchResultResource> {
     public List<Movie> toCollection() {
-        return toCollection(MovieResource::toMovie);
+        return toCollection(MovieSearchResultResource::toMovie);
     }
 }

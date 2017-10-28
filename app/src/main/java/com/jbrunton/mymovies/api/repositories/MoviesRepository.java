@@ -1,10 +1,10 @@
 package com.jbrunton.mymovies.api.repositories;
 
-import com.jbrunton.mymovies.app.models.Movie;
 import com.jbrunton.mymovies.api.MaybeError;
-import com.jbrunton.mymovies.api.resources.MovieResource;
+import com.jbrunton.mymovies.api.resources.MovieDetailsResponse;
 import com.jbrunton.mymovies.api.resources.MoviesCollection;
 import com.jbrunton.mymovies.api.services.MovieService;
+import com.jbrunton.mymovies.app.models.Movie;
 
 import java.io.IOException;
 import java.util.List;
@@ -40,7 +40,7 @@ public class MoviesRepository {
                 .map(this::transformMoviesResponse);
     }
 
-    private MaybeError<Movie> transformMovieResponse(Result<MovieResource> result) {
+    private MaybeError<Movie> transformMovieResponse(Result<MovieDetailsResponse> result) {
         if (result.isError()) {
             Throwable throwable = result.error();
             if (throwable instanceof IOException) {
@@ -49,7 +49,7 @@ public class MoviesRepository {
                 return MaybeError.fromErrorMessage("There was an unknown error.", false);
             }
         } else {
-            Response<MovieResource> response = result.response();
+            Response<MovieDetailsResponse> response = result.response();
             Movie movie = response.body().toMovie();
             return MaybeError.fromValue(movie);
         }

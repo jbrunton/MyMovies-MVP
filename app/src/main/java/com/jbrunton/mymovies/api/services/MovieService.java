@@ -1,7 +1,7 @@
 package com.jbrunton.mymovies.api.services;
 
 import com.jbrunton.mymovies.api.resources.GenresResponse;
-import com.jbrunton.mymovies.api.resources.MovieResource;
+import com.jbrunton.mymovies.api.resources.MovieDetailsResponse;
 import com.jbrunton.mymovies.api.resources.MoviesCollection;
 
 import io.reactivex.Observable;
@@ -12,7 +12,7 @@ import retrofit2.http.Query;
 
 public interface MovieService {
     @GET("movie/{movie_id}")
-    Observable<Result<MovieResource>> movie(@Path("movie_id") String movieId);
+    Observable<Result<MovieDetailsResponse>> movie(@Path("movie_id") String movieId);
 
     @GET("search/movie")
     Observable<Result<MoviesCollection>> search(@Query("query") String query);
