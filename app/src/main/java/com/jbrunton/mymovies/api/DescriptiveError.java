@@ -21,7 +21,8 @@ public class DescriptiveError extends RuntimeException {
         if (throwable instanceof DescriptiveError) {
             return (DescriptiveError) throwable;
         } else {
-            return new DescriptiveError(throwable.getMessage(), throwable, false);
+            String message = throwable.getMessage() == null ? "Unexpected Error" : throwable.getMessage();
+            return new DescriptiveError(message, throwable, false);
         }
     }
 }
