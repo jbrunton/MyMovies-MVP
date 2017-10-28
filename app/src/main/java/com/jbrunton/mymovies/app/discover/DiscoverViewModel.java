@@ -3,7 +3,6 @@ package com.jbrunton.mymovies.app.discover;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 
-import com.jbrunton.mymovies.api.DescriptiveError;
 import com.jbrunton.mymovies.api.repositories.MoviesRepository;
 import com.jbrunton.mymovies.api.services.ServiceFactory;
 import com.jbrunton.mymovies.app.converters.MovieResultsConverter;
@@ -40,6 +39,6 @@ public class DiscoverViewModel extends BaseViewModel {
     }
 
     private void setErrorResponse(Throwable error) {
-        viewState.setValue(converter.toSearchViewState(DescriptiveError.from(error)));
+        viewState.setValue(converter.toSearchViewState(error));
     }
 }

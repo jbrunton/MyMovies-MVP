@@ -3,7 +3,6 @@ package com.jbrunton.mymovies.app.discover;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 
-import com.jbrunton.mymovies.api.DescriptiveError;
 import com.jbrunton.mymovies.api.repositories.GenresRepository;
 import com.jbrunton.mymovies.api.services.ServiceFactory;
 import com.jbrunton.mymovies.app.converters.GenresConverter;
@@ -33,7 +32,7 @@ public class GenresViewModel extends BaseViewModel {
     }
 
     private void setErrorResponse(Throwable throwable) {
-        viewState.setValue(converter.convertErrorResponse(DescriptiveError.from(throwable)));
+        viewState.setValue(converter.convertErrorResponse(throwable));
     }
 
 

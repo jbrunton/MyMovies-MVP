@@ -5,7 +5,6 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 
-import com.jbrunton.mymovies.api.DescriptiveError;
 import com.jbrunton.mymovies.api.repositories.MoviesRepository;
 import com.jbrunton.mymovies.api.services.ServiceFactory;
 import com.jbrunton.mymovies.app.converters.MovieResultsConverter;
@@ -39,7 +38,7 @@ public class MovieDetailsViewModel extends BaseViewModel {
     }
 
     private void setErrorResponse(Throwable throwable) {
-        viewState.setValue(converter.toMovieDetailsViewState(DescriptiveError.from(throwable)));
+        viewState.setValue(converter.toMovieDetailsViewState(throwable));
     }
 
     public static class Factory extends ViewModelProvider.NewInstanceFactory {

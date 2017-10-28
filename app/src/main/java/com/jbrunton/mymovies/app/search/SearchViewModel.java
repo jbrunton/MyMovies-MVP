@@ -4,7 +4,6 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 
 import com.jbrunton.mymovies.R;
-import com.jbrunton.mymovies.api.DescriptiveError;
 import com.jbrunton.mymovies.api.repositories.MoviesRepository;
 import com.jbrunton.mymovies.api.services.ServiceFactory;
 import com.jbrunton.mymovies.app.converters.MovieResultsConverter;
@@ -52,8 +51,7 @@ public class SearchViewModel extends BaseViewModel {
     }
 
     private void setErrorResponse(Throwable throwable) {
-        viewState.setValue(converter.toSearchViewState(DescriptiveError.from(throwable)));
+        viewState.setValue(converter.toSearchViewState(throwable));
     }
-
 
 }

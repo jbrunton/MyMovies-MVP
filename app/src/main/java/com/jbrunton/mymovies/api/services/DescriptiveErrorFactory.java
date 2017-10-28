@@ -36,7 +36,7 @@ public class DescriptiveErrorFactory extends CallAdapter.Factory {
                         if (throwable instanceof IOException) {
                             return Observable.error(new DescriptiveError("There was a problem with your connection.", throwable, true));
                         } else {
-                            return Observable.error(new DescriptiveError("There was an unknown error.", throwable, false));
+                            return Observable.error(DescriptiveError.from(throwable));
                         }
                     }
                 });

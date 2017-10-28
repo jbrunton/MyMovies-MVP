@@ -33,7 +33,8 @@ public class MovieResultsConverter {
         }
     }
 
-    public SearchViewState toSearchViewState(DescriptiveError error) {
+    public SearchViewState toSearchViewState(Throwable throwable) {
+        DescriptiveError error = DescriptiveError.from(throwable);
         @DrawableRes int resId = error.isNetworkError() ? R.drawable.ic_sentiment_dissatisfied_black_24dp : R.drawable.ic_sentiment_very_dissatisfied_black_24dp;
         return  emptySearchViewState(LoadingViewState.errorBuilder()
                 .setErrorMessage(error.getMessage())
@@ -49,7 +50,8 @@ public class MovieResultsConverter {
                 .build();
     }
 
-    public MovieDetailsViewState toMovieDetailsViewState(DescriptiveError error) {
+    public MovieDetailsViewState toMovieDetailsViewState(Throwable throwable) {
+        DescriptiveError error = DescriptiveError.from(throwable);
         @DrawableRes int resId = error.isNetworkError() ? R.drawable.ic_sentiment_dissatisfied_black_24dp : R.drawable.ic_sentiment_very_dissatisfied_black_24dp;
         return MovieDetailsViewState.builder()
                 .setLoadingViewState(LoadingViewState.errorBuilder()

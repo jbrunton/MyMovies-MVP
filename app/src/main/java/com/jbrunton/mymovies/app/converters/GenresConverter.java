@@ -30,7 +30,8 @@ public class GenresConverter {
         }
     }
 
-    public GenresViewState convertErrorResponse(DescriptiveError error) {
+    public GenresViewState convertErrorResponse(Throwable throwable) {
+        DescriptiveError error = DescriptiveError.from(throwable);
         @DrawableRes int resId = error.isNetworkError() ? R.drawable.ic_sentiment_dissatisfied_black_24dp : R.drawable.ic_sentiment_very_dissatisfied_black_24dp;
         return emptyViewState(LoadingViewState.errorBuilder()
                 .setErrorMessage(error.getMessage())
