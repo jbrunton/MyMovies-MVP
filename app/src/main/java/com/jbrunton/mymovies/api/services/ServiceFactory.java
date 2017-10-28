@@ -33,6 +33,7 @@ public class ServiceFactory {
                 .client(createClient())
                 .baseUrl("https://api.themoviedb.org/3/")
                 .addConverterFactory(GsonConverterFactory.create(gson))
+                .addCallAdapterFactory(DescriptiveErrorFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
         return retrofit.create(MovieService.class);

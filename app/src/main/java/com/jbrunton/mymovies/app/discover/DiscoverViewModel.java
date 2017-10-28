@@ -3,15 +3,14 @@ package com.jbrunton.mymovies.app.discover;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 
-import com.jbrunton.mymovies.app.shared.BaseViewModel;
-import com.jbrunton.mymovies.app.shared.LoadingViewState;
-import com.jbrunton.mymovies.models.Movie;
 import com.jbrunton.mymovies.api.DescriptiveError;
-import com.jbrunton.mymovies.api.MaybeError;
 import com.jbrunton.mymovies.api.repositories.MoviesRepository;
 import com.jbrunton.mymovies.api.services.ServiceFactory;
 import com.jbrunton.mymovies.app.converters.MovieResultsConverter;
 import com.jbrunton.mymovies.app.search.SearchViewState;
+import com.jbrunton.mymovies.app.shared.BaseViewModel;
+import com.jbrunton.mymovies.app.shared.LoadingViewState;
+import com.jbrunton.mymovies.models.Movie;
 
 import java.util.Collections;
 import java.util.List;
@@ -29,22 +28,18 @@ public class DiscoverViewModel extends BaseViewModel {
                 .build());
         repository.nowPlaying()
                 .compose(applySchedulers())
-                .subscribe(this::setResponse);
+                .subscribe(this::setMoviesResponse, this::setErrorResponse);
     }
 
     public LiveData<SearchViewState> viewState() {
         return viewState;
     }
 
-    private void setResponse(MaybeError<List<Movie>> response) {
-        response.ifValue(this::setMoviesResponse).elseIfError(this::setErrorResponse);
-    }
-
     private void setMoviesResponse(List<Movie> movies) {
         viewState.setValue(converter.toSearchViewState(movies));
     }
 
-    private void setErrorResponse(DescriptiveError error) {
-        viewState.setValue(converter.toSearchViewState(error));
+    private void setErrorResponse(Throwable error) {
+        viewState.setValue(converter.toSearchViewState(DescriptiveError.from(error)));
     }
 }

@@ -6,14 +6,13 @@ import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 
 import com.jbrunton.mymovies.api.DescriptiveError;
-import com.jbrunton.mymovies.api.MaybeError;
 import com.jbrunton.mymovies.api.repositories.MoviesRepository;
 import com.jbrunton.mymovies.api.services.ServiceFactory;
 import com.jbrunton.mymovies.app.converters.MovieResultsConverter;
-import com.jbrunton.mymovies.models.Movie;
 import com.jbrunton.mymovies.app.movies.MovieViewState;
 import com.jbrunton.mymovies.app.shared.BaseViewModel;
 import com.jbrunton.mymovies.app.shared.LoadingViewState;
+import com.jbrunton.mymovies.models.Movie;
 
 public class MovieDetailsViewModel extends BaseViewModel {
     private final MutableLiveData<MovieDetailsViewState> viewState = new MutableLiveData<>();
@@ -28,23 +27,19 @@ public class MovieDetailsViewModel extends BaseViewModel {
                 .build());
         repository.getMovie(movieId)
                 .compose(applySchedulers())
-                .subscribe(this::setResponse);
+                .subscribe(this::setMovieResponse, this::setErrorResponse);
     }
 
     public LiveData<MovieDetailsViewState> viewState() {
         return viewState;
     }
 
-    private void setResponse(MaybeError<Movie> response) {
-        response.ifValue(this::setMovieResponse).elseIfError(this::setErrorResponse);
-    }
-
     private void setMovieResponse(Movie movie) {
         viewState.setValue(converter.toMovieDetailsViewState(movie));
     }
 
-    private void setErrorResponse(DescriptiveError error) {
-        viewState.setValue(converter.toMovieDetailsViewState(error));
+    private void setErrorResponse(Throwable throwable) {
+        viewState.setValue(converter.toMovieDetailsViewState(DescriptiveError.from(throwable)));
     }
 
     public static class Factory extends ViewModelProvider.NewInstanceFactory {
