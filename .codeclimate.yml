@@ -1,0 +1,6 @@
+engines:
+  sonar-java:
+    enabled: true
+    config:
+      sonar.java.source: 7
+
