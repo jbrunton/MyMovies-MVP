@@ -17,8 +17,8 @@ public class BaseMovieResource {
         return Movie.builder()
                 .id(id)
                 .title(originalTitle)
-                .posterPath(Optional.of(posterPath))
-                .releaseDate(Optional.of(releaseDate))
+                .posterPath(Optional.ofNullable(posterPath))
+                .releaseDate(Optional.ofNullable(releaseDate))
                 .rating(voteAverage);
     }
 }

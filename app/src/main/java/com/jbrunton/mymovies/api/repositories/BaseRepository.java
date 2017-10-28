@@ -1,15 +1,16 @@
 package com.jbrunton.mymovies.api.repositories;
 
-import com.jbrunton.mymovies.api.DescriptiveError;
+import com.crashlytics.android.Crashlytics;
+import com.jbrunton.mymovies.models.InvalidInstantiationException;
 
-import java.util.function.Function;
+import io.reactivex.ObservableTransformer;
 
 public class BaseRepository {
-    protected <T, R> T fromResult(R result, Function<R, T> transformer) {
-        try {
-            return transformer.apply(result);
-        } catch (RuntimeException e) {
-            throw new DescriptiveError(e.getMessage(), e, false);
-        }
+    protected <T> ObservableTransformer<T, T> logErrors() {
+        return observable -> observable.doOnError(throwable -> {
+            if (throwable instanceof InvalidInstantiationException) {
+                Crashlytics.logException(throwable);
+            }
+        });
     }
 }
