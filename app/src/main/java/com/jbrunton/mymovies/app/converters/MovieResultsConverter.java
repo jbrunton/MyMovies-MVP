@@ -69,39 +69,50 @@ public class MovieResultsConverter {
     }
 
     public MovieSearchResultViewState toMovieSearchResultViewState(Movie movie) {
+        Optional<LocalDate> date = movie.releaseDate();
+        String result;
+        if (date.isPresent()) {
+            result = Integer.toString(date.get().getYear());
+        } else {
+            result = "";
+        }
+        String result1;
+        if (movie.posterPath().isPresent()) {
+            result1 = "http://image.tmdb.org/t/p/w300" + movie.posterPath().get();
+        } else {
+            result1 = "";
+        }
         return MovieSearchResultViewState.builder()
                 .movieId(movie.id())
                 .title(movie.title())
-                .yearReleased(convertReleaseDate(movie.releaseDate()))
+                .yearReleased(result)
                 .rating("&#9734; " + movie.rating())
-                .posterUrl(posterUrl(movie))
+                .posterUrl(result1)
                 .build();
     }
 
-    private String posterUrl(Movie movie) {
-        if (movie.posterPath().isPresent()) {
-            return "http://image.tmdb.org/t/p/w300" + movie.posterPath().get();
-        } else {
-            return "";
-        }
-    }
-
     public MovieViewState toMovieViewState(Movie movie) {
+        Optional<LocalDate> date = movie.releaseDate();
+        String result;
+        if (date.isPresent()) {
+            result = Integer.toString(date.get().getYear());
+        } else {
+            result = "";
+        }
+        String result1;
+        if (movie.posterPath().isPresent()) {
+            result1 = "http://image.tmdb.org/t/p/w300" + movie.posterPath().get();
+        } else {
+            result1 = "";
+        }
         return MovieViewState.builder()
                 .movieId(movie.id())
                 .title(movie.title())
-                .yearReleased(convertReleaseDate(movie.releaseDate()))
+                .yearReleased(result)
                 .rating("&#9734; " + movie.rating())
-                .posterUrl(posterUrl(movie))
+                .posterUrl(result1)
                 .overview(movie.overview().get())
                 .build();
     }
 
-    private String convertReleaseDate(Optional<LocalDate> date) {
-        if (date.isPresent()) {
-            return Integer.toString(date.get().getYear());
-        } else {
-            return "";
-        }
-    }
 }

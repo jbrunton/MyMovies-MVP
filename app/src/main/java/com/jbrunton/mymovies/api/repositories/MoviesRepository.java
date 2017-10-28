@@ -11,7 +11,6 @@ import java.util.List;
 
 import io.reactivex.Observable;
 import retrofit2.Response;
-import retrofit2.adapter.rxjava2.Result;
 
 public class MoviesRepository {
     private final MovieService service;
@@ -22,51 +21,74 @@ public class MoviesRepository {
 
     public Observable<MaybeError<Movie>> getMovie(String movieId) {
         return service.movie(movieId)
-                .map(this::transformMovieResponse);
+                .map(result -> {
+                    if (result.isError()) {
+                        Throwable throwable = result.error();
+                        if (throwable instanceof IOException) {
+                            return MaybeError.fromErrorMessage("There was a problem with your connection.", true);
+                        } else {
+                            return MaybeError.fromErrorMessage("There was an unknown error.", false);
+                        }
+                    } else {
+                        Response<MovieResource> response = result.response();
+                        Movie movie = response.body().toMovie();
+                        return MaybeError.fromValue(movie);
+                    }
+                });
     }
 
     public Observable<MaybeError<List<Movie>>> searchMovies(String query) {
         return service.search(query)
-                .map(this::transformMoviesResponse);
+                .map(result -> {
+                    if (result.isError()) {
+                        Throwable throwable = result.error();
+                        if (throwable instanceof IOException) {
+                            return MaybeError.fromErrorMessage("There was a problem with your connection.", true);
+                        } else {
+                            return MaybeError.fromErrorMessage("There was an unknown error.", false);
+                        }
+                    } else {
+                        Response<MoviesCollection> response = result.response();
+                        List<Movie> locations = response.body().toCollection();
+                        return MaybeError.fromValue(locations);
+                    }
+                });
     }
 
     public Observable<MaybeError<List<Movie>>> nowPlaying() {
         return service.nowPlaying()
-                .map(this::transformMoviesResponse);
+                .map(result -> {
+                    if (result.isError()) {
+                        Throwable throwable = result.error();
+                        if (throwable instanceof IOException) {
+                            return MaybeError.fromErrorMessage("There was a problem with your connection.", true);
+                        } else {
+                            return MaybeError.fromErrorMessage("There was an unknown error.", false);
+                        }
+                    } else {
+                        Response<MoviesCollection> response = result.response();
+                        List<Movie> locations = response.body().toCollection();
+                        return MaybeError.fromValue(locations);
+                    }
+                });
     }
 
     public Observable<MaybeError<List<Movie>>> discoverByGenre(String genreId) {
         return service.discoverByGenre(genreId)
-                .map(this::transformMoviesResponse);
+                .map(result -> {
+                    if (result.isError()) {
+                        Throwable throwable = result.error();
+                        if (throwable instanceof IOException) {
+                            return MaybeError.fromErrorMessage("There was a problem with your connection.", true);
+                        } else {
+                            return MaybeError.fromErrorMessage("There was an unknown error.", false);
+                        }
+                    } else {
+                        Response<MoviesCollection> response = result.response();
+                        List<Movie> locations = response.body().toCollection();
+                        return MaybeError.fromValue(locations);
+                    }
+                });
     }
 
-    private MaybeError<Movie> transformMovieResponse(Result<MovieResource> result) {
-        if (result.isError()) {
-            Throwable throwable = result.error();
-            if (throwable instanceof IOException) {
-                return MaybeError.fromErrorMessage("There was a problem with your connection.", true);
-            } else {
-                return MaybeError.fromErrorMessage("There was an unknown error.", false);
-            }
-        } else {
-            Response<MovieResource> response = result.response();
-            Movie movie = response.body().toMovie();
-            return MaybeError.fromValue(movie);
-        }
-    }
-
-    private MaybeError<List<Movie>> transformMoviesResponse(Result<MoviesCollection> result) {
-        if (result.isError()) {
-            Throwable throwable = result.error();
-            if (throwable instanceof IOException) {
-                return MaybeError.fromErrorMessage("There was a problem with your connection.", true);
-            } else {
-                return MaybeError.fromErrorMessage("There was an unknown error.", false);
-            }
-        } else {
-            Response<MoviesCollection> response = result.response();
-            List<Movie> locations = response.body().toCollection();
-            return MaybeError.fromValue(locations);
-        }
-    }
 }
