@@ -7,9 +7,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 
+import com.crashlytics.android.Crashlytics;
 import com.jbrunton.mymovies.R;
 import com.jbrunton.mymovies.app.discover.DiscoverFragment;
 import com.jbrunton.mymovies.app.search.SearchFragment;
+import io.fabric.sdk.android.Fabric;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -41,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_main);
 
         content = (FrameLayout) findViewById(R.id.content);
