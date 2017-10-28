@@ -6,14 +6,12 @@ import com.jbrunton.mymovies.api.resources.MoviesCollection;
 import com.jbrunton.mymovies.api.services.MovieService;
 import com.jbrunton.mymovies.models.Movie;
 
-import java.io.IOException;
 import java.util.List;
 
 import io.reactivex.Observable;
-import retrofit2.Response;
 import retrofit2.adapter.rxjava2.Result;
 
-public class MoviesRepository {
+public class MoviesRepository extends BaseRepository {
     private final MovieService service;
 
     public MoviesRepository(MovieService service) {
@@ -41,32 +39,10 @@ public class MoviesRepository {
     }
 
     private MaybeError<Movie> transformMovieResponse(Result<MovieDetailsResponse> result) {
-        if (result.isError()) {
-            Throwable throwable = result.error();
-            if (throwable instanceof IOException) {
-                return MaybeError.fromErrorMessage("There was a problem with your connection.", true);
-            } else {
-                return MaybeError.fromErrorMessage("There was an unknown error.", false);
-            }
-        } else {
-            Response<MovieDetailsResponse> response = result.response();
-            Movie movie = response.body().toMovie();
-            return MaybeError.fromValue(movie);
-        }
+        return fromResult(result, MovieDetailsResponse::toMovie);
     }
 
     private MaybeError<List<Movie>> transformMoviesResponse(Result<MoviesCollection> result) {
-        if (result.isError()) {
-            Throwable throwable = result.error();
-            if (throwable instanceof IOException) {
-                return MaybeError.fromErrorMessage("There was a problem with your connection.", true);
-            } else {
-                return MaybeError.fromErrorMessage("There was an unknown error.", false);
-            }
-        } else {
-            Response<MoviesCollection> response = result.response();
-            List<Movie> locations = response.body().toCollection();
-            return MaybeError.fromValue(locations);
-        }
+        return fromResult(result, MoviesCollection::toCollection);
     }
 }
