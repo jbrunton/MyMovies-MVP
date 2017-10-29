@@ -28,10 +28,11 @@ public class MovieDetailsViewModelTest {
     private MoviesRepository repository;
     private final MovieFactory movieFactory = new MovieFactory();
     private final Movie MOVIE = movieFactory.create();
+    private final MovieDetailsViewStateFactory viewStateFactory = new MovieDetailsViewStateFactory();
 
     @Before public void setUp() {
         repository = mock(MoviesRepository.class);
-        when(repository.getMovie("1")).thenReturn(Observable.just(MOVIE).delay(1, TimeUnit.SECONDS));
+        stubFind(repository, "1").toReturnDelayed(MOVIE, 1);
         viewModel = new MovieDetailsViewModel("1", repository);
     }
 
@@ -39,4 +40,45 @@ public class MovieDetailsViewModelTest {
         assertThat(viewModel.viewState().getValue()).isEqualTo(MovieDetailsViewState.buildLoadingState());
     }
 
+    @Test public void loadsMovie() {
+        schedulerRule.TEST_SCHEDULER.advanceTimeBy(1, TimeUnit.SECONDS);
+        assertThat(viewModel.viewState().getValue()).isEqualTo(viewStateFactory.fromMovie(MOVIE));
+    }
+
+    private static class FakeMoviesRepositoryDsl {
+        protected final MoviesRepository repository;
+
+        private FakeMoviesRepositoryDsl(MoviesRepository repository) {
+            this.repository = repository;
+        }
+    }
+
+    private static class FakeMoviesFindDsl extends FakeMoviesRepositoryDsl {
+        private final String id;
+
+        private FakeMoviesFindDsl(MoviesRepository repository, String id) {
+            super(repository);
+            this.id = id;
+        }
+
+        public void toReturn(Movie movie) {
+            toReturnDelayed(movie, 0);
+        }
+
+        public void toReturnDelayed(Movie movie, int delay) {
+            when(repository.getMovie(id)).thenReturn(Observable.just(movie).delay(delay, TimeUnit.SECONDS));
+        }
+
+        public void toErrorWith(Throwable throwable) {
+            toErrorWithDelayed(throwable, 0);
+        }
+
+        public void toErrorWithDelayed(Throwable throwable, int delay) {
+            when(repository.getMovie(id)).thenReturn(Observable.<Movie>error(throwable).delay(delay, TimeUnit.SECONDS));
+        }
+    }
+
+    private static FakeMoviesFindDsl stubFind(MoviesRepository repository, String id) {
+        return new FakeMoviesFindDsl(repository, id);
+    }
 }
