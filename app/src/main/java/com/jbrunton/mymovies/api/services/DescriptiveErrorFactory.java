@@ -42,8 +42,8 @@ public class DescriptiveErrorFactory extends CallAdapter.Factory {
         }
 
         @Override public Observable<?> adapt(Call<Object> call) {
-            Observable o = delegate.adapt(call);
-            return o.onErrorResumeNext(new Function<Throwable, Observable>() {
+            Observable observable = delegate.adapt(call);
+            return observable.onErrorResumeNext(new Function<Throwable, Observable>() {
                 @Override public Observable apply(Throwable throwable) throws Exception {
                     if (throwable instanceof IOException) {
                         return Observable.error(
