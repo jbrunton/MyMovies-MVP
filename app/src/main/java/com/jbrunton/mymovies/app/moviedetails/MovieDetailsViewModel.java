@@ -10,7 +10,7 @@ import com.jbrunton.mymovies.api.MaybeError;
 import com.jbrunton.mymovies.api.repositories.MoviesRepository;
 import com.jbrunton.mymovies.api.services.ServiceFactory;
 import com.jbrunton.mymovies.app.converters.MovieResultsConverter;
-import com.jbrunton.mymovies.app.models.Movie;
+import com.jbrunton.mymovies.models.Movie;
 import com.jbrunton.mymovies.app.movies.MovieViewState;
 import com.jbrunton.mymovies.app.shared.BaseViewModel;
 import com.jbrunton.mymovies.app.shared.LoadingViewState;

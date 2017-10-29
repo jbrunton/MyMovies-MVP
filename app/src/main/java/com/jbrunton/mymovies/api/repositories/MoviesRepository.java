@@ -4,7 +4,7 @@ import com.jbrunton.mymovies.api.MaybeError;
 import com.jbrunton.mymovies.api.resources.MovieDetailsResponse;
 import com.jbrunton.mymovies.api.resources.MoviesCollection;
 import com.jbrunton.mymovies.api.services.MovieService;
-import com.jbrunton.mymovies.app.models.Movie;
+import com.jbrunton.mymovies.models.Movie;
 
 import java.io.IOException;
 import java.util.List;

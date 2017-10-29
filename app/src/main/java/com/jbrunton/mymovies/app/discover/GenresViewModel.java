@@ -9,7 +9,7 @@ import com.jbrunton.mymovies.api.MaybeError;
 import com.jbrunton.mymovies.api.repositories.GenresRepository;
 import com.jbrunton.mymovies.api.services.ServiceFactory;
 import com.jbrunton.mymovies.app.converters.GenresConverter;
-import com.jbrunton.mymovies.app.models.Genre;
+import com.jbrunton.mymovies.models.Genre;
 
 import java.util.List;
 

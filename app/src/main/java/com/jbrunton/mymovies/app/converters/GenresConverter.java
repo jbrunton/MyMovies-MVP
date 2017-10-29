@@ -6,7 +6,7 @@ import com.jbrunton.mymovies.app.shared.LoadingViewState;
 import com.jbrunton.mymovies.R;
 import com.jbrunton.mymovies.api.DescriptiveError;
 import com.jbrunton.mymovies.app.discover.GenresViewState;
-import com.jbrunton.mymovies.app.models.Genre;
+import com.jbrunton.mymovies.models.Genre;
 
 import java.util.Collections;
 import java.util.List;

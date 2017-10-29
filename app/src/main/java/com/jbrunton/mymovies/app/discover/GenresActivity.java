@@ -17,7 +17,7 @@ import android.widget.TextView;
 import com.jbrunton.mymovies.app.shared.BaseActivity;
 import com.jbrunton.mymovies.app.shared.LoadingStateContext;
 import com.jbrunton.mymovies.R;
-import com.jbrunton.mymovies.app.models.Genre;
+import com.jbrunton.mymovies.models.Genre;
 import com.jbrunton.mymovies.app.search.SearchViewModel;
 
 import butterknife.BindView;
