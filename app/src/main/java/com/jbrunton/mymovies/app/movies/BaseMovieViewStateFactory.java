@@ -10,17 +10,9 @@ import java.util.Optional;
 public class BaseMovieViewStateFactory {
     protected final LoadingViewStateFactory loadingViewStateFactory = new LoadingViewStateFactory();
 
-    private String posterUrl(Movie movie) {
-        if (movie.posterPath().isPresent()) {
-            return "http://image.tmdb.org/t/p/w300" + movie.posterPath().get();
-        } else {
-            return "";
-        }
-    }
-
-    private String backdropUrl(Movie movie) {
-        if (movie.backdropPath().isPresent()) {
-            return "http://image.tmdb.org/t/p/w300" + movie.backdropPath().get();
+    private String emptyIfNull(Optional<String> s) {
+        if (s.isPresent()) {
+            return s.get();
         } else {
             return "";
         }
@@ -39,7 +31,7 @@ public class BaseMovieViewStateFactory {
                 .title(movie.title())
                 .yearReleased(convertReleaseDate(movie.releaseDate()))
                 .rating("&#9734; " + movie.rating())
-                .posterUrl(posterUrl(movie))
-                .backdropUrl(backdropUrl(movie));
+                .posterUrl(emptyIfNull(movie.posterUrl()))
+                .backdropUrl(emptyIfNull(movie.backdropUrl()));
     }
 }
