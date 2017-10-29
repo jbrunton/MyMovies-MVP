@@ -14,6 +14,7 @@ import com.jbrunton.mymovies.app.shared.LoadingStateContext;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class MovieDetailsActivity extends BaseActivity {
 
@@ -41,6 +42,10 @@ public class MovieDetailsActivity extends BaseActivity {
         viewModel = ViewModelProviders.of(this, factory)
                 .get(MovieDetailsViewModel.class);
         viewModel.viewState().observe(this, this::updateView);
+    }
+
+    @OnClick(R.id.error_try_again) public void tryAgain() {
+        viewModel.loadDetails();
     }
 
     private void updateView(MovieDetailsViewState viewState) {

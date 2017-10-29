@@ -7,29 +7,30 @@ import android.arch.lifecycle.ViewModelProvider;
 
 import com.jbrunton.mymovies.api.repositories.MoviesRepository;
 import com.jbrunton.mymovies.api.services.ServiceFactory;
-import com.jbrunton.mymovies.app.movies.MovieViewState;
 import com.jbrunton.mymovies.app.shared.BaseViewModel;
-import com.jbrunton.mymovies.app.shared.LoadingViewState;
 import com.jbrunton.mymovies.models.Movie;
 
 public class MovieDetailsViewModel extends BaseViewModel {
     private final MutableLiveData<MovieDetailsViewState> viewState = new MutableLiveData<>();
     private final MoviesRepository repository;
+    private final String movieId;
     private final MovieDetailsViewStateFactory viewStateFactory = new MovieDetailsViewStateFactory();
 
-    public MovieDetailsViewModel(String movieId) {
-        repository = new MoviesRepository(ServiceFactory.instance());
-        viewState.setValue(MovieDetailsViewState.builder()
-                .setLoadingViewState(LoadingViewState.LOADING_STATE)
-                .setMovie(MovieViewState.EMPTY)
-                .build());
-        repository.getMovie(movieId)
-                .compose(applySchedulers())
-                .subscribe(this::setMovieResponse, this::setErrorResponse);
+    public MovieDetailsViewModel(String movieId, MoviesRepository repository) {
+        this.movieId = movieId;
+        this.repository = repository;
+        loadDetails();
     }
 
     public LiveData<MovieDetailsViewState> viewState() {
         return viewState;
+    }
+
+    public void loadDetails() {
+        viewState.setValue(MovieDetailsViewState.buildLoadingState());
+        repository.getMovie(movieId)
+                .compose(applySchedulers())
+                .subscribe(this::setMovieResponse, this::setErrorResponse);
     }
 
     private void setMovieResponse(Movie movie) {
@@ -50,7 +51,7 @@ public class MovieDetailsViewModel extends BaseViewModel {
 
         @Override public <T extends ViewModel> T create(Class<T> modelClass) {
             //noinspection unchecked
-            return (T) new MovieDetailsViewModel(movieId);
+            return (T) new MovieDetailsViewModel(movieId, new MoviesRepository(ServiceFactory.instance()));
         }
     }
 }
