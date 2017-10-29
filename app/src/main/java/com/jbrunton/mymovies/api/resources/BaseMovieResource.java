@@ -1,5 +1,6 @@
 package com.jbrunton.mymovies.api.resources;
 
+import com.jbrunton.mymovies.models.Configuration;
 import com.jbrunton.mymovies.models.Movie;
 
 import org.joda.time.LocalDate;
@@ -14,12 +15,12 @@ public class BaseMovieResource {
     private LocalDate releaseDate;
     private String voteAverage;
 
-    protected Movie.Builder builder() {
+    protected Movie.Builder builder(Configuration config) {
         return Movie.builder()
                 .id(id)
                 .title(originalTitle)
-                .posterPath(Optional.ofNullable(posterPath))
-                .backdropPath(Optional.ofNullable(backdropPath))
+                .posterUrl(config.expandUrl(posterPath))
+                .backdropUrl(config.expandUrl(backdropPath))
                 .releaseDate(Optional.ofNullable(releaseDate))
                 .rating(voteAverage);
     }
