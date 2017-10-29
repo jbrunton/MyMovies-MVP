@@ -21,6 +21,7 @@ public abstract class MovieViewState extends BaseMovieViewState {
             .title("")
             .yearReleased("")
             .posterUrl("")
+            .backdropUrl("")
             .rating("")
             .overview("")
             .build();

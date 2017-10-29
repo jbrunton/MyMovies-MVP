@@ -9,7 +9,7 @@ import com.jbrunton.mymovies.R;
 
 import butterknife.BindView;
 
-import static com.jbrunton.mymovies.app.converters.VisibilityConverter.toVisibility;
+import static com.jbrunton.mymovies.app.helpers.VisibilityConverter.toVisibility;
 
 public class LoadingStateContext {
     @BindView(R.id.loading_indicator) View loadingIndicator;

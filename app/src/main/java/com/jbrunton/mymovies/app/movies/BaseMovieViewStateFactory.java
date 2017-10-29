@@ -18,6 +18,14 @@ public class BaseMovieViewStateFactory {
         }
     }
 
+    private String backdropUrl(Movie movie) {
+        if (movie.backdropPath().isPresent()) {
+            return "http://image.tmdb.org/t/p/w300" + movie.backdropPath().get();
+        } else {
+            return "";
+        }
+    }
+
     private String convertReleaseDate(Optional<LocalDate> date) {
         if (date.isPresent()) {
             return Integer.toString(date.get().getYear());
@@ -31,6 +39,7 @@ public class BaseMovieViewStateFactory {
                 .title(movie.title())
                 .yearReleased(convertReleaseDate(movie.releaseDate()))
                 .rating("&#9734; " + movie.rating())
-                .posterUrl(posterUrl(movie));
+                .posterUrl(posterUrl(movie))
+                .backdropUrl(backdropUrl(movie));
     }
 }
