@@ -2,8 +2,9 @@ package com.jbrunton.mymovies.app.moviedetails;
 
 import android.arch.core.executor.testing.InstantTaskExecutorRule;
 
-import com.jbrunton.mymovies.MovieFactory;
-import com.jbrunton.mymovies.TestSchedulerRule;
+import com.jbrunton.mymovies.api.DescriptiveError;
+import com.jbrunton.mymovies.fixtures.MovieFactory;
+import com.jbrunton.mymovies.fixtures.TestSchedulerRule;
 import com.jbrunton.mymovies.api.repositories.MoviesRepository;
 import com.jbrunton.mymovies.models.Movie;
 
@@ -13,72 +14,71 @@ import org.junit.Test;
 
 import java.util.concurrent.TimeUnit;
 
-import io.reactivex.Observable;
-
+import static com.jbrunton.mymovies.fixtures.RepositoryFixtures.stubFind;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 public class MovieDetailsViewModelTest {
 
     @Rule public InstantTaskExecutorRule instantExecutorRule = new InstantTaskExecutorRule();
     @Rule public TestSchedulerRule schedulerRule = new TestSchedulerRule();
 
-    private MovieDetailsViewModel viewModel;
     private MoviesRepository repository;
     private final MovieFactory movieFactory = new MovieFactory();
     private final Movie MOVIE = movieFactory.create();
+    private final DescriptiveError NETWORK_ERROR = new DescriptiveError("Network Error", true);
     private final MovieDetailsViewStateFactory viewStateFactory = new MovieDetailsViewStateFactory();
+
+    private MovieDetailsViewModel viewModel;
 
     @Before public void setUp() {
         repository = mock(MoviesRepository.class);
-        stubFind(repository, "1").toReturnDelayed(MOVIE, 1);
-        viewModel = new MovieDetailsViewModel("1", repository);
     }
 
     @Test public void startsWithLoadingState() {
+        stubFind(repository, "1").toReturnDelayed(MOVIE, 1);
+        viewModel = new MovieDetailsViewModel("1", repository);
         assertThat(viewModel.viewState().getValue()).isEqualTo(MovieDetailsViewState.buildLoadingState());
     }
 
     @Test public void loadsMovie() {
+        stubFind(repository, "1").toReturnDelayed(MOVIE, 1);
+        viewModel = new MovieDetailsViewModel("1", repository);
+
         schedulerRule.TEST_SCHEDULER.advanceTimeBy(1, TimeUnit.SECONDS);
+
         assertThat(viewModel.viewState().getValue()).isEqualTo(viewStateFactory.fromMovie(MOVIE));
     }
 
-    private static class FakeMoviesRepositoryDsl {
-        protected final MoviesRepository repository;
+    @Test public void displaysFailureOnError() {
+        stubFind(repository, "1").toErrorWithDelayed(NETWORK_ERROR, 1);
+        viewModel = new MovieDetailsViewModel("1", repository);
 
-        private FakeMoviesRepositoryDsl(MoviesRepository repository) {
-            this.repository = repository;
-        }
+        schedulerRule.TEST_SCHEDULER.advanceTimeBy(1, TimeUnit.SECONDS);
+
+        assertThat(viewModel.viewState().getValue()).isEqualTo(viewStateFactory.fromError(NETWORK_ERROR));
     }
 
-    private static class FakeMoviesFindDsl extends FakeMoviesRepositoryDsl {
-        private final String id;
+    @Test public void showsLoadingStateWhenRetrying() {
+        stubFind(repository, "1").toErrorWithDelayed(NETWORK_ERROR, 1);
+        viewModel = new MovieDetailsViewModel("1", repository);
+        schedulerRule.TEST_SCHEDULER.advanceTimeBy(1, TimeUnit.SECONDS);
+        assertThat(viewModel.viewState().getValue()).isEqualTo(viewStateFactory.fromError(NETWORK_ERROR));
 
-        private FakeMoviesFindDsl(MoviesRepository repository, String id) {
-            super(repository);
-            this.id = id;
-        }
+        stubFind(repository, "1").toReturnDelayed(MOVIE, 1);
+        viewModel.loadDetails();
 
-        public void toReturn(Movie movie) {
-            toReturnDelayed(movie, 0);
-        }
-
-        public void toReturnDelayed(Movie movie, int delay) {
-            when(repository.getMovie(id)).thenReturn(Observable.just(movie).delay(delay, TimeUnit.SECONDS));
-        }
-
-        public void toErrorWith(Throwable throwable) {
-            toErrorWithDelayed(throwable, 0);
-        }
-
-        public void toErrorWithDelayed(Throwable throwable, int delay) {
-            when(repository.getMovie(id)).thenReturn(Observable.<Movie>error(throwable).delay(delay, TimeUnit.SECONDS));
-        }
+        assertThat(viewModel.viewState().getValue()).isEqualTo(MovieDetailsViewState.buildLoadingState());
     }
 
-    private static FakeMoviesFindDsl stubFind(MoviesRepository repository, String id) {
-        return new FakeMoviesFindDsl(repository, id);
+    @Test public void loadsMovieAfterRetrying() {
+        stubFind(repository, "1").toErrorWith(NETWORK_ERROR);
+        viewModel = new MovieDetailsViewModel("1", repository);
+
+        stubFind(repository, "1").toReturnDelayed(MOVIE, 1);
+        viewModel.loadDetails();
+
+        schedulerRule.TEST_SCHEDULER.advanceTimeBy(1, TimeUnit.SECONDS);
+        assertThat(viewModel.viewState().getValue()).isEqualTo(viewStateFactory.fromMovie(MOVIE));
     }
 }

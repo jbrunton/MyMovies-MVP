@@ -1,4 +1,4 @@
-package com.jbrunton.mymovies;
+package com.jbrunton.mymovies.fixtures;
 
 import com.jbrunton.mymovies.models.Movie;
 

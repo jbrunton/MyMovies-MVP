@@ -1,4 +1,4 @@
-package com.jbrunton.mymovies;
+package com.jbrunton.mymovies.fixtures;
 
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;

@@ -13,18 +13,24 @@ import com.jbrunton.mymovies.models.Movie;
 public class MovieDetailsViewModel extends BaseViewModel {
     private final MutableLiveData<MovieDetailsViewState> viewState = new MutableLiveData<>();
     private final MoviesRepository repository;
+    private final String movieId;
     private final MovieDetailsViewStateFactory viewStateFactory = new MovieDetailsViewStateFactory();
 
     public MovieDetailsViewModel(String movieId, MoviesRepository repository) {
+        this.movieId = movieId;
         this.repository = repository;
-        viewState.setValue(MovieDetailsViewState.buildLoadingState());
-        repository.getMovie(movieId)
-                .compose(applySchedulers())
-                .subscribe(this::setMovieResponse, this::setErrorResponse);
+        loadDetails();
     }
 
     public LiveData<MovieDetailsViewState> viewState() {
         return viewState;
+    }
+
+    public void loadDetails() {
+        viewState.setValue(MovieDetailsViewState.buildLoadingState());
+        repository.getMovie(movieId)
+                .compose(applySchedulers())
+                .subscribe(this::setMovieResponse, this::setErrorResponse);
     }
 
     private void setMovieResponse(Movie movie) {
