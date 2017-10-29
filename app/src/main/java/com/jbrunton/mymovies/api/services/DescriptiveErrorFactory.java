@@ -17,30 +17,45 @@ public class DescriptiveErrorFactory extends CallAdapter.Factory {
         return new DescriptiveErrorFactory();
     }
 
-    @Override public CallAdapter<?, ?> get(Type returnType, Annotation[] annotations, Retrofit retrofit) {
+    @Override public CallAdapter<?, ?> get(Type returnType, Annotation[] annotations,
+                                           Retrofit retrofit) {
         if (getRawType(returnType) != Observable.class) {
             return null;
         }
+
         CallAdapter<Object, Observable<?>> delegate =
-                (CallAdapter<Object, Observable<?>>) retrofit.nextCallAdapter(this, returnType, annotations);
+                (CallAdapter<Object, Observable<?>>) retrofit.nextCallAdapter(this,
+                        returnType, annotations);
 
-        return new CallAdapter<Object, Observable<?>>() {
-            @Override public Type responseType() {
-                return delegate.responseType();
-            }
+        return new DescriptiveErrorCallAdapter(delegate);
+    }
 
-            @Override public Observable<?> adapt(Call<Object> call) {
-                Observable o = delegate.adapt(call);
-                return o.onErrorResumeNext(new Function<Throwable, Observable>() {
-                    @Override public Observable apply(Throwable throwable) throws Exception {
-                        if (throwable instanceof IOException) {
-                            return Observable.error(new DescriptiveError("There was a problem with your connection.", throwable, true));
-                        } else {
-                            return Observable.error(DescriptiveError.from(throwable));
-                        }
+    private static class DescriptiveErrorCallAdapter implements CallAdapter<Object, Observable<?>> {
+        private final CallAdapter<Object, Observable<?>> delegate;
+
+        private DescriptiveErrorCallAdapter(CallAdapter<Object, Observable<?>> delegate) {
+            this.delegate = delegate;
+        }
+
+        @Override public Type responseType() {
+            return delegate.responseType();
+        }
+
+        @Override public Observable<?> adapt(Call<Object> call) {
+            Observable o = delegate.adapt(call);
+            return o.onErrorResumeNext(new Function<Throwable, Observable>() {
+                @Override public Observable apply(Throwable throwable) throws Exception {
+                    if (throwable instanceof IOException) {
+                        return Observable.error(
+                                new DescriptiveError(
+                                        "There was a problem with your connection.",
+                                        throwable,
+                                        true));
+                    } else {
+                        return Observable.error(DescriptiveError.from(throwable));
                     }
-                });
-            }
-        };
+                }
+            });
+        }
     }
 }
