@@ -1,18 +1,17 @@
-package com.jbrunton.mymovies.app.converters;
+package com.jbrunton.mymovies.app.discover;
 
 import android.support.annotation.DrawableRes;
 
-import com.jbrunton.mymovies.app.shared.LoadingViewState;
 import com.jbrunton.mymovies.R;
 import com.jbrunton.mymovies.api.DescriptiveError;
-import com.jbrunton.mymovies.app.discover.GenresViewState;
+import com.jbrunton.mymovies.app.shared.LoadingViewState;
 import com.jbrunton.mymovies.models.Genre;
 
 import java.util.Collections;
 import java.util.List;
 
-public class GenresConverter {
-    public GenresViewState convertGenresResponse(List<Genre> genres) {
+public class GenresViewStateFactory {
+    public GenresViewState fromList(List<Genre> genres) {
         if (genres.isEmpty()) {
             return emptyViewState(LoadingViewState.errorBuilder()
                     .setErrorMessage("Unexpected Error")
@@ -30,7 +29,7 @@ public class GenresConverter {
         }
     }
 
-    public GenresViewState convertErrorResponse(Throwable throwable) {
+    public GenresViewState fromError(Throwable throwable) {
         DescriptiveError error = DescriptiveError.from(throwable);
         @DrawableRes int resId = error.isNetworkError() ? R.drawable.ic_sentiment_dissatisfied_black_24dp : R.drawable.ic_sentiment_very_dissatisfied_black_24dp;
         return emptyViewState(LoadingViewState.errorBuilder()
