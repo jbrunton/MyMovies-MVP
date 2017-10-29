@@ -10,6 +10,7 @@ public class BaseMovieResource {
     private String id;
     private String originalTitle;
     private String posterPath;
+    private String backdropPath;
     private LocalDate releaseDate;
     private String voteAverage;
 
@@ -18,6 +19,7 @@ public class BaseMovieResource {
                 .id(id)
                 .title(originalTitle)
                 .posterPath(Optional.ofNullable(posterPath))
+                .backdropPath(Optional.ofNullable(backdropPath))
                 .releaseDate(Optional.ofNullable(releaseDate))
                 .rating(voteAverage);
     }

@@ -4,11 +4,13 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jbrunton.mymovies.R;
 import com.jbrunton.mymovies.app.shared.BaseActivity;
 import com.jbrunton.mymovies.app.shared.LoadingStateContext;
+import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -19,6 +21,7 @@ public class MovieDetailsActivity extends BaseActivity {
     @BindView(R.id.overview) TextView overview;
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.content) View content;
+    @BindView(R.id.backdrop) ImageView backdrop;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,5 +47,12 @@ public class MovieDetailsActivity extends BaseActivity {
 
         setTitle(viewState.movie().title());
         overview.setText(viewState.movie().overview());
+
+        if (viewState.loadingViewState().showContent()) {
+            Picasso.with(this)
+                    .load(viewState.movie().backdropUrl())
+                    .fit()
+                    .into(backdrop);
+        }
     }
 }
