@@ -53,5 +53,4 @@ public class SearchViewModel extends BaseViewModel {
     private void setErrorResponse(Throwable throwable) {
         viewState.setValue(converter.toSearchViewState(throwable));
     }
-
 }

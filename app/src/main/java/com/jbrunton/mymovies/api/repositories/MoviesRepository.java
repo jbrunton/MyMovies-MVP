@@ -18,25 +18,21 @@ public class MoviesRepository extends BaseRepository {
 
     public Observable<Movie> getMovie(String movieId) {
         return service.movie(movieId)
-                .map(MovieDetailsResponse::toMovie)
-                .compose(logErrors());
+                .map(MovieDetailsResponse::toMovie);
     }
 
     public Observable<List<Movie>> searchMovies(String query) {
         return service.search(query)
-                .map(MoviesCollection::toCollection)
-                .compose(logErrors());
+                .map(MoviesCollection::toCollection);
     }
 
     public Observable<List<Movie>> nowPlaying() {
         return service.nowPlaying()
-                .map(MoviesCollection::toCollection)
-                .compose(logErrors());
+                .map(MoviesCollection::toCollection);
     }
 
     public Observable<List<Movie>> discoverByGenre(String genreId) {
         return service.discoverByGenre(genreId)
-                .map(MoviesCollection::toCollection)
-                .compose(logErrors());
+                .map(MoviesCollection::toCollection);
     }
 }
