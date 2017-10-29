@@ -1,4 +1,4 @@
-package com.jbrunton.mymovies.app.converters;
+package com.jbrunton.mymovies.app.helpers;
 
 import android.view.View;
 

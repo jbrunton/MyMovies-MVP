@@ -8,9 +8,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jbrunton.mymovies.R;
+import com.jbrunton.mymovies.app.helpers.PicassoHelper;
 import com.jbrunton.mymovies.app.shared.BaseActivity;
 import com.jbrunton.mymovies.app.shared.LoadingStateContext;
-import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -18,6 +18,7 @@ import butterknife.ButterKnife;
 public class MovieDetailsActivity extends BaseActivity {
 
     private MovieDetailsViewModel viewModel;
+    private PicassoHelper picassoHelper = new PicassoHelper();
     @BindView(R.id.overview) TextView overview;
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.content) View content;
@@ -48,11 +49,6 @@ public class MovieDetailsActivity extends BaseActivity {
         setTitle(viewState.movie().title());
         overview.setText(viewState.movie().overview());
 
-        if (viewState.loadingViewState().showContent()) {
-            Picasso.with(this)
-                    .load(viewState.movie().backdropUrl())
-                    .fit()
-                    .into(backdrop);
-        }
+        picassoHelper.loadImage(this, backdrop, viewState.movie().backdropUrl());
     }
 }
