@@ -1,9 +1,6 @@
 package com.jbrunton.mymovies.app.search;
 
-import android.support.annotation.DrawableRes;
-
 import com.jbrunton.mymovies.R;
-import com.jbrunton.mymovies.api.DescriptiveError;
 import com.jbrunton.mymovies.app.movies.BaseMovieViewStateFactory;
 import com.jbrunton.mymovies.app.movies.MovieSearchResultViewState;
 import com.jbrunton.mymovies.app.shared.LoadingViewState;
@@ -29,13 +26,7 @@ public class SearchViewStateFactory extends BaseMovieViewStateFactory {
     }
 
     public SearchViewState fromError(Throwable throwable) {
-        DescriptiveError error = DescriptiveError.from(throwable);
-        @DrawableRes int resId = error.isNetworkError() ? R.drawable.ic_sentiment_dissatisfied_black_24dp : R.drawable.ic_sentiment_very_dissatisfied_black_24dp;
-        return  fromLoadingViewState(LoadingViewState.errorBuilder()
-                .setErrorMessage(error.getMessage())
-                .setErrorIcon(resId)
-                .setShowTryAgainButton(true)
-                .build());
+        return  fromLoadingViewState(loadingViewStateFactory.fromError(throwable));
     }
 
 
@@ -48,12 +39,7 @@ public class SearchViewStateFactory extends BaseMovieViewStateFactory {
     }
 
     public MovieSearchResultViewState toMovieSearchResultViewState(Movie movie) {
-        return MovieSearchResultViewState.builder()
-                .movieId(movie.id())
-                .title(movie.title())
-                .yearReleased(convertReleaseDate(movie.releaseDate()))
-                .rating("&#9734; " + movie.rating())
-                .posterUrl(posterUrl(movie))
+        return setDefaults(MovieSearchResultViewState.builder(), movie)
                 .build();
     }
 }
