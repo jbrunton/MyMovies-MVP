@@ -5,15 +5,14 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 
+import com.jbrunton.mymovies.api.DescriptiveError;
+import com.jbrunton.mymovies.api.repositories.MoviesRepository;
+import com.jbrunton.mymovies.api.services.ServiceFactory;
+import com.jbrunton.mymovies.app.search.SearchViewState;
+import com.jbrunton.mymovies.app.search.SearchViewStateFactory;
 import com.jbrunton.mymovies.app.shared.BaseViewModel;
 import com.jbrunton.mymovies.app.shared.LoadingViewState;
 import com.jbrunton.mymovies.models.Movie;
-import com.jbrunton.mymovies.api.DescriptiveError;
-import com.jbrunton.mymovies.api.MaybeError;
-import com.jbrunton.mymovies.api.repositories.MoviesRepository;
-import com.jbrunton.mymovies.api.services.ServiceFactory;
-import com.jbrunton.mymovies.app.converters.MovieResultsConverter;
-import com.jbrunton.mymovies.app.search.SearchViewState;
 
 import java.util.Collections;
 import java.util.List;
@@ -21,7 +20,7 @@ import java.util.List;
 public class GenreResultsViewModel extends BaseViewModel {
     private final MutableLiveData<SearchViewState> viewState = new MutableLiveData<>();
     private final MoviesRepository repository;
-    private final MovieResultsConverter converter = new MovieResultsConverter();
+    private final SearchViewStateFactory viewStateFactory = new SearchViewStateFactory();
 
     public GenreResultsViewModel(String genreId) {
         repository = new MoviesRepository(ServiceFactory.instance());
@@ -31,23 +30,19 @@ public class GenreResultsViewModel extends BaseViewModel {
                 .build());
         repository.discoverByGenre(genreId)
                 .compose(applySchedulers())
-                .subscribe(this::setResponse);
+                .subscribe(this::setMoviesResponse, this::setErrorResponse);
     }
 
     public LiveData<SearchViewState> viewState() {
         return viewState;
     }
 
-    private void setResponse(MaybeError<List<Movie>> response) {
-        response.ifValue(this::setMoviesResponse).elseIfError(this::setErrorResponse);
-    }
-
     private void setMoviesResponse(List<Movie> movies) {
-        viewState.setValue(converter.toSearchViewState(movies));
+        viewState.setValue(viewStateFactory.fromList(movies));
     }
 
-    private void setErrorResponse(DescriptiveError error) {
-        viewState.setValue(converter.toSearchViewState(error));
+    private void setErrorResponse(Throwable throwable) {
+        viewState.setValue(viewStateFactory.fromError(DescriptiveError.from(throwable)));
     }
 
     public static class Factory extends ViewModelProvider.NewInstanceFactory {
