@@ -27,7 +27,7 @@ public class MovieDetailsViewModel extends BaseViewModel {
     }
 
     public void loadDetails() {
-        viewState.setValue(MovieDetailsViewState.buildLoadingState());
+        viewState.setValue(viewStateFactory.loadingState());
         repository.getMovie(movieId)
                 .compose(applySchedulers())
                 .subscribe(this::setMovieResponse, this::setErrorResponse);

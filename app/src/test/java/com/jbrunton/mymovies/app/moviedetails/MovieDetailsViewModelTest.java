@@ -38,7 +38,7 @@ public class MovieDetailsViewModelTest {
     @Test public void startsWithLoadingState() {
         stubFind(repository, "1").toReturnDelayed(MOVIE, 1);
         viewModel = new MovieDetailsViewModel("1", repository);
-        assertThat(viewModel.viewState().getValue()).isEqualTo(MovieDetailsViewState.buildLoadingState());
+        assertThat(viewModel.viewState().getValue()).isEqualTo(viewStateFactory.loadingState());
     }
 
     @Test public void loadsMovie() {
@@ -68,7 +68,7 @@ public class MovieDetailsViewModelTest {
         stubFind(repository, "1").toReturnDelayed(MOVIE, 1);
         viewModel.loadDetails();
 
-        assertThat(viewModel.viewState().getValue()).isEqualTo(MovieDetailsViewState.buildLoadingState());
+        assertThat(viewModel.viewState().getValue()).isEqualTo(viewStateFactory.loadingState());
     }
 
     @Test public void loadsMovieAfterRetrying() {

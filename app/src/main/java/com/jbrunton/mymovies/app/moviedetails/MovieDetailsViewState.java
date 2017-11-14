@@ -13,13 +13,6 @@ public abstract class MovieDetailsViewState {
         return new AutoValue_MovieDetailsViewState.Builder();
     }
 
-    public static MovieDetailsViewState buildLoadingState() {
-        return builder()
-                .setLoadingViewState(LoadingViewState.LOADING_STATE)
-                .setMovie(MovieViewState.EMPTY)
-                .build();
-    }
-
     @AutoValue.Builder
     public abstract static class Builder {
         public abstract Builder setLoadingViewState(LoadingViewState loadingViewState);
