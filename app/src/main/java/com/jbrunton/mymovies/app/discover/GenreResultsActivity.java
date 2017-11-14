@@ -38,6 +38,7 @@ public class GenreResultsActivity extends BaseActivity {
         viewModel = ViewModelProviders.of(this, factory)
                 .get(GenreResultsViewModel.class);
         viewModel.viewState().observe(this, this::updateView);
+        viewModel.start();
     }
 
     private void updateView(SearchViewState viewState) {

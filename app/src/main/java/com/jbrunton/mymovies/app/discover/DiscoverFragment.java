@@ -45,6 +45,7 @@ public class DiscoverFragment extends Fragment {
 
         viewModel = ViewModelProviders.of(this).get(DiscoverViewModel.class);
         viewModel.viewState().observe(this, this::updateView);
+        viewModel.start();
     }
 
     @OnClick(R.id.genres_link)

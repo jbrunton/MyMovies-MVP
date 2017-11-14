@@ -33,26 +33,24 @@ public class MovieDetailsViewModelTest {
 
     @Before public void setUp() {
         repository = mock(MoviesRepository.class);
+        viewModel = new MovieDetailsViewModel("1", repository);
+        stubFind(repository, "1").toReturnDelayed(MOVIE, 1);
     }
 
     @Test public void startsWithLoadingState() {
-        stubFind(repository, "1").toReturnDelayed(MOVIE, 1);
-        viewModel = new MovieDetailsViewModel("1", repository);
+        viewModel.start();
         assertThat(viewModel.viewState().getValue()).isEqualTo(viewStateFactory.loadingState());
     }
 
     @Test public void loadsMovie() {
-        stubFind(repository, "1").toReturnDelayed(MOVIE, 1);
-        viewModel = new MovieDetailsViewModel("1", repository);
-
+        viewModel.start();
         schedulerRule.TEST_SCHEDULER.advanceTimeBy(1, TimeUnit.SECONDS);
-
         assertThat(viewModel.viewState().getValue()).isEqualTo(viewStateFactory.fromMovie(MOVIE));
     }
 
     @Test public void displaysFailureOnError() {
         stubFind(repository, "1").toErrorWithDelayed(NETWORK_ERROR, 1);
-        viewModel = new MovieDetailsViewModel("1", repository);
+        viewModel.start();
 
         schedulerRule.TEST_SCHEDULER.advanceTimeBy(1, TimeUnit.SECONDS);
 
@@ -61,22 +59,22 @@ public class MovieDetailsViewModelTest {
 
     @Test public void showsLoadingStateWhenRetrying() {
         stubFind(repository, "1").toErrorWithDelayed(NETWORK_ERROR, 1);
-        viewModel = new MovieDetailsViewModel("1", repository);
+        viewModel.start();
         schedulerRule.TEST_SCHEDULER.advanceTimeBy(1, TimeUnit.SECONDS);
         assertThat(viewModel.viewState().getValue()).isEqualTo(viewStateFactory.fromError(NETWORK_ERROR));
 
         stubFind(repository, "1").toReturnDelayed(MOVIE, 1);
-        viewModel.loadDetails();
+        viewModel.retry();
 
         assertThat(viewModel.viewState().getValue()).isEqualTo(viewStateFactory.loadingState());
     }
 
     @Test public void loadsMovieAfterRetrying() {
         stubFind(repository, "1").toErrorWith(NETWORK_ERROR);
-        viewModel = new MovieDetailsViewModel("1", repository);
+        viewModel.start();
 
         stubFind(repository, "1").toReturnDelayed(MOVIE, 1);
-        viewModel.loadDetails();
+        viewModel.retry();
 
         schedulerRule.TEST_SCHEDULER.advanceTimeBy(1, TimeUnit.SECONDS);
         assertThat(viewModel.viewState().getValue()).isEqualTo(viewStateFactory.fromMovie(MOVIE));

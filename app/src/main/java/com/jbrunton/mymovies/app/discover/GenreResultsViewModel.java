@@ -18,12 +18,21 @@ import java.util.Collections;
 import java.util.List;
 
 public class GenreResultsViewModel extends BaseViewModel {
+    private final String genreId;
     private final MutableLiveData<SearchViewState> viewState = new MutableLiveData<>();
     private final MoviesRepository repository;
     private final SearchViewStateFactory viewStateFactory = new SearchViewStateFactory();
 
     public GenreResultsViewModel(String genreId) {
+        this.genreId = genreId;
         repository = new MoviesRepository(ServiceFactory.instance());
+    }
+
+    public LiveData<SearchViewState> viewState() {
+        return viewState;
+    }
+
+    @Override public void start() {
         viewState.setValue(SearchViewState.builder()
                 .setLoadingViewState(LoadingViewState.LOADING_STATE)
                 .setMovies(Collections.emptyList())
@@ -31,10 +40,6 @@ public class GenreResultsViewModel extends BaseViewModel {
         repository.discoverByGenre(genreId)
                 .compose(applySchedulers())
                 .subscribe(this::setMoviesResponse, this::setErrorResponse);
-    }
-
-    public LiveData<SearchViewState> viewState() {
-        return viewState;
     }
 
     private void setMoviesResponse(List<Movie> movies) {

@@ -19,15 +19,18 @@ public class SearchViewModel extends BaseViewModel {
 
     public SearchViewModel() {
         repository = new MoviesRepository(ServiceFactory.instance());
+    }
+
+    public LiveData<SearchViewState> viewState() {
+        return viewState;
+    }
+
+    @Override public void start() {
         viewState.setValue(viewStateFactory.fromLoadingViewState(
                 LoadingViewState.errorBuilder()
                         .setErrorMessage("Search")
                         .setErrorIcon(R.drawable.ic_search_black_24dp)
                         .build()));
-    }
-
-    public LiveData<SearchViewState> viewState() {
-        return viewState;
     }
 
     public void performSearch(String query) {

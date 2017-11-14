@@ -57,6 +57,7 @@ public class SearchFragment extends Fragment {
 
         viewModel = ViewModelProviders.of(this).get(SearchViewModel.class);
         viewModel.viewState().observe(this, this::updateView);
+        viewModel.start();
     }
 
     @OnTextChanged(R.id.search_query)

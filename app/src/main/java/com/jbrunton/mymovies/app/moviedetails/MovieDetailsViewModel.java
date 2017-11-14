@@ -19,14 +19,22 @@ public class MovieDetailsViewModel extends BaseViewModel {
     public MovieDetailsViewModel(String movieId, MoviesRepository repository) {
         this.movieId = movieId;
         this.repository = repository;
-        loadDetails();
     }
 
     public LiveData<MovieDetailsViewState> viewState() {
         return viewState;
     }
 
-    public void loadDetails() {
+
+    @Override public void start() {
+        loadDetails();
+    }
+
+    public void retry() {
+        loadDetails();
+    }
+
+    private void loadDetails() {
         viewState.setValue(viewStateFactory.loadingState());
         repository.getMovie(movieId)
                 .compose(applySchedulers())
