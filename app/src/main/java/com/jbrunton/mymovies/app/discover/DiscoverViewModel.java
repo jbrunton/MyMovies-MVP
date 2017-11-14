@@ -21,6 +21,13 @@ public class DiscoverViewModel extends BaseViewModel {
 
     DiscoverViewModel() {
         repository = new MoviesRepository(ServiceFactory.instance());
+    }
+
+    public LiveData<SearchViewState> viewState() {
+        return viewState;
+    }
+
+    @Override public void start() {
         viewState.setValue(SearchViewState.builder()
                 .setLoadingViewState(LoadingViewState.LOADING_STATE)
                 .setMovies(Collections.emptyList())
@@ -28,10 +35,6 @@ public class DiscoverViewModel extends BaseViewModel {
         repository.nowPlaying()
                 .compose(applySchedulers())
                 .subscribe(this::setMoviesResponse, this::setErrorResponse);
-    }
-
-    public LiveData<SearchViewState> viewState() {
-        return viewState;
     }
 
     private void setMoviesResponse(List<Movie> movies) {

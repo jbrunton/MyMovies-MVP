@@ -46,6 +46,7 @@ public class GenresActivity extends BaseActivity {
 
         GenresViewModel viewModel = ViewModelProviders.of(this).get(GenresViewModel.class);
         viewModel.viewState().observe(this, this::updateView);
+        viewModel.start();
     }
 
     private void updateView(GenresViewState viewState) {

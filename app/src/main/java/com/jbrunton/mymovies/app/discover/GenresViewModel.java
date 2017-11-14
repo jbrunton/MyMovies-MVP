@@ -17,13 +17,16 @@ public class GenresViewModel extends BaseViewModel {
 
     public GenresViewModel() {
         repository = new GenresRepository(ServiceFactory.instance());
-        repository.genres()
-                .compose(applySchedulers())
-                .subscribe(this::setGenresResponse, this::setErrorResponse);
     }
 
     public LiveData<GenresViewState> viewState() {
         return viewState;
+    }
+
+    @Override public void start() {
+        repository.genres()
+                .compose(applySchedulers())
+                .subscribe(this::setGenresResponse, this::setErrorResponse);
     }
 
     private void setGenresResponse(List<Genre> genres) {

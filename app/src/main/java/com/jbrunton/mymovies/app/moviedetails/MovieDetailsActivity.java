@@ -42,10 +42,11 @@ public class MovieDetailsActivity extends BaseActivity {
         viewModel = ViewModelProviders.of(this, factory)
                 .get(MovieDetailsViewModel.class);
         viewModel.viewState().observe(this, this::updateView);
+        viewModel.start();
     }
 
     @OnClick(R.id.error_try_again) public void tryAgain() {
-        viewModel.loadDetails();
+        viewModel.retry();
     }
 
     private void updateView(MovieDetailsViewState viewState) {
