@@ -20,6 +20,10 @@ public class MovieDetailsViewStateFactory extends BaseMovieViewStateFactory {
                 .build();
     }
 
+    public MovieDetailsViewState loadingState() {
+        return MovieDetailsViewState.buildLoadingState();
+    }
+
     private MovieViewState toMovieViewState(Movie movie) {
         return setDefaults(MovieViewState.builder(), movie)
                 .overview(movie.overview().get())
