@@ -14,16 +14,15 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.jbrunton.mymovies.R;
 import com.jbrunton.mymovies.app.shared.BaseActivity;
 import com.jbrunton.mymovies.app.shared.LoadingStateContext;
-import com.jbrunton.mymovies.R;
 import com.jbrunton.mymovies.models.Genre;
-import com.jbrunton.mymovies.app.search.SearchViewModel;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class GenresActivity extends BaseActivity {
+public class GenresActivity extends BaseActivity<GenresViewModel> {
 
     private GenresAdapter genresAdapter;
     @BindView(R.id.genres_list) ListView genresList;
@@ -31,7 +30,6 @@ public class GenresActivity extends BaseActivity {
     @BindView(R.id.error_text) TextView errorText;
     @BindView(R.id.error_image) ImageView errorImage;
     @BindView(R.id.error_try_again) Button errorTryAgainButton;
-    private SearchViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,9 +42,11 @@ public class GenresActivity extends BaseActivity {
         genresAdapter = new GenresAdapter(this);
         genresList.setAdapter(genresAdapter);
 
-        GenresViewModel viewModel = ViewModelProviders.of(this).get(GenresViewModel.class);
-        viewModel.viewState().observe(this, this::updateView);
-        viewModel.start();
+        viewModel().viewState().observe(this, this::updateView);
+    }
+
+    @Override protected GenresViewModel provideViewModel() {
+        return ViewModelProviders.of(this).get(GenresViewModel.class);
     }
 
     private void updateView(GenresViewState viewState) {

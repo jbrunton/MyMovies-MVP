@@ -4,25 +4,24 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.jbrunton.mymovies.app.shared.LoadingStateContext;
 import com.jbrunton.mymovies.R;
 import com.jbrunton.mymovies.app.search.SearchResultsAdapter;
 import com.jbrunton.mymovies.app.search.SearchViewState;
+import com.jbrunton.mymovies.app.shared.BaseFragment;
+import com.jbrunton.mymovies.app.shared.LoadingStateContext;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class DiscoverFragment extends Fragment {
+public class DiscoverFragment extends BaseFragment<DiscoverViewModel> {
     private SearchResultsAdapter nowPlayingAdapter;
-    private DiscoverViewModel viewModel;
     @BindView(R.id.discover_content) View discoverContent;
     @BindView(R.id.now_playing) RecyclerView nowPlayingList;
     private LoadingStateContext loadingStateContext = new LoadingStateContext();
@@ -42,10 +41,11 @@ public class DiscoverFragment extends Fragment {
 
     @Override public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        viewModel().viewState().observe(this, this::updateView);
+    }
 
-        viewModel = ViewModelProviders.of(this).get(DiscoverViewModel.class);
-        viewModel.viewState().observe(this, this::updateView);
-        viewModel.start();
+    @Override protected DiscoverViewModel provideViewModel() {
+        return ViewModelProviders.of(this).get(DiscoverViewModel.class);
     }
 
     @OnClick(R.id.genres_link)
