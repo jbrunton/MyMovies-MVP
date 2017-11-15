@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,8 +14,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
-import com.jbrunton.mymovies.app.shared.LoadingStateContext;
 import com.jbrunton.mymovies.R;
+import com.jbrunton.mymovies.app.shared.BaseFragment;
+import com.jbrunton.mymovies.app.shared.LoadingStateContext;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -25,15 +25,13 @@ import butterknife.OnTextChanged;
 
 import static com.jbrunton.mymovies.app.helpers.VisibilityConverter.toVisibility;
 
-public class SearchFragment extends Fragment {
+public class SearchFragment extends BaseFragment<SearchViewModel> {
     private SearchResultsAdapter searchResultsAdapter;
     @BindView(R.id.movies_list) RecyclerView moviesList;
     @BindView(R.id.search_query) EditText searchQuery;
     private final LoadingStateContext loadingStateContext = new LoadingStateContext();
-    private SearchViewModel viewModel;
 
     Handler handler = new Handler(Looper.getMainLooper());
-    Runnable performSearch;
 
     @Nullable @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -55,21 +53,26 @@ public class SearchFragment extends Fragment {
         Toolbar myToolbar = (Toolbar) getActivity().findViewById(R.id.my_toolbar);
         ((AppCompatActivity)getActivity()).setSupportActionBar(myToolbar);
 
-        viewModel = ViewModelProviders.of(this).get(SearchViewModel.class);
-        viewModel.viewState().observe(this, this::updateView);
-        viewModel.start();
+        viewModel().viewState().observe(this, this::updateView);
+    }
+
+    @Override protected SearchViewModel createViewModel() {
+        return ViewModelProviders.of(this).get(SearchViewModel.class);
     }
 
     @OnTextChanged(R.id.search_query)
     public void onQueryChanged(CharSequence text) {
-        handler.removeCallbacks(performSearch);
-        performSearch = () -> viewModel.performSearch(text.toString());
-        handler.postDelayed(performSearch, 500);
+        handler.removeCallbacks(this::performSearch);
+        handler.postDelayed(this::performSearch, 500);
     }
 
     @OnClick(R.id.error_try_again)
     public void onTryAgain() {
-        viewModel.performSearch(searchQuery.getText().toString());
+        performSearch();
+    }
+
+    private void performSearch() {
+        viewModel().performSearch(searchQuery.getText().toString());
     }
 
     private void updateView(SearchViewState viewState) {
