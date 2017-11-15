@@ -39,7 +39,7 @@ public class MovieDetailsActivity extends BaseActivity<MovieDetailsViewModel> {
         viewModel().viewState().observe(this, this::updateView);
     }
 
-    @Override protected MovieDetailsViewModel createViewModel() {
+    @Override protected MovieDetailsViewModel provideViewModel() {
         MovieDetailsViewModel.Factory factory = new MovieDetailsViewModel.Factory(
                 getIntent().getExtras().getString("MOVIE_ID"));
         return ViewModelProviders.of(this, factory)

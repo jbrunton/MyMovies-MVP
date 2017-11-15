@@ -9,7 +9,7 @@ public abstract class BaseFragment<T extends BaseViewModel> extends Fragment {
 
     @Override public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        viewModel = createViewModel();
+        viewModel = provideViewModel();
         viewModel.start();
     }
 
@@ -17,5 +17,5 @@ public abstract class BaseFragment<T extends BaseViewModel> extends Fragment {
         return this.viewModel;
     }
 
-    protected abstract T createViewModel();
+    protected abstract T provideViewModel();
 }

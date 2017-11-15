@@ -44,7 +44,7 @@ public class DiscoverFragment extends BaseFragment<DiscoverViewModel> {
         viewModel().viewState().observe(this, this::updateView);
     }
 
-    @Override protected DiscoverViewModel createViewModel() {
+    @Override protected DiscoverViewModel provideViewModel() {
         return ViewModelProviders.of(this).get(DiscoverViewModel.class);
     }
 

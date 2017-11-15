@@ -36,7 +36,7 @@ public class GenreResultsActivity extends BaseActivity<GenreResultsViewModel> {
         viewModel().viewState().observe(this, this::updateView);
     }
 
-    @Override protected GenreResultsViewModel createViewModel() {
+    @Override protected GenreResultsViewModel provideViewModel() {
         GenreResultsViewModel.Factory factory = new GenreResultsViewModel.Factory(
                 getIntent().getExtras().getString("GENRE_ID"));
         return ViewModelProviders.of(this, factory)

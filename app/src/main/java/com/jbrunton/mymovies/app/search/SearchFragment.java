@@ -56,7 +56,7 @@ public class SearchFragment extends BaseFragment<SearchViewModel> {
         viewModel().viewState().observe(this, this::updateView);
     }
 
-    @Override protected SearchViewModel createViewModel() {
+    @Override protected SearchViewModel provideViewModel() {
         return ViewModelProviders.of(this).get(SearchViewModel.class);
     }
 

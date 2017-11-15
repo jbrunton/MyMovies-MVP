@@ -45,7 +45,7 @@ public class GenresActivity extends BaseActivity<GenresViewModel> {
         viewModel().viewState().observe(this, this::updateView);
     }
 
-    @Override protected GenresViewModel createViewModel() {
+    @Override protected GenresViewModel provideViewModel() {
         return ViewModelProviders.of(this).get(GenresViewModel.class);
     }
 

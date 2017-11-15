@@ -15,7 +15,7 @@ public abstract class BaseActivity<T extends BaseViewModel> extends AppCompatAct
 
     @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        viewModel = createViewModel();
+        viewModel = provideViewModel();
         viewModel.start();
     }
 
@@ -37,5 +37,5 @@ public abstract class BaseActivity<T extends BaseViewModel> extends AppCompatAct
         return this.viewModel;
     }
 
-    protected abstract T createViewModel();
+    protected abstract T provideViewModel();
 }
