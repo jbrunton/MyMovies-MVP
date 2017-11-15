@@ -6,20 +6,19 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.jbrunton.mymovies.app.shared.BaseActivity;
-import com.jbrunton.mymovies.app.shared.LoadingStateContext;
 import com.jbrunton.mymovies.R;
 import com.jbrunton.mymovies.app.search.SearchResultsAdapter;
 import com.jbrunton.mymovies.app.search.SearchViewState;
+import com.jbrunton.mymovies.app.shared.BaseActivity;
+import com.jbrunton.mymovies.app.shared.LoadingStateContext;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class GenreResultsActivity extends BaseActivity {
+public class GenreResultsActivity extends BaseActivity<GenreResultsViewModel> {
 
     private SearchResultsAdapter moviesAdapter;
     @BindView(R.id.movies_list) RecyclerView moviesList;
-    private GenreResultsViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,12 +32,15 @@ public class GenreResultsActivity extends BaseActivity {
         moviesList.setAdapter(moviesAdapter);
         moviesList.setLayoutManager(new LinearLayoutManager(this));
 
+
+        viewModel().viewState().observe(this, this::updateView);
+    }
+
+    @Override protected GenreResultsViewModel createViewModel() {
         GenreResultsViewModel.Factory factory = new GenreResultsViewModel.Factory(
                 getIntent().getExtras().getString("GENRE_ID"));
-        viewModel = ViewModelProviders.of(this, factory)
+        return ViewModelProviders.of(this, factory)
                 .get(GenreResultsViewModel.class);
-        viewModel.viewState().observe(this, this::updateView);
-        viewModel.start();
     }
 
     private void updateView(SearchViewState viewState) {

@@ -16,9 +16,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MovieDetailsActivity extends BaseActivity {
+public class MovieDetailsActivity extends BaseActivity<MovieDetailsViewModel> {
 
-    private MovieDetailsViewModel viewModel;
     private PicassoHelper picassoHelper = new PicassoHelper();
     @BindView(R.id.overview) TextView overview;
     @BindView(R.id.toolbar) Toolbar toolbar;
@@ -37,16 +36,18 @@ public class MovieDetailsActivity extends BaseActivity {
 
         ButterKnife.bind(this);
 
+        viewModel().viewState().observe(this, this::updateView);
+    }
+
+    @Override protected MovieDetailsViewModel createViewModel() {
         MovieDetailsViewModel.Factory factory = new MovieDetailsViewModel.Factory(
                 getIntent().getExtras().getString("MOVIE_ID"));
-        viewModel = ViewModelProviders.of(this, factory)
+        return ViewModelProviders.of(this, factory)
                 .get(MovieDetailsViewModel.class);
-        viewModel.viewState().observe(this, this::updateView);
-        viewModel.start();
     }
 
     @OnClick(R.id.error_try_again) public void tryAgain() {
-        viewModel.retry();
+        viewModel().retry();
     }
 
     private void updateView(MovieDetailsViewState viewState) {
