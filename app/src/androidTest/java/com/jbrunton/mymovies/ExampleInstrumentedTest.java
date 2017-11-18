@@ -4,6 +4,7 @@ import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.jbrunton.mymovies.app.MainActivity;
+import com.squareup.spoon.Spoon;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -27,5 +28,6 @@ public class ExampleInstrumentedTest {
     @Test
     public void useAppContext() throws Exception {
         onView(withId(R.id.navigation_search)).check(matches(isDisplayed()));
+        Spoon.screenshot(activityRule.getActivity(), "initial_state");
     }
 }
