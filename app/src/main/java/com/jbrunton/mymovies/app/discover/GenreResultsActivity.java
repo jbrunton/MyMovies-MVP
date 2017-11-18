@@ -4,6 +4,8 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.jbrunton.mymovies.R;
@@ -25,6 +27,10 @@ public class GenreResultsActivity extends BaseActivity<GenreResultsViewModel> {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_genre_results);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         ButterKnife.bind(this);
         bindErrorStateContext(new LoadingStateContext());
 
@@ -34,6 +40,15 @@ public class GenreResultsActivity extends BaseActivity<GenreResultsViewModel> {
 
 
         viewModel().viewState().observe(this, this::updateView);
+    }
+
+    @Override public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override protected GenreResultsViewModel provideViewModel() {

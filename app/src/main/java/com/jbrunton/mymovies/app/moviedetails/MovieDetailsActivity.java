@@ -3,6 +3,7 @@ package com.jbrunton.mymovies.app.moviedetails;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -30,6 +31,7 @@ public class MovieDetailsActivity extends BaseActivity<MovieDetailsViewModel> {
         setContentView(R.layout.activity_movie_details);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         setTitle("");
         bindErrorStateContext(new LoadingStateContext());
@@ -37,6 +39,15 @@ public class MovieDetailsActivity extends BaseActivity<MovieDetailsViewModel> {
         ButterKnife.bind(this);
 
         viewModel().viewState().observe(this, this::updateView);
+    }
+
+    @Override public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override protected MovieDetailsViewModel provideViewModel() {

@@ -5,7 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -36,6 +38,10 @@ public class GenresActivity extends BaseActivity<GenresViewModel> {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_genres);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         ButterKnife.bind(this);
         bindErrorStateContext(new LoadingStateContext());
 
@@ -43,6 +49,15 @@ public class GenresActivity extends BaseActivity<GenresViewModel> {
         genresList.setAdapter(genresAdapter);
 
         viewModel().viewState().observe(this, this::updateView);
+    }
+
+    @Override public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override protected GenresViewModel provideViewModel() {
