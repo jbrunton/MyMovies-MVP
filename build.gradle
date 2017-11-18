@@ -6,6 +6,9 @@ buildscript {
         jcenter()
         google()
         maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+        flatDir {
+            dirs '../aars'
+        }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.0.0'
@@ -23,6 +26,9 @@ allprojects {
         jcenter()
         google()
         maven { url 'https://maven.google.com' }
+        flatDir {
+            dirs '../aars'
+        }
     }
 }
 
