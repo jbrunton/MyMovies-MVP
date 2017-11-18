@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "1024299120057",
+    "firebase_url": "https://mymovies-7e138.firebaseio.com",
+    "project_id": "mymovies-7e138",
+    "storage_bucket": "mymovies-7e138.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1024299120057:android:2f36b104a9ba00ea",
+        "android_client_info": {
+          "package_name": "com.jbrunton.mymovies"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1024299120057-2b1btg1cjgut8if30hm3t45rnmv3it87.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD4xeXs3RjgfBByYlTtmA8c6kddmmtvQIo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
