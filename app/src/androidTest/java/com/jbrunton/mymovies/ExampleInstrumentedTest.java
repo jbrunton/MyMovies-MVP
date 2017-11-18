@@ -3,6 +3,7 @@ package com.jbrunton.mymovies;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
+import com.google.android.libraries.cloudtesting.screenshots.ScreenShotter;
 import com.jbrunton.mymovies.app.MainActivity;
 import com.squareup.spoon.Spoon;
 
@@ -29,5 +30,6 @@ public class ExampleInstrumentedTest {
     public void useAppContext() throws Exception {
         onView(withId(R.id.navigation_search)).check(matches(isDisplayed()));
         Spoon.screenshot(activityRule.getActivity(), "initial_state");
+        ScreenShotter.takeScreenshot("initial_state", activityRule.getActivity());
     }
 }
