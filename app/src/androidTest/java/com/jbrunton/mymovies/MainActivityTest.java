@@ -52,7 +52,7 @@ public class MainActivityTest extends ScreenshotTest {
 
         takeScreenshot("showsErrorState");
         onView(withId(R.id.error_text))
-                .check(matches(withText("Invalid Error")));
+                .check(matches(withText("Network Error")));
         onView(withId(R.id.error_try_again))
                 .check(matches(isDisplayed()));
     }
