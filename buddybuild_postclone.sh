@@ -7,6 +7,5 @@ curl -L https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-
 export PATH="`pwd`/google-cloud-sdk/bin:$PATH"
 
 # authenticate
-echo $GCLOUD_KEY | base64 --decode > "gcloudkey.json"
 gcloud config set project "$GCLOUD_PROJECT"
 gcloud auth activate-service-account --key-file "gcloudkey.json" "$GCLOUD_USER"
