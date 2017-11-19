@@ -5,6 +5,8 @@ set -e
 gcloud config set project "$GCLOUD_PROJECT"
 gcloud auth activate-service-account --key-file ${BUDDYBUILD_SECURE_FILES}/gcloudkey.json "$GCLOUD_USER"
 
+./gradlew --no-daemon ":app:assembleDebugAndroidTest" ":app:assembleDebug"
+
 echo "Starting smoke test..."
 gcloud firebase test android run firebase-test-matrices.yml:smoketest \
     --type instrumentation \
