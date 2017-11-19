@@ -8,4 +8,4 @@ export PATH="`pwd`/google-cloud-sdk/bin:$PATH"
 
 # authenticate
 gcloud config set project "$GCLOUD_PROJECT"
-gcloud auth activate-service-account --key-file "gcloudkey.json" "$GCLOUD_USER"
+gcloud auth activate-service-account --key-file ${BUDDYBUILD_SECURE_FILES}/gcloudkey.json "$GCLOUD_USER"
