@@ -1,4 +1,5 @@
-env
+gcloud config set project "$GCLOUD_PROJECT"
+gcloud auth activate-service-account --key-file ${BUDDYBUILD_SECURE_FILES}/gcloudkey.json "$GCLOUD_USER"
 
 gcloud firebase test android run \
       --type instrumentation \
