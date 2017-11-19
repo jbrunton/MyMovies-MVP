@@ -1,0 +1,21 @@
+smoketest:
+  device:
+    - model: Nexus6
+      version: 25
+      locale: en
+      orientation: portrait
+
+roadtest:
+  device:
+    - model: NexusLowRes
+      version: 25
+      locale: en
+      orientation: portrait
+    - model: herolte # Galaxy S7
+      version: 24
+      locale: en
+      orientation: portrait
+    - model: Nexus6
+      version: 25
+      locale: de
+      orientation: portrait
