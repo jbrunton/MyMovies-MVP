@@ -1,5 +1,11 @@
+#!/usr/bin/env bash
+
+set -e
+
 gcloud config set project "$GCLOUD_PROJECT"
 gcloud auth activate-service-account --key-file ${BUDDYBUILD_SECURE_FILES}/gcloudkey.json "$GCLOUD_USER"
+
+gradle --no-daemon --continue assembleAndroidTest
 
 gcloud firebase test android run \
       --type instrumentation \
