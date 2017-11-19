@@ -9,7 +9,7 @@ echo "Starting smoke test..."
 gcloud firebase test android run firebase-test-matrices.yml:smoketest \
     --type instrumentation \
       --app $BUDDYBUILD_WORKSPACE/app/build/outputs/apk/debug/app-debug.apk \
-      --test $BUDDYBUILD_WORKSPACE/app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk \
+      --test $BUDDYBUILD_WORKSPACE/app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
 
 if [ "$BUDDYBUILD_BRANCH" = "master" ]
 then
@@ -17,7 +17,7 @@ then
     gcloud firebase test android run firebase-test-matrices.yml:roadtest \
         --type instrumentation \
           --app $BUDDYBUILD_WORKSPACE/app/build/outputs/apk/debug/app-debug.apk \
-          --test $BUDDYBUILD_WORKSPACE/app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk \
+          --test $BUDDYBUILD_WORKSPACE/app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
 else
     echo "Not on master, skipping road test."
 fi
