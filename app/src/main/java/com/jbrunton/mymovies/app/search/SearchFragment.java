@@ -75,7 +75,7 @@ public class SearchFragment extends BaseFragment<SearchViewModel> {
         viewModel().performSearch(searchQuery.getText().toString());
     }
 
-    private void updateView(SearchViewState viewState) {
+    public void updateView(SearchViewState viewState) {
         moviesList.setVisibility(toVisibility(viewState.loadingViewState().showContent()));
         searchResultsAdapter.setDataSource(viewState.movies());
         loadingStateContext.updateView(viewState.loadingViewState());
