@@ -29,16 +29,26 @@ public class SearchViewStateFactory extends BaseMovieViewStateFactory {
         return  fromLoadingViewState(loadingViewStateFactory.fromError(throwable));
     }
 
+    public SearchViewState searchEmptyState() {
+        return fromLoadingViewState(
+                LoadingViewState.errorBuilder()
+                .setErrorMessage("Search")
+                .setErrorIcon(R.drawable.ic_search_black_24dp)
+                .build());
+    }
 
+    public SearchViewState loadingState() {
+        return fromLoadingViewState(LoadingViewState.LOADING_STATE);
+    }
 
-    public SearchViewState fromLoadingViewState(LoadingViewState loadingViewState) {
+    private SearchViewState fromLoadingViewState(LoadingViewState loadingViewState) {
         return SearchViewState.builder()
                 .setMovies(Collections.emptyList())
                 .setLoadingViewState(loadingViewState)
                 .build();
     }
 
-    public MovieSearchResultViewState toMovieSearchResultViewState(Movie movie) {
+    private MovieSearchResultViewState toMovieSearchResultViewState(Movie movie) {
         return setDefaults(MovieSearchResultViewState.builder(), movie)
                 .build();
     }
