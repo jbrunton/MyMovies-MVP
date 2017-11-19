@@ -1,16 +1,13 @@
 package com.jbrunton.mymovies;
 
-import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.jbrunton.mymovies.api.DescriptiveError;
-import com.jbrunton.mymovies.app.MainActivity;
 import com.jbrunton.mymovies.app.search.SearchFragment;
 import com.jbrunton.mymovies.app.search.SearchViewState;
 import com.jbrunton.mymovies.app.search.SearchViewStateFactory;
-import com.jbrunton.mymovies.fixtures.ScreenshotHelper;
+import com.jbrunton.mymovies.fixtures.ScreenshotTest;
 
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -22,14 +19,11 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 
 @RunWith(AndroidJUnit4.class)
-public class MainActivityTest {
-    @Rule public ActivityTestRule<MainActivity> activityRule =
-            new ActivityTestRule<>(MainActivity.class);
-
+public class MainActivityTest extends ScreenshotTest {
     private final SearchViewStateFactory factory = new SearchViewStateFactory();
 
     @Test public void defaultsToSearchFragment() throws Exception {
-        ScreenshotHelper.takeScreenshot(activityRule.getActivity());
+        takeScreenshot();
         onView(withId(R.id.search_query)).check(matches(isDisplayed()));
     }
 
@@ -37,7 +31,7 @@ public class MainActivityTest {
         SearchViewState viewState = factory.searchEmptyState();
         activityRule.getActivity().runOnUiThread(() -> searchFragment().updateView(viewState));
 
-        ScreenshotHelper.takeScreenshot(activityRule.getActivity(), "showsEmptySearchState");
+        takeScreenshot("showsEmptySearchState");
         onView(withId(R.id.error_text))
                 // TODO: externalize strings
                 .check(matches(withText(viewState.loadingViewState().errorMessage())));
@@ -47,7 +41,7 @@ public class MainActivityTest {
         SearchViewState viewState = factory.loadingState();
         activityRule.getActivity().runOnUiThread(() -> searchFragment().updateView(viewState));
 
-        ScreenshotHelper.takeScreenshot(activityRule.getActivity(), "showsLoadingState");
+        takeScreenshot("showsLoadingState");
         onView(withId(R.id.loading_indicator))
                 .check(matches(isDisplayed()));
     }
@@ -56,7 +50,7 @@ public class MainActivityTest {
         SearchViewState viewState = factory.fromError(new DescriptiveError("Network Error", true));
         activityRule.getActivity().runOnUiThread(() -> searchFragment().updateView(viewState));
 
-        ScreenshotHelper.takeScreenshot(activityRule.getActivity(), "showsErrorState");
+        takeScreenshot("showsErrorState");
         onView(withId(R.id.error_text))
                 .check(matches(withText("Network Error")));
         onView(withId(R.id.error_try_again))
