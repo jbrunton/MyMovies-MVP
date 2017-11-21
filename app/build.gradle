@@ -22,7 +22,7 @@ android {
     buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "com.jbrunton.mymovies"
-        minSdkVersion 24
+        minSdkVersion 21
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
@@ -43,6 +43,7 @@ android {
 }
 
 dependencies {
+    compile 'com.android.support:multidex:1.0.1'
     implementation 'com.android.support:design:26.1.0'
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
