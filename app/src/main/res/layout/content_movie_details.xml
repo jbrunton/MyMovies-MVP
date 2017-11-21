@@ -9,10 +9,26 @@
     tools:context=".app.moviedetails.MovieDetailsActivity"
     tools:showIn="@layout/activity_movie_details">
 
-    <TextView
-        android:id="@+id/overview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin" />
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+    android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/overview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/text_margin" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="32dp"
+            android:layout_gravity="bottom"
+            android:background="@drawable/btn_colored_material_no_padding"
+            android:text="Magical Disappearing Button"
+            android:textSize="12dp"
+            android:theme="@style/MediumGreenButton"/>
+    </LinearLayout>
+
+
 
 </android.support.v4.widget.NestedScrollView>
