@@ -1,7 +1,7 @@
 package com.jbrunton.mymovies.app.movies;
 
 import com.jbrunton.mymovies.app.shared.LoadingViewStateFactory;
-import com.jbrunton.mymovies.models.Movie;
+import com.jbrunton.entities.Movie;
 
 import org.joda.time.LocalDate;
 

@@ -12,7 +12,7 @@ import com.jbrunton.mymovies.app.search.SearchViewState;
 import com.jbrunton.mymovies.app.search.SearchViewStateFactory;
 import com.jbrunton.mymovies.app.shared.BaseViewModel;
 import com.jbrunton.mymovies.app.shared.LoadingViewState;
-import com.jbrunton.mymovies.models.Movie;
+import com.jbrunton.entities.Movie;
 
 import java.util.Collections;
 import java.util.List;

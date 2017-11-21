@@ -4,7 +4,7 @@ import com.jbrunton.mymovies.R;
 import com.jbrunton.mymovies.app.movies.BaseMovieViewStateFactory;
 import com.jbrunton.mymovies.app.movies.MovieSearchResultViewState;
 import com.jbrunton.mymovies.app.shared.LoadingViewState;
-import com.jbrunton.mymovies.models.Movie;
+import com.jbrunton.entities.Movie;
 
 import java.util.Collections;
 import java.util.List;

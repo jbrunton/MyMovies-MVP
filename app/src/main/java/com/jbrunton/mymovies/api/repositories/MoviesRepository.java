@@ -4,8 +4,8 @@ import com.jbrunton.mymovies.api.resources.ConfigurationResponse;
 import com.jbrunton.mymovies.api.resources.MovieDetailsResponse;
 import com.jbrunton.mymovies.api.resources.MoviesCollection;
 import com.jbrunton.mymovies.api.services.MovieService;
-import com.jbrunton.mymovies.models.Configuration;
-import com.jbrunton.mymovies.models.Movie;
+import com.jbrunton.entities.Configuration;
+import com.jbrunton.entities.Movie;
 
 import java.util.List;
 

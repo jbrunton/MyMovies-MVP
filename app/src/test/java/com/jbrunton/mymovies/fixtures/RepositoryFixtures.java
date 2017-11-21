@@ -1,7 +1,7 @@
 package com.jbrunton.mymovies.fixtures;
 
 import com.jbrunton.mymovies.api.repositories.MoviesRepository;
-import com.jbrunton.mymovies.models.Movie;
+import com.jbrunton.entities.Movie;
 
 import java.util.concurrent.TimeUnit;
 

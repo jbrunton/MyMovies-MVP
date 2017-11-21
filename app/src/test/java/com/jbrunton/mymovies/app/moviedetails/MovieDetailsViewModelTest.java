@@ -6,7 +6,7 @@ import com.jbrunton.mymovies.api.DescriptiveError;
 import com.jbrunton.mymovies.fixtures.MovieFactory;
 import com.jbrunton.mymovies.fixtures.TestSchedulerRule;
 import com.jbrunton.mymovies.api.repositories.MoviesRepository;
-import com.jbrunton.mymovies.models.Movie;
+import com.jbrunton.entities.Movie;
 
 import org.junit.Before;
 import org.junit.Rule;

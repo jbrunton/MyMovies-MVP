@@ -2,7 +2,7 @@ package com.jbrunton.mymovies.api.repositories;
 
 import com.jbrunton.mymovies.api.resources.GenresResponse;
 import com.jbrunton.mymovies.api.services.MovieService;
-import com.jbrunton.mymovies.models.Genre;
+import com.jbrunton.entities.Genre;
 
 import java.util.List;
 

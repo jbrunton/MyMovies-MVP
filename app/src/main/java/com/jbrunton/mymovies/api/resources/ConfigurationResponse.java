@@ -1,6 +1,6 @@
 package com.jbrunton.mymovies.api.resources;
 
-import com.jbrunton.mymovies.models.Configuration;
+import com.jbrunton.entities.Configuration;
 
 public class ConfigurationResponse {
     private ConfigurationImageResource images;

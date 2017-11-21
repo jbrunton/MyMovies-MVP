@@ -2,7 +2,7 @@ package com.jbrunton.mymovies.app.discover;
 
 import com.google.auto.value.AutoValue;
 import com.jbrunton.mymovies.app.shared.LoadingViewState;
-import com.jbrunton.mymovies.models.Genre;
+import com.jbrunton.entities.Genre;
 
 import java.util.List;
 

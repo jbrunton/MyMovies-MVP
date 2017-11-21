@@ -5,7 +5,7 @@ import com.jbrunton.mymovies.app.movies.MovieViewState;
 import com.jbrunton.mymovies.app.shared.LoadingViewState;
 import com.jbrunton.mymovies.app.shared.LoadingViewStateFactory;
 import com.jbrunton.mymovies.fixtures.MovieFactory;
-import com.jbrunton.mymovies.models.Movie;
+import com.jbrunton.entities.Movie;
 
 import org.junit.Before;
 import org.junit.Test;

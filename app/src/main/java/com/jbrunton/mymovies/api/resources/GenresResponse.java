@@ -1,6 +1,6 @@
 package com.jbrunton.mymovies.api.resources;
 
-import com.jbrunton.mymovies.models.Genre;
+import com.jbrunton.entities.Genre;
 
 import java.util.List;
 import java.util.stream.Collectors;
