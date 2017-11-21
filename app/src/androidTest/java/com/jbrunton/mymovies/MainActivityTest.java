@@ -1,12 +1,14 @@
 package com.jbrunton.mymovies;
 
+import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.jbrunton.mymovies.api.DescriptiveError;
+import com.jbrunton.mymovies.app.MainActivity;
 import com.jbrunton.mymovies.app.search.SearchFragment;
 import com.jbrunton.mymovies.app.search.SearchViewState;
 import com.jbrunton.mymovies.app.search.SearchViewStateFactory;
-import com.jbrunton.mymovies.fixtures.ScreenshotTest;
+import com.jbrunton.mymovies.fixtures.BaseTest;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,8 +21,13 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 
 @RunWith(AndroidJUnit4.class)
-public class MainActivityTest extends ScreenshotTest {
-    private final SearchViewStateFactory factory = new SearchViewStateFactory();
+public class MainActivityTest extends BaseTest<MainActivity> {
+    private static final SearchViewStateFactory FACTORY = new SearchViewStateFactory();
+
+    private static final SearchViewState EMPTY_STATE = FACTORY.searchEmptyState();
+    private static final SearchViewState LOADING_STATE = FACTORY.loadingState();
+
+    private static final DescriptiveError NETWORK_ERROR = new DescriptiveError("Network Error", true);
 
     @Test public void defaultsToSearchFragment() throws Exception {
         takeScreenshot();
@@ -28,18 +35,16 @@ public class MainActivityTest extends ScreenshotTest {
     }
 
     @Test public void showsEmptySearchState() {
-        SearchViewState viewState = factory.searchEmptyState();
-        activityRule.getActivity().runOnUiThread(() -> searchFragment().updateView(viewState));
+        setViewState(EMPTY_STATE);
 
         takeScreenshot("showsEmptySearchState");
         onView(withId(R.id.error_text))
                 // TODO: externalize strings
-                .check(matches(withText(viewState.loadingViewState().errorMessage())));
+                .check(matches(withText(EMPTY_STATE.loadingViewState().errorMessage())));
     }
 
     @Test public void showsLoadingState() {
-        SearchViewState viewState = factory.loadingState();
-        activityRule.getActivity().runOnUiThread(() -> searchFragment().updateView(viewState));
+        setViewState(LOADING_STATE);
 
         takeScreenshot("showsLoadingState");
         onView(withId(R.id.loading_indicator))
@@ -47,17 +52,24 @@ public class MainActivityTest extends ScreenshotTest {
     }
 
     @Test public void showsErrorState() {
-        SearchViewState viewState = factory.fromError(new DescriptiveError("Network Error", true));
-        activityRule.getActivity().runOnUiThread(() -> searchFragment().updateView(viewState));
+        setViewState(FACTORY.fromError(NETWORK_ERROR));
 
         takeScreenshot("showsErrorState");
         onView(withId(R.id.error_text))
-                .check(matches(withText("Network Error")));
+                .check(matches(withText(NETWORK_ERROR.getMessage())));
         onView(withId(R.id.error_try_again))
                 .check(matches(isDisplayed()));
     }
 
+    @Override protected ActivityTestRule<MainActivity> createActivityTestRule() {
+        return new ActivityTestRule<>(MainActivity.class);
+    }
+
     private SearchFragment searchFragment() {
         return (SearchFragment) activityRule.getActivity().getSupportFragmentManager().findFragmentById(R.id.content);
+    }
+
+    private void setViewState(SearchViewState viewState) {
+        activityRule.getActivity().runOnUiThread(() -> searchFragment().updateView(viewState));
     }
 }
