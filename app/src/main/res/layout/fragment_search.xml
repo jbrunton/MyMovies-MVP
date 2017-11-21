@@ -27,6 +27,15 @@
 
     </android.support.v7.widget.Toolbar>
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:layout_gravity="bottom"
+        android:background="@drawable/btn_colored_material_no_padding"
+        android:text="Magical Disappearing Button"
+        android:textSize="12dp"
+        android:theme="@style/MediumGreenButton"/>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/movies_list"
         android:layout_width="match_parent"
