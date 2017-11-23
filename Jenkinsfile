@@ -1,4 +1,7 @@
 node {
+  stage "Environment"
+  sh 'env'
+
   stage "Checkout"
   checkout scm
 
