@@ -10,7 +10,7 @@ node {
 
   stage "UI Tests"
   sh '$ANDROID_HOME/tools/emulator -list-avds'
-  sh '$ANDROID_HOME/tools/emulator @CI_x86_android-26 -no-boot-anim -no-window -skin 768x1280 &'
+  sh '$ANDROID_HOME/tools/emulator @CI_x86_android-25 -no-boot-anim -no-window -skin 768x1280 &'
   sh './gradlew spoon'
   publishHTML (target: [
           allowMissing: false,
