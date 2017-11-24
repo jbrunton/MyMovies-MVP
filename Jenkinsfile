@@ -7,5 +7,5 @@ node {
 
   stage "Build"
   sh './gradlew clean assembleDebug'
-  step([$class: 'ArtifactArchiver', artifacts: '**/apk/app-debug.apk', fingerprint: true])
+  archiveArtifacts artifacts: '**/apk/app-debug.apk', fingerprint: true
 }
