@@ -1,21 +1,40 @@
-node {
-  stage "Checkout"
-  checkout scm
+pipeline {
+  agent any
+  stages {
+    stage('Checkout') {
+      steps {
+        checkout scm
+      }
+    }
 
-  stage "Build"
-  sh './gradlew clean assembleDebug'
+    stage('Build') {
+      steps {
+        sh './gradlew clean assembleDebug'
+      }
+    }
 
-  stage "Archive"
-  archiveArtifacts artifacts: '**/*.apk', fingerprint: true
+    stage('Archive') {
+      steps {
+        archiveArtifacts artifacts: '**/*.apk', fingerprint: true
+      }
+    }
 
-  stage "UI Tests"
-  sh './gradlew spoon'
-  publishHTML (target: [
-          allowMissing: false,
-          alwaysLinkToLastBuild: false,
-          keepAll: true,
-          reportDir: 'app/build/spoon-output/debug',
-          reportFiles: 'index.html',
-          reportName: "Spoon Report"
-  ])
+    stage('UI Tests') {
+      steps {
+        sh './gradlew spoon'
+      }
+      post {
+        always {
+          publishHTML(target: [
+                  allowMissing         : false,
+                  alwaysLinkToLastBuild: false,
+                  keepAll              : true,
+                  reportDir            : 'app/build/spoon-output/debug',
+                  reportFiles          : 'index.html',
+                  reportName           : "Spoon Report"
+          ])
+        }
+      }
+    }
+  }
 }
