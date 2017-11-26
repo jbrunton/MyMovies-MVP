@@ -92,7 +92,7 @@ spoon {
     failIfNoDeviceConnected = true
 }
 
-def execCommand(cmd) {
+def execCommand(cmd, Boolean wait = true) {
     def process = new ProcessBuilder(cmd)
             .redirectInput(ProcessBuilder.Redirect.INHERIT)
             .redirectError(ProcessBuilder.Redirect.INHERIT)
@@ -105,7 +105,9 @@ def execCommand(cmd) {
         println line
     }
 
-    process.waitFor()
+    if (wait) {
+        process.waitFor()
+    }
 }
 
 def imageName(version) {
@@ -124,7 +126,17 @@ task installSdk {
     }
 }
 
-task createEmulator(dependsOn: installSdk) {
+task killEmulators(type: Exec) {
+    workingDir '.'
+    commandLine 'sh', './kill_emulators.sh'
+}
+
+task waitForEmulator(type: Exec) {
+    workingDir '.'
+    commandLine 'sh', './wait_for_emulator.sh'
+}
+
+task createEmulator {
     doLast {
         def emulator = emulatorName(version)
         def sdk = imageName(version)
@@ -136,14 +148,21 @@ task createEmulator(dependsOn: installSdk) {
     }
 }
 
-task runEmulator(dependsOn: installSdk) {
+task startEmulator {
     doLast {
-        println "running.."
-//        exec {
-//            executable 'sdkmanager'
-//            args "\"system-images;android-$version;default;x86\"".toString()
-//        }
+        execCommand(['/Users/John/Library/Android/sdk/emulator/emulator',
+                "@CI_x86_android-$version".toString(),
+                "-no-boot-anim",
+                //"-no-window",
+                "-skin", "768x1280"], false)
+
     }
 }
+
+createEmulator.mustRunAfter killEmulators
+startEmulator.mustRunAfter createEmulator
+waitForEmulator.mustRunAfter startEmulator
+
+task prepareEmulator(dependsOn: [installSdk, killEmulators, createEmulator, startEmulator, waitForEmulator])
 
 apply plugin: 'kotlin-android-extensions'
