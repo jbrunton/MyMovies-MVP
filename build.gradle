@@ -36,3 +36,10 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+task hello {
+    doLast {
+        def whom = project.findProperty("whom") ?: "world"
+        println "Hello $whom!"
+    }
+}
