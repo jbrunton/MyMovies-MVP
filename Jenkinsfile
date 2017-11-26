@@ -15,6 +15,7 @@ pipeline {
 
     stage('UI Tests') {
       steps {
+        sh './gradlew -Pversion=24 prepareEmulator'
         sh './gradlew spoon'
       }
       post {
