@@ -107,45 +107,31 @@ def execCommand(cmd) {
     return process.waitFor()
 }
 
-task downloadSdk {
-    def imageName = "system-images;android-$version;default;x86".toString()
-    execCommand(["sdkmanager", imageName])
-    println("downloading...")
-    def process = new ProcessBuilder(["sdkmanager", imageName])
+def downloadSdk(sdkName) {
+    def process = new ProcessBuilder(["sdkmanager", sdkName])
             .redirectInput(ProcessBuilder.Redirect.INHERIT)
             .redirectError(ProcessBuilder.Redirect.INHERIT)
             .redirectOutput(ProcessBuilder.Redirect.INHERIT)
             .start()
 
     def input = new InputStreamReader(process.in)
-    while (input.readLine() != null) {
-        //println line
+    def line
+    while ((line = input.readLine()) != null) {
+        println line
     }
 
-    return process.waitFor()
-}
-
-task createEmulator {
-    def imageName = "system-images;android-$version;default;x86".toString()
-    execCommand(["avdmanager",
-                 "create",
-                 "avd",
-                 "-f",
-                 "-n",
-                 "CI_x86_android-$version".toString(),
-                 "-k",
-                 imageName,
-                 "--sdcard 128M"])
+    process.waitFor()
 }
 
 task installImage {
     doLast {
+        def imageName = "system-images;android-$version;default;x86".toString()
         println "Downloading image: $imageName"
         downloadSdk(imageName)
     }
 }
 
-task runEmulator(dependsOn: createEmulator) {
+task runEmulator(dependsOn: installImage) {
     doLast {
         println "running.."
 //        exec {
