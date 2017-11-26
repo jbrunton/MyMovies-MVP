@@ -100,21 +100,6 @@ def execCommand(cmd) {
             .start()
 
     def input = new InputStreamReader(process.in)
-    while (input.readLine() != null) {
-        //println line
-    }
-
-    return process.waitFor()
-}
-
-def downloadSdk(sdkName) {
-    def process = new ProcessBuilder(["sdkmanager", sdkName])
-            .redirectInput(ProcessBuilder.Redirect.INHERIT)
-            .redirectError(ProcessBuilder.Redirect.INHERIT)
-            .redirectOutput(ProcessBuilder.Redirect.INHERIT)
-            .start()
-
-    def input = new InputStreamReader(process.in)
     def line
     while ((line = input.readLine()) != null) {
         println line
@@ -123,15 +108,35 @@ def downloadSdk(sdkName) {
     process.waitFor()
 }
 
-task installImage {
+def imageName(version) {
+    return "system-images;android-$version;default;x86".toString()
+}
+
+def emulatorName(version) {
+    return "CI_x86_android-$version".toString()
+}
+
+task installSdk {
     doLast {
-        def imageName = "system-images;android-$version;default;x86".toString()
-        println "Downloading image: $imageName"
-        downloadSdk(imageName)
+        def sdk = imageName(version)
+        println "Installing $sdk..."
+        execCommand(["sdkmanager", sdk])
     }
 }
 
-task runEmulator(dependsOn: installImage) {
+task createEmulator(dependsOn: installSdk) {
+    doLast {
+        def emulator = emulatorName(version)
+        def sdk = imageName(version)
+        println("Creating emulator $emulator from $sdk...")
+        def cmd = ["bash", "-c",
+                   "echo no | avdmanager create avd -f -n $emulator -k '$sdk' --sdcard 128M".toString()]
+        println cmd.toString()
+        execCommand(cmd)
+    }
+}
+
+task runEmulator(dependsOn: installSdk) {
     doLast {
         println "running.."
 //        exec {
