@@ -17,6 +17,18 @@ pipeline {
       steps {
         sh './gradlew testDebug'
       }
+      post {
+        always {
+          publishHTML(target: [
+                  allowMissing         : false,
+                  alwaysLinkToLastBuild: false,
+                  keepAll              : true,
+                  reportDir            : 'app/build/reports/tests/testDebugUnitTest',
+                  reportFiles          : 'index.html',
+                  reportName           : 'JUnit Report'
+          ])
+        }
+      }
     }
   }
 }
