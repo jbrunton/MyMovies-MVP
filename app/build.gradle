@@ -92,4 +92,8 @@ repositories {
     maven { url 'https://maven.fabric.io/public' }
 }
 
+spoon {
+    failIfNoDeviceConnected = true
+}
+
 apply plugin: 'kotlin-android-extensions'
