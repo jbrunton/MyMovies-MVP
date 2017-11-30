@@ -6,7 +6,7 @@ import android.arch.lifecycle.MutableLiveData;
 import com.jbrunton.mymovies.api.repositories.GenresRepository;
 import com.jbrunton.mymovies.api.services.ServiceFactory;
 import com.jbrunton.mymovies.app.shared.BaseViewModel;
-import com.jbrunton.mymovies.models.Genre;
+import com.jbrunton.entities.Genre;
 
 import java.util.List;
 

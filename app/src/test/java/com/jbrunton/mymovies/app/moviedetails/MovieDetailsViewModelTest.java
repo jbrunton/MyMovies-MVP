@@ -2,11 +2,11 @@ package com.jbrunton.mymovies.app.moviedetails;
 
 import android.arch.core.executor.testing.InstantTaskExecutorRule;
 
+import com.jbrunton.entities.Movie;
+import com.jbrunton.fixtures.MovieFactory;
 import com.jbrunton.mymovies.api.DescriptiveError;
-import com.jbrunton.mymovies.fixtures.MovieFactory;
-import com.jbrunton.mymovies.fixtures.TestSchedulerRule;
 import com.jbrunton.mymovies.api.repositories.MoviesRepository;
-import com.jbrunton.mymovies.models.Movie;
+import com.jbrunton.mymovies.fixtures.TestSchedulerRule;
 
 import org.junit.Before;
 import org.junit.Rule;

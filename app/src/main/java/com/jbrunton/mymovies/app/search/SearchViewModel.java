@@ -6,7 +6,7 @@ import android.arch.lifecycle.MutableLiveData;
 import com.jbrunton.mymovies.api.repositories.MoviesRepository;
 import com.jbrunton.mymovies.api.services.ServiceFactory;
 import com.jbrunton.mymovies.app.shared.BaseViewModel;
-import com.jbrunton.mymovies.models.Movie;
+import com.jbrunton.entities.Movie;
 
 import java.util.List;
 

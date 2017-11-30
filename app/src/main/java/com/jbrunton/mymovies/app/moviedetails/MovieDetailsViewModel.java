@@ -8,7 +8,7 @@ import android.arch.lifecycle.ViewModelProvider;
 import com.jbrunton.mymovies.api.repositories.MoviesRepository;
 import com.jbrunton.mymovies.api.services.ServiceFactory;
 import com.jbrunton.mymovies.app.shared.BaseViewModel;
-import com.jbrunton.mymovies.models.Movie;
+import com.jbrunton.entities.Movie;
 
 public class MovieDetailsViewModel extends BaseViewModel {
     private final MutableLiveData<MovieDetailsViewState> viewState = new MutableLiveData<>();
