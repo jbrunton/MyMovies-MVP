@@ -13,21 +13,9 @@ pipeline {
       }
     }
 
-    stage('UI Tests') {
+    stage('Unit Tests') {
       steps {
-        sh './gradlew spoon'
-      }
-      post {
-        always {
-          publishHTML(target: [
-                  allowMissing         : false,
-                  alwaysLinkToLastBuild: false,
-                  keepAll              : true,
-                  reportDir            : 'app/build/spoon-output/debug',
-                  reportFiles          : 'index.html',
-                  reportName           : "Spoon Report"
-          ])
-        }
+        sh './gradlew testDebug'
       }
     }
   }
