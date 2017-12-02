@@ -30,5 +30,11 @@ pipeline {
         }
       }
     }
+
+    stage('UI Tests') {
+      steps {
+        sh './run_testlab.sh'
+      }
+    }
   }
 }
