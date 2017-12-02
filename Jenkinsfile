@@ -5,11 +5,10 @@ pipeline {
       steps {
         sh './gradlew clean assembleDebug'
       }
-    }
-
-    stage('Archive') {
-      steps {
-        archiveArtifacts artifacts: '**/*.apk', fingerprint: true
+      post {
+        always {
+          archiveArtifacts artifacts: '**/*.apk', fingerprint: true
+        }
       }
     }
 

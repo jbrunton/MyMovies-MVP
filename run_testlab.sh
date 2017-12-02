@@ -2,6 +2,8 @@
 
 set -e
 
+./gradlew assembleDebugAndroidTest
+
 gcloud config set project mymovies-7e138
 gcloud auth activate-service-account --key-file ${JENKINS_HOME}/gcloudkey.json mymovies-7e138@appspot.gserviceaccount.com
 
