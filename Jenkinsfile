@@ -1,5 +1,8 @@
 pipeline {
   agent any
+  environment {
+    GCLOUD_KEY_LOCATION = '/var/jenkins_home/gcloudkey.json'
+  }
   stages {
     stage('Build') {
       steps {
@@ -32,7 +35,7 @@ pipeline {
 
     stage('UI Tests') {
       steps {
-        sh '.ci/run-testlab.sh'
+        sh './ci/run-testlab.sh'
       }
       post {
         always {
