@@ -32,5 +32,5 @@ gcloud firebase test android run firebase-test-matrices.yml:$TEST_MATRIX \
 
 OUTPUT_DIR="testlab-artifacts-$TEST_MATRIX"
 mkdir $OUTPUT_DIR
-gsutil rsync -r -m gs://ci-jbrunton-com-ui-tests/$RESULTS_DIR $OUTPUT_DIR
+gsutil rsync -r gs://ci-jbrunton-com-ui-tests/$RESULTS_DIR $OUTPUT_DIR
 
