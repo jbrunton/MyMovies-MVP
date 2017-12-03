@@ -28,5 +28,7 @@ gcloud auth activate-service-account --key-file $GCLOUD_KEY_LOCATION mymovies-7e
 echo "Running smoke tests..."
 gcloud firebase test android run firebase-test-matrices.yml:$TEST_MATRIX \
     --type instrumentation \
-      --app ./app/build/outputs/apk/debug/app-debug.apk \
-      --test ./app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
+    --results-bucket=ci-jbrunton-com-ui-tests \
+    --results-dir=$RESULTS_DIR \
+    --app ./app/build/outputs/apk/debug/app-debug.apk \
+    --test ./app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
