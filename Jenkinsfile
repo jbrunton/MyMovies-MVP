@@ -39,7 +39,7 @@ pipeline {
       }
       post {
         always {
-          sh './ci/report-builder.sh testlab-artifacts-smoketest'
+          sh './ci/report-builder.rb testlab-artifacts-smoketest'
           publishHTML(target: [
                   allowMissing         : false,
                   alwaysLinkToLastBuild: false,
