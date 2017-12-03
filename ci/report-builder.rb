@@ -38,7 +38,7 @@ builder = Nokogiri::HTML::Builder.new do |doc|
                 failed = testcase.xpath('failure').any?
                 test_name = testcase.attributes['name'].value
                 class_name = testcase.attributes['classname'].value
-                screens = Dir.glob(File.dirname(f) + "/artifacts/#{class_name}-*.jpg")
+                screens = Dir.glob(File.dirname(f) + "/artifacts/#{class_name}-#{test_name}*.jpg")
                 doc.li {
                   doc.div(:class => "collapsible-header") {
                     icon_color = failed ? "red" : "green"
@@ -49,7 +49,7 @@ builder = Nokogiri::HTML::Builder.new do |doc|
                   }
                   doc.div(:class => "collapsible-body") {
                     doc.div {
-                      (screens + screens).each do |screen|
+                      screens.each do |screen|
                         doc.div(:class => "card", :style => "display: inline-block; width: 200px") {
                           doc.div(:class => "card-image", :style => "width: 200px") {
                             doc.img(:src => screen)
