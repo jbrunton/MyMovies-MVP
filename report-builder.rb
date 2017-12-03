@@ -37,19 +37,32 @@ builder = Nokogiri::HTML::Builder.new do |doc|
             doc.ul(:class=>"collapsible", 'data-collapsible'=>"accordion") {
               xml_report.xpath('//testcase').each do |testcase|
                 failed = testcase.xpath('failure').any?
+                test_name = testcase.attributes['name'].value
+                class_name = testcase.attributes['classname'].value
+                screens = Dir.glob(File.dirname(f) + "/artifacts/#{class_name}-*.jpg")
                 doc.li {
                   doc.div(:class => "collapsible-header") {
                     icon_color = failed ? "red" : "green"
                     doc.i(:class => "material-icons #{icon_color}-text") {
                       doc.text "check"
                     }
-                    doc.text testcase.attributes['name'].value
+                    doc.text test_name
                   }
-                  if failed
-                    doc.div(:class => "collapsible-body") {
-                      doc.pre testcase.xpath('failure').first.text
+                  doc.div(:class => "collapsible-body") {
+                    doc.div {
+                      (screens + screens).each do |screen|
+                        doc.div(:class => "card", :style => "display: inline-block; width: 200px") {
+                          doc.div(:class => "card-image", :style => "width: 200px") {
+                            doc.img(:src => screen)
+                          }
+                        }
+                      end
                     }
-                  end
+                    if failed
+                      failure_text = testcase.xpath('failure').first.text
+                      doc.pre failure_text
+                    end
+                  }
                 }
               end
             }
