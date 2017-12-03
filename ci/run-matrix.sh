@@ -16,9 +16,6 @@ fi
 
 TEST_ID=$(dd bs=6 count=1 if=/dev/urandom 2> /dev/null | base64 | tr +/ ab)
 
-echo "TEST_RUN_NAME: $TEST_RUN_NAME"
-echo "TEST_MATRIX: $TEST_MATRIX"
-
 RESULTS_DIR="$TEST_RUN_NAME-$TEST_MATRIX-$TEST_ID"
 echo "Running $TEST_MATRIX, dir=$RESULTS_DIR, key=$GCLOUD_KEY_LOCATION"
 
@@ -32,3 +29,7 @@ gcloud firebase test android run firebase-test-matrices.yml:$TEST_MATRIX \
     --results-dir=$RESULTS_DIR \
     --app ./app/build/outputs/apk/debug/app-debug.apk \
     --test ./app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
+
+mkdir testlab-artifacts
+gsutil rsync -r gs://ci-jbrunton-com-ui-tests/$RESULTS_DIR testlab-artifacts
+
