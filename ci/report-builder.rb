@@ -1,11 +1,10 @@
 #!/usr/bin/env ruby
 
 require 'nokogiri'
-require 'byebug'
 
-artifacts_dir = File.join(Dir.pwd, ARGV.first)
+build_dir = File.join(Dir.pwd, ARGV.first)
 
-puts "Scanning #{artifacts_dir}"
+puts "Scanning #{build_dir}"
 
 builder = Nokogiri::HTML::Builder.new do |doc|
   doc.html {
@@ -26,7 +25,7 @@ builder = Nokogiri::HTML::Builder.new do |doc|
         }
       }
       doc.div(:class => "container") {
-          Dir.glob(artifacts_dir + '**/*.xml').each do |f|
+          Dir.glob(build_dir + '**/*.xml').each do |f|
             puts "Found #{f}"
 
             device = f.split(File::SEPARATOR)[-2]
@@ -72,4 +71,4 @@ builder = Nokogiri::HTML::Builder.new do |doc|
   }
 end
 
-File.write('report.html', builder.to_html)
+File.write(build_dir + 'report.html', builder.to_html)
