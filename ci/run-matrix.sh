@@ -20,7 +20,7 @@ RESULTS_DIR="$TEST_RUN_NAME-$TEST_MATRIX-$TEST_ID"
 echo "Running $TEST_MATRIX, dir=$RESULTS_DIR, key=$GCLOUD_KEY_LOCATION"
 
 gcloud config set project mymovies-7e138
-gcloud auth activate-service-account --key-file $GCLOUD_KEY_LOCATION mymovies-7e138@appspot.gserviceaccount.com
+gcloud auth activate-service-account --key-file $GCLOUD_KEY_LOCATION
 
 echo "Running smoke tests..."
 gcloud firebase test android run firebase-test-matrices.yml:$TEST_MATRIX \
@@ -32,5 +32,5 @@ gcloud firebase test android run firebase-test-matrices.yml:$TEST_MATRIX \
 
 OUTPUT_DIR="testlab-artifacts-$TEST_MATRIX"
 mkdir $OUTPUT_DIR
-gsutil rsync -r gs://ci-jbrunton-com-ui-tests/$RESULTS_DIR $OUTPUT_DIR
+gsutil rsync -r -m gs://ci-jbrunton-com-ui-tests/$RESULTS_DIR $OUTPUT_DIR
 
