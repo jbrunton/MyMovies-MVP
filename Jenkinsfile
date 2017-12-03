@@ -32,7 +32,19 @@ pipeline {
 
     stage('UI Tests') {
       steps {
-        sh './run_testlab.sh'
+        sh '.ci/run-testlab.sh'
+      }
+      post {
+        always {
+          publishHTML(target: [
+                  allowMissing         : false,
+                  alwaysLinkToLastBuild: false,
+                  keepAll              : true,
+                  reportDir            : 'testlab-artifacts-smoketest',
+                  reportFiles          : '*',
+                  reportName           : 'Smoke Test'
+          ])
+        }
       }
     }
   }

@@ -11,6 +11,8 @@ else
     TEST_RUN_NAME="$CHANGE_ID-$BRANCH_NAME"
 fi
 
+./gradlew assembleDebugAndroidTest
+
 ./ci/run-matrix.sh $TEST_RUN_NAME smoketest
 
 if [ $BRANCH_NAME = "master" ]; then
