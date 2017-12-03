@@ -20,4 +20,13 @@ echo "TEST_RUN_NAME: $TEST_RUN_NAME"
 echo "TEST_MATRIX: $TEST_MATRIX"
 
 RESULTS_DIR="$TEST_RUN_NAME-$TEST_MATRIX-$TEST_ID"
-echo "RESULTS_DIR: $RESULTS_DIR"
+echo "Running $TEST_MATRIX, dir=$RESULTS_DIR, key=$GCLOUD_KEY_LOCATION"
+
+gcloud config set project mymovies-7e138
+gcloud auth activate-service-account --key-file $GCLOUD_KEY_LOCATION mymovies-7e138@appspot.gserviceaccount.com
+
+echo "Running smoke tests..."
+gcloud firebase test android run firebase-test-matrices.yml:$TEST_MATRIX \
+    --type instrumentation \
+      --app ./app/build/outputs/apk/debug/app-debug.apk \
+      --test ./app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
