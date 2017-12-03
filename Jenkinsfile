@@ -39,12 +39,13 @@ pipeline {
       }
       post {
         always {
+          sh './ci/report-builder.sh testlab-artifacts-smoketest'
           publishHTML(target: [
                   allowMissing         : false,
                   alwaysLinkToLastBuild: false,
                   keepAll              : true,
                   reportDir            : 'testlab-artifacts-smoketest',
-                  reportFiles          : '*',
+                  reportFiles          : 'report.html',
                   reportName           : 'Smoke Test'
           ])
         }
