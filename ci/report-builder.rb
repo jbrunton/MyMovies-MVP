@@ -71,4 +71,4 @@ builder = Nokogiri::HTML::Builder.new do |doc|
   }
 end
 
-File.write(build_dir + 'report.html', builder.to_html)
+File.write(File.join(build_dir, 'report.html'), builder.to_html)
