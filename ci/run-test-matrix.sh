@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 if [ "$1" != "" ]; then
   TEST_MATRIX=$1
 else
