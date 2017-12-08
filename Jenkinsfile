@@ -1,5 +1,9 @@
 pipeline {
   agent any
+  environment {
+    GCLOUD_PROJECT = 'mymovies-7e138'
+    GCLOUD_KEY_LOCATION = '$JENKINS_HOME/gcloudkey.json'
+  }
   stages {
     stage('Build') {
       steps {
@@ -32,7 +36,7 @@ pipeline {
 
     stage('UI Tests') {
       steps {
-        sh './run_testlab.sh'
+        sh './ci/run-ui-tests.sh'
       }
     }
   }
