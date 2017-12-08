@@ -1,5 +1,8 @@
 pipeline {
   agent any
+  environment {
+    GCLOUD_KEY_LOCATION = '/var/jenkins_home/gcloudkey.json'
+  }
   stages {
     stage('Build') {
       steps {
@@ -32,7 +35,20 @@ pipeline {
 
     stage('UI Tests') {
       steps {
-        sh './run_testlab.sh'
+        sh './ci/run-testlab.sh'
+      }
+      post {
+        always {
+          sh './ci/report-builder.rb testlab-artifacts-smoketest'
+          publishHTML(target: [
+                  allowMissing         : false,
+                  alwaysLinkToLastBuild: false,
+                  keepAll              : true,
+                  reportDir            : 'testlab-artifacts-smoketest',
+                  reportFiles          : 'report.html',
+                  reportName           : 'Smoke Test'
+          ])
+        }
       }
     }
   }
