@@ -47,8 +47,6 @@ dependencies {
     testCompile project(':fixtures')
     androidTestCompile project(':fixtures')
 
-    compile 'com.android.support:multidex:1.0.1'
-
     implementation 'com.android.support:design:26.1.0'
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
