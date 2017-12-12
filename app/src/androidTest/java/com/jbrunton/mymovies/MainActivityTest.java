@@ -56,9 +56,9 @@ public class MainActivityTest extends BaseTest<MainActivity> {
     }
 
     @Test public void showsLoadingState() {
-        setViewState(LOADING_STATE);
-
         onView(isAssignableFrom(ProgressBar.class)).perform(replaceProgressBarDrawable());
+
+        setViewState(LOADING_STATE);
 
         takeScreenshot("showsLoadingState");
         onView(withId(R.id.loading_indicator))
