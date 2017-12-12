@@ -1,8 +1,7 @@
 package com.jbrunton.entities;
 
 import com.google.auto.value.AutoValue;
-
-import java.util.Optional;
+import com.google.common.base.Optional;
 
 @AutoValue
 public abstract class Configuration {
@@ -14,7 +13,7 @@ public abstract class Configuration {
 
     public Optional<String> expandUrl(String relativePath) {
         if (relativePath == null) {
-            return Optional.empty();
+            return Optional.absent();
         }
         String expandedUrl = secureBaseUrl() + "w300" + relativePath;
         return Optional.of(expandedUrl);

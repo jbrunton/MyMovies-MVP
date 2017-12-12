@@ -1,14 +1,14 @@
 package com.jbrunton.mymovies.app.search;
 
+import com.google.common.collect.FluentIterable;
+import com.jbrunton.entities.Movie;
 import com.jbrunton.mymovies.R;
 import com.jbrunton.mymovies.app.movies.BaseMovieViewStateFactory;
 import com.jbrunton.mymovies.app.movies.MovieSearchResultViewState;
 import com.jbrunton.mymovies.app.shared.LoadingViewState;
-import com.jbrunton.entities.Movie;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class SearchViewStateFactory extends BaseMovieViewStateFactory {
     public SearchViewState fromList(List<Movie> movies) {
@@ -20,7 +20,7 @@ public class SearchViewStateFactory extends BaseMovieViewStateFactory {
         } else {
             return SearchViewState.builder()
                     .setLoadingViewState(LoadingViewState.OK_STATE)
-                    .setMovies(movies.stream().map(this::toMovieSearchResultViewState).collect(Collectors.toList()))
+                    .setMovies(FluentIterable.from(movies).transform(this::toMovieSearchResultViewState).toList())
                     .build();
         }
     }

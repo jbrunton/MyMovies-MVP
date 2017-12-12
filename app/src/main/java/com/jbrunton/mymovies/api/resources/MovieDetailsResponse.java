@@ -1,9 +1,8 @@
 package com.jbrunton.mymovies.api.resources;
 
+import com.google.common.base.Optional;
 import com.jbrunton.entities.Configuration;
 import com.jbrunton.entities.Movie;
-
-import java.util.Optional;
 
 public class MovieDetailsResponse extends BaseMovieResource {
     private String overview;
