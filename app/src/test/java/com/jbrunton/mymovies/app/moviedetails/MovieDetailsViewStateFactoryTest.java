@@ -1,5 +1,6 @@
 package com.jbrunton.mymovies.app.moviedetails;
 
+import com.google.common.base.Optional;
 import com.jbrunton.entities.Movie;
 import com.jbrunton.fixtures.MovieFactory;
 import com.jbrunton.mymovies.api.DescriptiveError;
@@ -9,8 +10,6 @@ import com.jbrunton.mymovies.app.shared.LoadingViewStateFactory;
 
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -49,7 +48,7 @@ public class MovieDetailsViewStateFactoryTest {
 
     @Test public void setsBlankReleaseDateIfMissing() {
         MovieDetailsViewState viewState = factory.fromMovie(movieFactory.builder()
-                .releaseDate(Optional.empty())
+                .releaseDate(Optional.absent())
                 .build());
 
         assertThat(viewState.movie().yearReleased()).isEmpty();
