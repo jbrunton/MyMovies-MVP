@@ -41,5 +41,14 @@ pipeline {
         sh './ci/run-test-matrix.sh smoketest'
       }
     }
+
+    stage('UI Road Tests') {
+      when {
+        branch 'master'
+      }
+      steps {
+        sh './ci/run-test-matrix.sh roadtest'
+      }
+    }
   }
 }
