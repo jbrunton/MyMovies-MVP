@@ -34,9 +34,20 @@ pipeline {
       }
     }
 
-    stage('UI Tests') {
+    stage('UI Smoke Tests') {
       steps {
-        sh './ci/run-ui-tests.sh'
+        sh 'gcloud config set project $GCLOUD_PROJECT'
+        sh 'gcloud auth activate-service-account --key-file $GCLOUD_KEY_LOCATION'
+        sh './ci/run-test-matrix.sh smoketest'
+      }
+    }
+
+    stage('UI Road Tests') {
+      when {
+        branch 'master'
+      }
+      steps {
+        sh './ci/run-test-matrix.sh roadtest'
       }
     }
   }
