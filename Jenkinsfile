@@ -34,7 +34,7 @@ pipeline {
       }
     }
 
-    stage('UI Tests') {
+    stage('UI Smoke Tests') {
       steps {
         sh './ci/run-ui-tests.sh'
       }
