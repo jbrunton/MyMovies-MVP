@@ -2,8 +2,8 @@
 
 set -e
 
-#gcloud config set project $GCLOUD_PROJECT
-#gcloud auth activate-service-account --key-file $GCLOUD_KEY_LOCATION
+gcloud config set project $GCLOUD_PROJECT
+gcloud auth activate-service-account --key-file $GCLOUD_KEY_LOCATION
 
 echo 'Running UI smoke tests...'
 ./ci/run-test-matrix.sh smoketest

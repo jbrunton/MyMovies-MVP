@@ -1,11 +1,10 @@
 package com.jbrunton.mymovies.api.resources;
 
+import com.google.common.base.Optional;
 import com.jbrunton.entities.Configuration;
 import com.jbrunton.entities.Movie;
 
 import org.joda.time.LocalDate;
-
-import java.util.Optional;
 
 public class BaseMovieResource {
     private String id;
@@ -21,7 +20,7 @@ public class BaseMovieResource {
                 .title(originalTitle)
                 .posterUrl(config.expandUrl(posterPath))
                 .backdropUrl(config.expandUrl(backdropPath))
-                .releaseDate(Optional.ofNullable(releaseDate))
+                .releaseDate(Optional.fromNullable(releaseDate))
                 .rating(voteAverage);
     }
 }

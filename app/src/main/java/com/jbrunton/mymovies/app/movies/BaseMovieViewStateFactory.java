@@ -1,11 +1,10 @@
 package com.jbrunton.mymovies.app.movies;
 
-import com.jbrunton.mymovies.app.shared.LoadingViewStateFactory;
+import com.google.common.base.Optional;
 import com.jbrunton.entities.Movie;
+import com.jbrunton.mymovies.app.shared.LoadingViewStateFactory;
 
 import org.joda.time.LocalDate;
-
-import java.util.Optional;
 
 public class BaseMovieViewStateFactory {
     protected final LoadingViewStateFactory loadingViewStateFactory = new LoadingViewStateFactory();

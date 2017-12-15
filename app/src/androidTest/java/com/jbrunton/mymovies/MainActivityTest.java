@@ -2,6 +2,7 @@ package com.jbrunton.mymovies;
 
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
+import android.widget.ProgressBar;
 
 import com.jbrunton.entities.Movie;
 import com.jbrunton.fixtures.MovieFactory;
@@ -18,9 +19,11 @@ import org.junit.runner.RunWith;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
+import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.jbrunton.mymovies.fixtures.ProgressBarViewActions.replaceProgressBarDrawable;
 import static com.jbrunton.mymovies.fixtures.RecyclerViewUtils.withRecyclerView;
 import static java.util.Arrays.asList;
 
@@ -53,6 +56,8 @@ public class MainActivityTest extends BaseTest<MainActivity> {
     }
 
     @Test public void showsLoadingState() {
+        onView(isAssignableFrom(ProgressBar.class)).perform(replaceProgressBarDrawable());
+
         setViewState(LOADING_STATE);
 
         takeScreenshot("showsLoadingState");

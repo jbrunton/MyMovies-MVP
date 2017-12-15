@@ -1,10 +1,9 @@
 package com.jbrunton.entities;
 
 import com.google.auto.value.AutoValue;
+import com.google.common.base.Optional;
 
 import org.joda.time.LocalDate;
-
-import java.util.Optional;
 
 @AutoValue
 public abstract class Movie {

@@ -2,7 +2,7 @@ pipeline {
   agent any
   environment {
     GCLOUD_PROJECT = 'mymovies-7e138'
-    GCLOUD_KEY_LOCATION = '$JENKINS_HOME/gcloudkey.json'
+    GCLOUD_KEY_LOCATION = "${env.JENKINS_HOME}/gcloudkey.json"
   }
   stages {
     stage('Build') {
