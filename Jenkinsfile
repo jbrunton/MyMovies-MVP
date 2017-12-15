@@ -36,6 +36,7 @@ pipeline {
 
     stage('UI Smoke Tests') {
       steps {
+        sh 'gcloud config set project $GCLOUD_PROJECT'
         sh './ci/run-ui-tests.sh'
       }
     }
