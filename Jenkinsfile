@@ -36,7 +36,10 @@ pipeline {
 
     stage('UI Smoke Tests') {
       when {
-        expression { env.CHANGE_ID }
+        anyOf {
+          branch 'master'
+          expression { env.CHANGE_ID };
+        }
       }
       steps {
         sh 'gcloud config set project $GCLOUD_PROJECT'
@@ -50,8 +53,6 @@ pipeline {
         branch 'master'
       }
       steps {
-        sh 'gcloud config set project $GCLOUD_PROJECT'
-        sh 'gcloud auth activate-service-account --key-file $GCLOUD_KEY_LOCATION'
         sh './ci/run-test-matrix.sh roadtest'
       }
     }
