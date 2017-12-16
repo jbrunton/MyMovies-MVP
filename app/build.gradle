@@ -44,6 +44,7 @@ android {
 
 dependencies {
     compile project(':entities')
+    compile project(':networking')
     testCompile project(':fixtures')
     androidTestCompile project(':fixtures')
 
@@ -64,11 +65,6 @@ dependencies {
     testCompile 'junit:junit:4.12'
     testCompile 'org.assertj:assertj-core:3.8.0'
     androidTestCompile 'com.squareup.spoon:spoon-client:2.0.0-SNAPSHOT'
-
-    compile 'com.squareup.retrofit2:retrofit:2.3.0'
-    compile 'com.squareup.retrofit2:converter-gson:2.3.0'
-    compile 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
-    compile 'com.squareup.okhttp3:logging-interceptor:3.9.0'
 
     compile 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'

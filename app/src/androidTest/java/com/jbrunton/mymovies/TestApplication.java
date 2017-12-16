@@ -2,7 +2,6 @@ package com.jbrunton.mymovies;
 
 import com.jbrunton.entities.GenresRepository;
 import com.jbrunton.entities.MoviesRepository;
-import com.jbrunton.mymovies.app.ApplicationDependencies;
 
 import static org.mockito.Mockito.mock;
 
