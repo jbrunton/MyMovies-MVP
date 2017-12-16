@@ -1,10 +1,10 @@
-package com.jbrunton.mymovies.api.repositories;
+package com.jbrunton.networking.repositories;
 
 import com.jbrunton.entities.MoviesRepository;
-import com.jbrunton.mymovies.api.resources.ConfigurationResponse;
-import com.jbrunton.mymovies.api.resources.MovieDetailsResponse;
-import com.jbrunton.mymovies.api.resources.MoviesCollection;
-import com.jbrunton.mymovies.api.services.MovieService;
+import com.jbrunton.networking.resources.configuration.ConfigurationResponse;
+import com.jbrunton.networking.resources.movies.MovieDetailsResponse;
+import com.jbrunton.networking.resources.movies.MoviesCollection;
+import com.jbrunton.networking.services.MovieService;
 import com.jbrunton.entities.Configuration;
 import com.jbrunton.entities.Movie;
 

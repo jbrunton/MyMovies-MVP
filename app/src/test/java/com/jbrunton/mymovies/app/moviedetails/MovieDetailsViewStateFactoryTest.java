@@ -3,7 +3,7 @@ package com.jbrunton.mymovies.app.moviedetails;
 import com.google.common.base.Optional;
 import com.jbrunton.entities.Movie;
 import com.jbrunton.fixtures.MovieFactory;
-import com.jbrunton.mymovies.api.DescriptiveError;
+import com.jbrunton.networking.DescriptiveError;
 import com.jbrunton.mymovies.app.movies.MovieViewState;
 import com.jbrunton.mymovies.app.shared.LoadingViewState;
 import com.jbrunton.mymovies.app.shared.LoadingViewStateFactory;

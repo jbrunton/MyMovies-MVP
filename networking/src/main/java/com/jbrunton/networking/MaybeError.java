@@ -1,4 +1,4 @@
-package com.jbrunton.mymovies.api;
+package com.jbrunton.networking;
 
 import java.util.Objects;
 import java.util.function.Consumer;

@@ -1,4 +1,4 @@
-package com.jbrunton.mymovies.api.resources;
+package com.jbrunton.networking.resources.movies;
 
 import com.google.common.base.Optional;
 import com.jbrunton.entities.Configuration;

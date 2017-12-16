@@ -1,4 +1,4 @@
-package com.jbrunton.mymovies.api.services;
+package com.jbrunton.networking.services;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;

@@ -3,7 +3,7 @@ package com.jbrunton.mymovies.app.discover;
 import android.support.annotation.DrawableRes;
 
 import com.jbrunton.mymovies.R;
-import com.jbrunton.mymovies.api.DescriptiveError;
+import com.jbrunton.networking.DescriptiveError;
 import com.jbrunton.mymovies.app.shared.LoadingViewState;
 import com.jbrunton.entities.Genre;
 

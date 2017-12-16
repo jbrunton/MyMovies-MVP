@@ -1,7 +1,8 @@
-package com.jbrunton.mymovies.api.resources;
+package com.jbrunton.networking.resources.movies;
 
 import com.jbrunton.entities.Configuration;
 import com.jbrunton.entities.Movie;
+import com.jbrunton.networking.resources.PagedCollection;
 
 import java.util.List;
 

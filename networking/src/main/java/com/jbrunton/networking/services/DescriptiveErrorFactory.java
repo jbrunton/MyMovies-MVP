@@ -1,6 +1,6 @@
-package com.jbrunton.mymovies.api.services;
+package com.jbrunton.networking.services;
 
-import com.jbrunton.mymovies.api.DescriptiveError;
+import com.jbrunton.networking.DescriptiveError;
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;

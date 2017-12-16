@@ -1,4 +1,4 @@
-package com.jbrunton.mymovies.api.resources;
+package com.jbrunton.networking.resources.genres;
 
 import com.jbrunton.entities.Genre;
 

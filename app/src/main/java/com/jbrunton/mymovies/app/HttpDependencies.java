@@ -2,10 +2,10 @@ package com.jbrunton.mymovies.app;
 
 import com.jbrunton.entities.GenresRepository;
 import com.jbrunton.entities.MoviesRepository;
-import com.jbrunton.mymovies.api.repositories.HttpGenresRepository;
-import com.jbrunton.mymovies.api.repositories.HttpMoviesRepository;
-import com.jbrunton.mymovies.api.services.MovieService;
-import com.jbrunton.mymovies.api.services.ServiceFactory;
+import com.jbrunton.networking.repositories.HttpGenresRepository;
+import com.jbrunton.networking.repositories.HttpMoviesRepository;
+import com.jbrunton.networking.services.MovieService;
+import com.jbrunton.networking.services.ServiceFactory;
 
 public class HttpDependencies implements ApplicationDependencies {
     private MovieService service;

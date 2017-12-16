@@ -6,7 +6,7 @@ import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 
 import com.jbrunton.entities.MoviesRepository;
-import com.jbrunton.mymovies.api.DescriptiveError;
+import com.jbrunton.networking.DescriptiveError;
 import com.jbrunton.mymovies.app.search.SearchViewState;
 import com.jbrunton.mymovies.app.search.SearchViewStateFactory;
 import com.jbrunton.mymovies.app.shared.BaseViewModel;

@@ -3,7 +3,7 @@ package com.jbrunton.mymovies.app.shared;
 import android.support.annotation.DrawableRes;
 
 import com.jbrunton.mymovies.R;
-import com.jbrunton.mymovies.api.DescriptiveError;
+import com.jbrunton.networking.DescriptiveError;
 
 public class LoadingViewStateFactory {
     public LoadingViewState fromError(Throwable throwable) {

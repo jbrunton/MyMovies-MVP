@@ -4,8 +4,8 @@ import android.arch.core.executor.testing.InstantTaskExecutorRule;
 
 import com.jbrunton.entities.Movie;
 import com.jbrunton.fixtures.MovieFactory;
-import com.jbrunton.mymovies.api.DescriptiveError;
-import com.jbrunton.mymovies.api.repositories.HttpMoviesRepository;
+import com.jbrunton.networking.DescriptiveError;
+import com.jbrunton.networking.repositories.HttpMoviesRepository;
 import com.jbrunton.mymovies.fixtures.TestSchedulerRule;
 
 import org.junit.Before;

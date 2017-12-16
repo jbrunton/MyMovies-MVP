@@ -1,4 +1,4 @@
-package com.jbrunton.mymovies.api;
+package com.jbrunton.networking;
 
 public class DescriptiveError extends RuntimeException {
     private final boolean isNetworkError;

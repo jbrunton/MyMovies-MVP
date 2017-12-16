@@ -1,9 +1,9 @@
-package com.jbrunton.mymovies.api.services;
+package com.jbrunton.networking.services;
 
-import com.jbrunton.mymovies.api.resources.ConfigurationResponse;
-import com.jbrunton.mymovies.api.resources.GenresResponse;
-import com.jbrunton.mymovies.api.resources.MovieDetailsResponse;
-import com.jbrunton.mymovies.api.resources.MoviesCollection;
+import com.jbrunton.networking.resources.configuration.ConfigurationResponse;
+import com.jbrunton.networking.resources.genres.GenresResponse;
+import com.jbrunton.networking.resources.movies.MovieDetailsResponse;
+import com.jbrunton.networking.resources.movies.MoviesCollection;
 
 import io.reactivex.Observable;
 import retrofit2.http.GET;

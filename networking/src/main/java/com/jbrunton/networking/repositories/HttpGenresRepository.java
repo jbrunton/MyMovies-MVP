@@ -1,9 +1,9 @@
-package com.jbrunton.mymovies.api.repositories;
+package com.jbrunton.networking.repositories;
 
 import com.jbrunton.entities.Genre;
 import com.jbrunton.entities.GenresRepository;
-import com.jbrunton.mymovies.api.resources.GenresResponse;
-import com.jbrunton.mymovies.api.services.MovieService;
+import com.jbrunton.networking.resources.genres.GenresResponse;
+import com.jbrunton.networking.services.MovieService;
 
 import java.util.List;
 
