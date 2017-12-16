@@ -4,6 +4,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 
+import com.jbrunton.mymovies.MyMoviesApplication;
+import com.jbrunton.mymovies.app.ApplicationDependencies;
+
 public abstract class BaseFragment<T extends BaseViewModel> extends Fragment {
     private T viewModel;
 
@@ -18,4 +21,8 @@ public abstract class BaseFragment<T extends BaseViewModel> extends Fragment {
     }
 
     protected abstract T provideViewModel();
+
+    protected ApplicationDependencies dependencies() {
+        return ((MyMoviesApplication) getActivity().getApplication()).dependencies();
+    }
 }

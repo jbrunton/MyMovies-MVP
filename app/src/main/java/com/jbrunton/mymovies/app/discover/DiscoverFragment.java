@@ -45,7 +45,8 @@ public class DiscoverFragment extends BaseFragment<DiscoverViewModel> {
     }
 
     @Override protected DiscoverViewModel provideViewModel() {
-        return ViewModelProviders.of(this).get(DiscoverViewModel.class);
+        DiscoverViewModel.Factory factory = new DiscoverViewModel.Factory(dependencies().moviesRepository());
+        return ViewModelProviders.of(this, factory).get(DiscoverViewModel.class);
     }
 
     @OnClick(R.id.genres_link)

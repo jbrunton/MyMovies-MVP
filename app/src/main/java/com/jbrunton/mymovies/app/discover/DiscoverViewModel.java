@@ -2,14 +2,16 @@ package com.jbrunton.mymovies.app.discover;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
+import android.arch.lifecycle.ViewModel;
+import android.arch.lifecycle.ViewModelProvider;
+import android.support.annotation.NonNull;
 
-import com.jbrunton.mymovies.api.repositories.MoviesRepository;
-import com.jbrunton.mymovies.api.services.ServiceFactory;
+import com.jbrunton.entities.Movie;
+import com.jbrunton.entities.MoviesRepository;
 import com.jbrunton.mymovies.app.search.SearchViewState;
 import com.jbrunton.mymovies.app.search.SearchViewStateFactory;
 import com.jbrunton.mymovies.app.shared.BaseViewModel;
 import com.jbrunton.mymovies.app.shared.LoadingViewState;
-import com.jbrunton.entities.Movie;
 
 import java.util.Collections;
 import java.util.List;
@@ -19,8 +21,8 @@ public class DiscoverViewModel extends BaseViewModel {
     private final MutableLiveData<SearchViewState> viewState = new MutableLiveData<>();
     private final SearchViewStateFactory viewStateFactory = new SearchViewStateFactory();
 
-    DiscoverViewModel() {
-        repository = new MoviesRepository(ServiceFactory.instance());
+    DiscoverViewModel(MoviesRepository repository) {
+        this.repository = repository;
     }
 
     public LiveData<SearchViewState> viewState() {
@@ -43,5 +45,18 @@ public class DiscoverViewModel extends BaseViewModel {
 
     private void setErrorResponse(Throwable error) {
         viewState.setValue(viewStateFactory.fromError(error));
+    }
+
+    public static class Factory extends ViewModelProvider.NewInstanceFactory {
+        private final MoviesRepository repository;
+
+        public Factory(MoviesRepository repository) {
+            this.repository = repository;
+        }
+
+        @NonNull @Override public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
+            //noinspection unchecked
+            return (T) new DiscoverViewModel(repository);
+        }
     }
 }

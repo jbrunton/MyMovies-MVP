@@ -61,7 +61,8 @@ public class GenresActivity extends BaseActivity<GenresViewModel> {
     }
 
     @Override protected GenresViewModel provideViewModel() {
-        return ViewModelProviders.of(this).get(GenresViewModel.class);
+        GenresViewModel.Factory factory = new GenresViewModel.Factory(dependencies().genresRepository());
+        return ViewModelProviders.of(this, factory).get(GenresViewModel.class);
     }
 
     private void updateView(GenresViewState viewState) {

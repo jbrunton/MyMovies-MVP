@@ -2,11 +2,12 @@ package com.jbrunton.mymovies.app.search;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
+import android.arch.lifecycle.ViewModel;
+import android.arch.lifecycle.ViewModelProvider;
 
-import com.jbrunton.mymovies.api.repositories.MoviesRepository;
-import com.jbrunton.mymovies.api.services.ServiceFactory;
-import com.jbrunton.mymovies.app.shared.BaseViewModel;
 import com.jbrunton.entities.Movie;
+import com.jbrunton.entities.MoviesRepository;
+import com.jbrunton.mymovies.app.shared.BaseViewModel;
 
 import java.util.List;
 
@@ -15,8 +16,8 @@ public class SearchViewModel extends BaseViewModel {
     private final MoviesRepository repository;
     private final SearchViewStateFactory viewStateFactory = new SearchViewStateFactory();
 
-    public SearchViewModel() {
-        repository = new MoviesRepository(ServiceFactory.instance());
+    public SearchViewModel(MoviesRepository repository) {
+        this.repository = repository;
     }
 
     public LiveData<SearchViewState> viewState() {
@@ -44,5 +45,18 @@ public class SearchViewModel extends BaseViewModel {
 
     private void setErrorResponse(Throwable throwable) {
         viewState.setValue(viewStateFactory.fromError(throwable));
+    }
+
+    public static class Factory extends ViewModelProvider.NewInstanceFactory {
+        private final MoviesRepository repository;
+
+        public Factory(MoviesRepository repository) {
+            this.repository = repository;
+        }
+
+        @Override public <T extends ViewModel> T create(Class<T> modelClass) {
+            //noinspection unchecked
+            return (T) new SearchViewModel(repository);
+        }
     }
 }

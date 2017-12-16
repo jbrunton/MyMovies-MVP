@@ -4,6 +4,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
+import com.jbrunton.mymovies.MyMoviesApplication;
+import com.jbrunton.mymovies.app.ApplicationDependencies;
+
 import butterknife.ButterKnife;
 import io.reactivex.ObservableTransformer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -17,6 +20,10 @@ public abstract class BaseActivity<T extends BaseViewModel> extends AppCompatAct
         super.onCreate(savedInstanceState);
         viewModel = provideViewModel();
         viewModel.start();
+    }
+
+    protected ApplicationDependencies dependencies() {
+        return ((MyMoviesApplication) getApplication()).dependencies();
     }
 
     protected <T> ObservableTransformer<T, T> applySchedulers() {
