@@ -1,6 +1,5 @@
 package com.jbrunton.mymovies.app.search;
 
-import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -57,7 +56,8 @@ public class SearchFragment extends BaseFragment<SearchViewModel> {
     }
 
     @Override protected SearchViewModel provideViewModel() {
-        return ViewModelProviders.of(this).get(SearchViewModel.class);
+        SearchViewModel.Factory factory = new SearchViewModel.Factory(dependencies().moviesRepository());
+        return getViewModel(SearchViewModel.class, factory);
     }
 
     @OnTextChanged(R.id.search_query)

@@ -5,9 +5,8 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 
+import com.jbrunton.entities.MoviesRepository;
 import com.jbrunton.mymovies.api.DescriptiveError;
-import com.jbrunton.mymovies.api.repositories.MoviesRepository;
-import com.jbrunton.mymovies.api.services.ServiceFactory;
 import com.jbrunton.mymovies.app.search.SearchViewState;
 import com.jbrunton.mymovies.app.search.SearchViewStateFactory;
 import com.jbrunton.mymovies.app.shared.BaseViewModel;
@@ -23,9 +22,9 @@ public class GenreResultsViewModel extends BaseViewModel {
     private final MoviesRepository repository;
     private final SearchViewStateFactory viewStateFactory = new SearchViewStateFactory();
 
-    public GenreResultsViewModel(String genreId) {
+    public GenreResultsViewModel(String genreId, MoviesRepository repository) {
         this.genreId = genreId;
-        repository = new MoviesRepository(ServiceFactory.instance());
+        this.repository = repository;
     }
 
     public LiveData<SearchViewState> viewState() {
@@ -53,14 +52,16 @@ public class GenreResultsViewModel extends BaseViewModel {
     public static class Factory extends ViewModelProvider.NewInstanceFactory {
 
        private final String genreId;
+       private final MoviesRepository repository;
 
-        public Factory(String genreId) {
+        public Factory(String genreId, MoviesRepository repository) {
             this.genreId = genreId;
+            this.repository = repository;
         }
 
         @Override public <T extends ViewModel> T create(Class<T> modelClass) {
             //noinspection unchecked
-            return (T) new GenreResultsViewModel(genreId);
+            return (T) new GenreResultsViewModel(genreId, repository);
         }
     }
 }

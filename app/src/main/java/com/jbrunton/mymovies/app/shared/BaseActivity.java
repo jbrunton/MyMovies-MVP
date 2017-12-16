@@ -1,8 +1,13 @@
 package com.jbrunton.mymovies.app.shared;
 
+import android.arch.lifecycle.ViewModelProvider;
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+
+import com.jbrunton.mymovies.MyMoviesApplication;
+import com.jbrunton.mymovies.app.ApplicationDependencies;
 
 import butterknife.ButterKnife;
 import io.reactivex.ObservableTransformer;
@@ -17,6 +22,10 @@ public abstract class BaseActivity<T extends BaseViewModel> extends AppCompatAct
         super.onCreate(savedInstanceState);
         viewModel = provideViewModel();
         viewModel.start();
+    }
+
+    protected ApplicationDependencies dependencies() {
+        return ((MyMoviesApplication) getApplication()).dependencies();
     }
 
     protected <T> ObservableTransformer<T, T> applySchedulers() {
@@ -38,4 +47,8 @@ public abstract class BaseActivity<T extends BaseViewModel> extends AppCompatAct
     }
 
     protected abstract T provideViewModel();
+
+    protected T getViewModel(Class<T> modelClass, ViewModelProvider.Factory factory) {
+        return ViewModelProviders.of(this, factory).get(modelClass);
+    }
 }

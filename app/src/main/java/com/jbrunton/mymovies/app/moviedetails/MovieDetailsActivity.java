@@ -1,6 +1,5 @@
 package com.jbrunton.mymovies.app.moviedetails;
 
-import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -52,9 +51,8 @@ public class MovieDetailsActivity extends BaseActivity<MovieDetailsViewModel> {
 
     @Override protected MovieDetailsViewModel provideViewModel() {
         MovieDetailsViewModel.Factory factory = new MovieDetailsViewModel.Factory(
-                getIntent().getExtras().getString("MOVIE_ID"));
-        return ViewModelProviders.of(this, factory)
-                .get(MovieDetailsViewModel.class);
+                getIntent().getExtras().getString("MOVIE_ID"), dependencies().moviesRepository());
+        return getViewModel(MovieDetailsViewModel.class, factory);
     }
 
     @OnClick(R.id.error_try_again) public void tryAgain() {

@@ -5,7 +5,7 @@ import android.arch.core.executor.testing.InstantTaskExecutorRule;
 import com.jbrunton.entities.Movie;
 import com.jbrunton.fixtures.MovieFactory;
 import com.jbrunton.mymovies.api.DescriptiveError;
-import com.jbrunton.mymovies.api.repositories.MoviesRepository;
+import com.jbrunton.mymovies.api.repositories.HttpMoviesRepository;
 import com.jbrunton.mymovies.fixtures.TestSchedulerRule;
 
 import org.junit.Before;
@@ -23,7 +23,7 @@ public class MovieDetailsViewModelTest {
     @Rule public InstantTaskExecutorRule instantExecutorRule = new InstantTaskExecutorRule();
     @Rule public TestSchedulerRule schedulerRule = new TestSchedulerRule();
 
-    private MoviesRepository repository;
+    private HttpMoviesRepository repository;
     private final MovieFactory movieFactory = new MovieFactory();
     private final Movie MOVIE = movieFactory.create();
     private final DescriptiveError NETWORK_ERROR = new DescriptiveError("Network Error", true);
@@ -32,7 +32,7 @@ public class MovieDetailsViewModelTest {
     private MovieDetailsViewModel viewModel;
 
     @Before public void setUp() {
-        repository = mock(MoviesRepository.class);
+        repository = mock(HttpMoviesRepository.class);
         viewModel = new MovieDetailsViewModel("1", repository);
         stubFind(repository, "1").toReturnDelayed(MOVIE, 1);
     }

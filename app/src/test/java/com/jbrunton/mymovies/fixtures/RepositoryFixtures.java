@@ -1,6 +1,6 @@
 package com.jbrunton.mymovies.fixtures;
 
-import com.jbrunton.mymovies.api.repositories.MoviesRepository;
+import com.jbrunton.mymovies.api.repositories.HttpMoviesRepository;
 import com.jbrunton.entities.Movie;
 
 import java.util.concurrent.TimeUnit;
@@ -11,9 +11,9 @@ import static org.mockito.Mockito.when;
 
 public class RepositoryFixtures {
     public static class FakeMoviesRepositoryDsl {
-        protected final MoviesRepository repository;
+        protected final HttpMoviesRepository repository;
 
-        private FakeMoviesRepositoryDsl(MoviesRepository repository) {
+        private FakeMoviesRepositoryDsl(HttpMoviesRepository repository) {
             this.repository = repository;
         }
     }
@@ -21,7 +21,7 @@ public class RepositoryFixtures {
     public static class FakeMoviesFindDsl extends FakeMoviesRepositoryDsl {
         private final String id;
 
-        public FakeMoviesFindDsl(MoviesRepository repository, String id) {
+        public FakeMoviesFindDsl(HttpMoviesRepository repository, String id) {
             super(repository);
             this.id = id;
         }
@@ -43,7 +43,7 @@ public class RepositoryFixtures {
         }
     }
 
-    public static FakeMoviesFindDsl stubFind(MoviesRepository repository, String id) {
+    public static FakeMoviesFindDsl stubFind(HttpMoviesRepository repository, String id) {
         return new FakeMoviesFindDsl(repository, id);
     }
 }

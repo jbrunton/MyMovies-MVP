@@ -5,10 +5,9 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 
-import com.jbrunton.mymovies.api.repositories.MoviesRepository;
-import com.jbrunton.mymovies.api.services.ServiceFactory;
-import com.jbrunton.mymovies.app.shared.BaseViewModel;
 import com.jbrunton.entities.Movie;
+import com.jbrunton.entities.MoviesRepository;
+import com.jbrunton.mymovies.app.shared.BaseViewModel;
 
 public class MovieDetailsViewModel extends BaseViewModel {
     private final MutableLiveData<MovieDetailsViewState> viewState = new MutableLiveData<>();
@@ -52,14 +51,16 @@ public class MovieDetailsViewModel extends BaseViewModel {
     public static class Factory extends ViewModelProvider.NewInstanceFactory {
 
         private final String movieId;
+        private final MoviesRepository repository;
 
-        public Factory(String movieId) {
+        public Factory(String movieId, MoviesRepository repository) {
             this.movieId = movieId;
+            this.repository = repository;
         }
 
         @Override public <T extends ViewModel> T create(Class<T> modelClass) {
             //noinspection unchecked
-            return (T) new MovieDetailsViewModel(movieId, new MoviesRepository(ServiceFactory.instance()));
+            return (T) new MovieDetailsViewModel(movieId, repository);
         }
     }
 }
