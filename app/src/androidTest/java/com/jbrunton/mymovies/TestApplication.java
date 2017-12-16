@@ -4,15 +4,17 @@ import com.jbrunton.entities.GenresRepository;
 import com.jbrunton.entities.MoviesRepository;
 import com.jbrunton.mymovies.app.ApplicationDependencies;
 
+import static org.mockito.Mockito.mock;
+
 public class TestApplication extends MyMoviesApplication {
     @Override protected ApplicationDependencies createDependencyGraph() {
         return new ApplicationDependencies() {
             @Override public MoviesRepository moviesRepository() {
-                throw new RuntimeException("Stub!");
+                return mock(MoviesRepository.class);
             }
 
             @Override public GenresRepository genresRepository() {
-                throw new RuntimeException("Stub!");
+                return mock(GenresRepository.class);
             }
         };
     }
