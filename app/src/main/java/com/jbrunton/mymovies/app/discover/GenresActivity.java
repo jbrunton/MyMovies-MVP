@@ -1,6 +1,5 @@
 package com.jbrunton.mymovies.app.discover;
 
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,10 +15,10 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.jbrunton.entities.Genre;
 import com.jbrunton.mymovies.R;
 import com.jbrunton.mymovies.app.shared.BaseActivity;
 import com.jbrunton.mymovies.app.shared.LoadingStateContext;
-import com.jbrunton.entities.Genre;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -62,7 +61,7 @@ public class GenresActivity extends BaseActivity<GenresViewModel> {
 
     @Override protected GenresViewModel provideViewModel() {
         GenresViewModel.Factory factory = new GenresViewModel.Factory(dependencies().genresRepository());
-        return ViewModelProviders.of(this, factory).get(GenresViewModel.class);
+        return getViewModel(GenresViewModel.class, factory);
     }
 
     private void updateView(GenresViewState viewState) {

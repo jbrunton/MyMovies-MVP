@@ -1,6 +1,5 @@
 package com.jbrunton.mymovies.app.discover;
 
-import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -54,8 +53,7 @@ public class GenreResultsActivity extends BaseActivity<GenreResultsViewModel> {
     @Override protected GenreResultsViewModel provideViewModel() {
         GenreResultsViewModel.Factory factory = new GenreResultsViewModel.Factory(
                 getIntent().getExtras().getString("GENRE_ID"), dependencies().moviesRepository());
-        return ViewModelProviders.of(this, factory)
-                .get(GenreResultsViewModel.class);
+        return getViewModel(GenreResultsViewModel.class, factory);
     }
 
     private void updateView(SearchViewState viewState) {

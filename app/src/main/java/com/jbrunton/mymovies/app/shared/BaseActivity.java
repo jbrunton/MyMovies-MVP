@@ -1,5 +1,7 @@
 package com.jbrunton.mymovies.app.shared;
 
+import android.arch.lifecycle.ViewModelProvider;
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -45,4 +47,8 @@ public abstract class BaseActivity<T extends BaseViewModel> extends AppCompatAct
     }
 
     protected abstract T provideViewModel();
+
+    protected T getViewModel(Class<T> modelClass, ViewModelProvider.Factory factory) {
+        return ViewModelProviders.of(this, factory).get(modelClass);
+    }
 }

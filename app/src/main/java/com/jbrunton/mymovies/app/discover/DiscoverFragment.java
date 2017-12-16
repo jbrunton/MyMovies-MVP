@@ -1,6 +1,5 @@
 package com.jbrunton.mymovies.app.discover;
 
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -46,7 +45,7 @@ public class DiscoverFragment extends BaseFragment<DiscoverViewModel> {
 
     @Override protected DiscoverViewModel provideViewModel() {
         DiscoverViewModel.Factory factory = new DiscoverViewModel.Factory(dependencies().moviesRepository());
-        return ViewModelProviders.of(this, factory).get(DiscoverViewModel.class);
+        return getViewModel(DiscoverViewModel.class, factory);
     }
 
     @OnClick(R.id.genres_link)
