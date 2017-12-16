@@ -7,10 +7,9 @@ import android.widget.ProgressBar;
 import com.jbrunton.entities.Movie;
 import com.jbrunton.fixtures.MovieFactory;
 import com.jbrunton.networking.DescriptiveError;
-import com.jbrunton.mymovies.app.MainActivity;
-import com.jbrunton.mymovies.app.search.SearchFragment;
-import com.jbrunton.mymovies.app.search.SearchViewState;
-import com.jbrunton.mymovies.app.search.SearchViewStateFactory;
+import com.jbrunton.mymovies.search.SearchFragment;
+import com.jbrunton.mymovies.search.SearchViewState;
+import com.jbrunton.mymovies.search.SearchViewStateFactory;
 import com.jbrunton.mymovies.fixtures.BaseTest;
 
 import org.junit.Test;

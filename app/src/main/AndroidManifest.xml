@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".app.MainActivity"
+            android:name=".MainActivity"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,10 +22,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".app.discover.GenresActivity" />
-        <activity android:name=".app.discover.GenreResultsActivity" />
+        <activity android:name=".discover.GenresActivity" />
+        <activity android:name=".discover.GenreResultsActivity" />
         <activity
-            android:name=".app.moviedetails.MovieDetailsActivity"
+            android:name=".moviedetails.MovieDetailsActivity"
             android:theme="@style/AppTheme" />
         <meta-data
             android:name="io.fabric.ApiKey"
