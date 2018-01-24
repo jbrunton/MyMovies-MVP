@@ -28,7 +28,7 @@ class MovieDetailsActivity : BaseActivity<MovieDetailsViewModel>() {
         error_try_again.setOnClickListener { viewModel().retry() }
         bindErrorStateContext(LoadingStateContext())
 
-        viewModel().viewState().observe(this, Observer<MovieDetailsViewState> { this.updateView(it) })
+        viewModel().viewState().observe(this, Observer<MovieDetailsViewState> { this.updateView(it!!) })
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -47,8 +47,8 @@ class MovieDetailsActivity : BaseActivity<MovieDetailsViewModel>() {
         return getViewModel(MovieDetailsViewModel::class.java, factory)
     }
 
-    private fun updateView(viewState: MovieDetailsViewState?) {
-        updateLoadingView(viewState!!.loadingViewState())
+    private fun updateView(viewState: MovieDetailsViewState) {
+        updateLoadingView(viewState.loadingViewState())
 
         title = viewState.movie().title()
         overview.text = viewState.movie().overview()
