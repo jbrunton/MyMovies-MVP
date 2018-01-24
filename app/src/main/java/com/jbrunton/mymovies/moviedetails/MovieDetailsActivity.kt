@@ -5,23 +5,18 @@ import android.os.Bundle
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
 import android.view.View
-import android.widget.ImageView
-import android.widget.TextView
-import butterknife.BindView
 import butterknife.ButterKnife
 import butterknife.OnClick
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.helpers.PicassoHelper
 import com.jbrunton.mymovies.shared.BaseActivity
 import com.jbrunton.mymovies.shared.LoadingStateContext
+import kotlinx.android.synthetic.main.activity_movie_details.*
+import kotlinx.android.synthetic.main.content_movie_details.*
 
 class MovieDetailsActivity : BaseActivity<MovieDetailsViewModel>() {
 
     private val picassoHelper = PicassoHelper()
-    @BindView(R.id.overview) internal var overview: TextView? = null
-    @BindView(R.id.toolbar) internal var toolbar: Toolbar? = null
-    @BindView(R.id.content) internal var content: View? = null
-    @BindView(R.id.backdrop) internal var backdrop: ImageView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,7 +58,7 @@ class MovieDetailsActivity : BaseActivity<MovieDetailsViewModel>() {
         updateLoadingView(viewState!!.loadingViewState())
 
         title = viewState.movie().title()
-        overview!!.text = viewState.movie().overview()
+        overview.text = viewState.movie().overview()
 
         picassoHelper.loadImage(this, backdrop, viewState.movie().backdropUrl())
     }
