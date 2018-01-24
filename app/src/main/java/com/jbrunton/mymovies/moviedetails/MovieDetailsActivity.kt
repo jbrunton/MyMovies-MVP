@@ -5,14 +5,13 @@ import android.os.Bundle
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
 import android.view.View
-import butterknife.ButterKnife
-import butterknife.OnClick
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.helpers.PicassoHelper
 import com.jbrunton.mymovies.shared.BaseActivity
 import com.jbrunton.mymovies.shared.LoadingStateContext
 import kotlinx.android.synthetic.main.activity_movie_details.*
 import kotlinx.android.synthetic.main.content_movie_details.*
+import kotlinx.android.synthetic.main.layout_loading_state.*
 
 class MovieDetailsActivity : BaseActivity<MovieDetailsViewModel>() {
 
@@ -26,9 +25,8 @@ class MovieDetailsActivity : BaseActivity<MovieDetailsViewModel>() {
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
         title = ""
+        error_try_again.setOnClickListener { viewModel().retry() }
         bindErrorStateContext(LoadingStateContext())
-
-        ButterKnife.bind(this)
 
         viewModel().viewState().observe(this, Observer<MovieDetailsViewState> { this.updateView(it) })
     }
@@ -47,11 +45,6 @@ class MovieDetailsActivity : BaseActivity<MovieDetailsViewModel>() {
         val factory = MovieDetailsViewModel.Factory(
                 intent.extras!!.getString("MOVIE_ID"), dependencies().moviesRepository())
         return getViewModel(MovieDetailsViewModel::class.java, factory)
-    }
-
-    @OnClick(R.id.error_try_again)
-    fun tryAgain() {
-        viewModel().retry()
     }
 
     private fun updateView(viewState: MovieDetailsViewState?) {
