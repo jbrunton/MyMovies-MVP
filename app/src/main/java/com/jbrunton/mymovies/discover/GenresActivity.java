@@ -93,10 +93,10 @@ public class GenresActivity extends BaseActivity<GenresViewModel> {
             TextView genreName = (TextView) convertView.findViewById(android.R.id.text1);
             genreName.setOnClickListener(view -> {
                 Intent intent = new Intent(getContext(), GenreResultsActivity.class);
-                intent.putExtra("GENRE_ID", genre.id());
+                intent.putExtra("GENRE_ID", genre.getId());
                 getContext().startActivity(intent);
             });
-            genreName.setText(genre.name());
+            genreName.setText(genre.getName());
 
             return convertView;
         }

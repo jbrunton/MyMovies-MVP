@@ -13,7 +13,7 @@ public class GenresResponse {
         private String name;
 
         private static Genre toGenre(GenreResource resource) {
-            return Genre.create(resource.id, resource.name);
+            return new Genre(resource.id, resource.name);
         }
     }
 
