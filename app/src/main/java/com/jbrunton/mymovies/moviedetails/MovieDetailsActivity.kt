@@ -43,7 +43,7 @@ class MovieDetailsActivity : BaseActivity<MovieDetailsViewModel>() {
 
     override fun provideViewModel(): MovieDetailsViewModel {
         val factory = MovieDetailsViewModel.Factory(
-                intent.extras!!.getString("MOVIE_ID"), dependencies().moviesRepository())
+                intent.getStringExtra("MOVIE_ID"), dependencies().moviesRepository())
         return getViewModel(MovieDetailsViewModel::class.java, factory)
     }
 
