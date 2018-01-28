@@ -50,22 +50,22 @@ public class SearchResultsAdapter extends BaseRecyclerAdapter<MovieSearchResultV
 
         @Override
         public void bindHolder(ViewHolder holder, MovieSearchResultViewState item) {
-            holder.titleView.setText(item.title());
+            holder.titleView.setText(item.getTitle());
             if (holder.releaseDateView != null) {
-                holder.releaseDateView.setText(item.yearReleased());
+                holder.releaseDateView.setText(item.getYearReleased());
             }
             if (holder.ratingView != null) {
-                holder.ratingView.setText(Html.fromHtml(item.rating()));
+                holder.ratingView.setText(Html.fromHtml(item.getRating()));
             }
             Picasso.with(context)
-                    .load(item.posterUrl())
+                    .load(item.getPosterUrl())
                     .resize(185, 275)
                     .centerCrop()
                     .into(holder.poster);
             holder.movieCardView.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View view) {
                     Intent intent = new Intent(context, MovieDetailsActivity.class);
-                    intent.putExtra("MOVIE_ID", item.movieId());
+                    intent.putExtra("MOVIE_ID", item.getMovieId());
                     context.startActivity(intent);
                 }
             });

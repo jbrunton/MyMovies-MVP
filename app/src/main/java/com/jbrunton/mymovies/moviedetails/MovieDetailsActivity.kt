@@ -48,11 +48,11 @@ class MovieDetailsActivity : BaseActivity<MovieDetailsViewModel>() {
     }
 
     private fun updateView(viewState: MovieDetailsViewState) {
-        updateLoadingView(viewState.loadingViewState())
+        updateLoadingView(viewState.loadingViewState)
 
-        title = viewState.movie().title()
-        overview.text = viewState.movie().overview()
+        title = viewState.movie.title
+        overview.text = viewState.movie.overview
 
-        picassoHelper.loadImage(this, backdrop, viewState.movie().backdropUrl())
+        picassoHelper.loadImage(this, backdrop, viewState.movie.backdropUrl)
     }
 }
