@@ -80,9 +80,9 @@ public class MainActivityTest extends BaseTest<MainActivity> {
         takeScreenshot();
 
         onView(withRecyclerView(R.id.movies_list).atPosition(0))
-                .check(matches(hasDescendant(withText(MOVIE1.title()))));
+                .check(matches(hasDescendant(withText(MOVIE1.getTitle()))));
         onView(withRecyclerView(R.id.movies_list).atPosition(1))
-                .check(matches(hasDescendant(withText(MOVIE2.title()))));
+                .check(matches(hasDescendant(withText(MOVIE2.getTitle()))));
     }
 
     @Override protected ActivityTestRule<MainActivity> createActivityTestRule() {
