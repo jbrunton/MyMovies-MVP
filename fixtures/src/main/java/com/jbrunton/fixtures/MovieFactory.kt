@@ -8,7 +8,7 @@ class MovieFactory {
     private var count = 0
 
     class Builder {
-        var id: String = ""
+        var id: String? = ""
             private set
 
         var title: String? = ""
