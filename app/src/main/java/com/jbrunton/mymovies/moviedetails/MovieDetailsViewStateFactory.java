@@ -29,7 +29,7 @@ public class MovieDetailsViewStateFactory extends BaseMovieViewStateFactory {
 
     private MovieViewState toMovieViewState(Movie movie) {
         return setDefaults(MovieViewState.builder(), movie)
-                .overview(movie.overview().get())
+                .overview(movie.getOverview().get())
                 .build();
     }
 }

@@ -8,7 +8,7 @@ public class MovieFactory {
 
     public Movie.Builder builder() {
         final String id = Integer.toString(++count);
-        return Movie.builder()
+        return Movie.Companion.builder()
                 .id(id)
                 .title("Movie " + id)
                 .overview(Optional.of("Overview for Movie " + id))

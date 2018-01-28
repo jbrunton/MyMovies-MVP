@@ -26,11 +26,11 @@ public class BaseMovieViewStateFactory {
     }
 
     protected <T extends BaseMovieViewState.Builder<T>> T setDefaults(T builder, Movie movie) {
-        return builder.movieId(movie.id())
-                .title(movie.title())
-                .yearReleased(convertReleaseDate(movie.releaseDate()))
-                .rating("&#9734; " + movie.rating())
-                .posterUrl(emptyIfNull(movie.posterUrl()))
-                .backdropUrl(emptyIfNull(movie.backdropUrl()));
+        return builder.movieId(movie.getId())
+                .title(movie.getTitle())
+                .yearReleased(convertReleaseDate(movie.getReleaseDate()))
+                .rating("&#9734; " + movie.getRating())
+                .posterUrl(emptyIfNull(movie.getPosterUrl()))
+                .backdropUrl(emptyIfNull(movie.getBackdropUrl()));
     }
 }
