@@ -42,7 +42,7 @@ public class MovieDetailsViewStateFactoryTest {
     @Test public void createsContentState() {
         MovieDetailsViewState viewState = factory.fromMovie(MOVIE);
 
-        assertThat(viewState.movie().overview()).isEqualTo(MOVIE.overview().get());
+        assertThat(viewState.movie().overview()).isEqualTo(MOVIE.getOverview().get());
         // etc.
     }
 
