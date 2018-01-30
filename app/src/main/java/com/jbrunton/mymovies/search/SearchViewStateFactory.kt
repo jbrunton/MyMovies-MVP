@@ -2,11 +2,14 @@ package com.jbrunton.mymovies.search
 
 import com.jbrunton.entities.Movie
 import com.jbrunton.mymovies.R
-import com.jbrunton.mymovies.movies.BaseMovieViewStateFactory
 import com.jbrunton.mymovies.movies.MovieSearchResultViewState
+import com.jbrunton.mymovies.movies.from
 import com.jbrunton.mymovies.shared.LoadingViewState
+import com.jbrunton.mymovies.shared.LoadingViewStateFactory
 
-class SearchViewStateFactory : BaseMovieViewStateFactory() {
+class SearchViewStateFactory {
+    private val loadingViewStateFactory = LoadingViewStateFactory()
+
     fun fromList(movies: List<Movie>): SearchViewState {
         return if (movies.isEmpty()) {
             fromLoadingViewState(LoadingViewState.errorBuilder()
@@ -45,7 +48,8 @@ class SearchViewStateFactory : BaseMovieViewStateFactory() {
     }
 
     private fun toMovieSearchResultViewState(movie: Movie): MovieSearchResultViewState {
-        val builder = setDefaults(MovieSearchResultViewState.Builder(), movie)
-        return builder.build()
+        return MovieSearchResultViewState.Builder()
+                .from(movie)
+                .build()
     }
 }

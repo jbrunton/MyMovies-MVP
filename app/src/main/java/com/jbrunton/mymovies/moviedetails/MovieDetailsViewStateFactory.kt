@@ -1,11 +1,14 @@
 package com.jbrunton.mymovies.moviedetails
 
 import com.jbrunton.entities.Movie
-import com.jbrunton.mymovies.movies.BaseMovieViewStateFactory
 import com.jbrunton.mymovies.movies.MovieViewState
+import com.jbrunton.mymovies.movies.from
 import com.jbrunton.mymovies.shared.LoadingViewState
+import com.jbrunton.mymovies.shared.LoadingViewStateFactory
 
-class MovieDetailsViewStateFactory : BaseMovieViewStateFactory() {
+class MovieDetailsViewStateFactory {
+    private val loadingViewStateFactory = LoadingViewStateFactory()
+
     fun fromMovie(movie: Movie) = MovieDetailsViewState(
             loadingViewState = LoadingViewState.OK_STATE,
             movie = toMovieViewState(movie))
@@ -19,8 +22,8 @@ class MovieDetailsViewStateFactory : BaseMovieViewStateFactory() {
                 movie = MovieViewState.EMPTY)
 
     private fun toMovieViewState(movie: Movie): MovieViewState {
-        val builder = setDefaults(MovieViewState.Builder(), movie)
-        builder.overview = movie.overview.get()
-        return builder.build()
+        return MovieViewState.Builder().from(movie).apply {
+            this.overview = movie.overview.get()
+        }.build()
     }
 }
