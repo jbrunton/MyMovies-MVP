@@ -10,12 +10,23 @@ import com.jbrunton.mymovies.shared.LoadingViewStateFactory
 class SearchViewStateFactory {
     private val loadingViewStateFactory = LoadingViewStateFactory()
 
+    private val errorNoResults = LoadingViewState.errorBuilder()
+            .setErrorMessage("No Results")
+            .setErrorIcon(R.drawable.ic_search_black_24dp)
+            .build()
+
+    private val errorEmptyState = LoadingViewState.errorBuilder()
+            .setErrorMessage("Search")
+            .setErrorIcon(R.drawable.ic_search_black_24dp)
+            .build()
+
+    val searchEmptyState = fromLoadingViewState(errorEmptyState)
+
+    val loadingState = fromLoadingViewState(LoadingViewState.LOADING_STATE)
+
     fun fromList(movies: List<Movie>): SearchViewState {
         return if (movies.isEmpty()) {
-            fromLoadingViewState(LoadingViewState.errorBuilder()
-                    .setErrorMessage("No Results")
-                    .setErrorIcon(R.drawable.ic_search_black_24dp)
-                    .build())
+            fromLoadingViewState(errorNoResults)
         } else {
             SearchViewState.builder()
                     .setLoadingViewState(LoadingViewState.OK_STATE)
@@ -24,21 +35,8 @@ class SearchViewStateFactory {
         }
     }
 
-    fun fromError(throwable: Throwable): SearchViewState {
-        return fromLoadingViewState(loadingViewStateFactory.fromError(throwable))
-    }
-
-    fun searchEmptyState(): SearchViewState {
-        return fromLoadingViewState(
-                LoadingViewState.errorBuilder()
-                        .setErrorMessage("Search")
-                        .setErrorIcon(R.drawable.ic_search_black_24dp)
-                        .build())
-    }
-
-    fun loadingState(): SearchViewState {
-        return fromLoadingViewState(LoadingViewState.LOADING_STATE)
-    }
+    fun fromError(throwable: Throwable) =
+            fromLoadingViewState(loadingViewStateFactory.fromError(throwable))
 
     private fun fromLoadingViewState(loadingViewState: LoadingViewState): SearchViewState {
         return SearchViewState.builder()

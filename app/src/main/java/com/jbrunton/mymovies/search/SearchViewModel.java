@@ -25,14 +25,14 @@ public class SearchViewModel extends BaseViewModel {
     }
 
     @Override public void start() {
-        viewState.setValue(viewStateFactory.searchEmptyState());
+        viewState.setValue(viewStateFactory.getSearchEmptyState());
     }
 
     public void performSearch(String query) {
         if (query.isEmpty()) {
-            viewState.setValue(viewStateFactory.searchEmptyState());
+            viewState.setValue(viewStateFactory.getSearchEmptyState());
         } else {
-            viewState.setValue(viewStateFactory.loadingState());
+            viewState.setValue(viewStateFactory.getLoadingState());
             repository.searchMovies(query)
                     .compose(applySchedulers())
                     .subscribe(this::setMoviesResponse, this::setErrorResponse);
