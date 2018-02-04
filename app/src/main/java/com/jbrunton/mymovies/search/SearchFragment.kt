@@ -8,13 +8,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import butterknife.ButterKnife
+import com.jakewharton.rxbinding2.view.clicks
+import com.jakewharton.rxbinding2.widget.textChanges
 import com.jbrunton.mymovies.R
-import com.jbrunton.mymovies.helpers.afterTextChange
 import com.jbrunton.mymovies.helpers.toVisibility
 import com.jbrunton.mymovies.shared.BaseFragment
 import com.jbrunton.mymovies.shared.LoadingStateContext
+import com.trello.rxlifecycle2.android.lifecycle.kotlin.bindToLifecycle
+import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.android.synthetic.main.layout_loading_state.*
+import java.util.concurrent.TimeUnit
 
 class SearchFragment : BaseFragment<SearchViewModel>() {
     private lateinit var searchResultsAdapter: SearchResultsAdapter
@@ -32,14 +36,16 @@ class SearchFragment : BaseFragment<SearchViewModel>() {
         searchResultsAdapter = SearchResultsAdapter(activity, R.layout.item_movie_card_list)
         movies_list.adapter = searchResultsAdapter
 
-        search_query.afterTextChange {
-            // TODO: use RxBinding and debounce this
-            this.performSearch()
-        }
+        search_query.textChanges()
+                .debounce(500, TimeUnit.MILLISECONDS)
+                .bindToLifecycle(this)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe { this.performSearch() }
 
-        error_try_again.setOnClickListener {
-            this.performSearch()
-        }
+        error_try_again.clicks()
+                .bindToLifecycle(this)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe { this.performSearch() }
 
         super.onViewCreated(view, savedInstanceState)
     }
