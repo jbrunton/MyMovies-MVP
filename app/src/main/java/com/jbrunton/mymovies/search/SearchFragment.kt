@@ -15,7 +15,6 @@ import com.jbrunton.mymovies.helpers.toVisibility
 import com.jbrunton.mymovies.shared.BaseFragment
 import com.jbrunton.mymovies.shared.LoadingStateContext
 import com.trello.rxlifecycle2.android.lifecycle.kotlin.bindToLifecycle
-import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.android.synthetic.main.layout_loading_state.*
 import java.util.concurrent.TimeUnit
@@ -39,12 +38,10 @@ class SearchFragment : BaseFragment<SearchViewModel>() {
         search_query.textChanges()
                 .debounce(500, TimeUnit.MILLISECONDS)
                 .bindToLifecycle(this)
-                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { this.performSearch() }
 
         error_try_again.clicks()
                 .bindToLifecycle(this)
-                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { this.performSearch() }
 
         super.onViewCreated(view, savedInstanceState)

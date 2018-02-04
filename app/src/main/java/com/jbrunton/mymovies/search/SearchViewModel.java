@@ -30,9 +30,9 @@ public class SearchViewModel extends BaseViewModel {
 
     public void performSearch(String query) {
         if (query.isEmpty()) {
-            viewState.setValue(viewStateFactory.getSearchEmptyState());
+            viewState.postValue(viewStateFactory.getSearchEmptyState());
         } else {
-            viewState.setValue(viewStateFactory.getLoadingState());
+            viewState.postValue(viewStateFactory.getLoadingState());
             repository.searchMovies(query)
                     .compose(applySchedulers())
                     .subscribe(this::setMoviesResponse, this::setErrorResponse);
@@ -40,11 +40,11 @@ public class SearchViewModel extends BaseViewModel {
     }
 
     private void setMoviesResponse(List<Movie> movies) {
-        viewState.setValue(viewStateFactory.fromList(movies));
+        viewState.postValue(viewStateFactory.fromList(movies));
     }
 
     private void setErrorResponse(Throwable throwable) {
-        viewState.setValue(viewStateFactory.fromError(throwable));
+        viewState.postValue(viewStateFactory.fromError(throwable));
     }
 
     public static class Factory extends ViewModelProvider.NewInstanceFactory {
