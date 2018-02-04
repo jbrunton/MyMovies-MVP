@@ -10,7 +10,5 @@ open class MyMoviesApplication : Application() {
         dependencies = createDependencyGraph()
     }
 
-    protected open fun createDependencyGraph(): ApplicationDependencies {
-        return HttpDependencies()
-    }
+    protected open fun createDependencyGraph(): ApplicationDependencies = HttpDependencies()
 }
