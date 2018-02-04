@@ -27,17 +27,9 @@ fun <T : BaseMovieViewState.Builder> T.from(movie: Movie): T {
     title = movie.title
     yearReleased = convertReleaseDate(movie.releaseDate)
     rating = "&#9734; " + movie.rating
-    posterUrl = emptyIfNull(movie.posterUrl)
-    backdropUrl = emptyIfNull(movie.backdropUrl)
+    posterUrl = movie.posterUrl.or("")
+    backdropUrl = movie.backdropUrl.or("")
     return this
-}
-
-private fun emptyIfNull(s: Optional<String>): String {
-    return if (s.isPresent) {
-        s.get()
-    } else {
-        ""
-    }
 }
 
 private fun convertReleaseDate(date: Optional<LocalDate>): String {
