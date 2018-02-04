@@ -19,7 +19,7 @@ public abstract class BaseFragment<T extends BaseViewModel> extends Fragment {
     }
 
     protected ApplicationDependencies dependencies() {
-        return ((MyMoviesApplication) getActivity().getApplication()).dependencies();
+        return ((MyMoviesApplication) getActivity().getApplication()).getDependencies();
     }
 
     protected T viewModel() {

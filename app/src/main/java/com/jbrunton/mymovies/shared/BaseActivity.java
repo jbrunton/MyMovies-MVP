@@ -25,7 +25,7 @@ public abstract class BaseActivity<T extends BaseViewModel> extends AppCompatAct
     }
 
     protected ApplicationDependencies dependencies() {
-        return ((MyMoviesApplication) getApplication()).dependencies();
+        return ((MyMoviesApplication) getApplication()).getDependencies();
     }
 
     protected <T> ObservableTransformer<T, T> applySchedulers() {
