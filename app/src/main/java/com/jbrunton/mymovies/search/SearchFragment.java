@@ -22,7 +22,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnTextChanged;
 
-import static com.jbrunton.mymovies.helpers.VisibilityConverter.toVisibility;
+import static com.jbrunton.mymovies.helpers.VisibilityConverterKt.toVisibility;
 
 public class SearchFragment extends BaseFragment<SearchViewModel> {
     private SearchResultsAdapter searchResultsAdapter;
