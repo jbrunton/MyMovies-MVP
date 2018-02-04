@@ -56,7 +56,7 @@ public class SearchFragment extends BaseFragment<SearchViewModel> {
     }
 
     @Override protected SearchViewModel provideViewModel() {
-        SearchViewModel.Factory factory = new SearchViewModel.Factory(dependencies().moviesRepository());
+        SearchViewModel.Factory factory = new SearchViewModel.Factory(dependencies().getMoviesRepository());
         return getViewModel(SearchViewModel.class, factory);
     }
 

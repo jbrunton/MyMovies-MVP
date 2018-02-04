@@ -60,7 +60,7 @@ public class GenresActivity extends BaseActivity<GenresViewModel> {
     }
 
     @Override protected GenresViewModel provideViewModel() {
-        GenresViewModel.Factory factory = new GenresViewModel.Factory(dependencies().genresRepository());
+        GenresViewModel.Factory factory = new GenresViewModel.Factory(dependencies().getGenresRepository());
         return getViewModel(GenresViewModel.class, factory);
     }
 

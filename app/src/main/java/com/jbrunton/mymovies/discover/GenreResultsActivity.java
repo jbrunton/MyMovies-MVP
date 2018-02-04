@@ -52,7 +52,7 @@ public class GenreResultsActivity extends BaseActivity<GenreResultsViewModel> {
 
     @Override protected GenreResultsViewModel provideViewModel() {
         GenreResultsViewModel.Factory factory = new GenreResultsViewModel.Factory(
-                getIntent().getExtras().getString("GENRE_ID"), dependencies().moviesRepository());
+                getIntent().getExtras().getString("GENRE_ID"), dependencies().getMoviesRepository());
         return getViewModel(GenreResultsViewModel.class, factory);
     }
 
