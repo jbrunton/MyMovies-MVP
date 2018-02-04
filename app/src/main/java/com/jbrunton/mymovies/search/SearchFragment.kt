@@ -1,6 +1,5 @@
 package com.jbrunton.mymovies.search
 
-import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
@@ -11,6 +10,7 @@ import butterknife.ButterKnife
 import com.jakewharton.rxbinding2.view.clicks
 import com.jakewharton.rxbinding2.widget.textChanges
 import com.jbrunton.mymovies.R
+import com.jbrunton.mymovies.helpers.observe
 import com.jbrunton.mymovies.helpers.toVisibility
 import com.jbrunton.mymovies.shared.BaseFragment
 import com.jbrunton.mymovies.shared.LoadingStateContext
@@ -28,7 +28,6 @@ class SearchFragment : BaseFragment<SearchViewModel>() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        ButterKnife.bind(this, view)
         ButterKnife.bind(this.loadingStateContext, view)
 
         movies_list.layoutManager = LinearLayoutManager(activity)
@@ -50,7 +49,7 @@ class SearchFragment : BaseFragment<SearchViewModel>() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         (activity as AppCompatActivity).setSupportActionBar(my_toolbar)
-        viewModel().viewState.observe(this, Observer<SearchViewState> { this.updateView(it!!) })
+        viewModel().viewState.observe(this, this::updateView)
     }
 
     override fun provideViewModel(): SearchViewModel {
