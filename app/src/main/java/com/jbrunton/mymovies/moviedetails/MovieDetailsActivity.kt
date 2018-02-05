@@ -8,7 +8,6 @@ import android.view.View
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.helpers.PicassoHelper
 import com.jbrunton.mymovies.shared.BaseActivity
-import com.jbrunton.mymovies.shared.LoadingStateContext
 import kotlinx.android.synthetic.main.activity_movie_details.*
 import kotlinx.android.synthetic.main.content_movie_details.*
 import kotlinx.android.synthetic.main.layout_loading_state.*
@@ -25,10 +24,9 @@ class MovieDetailsActivity : BaseActivity<MovieDetailsViewModel>() {
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
         title = ""
-        error_try_again.setOnClickListener { viewModel().retry() }
-        bindErrorStateContext(LoadingStateContext())
+        error_try_again.setOnClickListener { viewModel.retry() }
 
-        viewModel().viewState().observe(this, Observer<MovieDetailsViewState> { this.updateView(it!!) })
+        viewModel.viewState().observe(this, Observer<MovieDetailsViewState> { this.updateView(it!!) })
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -54,5 +52,7 @@ class MovieDetailsActivity : BaseActivity<MovieDetailsViewModel>() {
         overview.text = viewState.movie.overview
 
         picassoHelper.loadImage(this, backdrop, viewState.movie.backdropUrl)
+
+        updateLoadingView(viewState.loadingViewState)
     }
 }

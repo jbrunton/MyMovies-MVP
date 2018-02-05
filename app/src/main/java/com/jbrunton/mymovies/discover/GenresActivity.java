@@ -18,7 +18,6 @@ import android.widget.TextView;
 import com.jbrunton.entities.Genre;
 import com.jbrunton.mymovies.R;
 import com.jbrunton.mymovies.shared.BaseActivity;
-import com.jbrunton.mymovies.shared.LoadingStateContext;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -42,12 +41,11 @@ public class GenresActivity extends BaseActivity<GenresViewModel> {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         ButterKnife.bind(this);
-        bindErrorStateContext(new LoadingStateContext());
 
         genresAdapter = new GenresAdapter(this);
         genresList.setAdapter(genresAdapter);
 
-        viewModel().viewState().observe(this, this::updateView);
+        getViewModel().viewState().observe(this, this::updateView);
     }
 
     @Override public boolean onOptionsItemSelected(MenuItem item) {

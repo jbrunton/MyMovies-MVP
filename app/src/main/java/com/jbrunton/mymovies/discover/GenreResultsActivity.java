@@ -11,7 +11,6 @@ import com.jbrunton.mymovies.R;
 import com.jbrunton.mymovies.search.SearchResultsAdapter;
 import com.jbrunton.mymovies.search.SearchViewState;
 import com.jbrunton.mymovies.shared.BaseActivity;
-import com.jbrunton.mymovies.shared.LoadingStateContext;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,14 +30,13 @@ public class GenreResultsActivity extends BaseActivity<GenreResultsViewModel> {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         ButterKnife.bind(this);
-        bindErrorStateContext(new LoadingStateContext());
 
         moviesAdapter = new SearchResultsAdapter(this, R.layout.item_movie_card_list);
         moviesList.setAdapter(moviesAdapter);
         moviesList.setLayoutManager(new LinearLayoutManager(this));
 
 
-        viewModel().viewState().observe(this, this::updateView);
+        getViewModel().viewState().observe(this, this::updateView);
     }
 
     @Override public boolean onOptionsItemSelected(MenuItem item) {
