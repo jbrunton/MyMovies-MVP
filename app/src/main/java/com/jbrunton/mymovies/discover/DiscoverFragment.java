@@ -13,7 +13,6 @@ import com.jbrunton.mymovies.R;
 import com.jbrunton.mymovies.search.SearchResultsAdapter;
 import com.jbrunton.mymovies.search.SearchViewState;
 import com.jbrunton.mymovies.shared.BaseFragment;
-import com.jbrunton.mymovies.shared.LoadingStateContext;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -23,13 +22,11 @@ public class DiscoverFragment extends BaseFragment<DiscoverViewModel> {
     private SearchResultsAdapter nowPlayingAdapter;
     @BindView(R.id.discover_content) View discoverContent;
     @BindView(R.id.now_playing) RecyclerView nowPlayingList;
-    private LoadingStateContext loadingStateContext = new LoadingStateContext();
 
     @Nullable @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_discover, container, false);
         ButterKnife.bind(this, view);
-        ButterKnife.bind(loadingStateContext, view);
 
         nowPlayingList.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         nowPlayingAdapter = new SearchResultsAdapter(getActivity(), R.layout.item_movie_card_grid);
@@ -57,7 +54,7 @@ public class DiscoverFragment extends BaseFragment<DiscoverViewModel> {
     private void updateView(SearchViewState viewState) {
         discoverContent.setVisibility(toVisibility(viewState.loadingViewState().showContent()));
         nowPlayingAdapter.setDataSource(viewState.movies());
-        loadingStateContext.updateView(viewState.loadingViewState());
+        updateLoadingView(viewState.loadingViewState());
     }
 
     protected int toVisibility(boolean show) {
