@@ -40,7 +40,7 @@ public class DiscoverFragment extends BaseFragment<DiscoverViewModel> {
 
     @Override public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        viewModel().viewState().observe(this, this::updateView);
+        getViewModel().viewState().observe(this, this::updateView);
     }
 
     @Override protected DiscoverViewModel provideViewModel() {
