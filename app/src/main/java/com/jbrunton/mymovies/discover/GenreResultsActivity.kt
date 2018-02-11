@@ -29,7 +29,7 @@ class GenreResultsActivity : BaseActivity<GenreResultsViewModel>() {
         movies_list.layoutManager = LinearLayoutManager(this)
 
 
-        viewModel.viewState().observe(this, this::updateView)
+        viewModel.viewState.observe(this, this::updateView)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

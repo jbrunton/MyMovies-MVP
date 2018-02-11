@@ -41,7 +41,7 @@ class DiscoverFragment : BaseFragment<DiscoverViewModel>() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel.viewState().observe(this, this::updateView)
+        viewModel.viewState.observe(this, this::updateView)
     }
 
     override fun provideViewModel(): DiscoverViewModel {

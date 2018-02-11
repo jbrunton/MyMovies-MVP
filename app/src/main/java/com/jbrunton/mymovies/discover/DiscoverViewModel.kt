@@ -1,6 +1,5 @@
 package com.jbrunton.mymovies.discover
 
-import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
@@ -12,12 +11,8 @@ import com.jbrunton.mymovies.shared.BaseViewModel
 import com.jbrunton.mymovies.shared.LoadingViewState
 
 class DiscoverViewModel internal constructor(private val repository: MoviesRepository) : BaseViewModel() {
-    private val viewState = MutableLiveData<SearchViewState>()
+    val viewState = MutableLiveData<SearchViewState>()
     private val viewStateFactory = SearchViewStateFactory()
-
-    fun viewState(): LiveData<SearchViewState> {
-        return viewState
-    }
 
     override fun start() {
         viewState.setValue(
