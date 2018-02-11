@@ -32,10 +32,10 @@ public class GenreResultsViewModel extends BaseViewModel {
     }
 
     @Override public void start() {
-        viewState.setValue(SearchViewState.builder()
-                .setLoadingViewState(LoadingViewState.LOADING_STATE)
-                .setMovies(Collections.emptyList())
-                .build());
+        viewState.setValue(
+                new SearchViewState(
+                        LoadingViewState.LOADING_STATE,
+                        Collections.emptyList()));
         repository.discoverByGenre(genreId)
                 .compose(applySchedulers())
                 .subscribe(this::setMoviesResponse, this::setErrorResponse);

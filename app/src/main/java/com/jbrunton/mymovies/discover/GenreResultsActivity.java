@@ -55,9 +55,9 @@ public class GenreResultsActivity extends BaseActivity<GenreResultsViewModel> {
     }
 
     private void updateView(SearchViewState viewState) {
-        updateLoadingView(viewState.loadingViewState());
-        moviesList.setVisibility(toVisibility(!viewState.loadingViewState().showError()));
-        moviesAdapter.setDataSource(viewState.movies());
+        updateLoadingView(viewState.getLoadingViewState());
+        moviesList.setVisibility(toVisibility(!viewState.getLoadingViewState().showError()));
+        moviesAdapter.setDataSource(viewState.getMovies());
     }
 
     protected int toVisibility(boolean show) {

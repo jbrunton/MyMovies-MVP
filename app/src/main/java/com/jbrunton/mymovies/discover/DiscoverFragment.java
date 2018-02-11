@@ -52,9 +52,9 @@ public class DiscoverFragment extends BaseFragment<DiscoverViewModel> {
     }
 
     private void updateView(SearchViewState viewState) {
-        discoverContent.setVisibility(toVisibility(viewState.loadingViewState().showContent()));
-        nowPlayingAdapter.setDataSource(viewState.movies());
-        updateLoadingView(viewState.loadingViewState());
+        discoverContent.setVisibility(toVisibility(viewState.getLoadingViewState().showContent()));
+        nowPlayingAdapter.setDataSource(viewState.getMovies());
+        updateLoadingView(viewState.getLoadingViewState());
     }
 
     protected int toVisibility(boolean show) {

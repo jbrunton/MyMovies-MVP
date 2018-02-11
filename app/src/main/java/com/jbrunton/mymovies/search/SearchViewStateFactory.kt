@@ -28,10 +28,9 @@ class SearchViewStateFactory {
         return if (movies.isEmpty()) {
             fromLoadingViewState(errorNoResults)
         } else {
-            SearchViewState.builder()
-                    .setLoadingViewState(LoadingViewState.OK_STATE)
-                    .setMovies(movies.map { this.toMovieSearchResultViewState(it) })
-                    .build()
+            SearchViewState(
+                    LoadingViewState.OK_STATE,
+                    movies.map { toMovieSearchResultViewState(it) })
         }
     }
 
@@ -39,10 +38,7 @@ class SearchViewStateFactory {
             fromLoadingViewState(loadingViewStateFactory.fromError(throwable))
 
     private fun fromLoadingViewState(loadingViewState: LoadingViewState): SearchViewState {
-        return SearchViewState.builder()
-                .setMovies(emptyList())
-                .setLoadingViewState(loadingViewState)
-                .build()
+        return SearchViewState(loadingViewState, emptyList())
     }
 
     private fun toMovieSearchResultViewState(movie: Movie): MovieSearchResultViewState {

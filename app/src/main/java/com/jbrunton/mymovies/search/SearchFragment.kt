@@ -57,8 +57,8 @@ class SearchFragment : BaseFragment<SearchViewModel>() {
     }
 
     fun updateView(viewState: SearchViewState) {
-        movies_list.visibility = toVisibility(viewState.loadingViewState().showContent())
-        searchResultsAdapter.setDataSource(viewState.movies())
-        updateLoadingView(viewState.loadingViewState())
+        movies_list.visibility = toVisibility(viewState.loadingViewState.showContent())
+        searchResultsAdapter.setDataSource(viewState.movies)
+        updateLoadingView(viewState.loadingViewState)
     }
 }
