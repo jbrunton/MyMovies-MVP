@@ -25,6 +25,8 @@ class SearchFragment : BaseFragment<SearchViewModel>() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         movies_list.layoutManager = LinearLayoutManager(activity)
         searchResultsAdapter = SearchResultsAdapter(activity!!, R.layout.item_movie_card_list)
         movies_list.adapter = searchResultsAdapter
@@ -37,8 +39,6 @@ class SearchFragment : BaseFragment<SearchViewModel>() {
         error_try_again.clicks()
                 .bindToLifecycle(this)
                 .subscribe { this.performSearch() }
-
-        super.onViewCreated(view, savedInstanceState)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
