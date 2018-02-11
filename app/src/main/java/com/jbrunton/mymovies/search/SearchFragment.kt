@@ -26,7 +26,7 @@ class SearchFragment : BaseFragment<SearchViewModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         movies_list.layoutManager = LinearLayoutManager(activity)
-        searchResultsAdapter = SearchResultsAdapter(activity, R.layout.item_movie_card_list)
+        searchResultsAdapter = SearchResultsAdapter(activity!!, R.layout.item_movie_card_list)
         movies_list.adapter = searchResultsAdapter
 
         search_query.textChanges()
