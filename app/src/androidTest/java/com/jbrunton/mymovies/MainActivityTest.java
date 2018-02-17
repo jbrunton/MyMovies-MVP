@@ -35,8 +35,8 @@ public class MainActivityTest extends BaseTest<MainActivity> {
     private static final Movie MOVIE1 = MOVIE_FACTORY.create();
     private static final Movie MOVIE2 = MOVIE_FACTORY.create();
 
-    private static final SearchViewState EMPTY_STATE = FACTORY.searchEmptyState();
-    private static final SearchViewState LOADING_STATE = FACTORY.loadingState();
+    private static final SearchViewState EMPTY_STATE = FACTORY.getSearchEmptyState();
+    private static final SearchViewState LOADING_STATE = FACTORY.getLoadingState();
 
     private static final DescriptiveError NETWORK_ERROR = new DescriptiveError("Network Error", true);
 
@@ -51,7 +51,7 @@ public class MainActivityTest extends BaseTest<MainActivity> {
         takeScreenshot("showsEmptySearchState");
         onView(withId(R.id.error_text))
                 // TODO: externalize strings
-                .check(matches(withText(EMPTY_STATE.loadingViewState().errorMessage())));
+                .check(matches(withText(EMPTY_STATE.getLoadingViewState().errorMessage())));
     }
 
     @Test public void showsLoadingState() {
