@@ -50,10 +50,10 @@ class GenresActivity : BaseActivity<GenresViewModel>() {
     }
 
     private fun updateView(viewState: GenresViewState) {
-        genres_list.visibility = toVisibility(!viewState.loadingViewState().showError())
-        genresAdapter.addAll(viewState.genres())
+        genres_list.visibility = toVisibility(!viewState.loadingViewState.showError())
+        genresAdapter.addAll(viewState.genres)
 
-        updateLoadingView(viewState.loadingViewState())
+        updateLoadingView(viewState.loadingViewState)
     }
 
     protected class GenresAdapter(context: Context) : ArrayAdapter<Genre>(context, android.R.layout.simple_list_item_1) {
