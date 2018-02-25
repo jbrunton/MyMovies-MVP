@@ -12,6 +12,7 @@ buildscript {
     }
 }
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android-extensions'
 apply plugin: 'io.fabric'
 apply plugin: 'kotlin-android'
 apply plugin: "com.jaredsburrows.spoon"
@@ -62,6 +63,7 @@ dependencies {
     testCompile 'org.mockito:mockito-core:2.8.47'
     androidTestCompile 'org.mockito:mockito-core:2.8.47'
     androidTestCompile 'org.mockito:mockito-android:2.13.0'
+    androidTestCompile "com.nhaarman:mockito-kotlin:1.5.0"
     testCompile 'junit:junit:4.12'
     testCompile 'org.assertj:assertj-core:3.8.0'
     androidTestCompile 'com.squareup.spoon:spoon-client:2.0.0-SNAPSHOT'
@@ -73,7 +75,10 @@ dependencies {
     compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
 
     compile 'com.squareup.picasso:picasso:2.5.2'
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+
+    compile 'com.jakewharton.rxbinding2:rxbinding-kotlin:2.1.0'
+    compile 'com.trello.rxlifecycle2:rxlifecycle-android-lifecycle-kotlin:2.2.1'
 
     implementation "android.arch.lifecycle:extensions:1.0.0"
     testImplementation "android.arch.core:core-testing:1.0.0"

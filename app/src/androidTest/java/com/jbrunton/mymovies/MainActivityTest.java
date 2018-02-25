@@ -6,11 +6,11 @@ import android.widget.ProgressBar;
 
 import com.jbrunton.entities.Movie;
 import com.jbrunton.fixtures.MovieFactory;
-import com.jbrunton.networking.DescriptiveError;
+import com.jbrunton.mymovies.fixtures.BaseTest;
 import com.jbrunton.mymovies.search.SearchFragment;
 import com.jbrunton.mymovies.search.SearchViewState;
 import com.jbrunton.mymovies.search.SearchViewStateFactory;
-import com.jbrunton.mymovies.fixtures.BaseTest;
+import com.jbrunton.networking.DescriptiveError;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,14 +29,15 @@ import static java.util.Arrays.asList;
 
 @RunWith(AndroidJUnit4.class)
 public class MainActivityTest extends BaseTest<MainActivity> {
+
     private static final SearchViewStateFactory FACTORY = new SearchViewStateFactory();
 
     private static final MovieFactory MOVIE_FACTORY = new MovieFactory();
     private static final Movie MOVIE1 = MOVIE_FACTORY.create();
     private static final Movie MOVIE2 = MOVIE_FACTORY.create();
 
-    private static final SearchViewState EMPTY_STATE = FACTORY.searchEmptyState();
-    private static final SearchViewState LOADING_STATE = FACTORY.loadingState();
+    private static final SearchViewState EMPTY_STATE = FACTORY.getSearchEmptyState();
+    private static final SearchViewState LOADING_STATE = FACTORY.getLoadingState();
 
     private static final DescriptiveError NETWORK_ERROR = new DescriptiveError("Network Error", true);
 
@@ -51,7 +52,7 @@ public class MainActivityTest extends BaseTest<MainActivity> {
         takeScreenshot("showsEmptySearchState");
         onView(withId(R.id.error_text))
                 // TODO: externalize strings
-                .check(matches(withText(EMPTY_STATE.loadingViewState().errorMessage())));
+                .check(matches(withText(EMPTY_STATE.getLoadingViewState().errorMessage())));
     }
 
     @Test public void showsLoadingState() {
@@ -80,9 +81,9 @@ public class MainActivityTest extends BaseTest<MainActivity> {
         takeScreenshot();
 
         onView(withRecyclerView(R.id.movies_list).atPosition(0))
-                .check(matches(hasDescendant(withText(MOVIE1.title()))));
+                .check(matches(hasDescendant(withText(MOVIE1.getTitle()))));
         onView(withRecyclerView(R.id.movies_list).atPosition(1))
-                .check(matches(hasDescendant(withText(MOVIE2.title()))));
+                .check(matches(hasDescendant(withText(MOVIE2.getTitle()))));
     }
 
     @Override protected ActivityTestRule<MainActivity> createActivityTestRule() {

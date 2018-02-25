@@ -28,21 +28,21 @@ public class MovieDetailsViewStateFactoryTest {
     @Test public void createsLoadingState() {
         MovieDetailsViewState viewState = factory.loadingState();
 
-        assertThat(viewState.loadingViewState()).isEqualTo(LoadingViewState.LOADING_STATE);
-        assertThat(viewState.movie()).isEqualTo(MovieViewState.EMPTY);
+        assertThat(viewState.getLoadingViewState()).isEqualTo(LoadingViewState.LOADING_STATE);
+        assertThat(viewState.getMovie()).isEqualTo(MovieViewState.Companion.getEMPTY());
     }
 
     @Test public void createsErrorState() {
         MovieDetailsViewState viewState = factory.fromError(NETWORK_ERROR);
 
-        assertThat(viewState.loadingViewState()).isEqualTo(loadingViewStateFactory.fromError(NETWORK_ERROR));
-        assertThat(viewState.movie()).isEqualTo(MovieViewState.EMPTY);
+        assertThat(viewState.getLoadingViewState()).isEqualTo(loadingViewStateFactory.fromError(NETWORK_ERROR));
+        assertThat(viewState.getMovie()).isEqualTo(MovieViewState.Companion.getEMPTY());
     }
 
     @Test public void createsContentState() {
         MovieDetailsViewState viewState = factory.fromMovie(MOVIE);
 
-        assertThat(viewState.movie().overview()).isEqualTo(MOVIE.overview().get());
+        assertThat(viewState.getMovie().getOverview()).isEqualTo(MOVIE.getOverview().get());
         // etc.
     }
 
@@ -51,6 +51,6 @@ public class MovieDetailsViewStateFactoryTest {
                 .releaseDate(Optional.absent())
                 .build());
 
-        assertThat(viewState.movie().yearReleased()).isEmpty();
+        assertThat(viewState.getMovie().getYearReleased()).isEmpty();
     }
 }

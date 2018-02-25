@@ -21,7 +21,7 @@ public class HttpMoviesRepository implements MoviesRepository {
 
     @Override public Observable<Movie> getMovie(String movieId) {
         return service.movie(movieId)
-                .zipWith(config(), MovieDetailsResponse::toMovie);
+                .zipWith(config(), MovieDetailsResponse.Companion::toMovie);
     }
 
     @Override public Observable<List<Movie>> searchMovies(String query) {
