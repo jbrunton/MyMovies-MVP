@@ -48,8 +48,7 @@ class SearchFragment : BaseFragment<SearchViewModel>() {
     }
 
     override fun provideViewModel(): SearchViewModel {
-        val factory = SearchViewModel.Factory(dependencies().moviesRepository)
-        return getViewModel(SearchViewModel::class.java, factory)
+        return getViewModel(SearchViewModel::class.java, dependencies().searchViewModelFactory)
     }
 
     private fun performSearch() {

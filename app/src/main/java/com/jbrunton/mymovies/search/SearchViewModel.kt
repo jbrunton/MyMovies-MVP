@@ -7,7 +7,7 @@ import com.jbrunton.entities.Movie
 import com.jbrunton.entities.MoviesRepository
 import com.jbrunton.mymovies.shared.BaseViewModel
 
-class SearchViewModel(private val repository: MoviesRepository) : BaseViewModel() {
+open class SearchViewModel(private val repository: MoviesRepository) : BaseViewModel() {
     val viewState = MutableLiveData<SearchViewState>()
     private val viewStateFactory = SearchViewStateFactory()
 
@@ -15,7 +15,7 @@ class SearchViewModel(private val repository: MoviesRepository) : BaseViewModel(
         viewState.value = viewStateFactory.searchEmptyState
     }
 
-    fun performSearch(query: String) {
+    open fun performSearch(query: String) {
         if (query.isEmpty()) {
             viewState.postValue(viewStateFactory.searchEmptyState)
         } else {
@@ -35,9 +35,7 @@ class SearchViewModel(private val repository: MoviesRepository) : BaseViewModel(
     }
 
     class Factory(private val repository: MoviesRepository) : ViewModelProvider.NewInstanceFactory() {
-
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-
             return SearchViewModel(repository) as T
         }
     }

@@ -6,11 +6,11 @@ import android.widget.ProgressBar;
 
 import com.jbrunton.entities.Movie;
 import com.jbrunton.fixtures.MovieFactory;
-import com.jbrunton.networking.DescriptiveError;
+import com.jbrunton.mymovies.fixtures.BaseTest;
 import com.jbrunton.mymovies.search.SearchFragment;
 import com.jbrunton.mymovies.search.SearchViewState;
 import com.jbrunton.mymovies.search.SearchViewStateFactory;
-import com.jbrunton.mymovies.fixtures.BaseTest;
+import com.jbrunton.networking.DescriptiveError;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,6 +29,7 @@ import static java.util.Arrays.asList;
 
 @RunWith(AndroidJUnit4.class)
 public class MainActivityTest extends BaseTest<MainActivity> {
+
     private static final SearchViewStateFactory FACTORY = new SearchViewStateFactory();
 
     private static final MovieFactory MOVIE_FACTORY = new MovieFactory();
