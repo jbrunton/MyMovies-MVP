@@ -17,7 +17,6 @@ class TestApplication : MyMoviesApplication() {
                 override fun <T : ViewModel?> create(modelClass: Class<T>): T {
                     return object : SearchViewModel(moviesRepository) {
                         override fun performSearch(query: String) {
-
                         }
                     } as T
                 }

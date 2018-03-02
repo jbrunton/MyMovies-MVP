@@ -31,9 +31,9 @@ abstract class BaseFragment<T : BaseViewModel> : Fragment() {
 
     fun updateLoadingView(viewState: LoadingViewState) {
         loading_indicator.visibility = toVisibility(viewState.showLoadingIndicator())
-        error_case.visibility = toVisibility(viewState.showError());
-        error_text.text = viewState.errorMessage();
-        error_try_again.visibility = toVisibility(viewState.showTryAgainButton());
-        error_image.setImageResource(viewState.errorIcon());
+        error_case.visibility = toVisibility(viewState.showError())
+        error_text.text = viewState.errorMessage()
+        error_try_again.visibility = toVisibility(viewState.showTryAgainButton())
+        error_image.setImageResource(viewState.errorIcon())
     }
 }

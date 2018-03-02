@@ -16,7 +16,6 @@ import com.jbrunton.mymovies.shared.BaseFragment
 import com.trello.rxlifecycle2.android.lifecycle.kotlin.bindToLifecycle
 import kotlinx.android.synthetic.main.fragment_discover.*
 
-
 class DiscoverFragment : BaseFragment<DiscoverViewModel>() {
     private lateinit var nowPlayingAdapter: SearchResultsAdapter
 

@@ -28,7 +28,6 @@ class GenreResultsActivity : BaseActivity<GenreResultsViewModel>() {
         movies_list.adapter = moviesAdapter
         movies_list.layoutManager = LinearLayoutManager(this)
 
-
         viewModel.viewState.observe(this, this::updateView)
     }
 
