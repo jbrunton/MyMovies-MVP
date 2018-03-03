@@ -39,8 +39,9 @@ before_install:
   - gcloud auth activate-service-account --key-file=$GCLOUD_KEY_FILE
 
 script:
-#  - ./gradlew assembleDebug
+  - ./gradlew assembleDebug
 #  - ./gradlew ktlintCheck detektCheck
 #  - ./gradlew testDebug
+  - ./gradlew assembleDebugAndroidTest
   - ${HOME}/google-cloud-sdk/bin/gcloud firebase test android run firebase-test-matrices.yml:smoketest --type instrumentation --app ./app/build/outputs/apk/debug/app-debug.apk --test ./app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
 
