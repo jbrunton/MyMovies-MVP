@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import java.util.*
 
 abstract class BaseRecyclerAdapter<D, H : RecyclerView.ViewHolder>(
         @field:LayoutRes private val layout: Int,
