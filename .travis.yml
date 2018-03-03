@@ -3,8 +3,9 @@ jdk: oraclejdk8
 sudo: false
 
 env:
-  - GCLOUD_PROJECT=mymovies-7e138
-  - GCLOUD_KEY_LOCATION=./gcloudkey.json
+  global:
+    - GCLOUD_PROJECT=mymovies-7e138
+    - GCLOUD_KEY_FILE=gcloudkey.json
 
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
@@ -29,12 +30,13 @@ before_install:
   # see https://github.com/travis-ci/travis-ci/issues/8874#issuecomment-350350607
   - yes | sdkmanager "platforms;android-27"
   - openssl aes-256-cbc -K $encrypted_10a1dc9634f9_key -iv $encrypted_10a1dc9634f9_iv
-    -in gcloudkey.json.enc -out gcloudkey.json -d
+    -in "$GCLOUD_KEY_FILE.enc" -out $GCLOUD_KEY_FILE -d
   - if [ ! -d ${HOME}/google-cloud-sdk ]; then
       curl https://sdk.cloud.google.com | bash;
     fi
+  # TODO: is this line needed?
   - gcloud config set project $GCLOUD_PROJECT
-  - gcloud auth activate-service-account --key-file=$GCLOUD_KEY_LOCATION
+  - gcloud auth activate-service-account --key-file=$GCLOUD_KEY_FILE
 
 script:
 #  - ./gradlew assembleDebug
