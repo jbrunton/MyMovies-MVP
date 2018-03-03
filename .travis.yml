@@ -1,5 +1,7 @@
 language: android
-script: ./gradlew assembleDebug assembleTestDebug
+jdk: oraclejdk8
+sudo: false
+
 android:
   components:
     - tools
@@ -11,3 +13,5 @@ android:
 
     # The SDK version used to compile your project
     - android-27
+
+script: ./gradlew assembleDebug assembleTestDebug
