@@ -34,7 +34,7 @@ before_install:
       curl https://sdk.cloud.google.com | bash;
     fi
   - gcloud config set project $GCLOUD_PROJECT
-  - gcloud auth activate-service-account --key-file $GCLOUD_KEY_LOCATION
+  - gcloud auth activate-service-account --key-file=$GCLOUD_KEY_LOCATION
 
 script:
 #  - ./gradlew assembleDebug
