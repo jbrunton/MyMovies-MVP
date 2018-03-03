@@ -14,4 +14,8 @@ android:
     # The SDK version used to compile your project
     - android-27
 
-script: ./gradlew assembleDebug assembleTestDebug
+before_install:
+- yes | sdkmanager "platforms;android-27"
+
+script:
+- ./gradlew assembleDebug assembleTestDebug
