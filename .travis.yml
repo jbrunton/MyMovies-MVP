@@ -31,7 +31,7 @@ before_install:
   - yes | sdkmanager "platforms;android-27"
   - openssl aes-256-cbc -K $encrypted_10a1dc9634f9_key -iv $encrypted_10a1dc9634f9_iv
     -in "$GCLOUD_KEY_FILE.enc" -out $GCLOUD_KEY_FILE -d
-  - curl https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-191.0.0-linux-x86_64.tar.gz -o gcloud.tar.gz
+  - curl https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-182.0.0-linux-x86_64.tar.gz -o gcloud.tar.gz
   - tar xzf gcloud.tar.gz -C ${HOME}
   - ${HOME}/google-cloud-sdk/install.sh --quiet --usage-reporting false
   # TODO: is this line needed?
@@ -42,4 +42,5 @@ script:
 #  - ./gradlew assembleDebug
 #  - ./gradlew ktlintCheck detektCheck
 #  - ./gradlew testDebug
-  - ./ci/run-test-matrix.sh smoketest
+  - gcloud firebase test android run firebase-test-matrices.yml:smoketest --type instrumentation --app ./app/build/outputs/apk/debug/app-debug.apk --test ./app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
+
