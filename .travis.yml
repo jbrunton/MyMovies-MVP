@@ -33,7 +33,7 @@ before_install:
     -in "$GCLOUD_KEY_FILE.enc" -out $GCLOUD_KEY_FILE -d
   - if [ ! -d ${HOME}/google-cloud-sdk ]; then
       curl https://sdk.cloud.google.com | bash;
-      gcloud components update beta
+      gcloud components update beta;
     fi
   # TODO: is this line needed?
   - gcloud config set project $GCLOUD_PROJECT
