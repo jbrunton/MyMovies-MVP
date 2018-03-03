@@ -44,8 +44,8 @@ allprojects {
 detekt {
     version = "1.0.0.RC6-3"
     profile("main") {
-        input = "${rootProject.file('.')}"
-        config = "$projectDir/default-detekt-config.yml"
+        input = projectDir
+        config = "$projectDir/detekt.yml"
         filters = ".*test.*,.*/resources/.*,.*/tmp/.*"
     }
 }
