@@ -26,6 +26,5 @@ before_install:
 
 script:
   - ./gradlew assembleDebug
+  - ./gradlew ktlintCheck detektCheck
   - ./gradlew testDebug
-  - ./gradlew ktlintCheck
-
