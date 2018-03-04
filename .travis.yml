@@ -30,6 +30,7 @@ android:
 before_install:
   # see https://github.com/travis-ci/travis-ci/issues/8874#issuecomment-350350607
   - yes | sdkmanager "platforms;android-27"
+  - ./ci/setup-gcloud.sh
 
 jobs:
   include:
@@ -39,10 +40,9 @@ jobs:
     - stage: smoketest
       if: type = pull_request
       script:
-        - ./ci/setup-gcloud.sh
+        - gcloud -v
         - ./ci/run-test-matrix.sh smoketest
     - stage: roadtest
       if: branch = master and type != pull_request
       script:
-        - ./ci/setup-gcloud.sh
         - ./ci/run-test-matrix.sh roadtest
