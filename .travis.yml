@@ -42,11 +42,16 @@ before_install:
 
 script: ./ci/test.sh
 
+stages:
+  - test
+  - name: smoketest
+    if: type = pull_request
+  - name: roadtest
+    if: branch == master and type != pull_request
+
 jobs:
   include:
     - stage: smoketest
-      if: type = pull_request
       script: ./ci/run-test-matrix.sh smoketest
     - stage: roadtest
       script: ./ci/run-test-matrix.sh roadtest
-      if: branch == master and type != pull_request
