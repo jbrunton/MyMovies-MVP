@@ -17,7 +17,7 @@ cache:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
     - $HOME/.android/build-cache
-#    - $HOME/google-cloud-sdk/
+    - $GCLOUD_SDK_DIR
 
 android:
   components:
@@ -27,24 +27,22 @@ android:
     - build-tools-27.0.2
     - android-27
 
-# before_install:
+before_install:
   # see https://github.com/travis-ci/travis-ci/issues/8874#issuecomment-350350607
-  # - yes | sdkmanager "platforms;android-27"
-  # - ./ci/install-gcloud.sh
-  # - ./ci/configure-gcloud.sh
-
-# script: echo "Stage: test"
+  - yes | sdkmanager "platforms;android-27"
+  - ./ci/install-gcloud.sh
+  - ./ci/configure-gcloud.sh
 
 jobs:
   include:
     - stage: test
       script:
-        - echo "Stage - test"
+        - ./ci/test.sh
     - stage: smoketest
       if: type = pull_request
       script:
-        - echo "Stage - smoketest"
+        - ./ci/run-test-matrix.sh smoketest
     - stage: roadtest
       if: branch = master and type != pull_request
       script:
-        - echo "Stage - roadtest"
+        - ./ci/run-test-matrix.sh roadtest
