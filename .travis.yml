@@ -49,4 +49,4 @@ jobs:
       script: ./ci/run-test-matrix.sh smoketest
     - stage: roadtest
       script: ./ci/run-test-matrix.sh roadtest
-      if: branch == master and not type = pull_request
+      if: branch == master and type != pull_request
