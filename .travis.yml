@@ -39,6 +39,10 @@ before_install:
   - gcloud auth activate-service-account --key-file=$GCLOUD_KEY_FILE
 
 script:
+  - which gcloud
+  - gcloud -v
+  - which ${HOME}/google-cloud-sdk/bin/gcloud
+  - ${HOME}/google-cloud-sdk/bin/gcloud -v
   - ./gradlew assembleDebug
 #  - ./gradlew ktlintCheck detektCheck
 #  - ./gradlew testDebug
