@@ -40,10 +40,13 @@ before_install:
   - gcloud config set project $GCLOUD_PROJECT
   - gcloud auth activate-service-account --key-file=$GCLOUD_KEY_FILE
 
-script:
-  - ./gradlew assembleDebug
-#  - ./gradlew ktlintCheck detektCheck
-#  - ./gradlew testDebug
-  - ./gradlew assembleDebugAndroidTest
-  - ./ci/run-test-matrix.sh smoketest
+script: ./ci/test.sh
 
+jobs:
+  include:
+    - stage: smoketest
+      if: type = pull_request
+      script: ./ci/run-test-matrix.sh smoketest
+    - stage: roadtest
+      script: ./ci/run-test-matrix.sh roadtest
+      if: branch == master and not type = pull_request
