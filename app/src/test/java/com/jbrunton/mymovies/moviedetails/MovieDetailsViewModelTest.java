@@ -39,7 +39,7 @@ public class MovieDetailsViewModelTest {
 
     @Test public void startsWithLoadingState() {
         viewModel.start();
-        assertThat(viewModel.viewState().getValue()).isEqualTo(viewStateFactory.loadingState());
+        assertThat(viewModel.viewState().getValue()).isEqualTo(viewStateFactory.fromError(NETWORK_ERROR));
     }
 
     @Test public void loadsMovie() {
