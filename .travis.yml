@@ -45,6 +45,6 @@ jobs:
       script:
         - echo "Stage - smoketest"
     - stage: roadtest
-      if: branch == master and type != pull_request
+      if: branch = master and type != pull_request
       script:
         - echo "Stage - roadtest"
