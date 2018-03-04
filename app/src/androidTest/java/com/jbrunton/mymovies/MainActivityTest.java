@@ -52,7 +52,7 @@ public class MainActivityTest extends BaseTest<MainActivity> {
         takeScreenshot("showsEmptySearchState");
         onView(withId(R.id.error_text))
                 // TODO: externalize strings
-                .check(matches(withText(EMPTY_STATE.getLoadingViewState().errorMessage())));
+                .check(matches(withText("oops!")));
     }
 
     @Test public void showsLoadingState() {
