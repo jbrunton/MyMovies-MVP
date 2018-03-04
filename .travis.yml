@@ -28,6 +28,7 @@ android:
     - android-27
 
 before_install:
+  - ls -l $GCLOUD_SDK_DIR
   # see https://github.com/travis-ci/travis-ci/issues/8874#issuecomment-350350607
   - yes | sdkmanager "platforms;android-27"
   - openssl aes-256-cbc -K $encrypted_10a1dc9634f9_key -iv $encrypted_10a1dc9634f9_iv
