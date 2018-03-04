@@ -1,6 +1,6 @@
 language: android
 jdk: oraclejdk8
-sudo: false
+sudo: required
 
 env:
   global:
@@ -30,8 +30,8 @@ before_install:
   # see https://github.com/travis-ci/travis-ci/issues/8874#issuecomment-350350607
   - which gcloud
   - gcloud -v
-  - apt-get update
-  - apt-get install google-cloud-sdk
+  - sudo apt-get update
+  - sudo apt-get install google-cloud-sdk
   - which gcloud
   - gcloud -v
   - yes | sdkmanager "platforms;android-27"
