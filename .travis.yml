@@ -37,6 +37,7 @@ before_install:
   # TODO: is this line needed?
   - gcloud config set project $GCLOUD_PROJECT
   - gcloud auth activate-service-account --key-file=$GCLOUD_KEY_FILE
+  - gcloud components update --quiet
 
 script:
   - which gcloud
