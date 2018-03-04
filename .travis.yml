@@ -39,12 +39,12 @@ jobs:
   include:
     - stage: test
       script:
-        - echo "Stage: test"
+        - echo "Stage - test"
     - stage: smoketest
       if: type = pull_request
       script:
-        - echo "Stage: smoketest"
+        - echo "Stage - smoketest"
     - stage: roadtest
       if: branch == master and type != pull_request
       script:
-        - echo "Stage: roadtest"
+        - echo "Stage - roadtest"
