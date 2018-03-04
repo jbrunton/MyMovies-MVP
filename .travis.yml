@@ -33,13 +33,10 @@ android:
   # - ./ci/install-gcloud.sh
   # - ./ci/configure-gcloud.sh
 
-# script: echo "Stage: test"
+script: echo "Stage - test"
 
 jobs:
   include:
-    - stage: test
-      script:
-        - echo "Stage - test"
     - stage: smoketest
       if: type = pull_request
       script:
