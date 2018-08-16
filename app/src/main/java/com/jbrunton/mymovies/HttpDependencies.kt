@@ -14,7 +14,7 @@ class HttpDependencies : ApplicationDependencies {
     val legacyService: LegacyMovieService = ServiceFactory.createLegacyService()
     val service: MovieService = ServiceFactory.createService()
 
-    override val moviesRepository: MoviesRepository = HttpMoviesRepository(legacyService)
+    override val moviesRepository: MoviesRepository = HttpMoviesRepository(legacyService, service)
     override val genresRepository: GenresRepository = HttpGenresRepository(legacyService)
 
     override val searchViewModelFactory: ViewModelProvider.Factory = SearchViewModel.Factory(moviesRepository)
