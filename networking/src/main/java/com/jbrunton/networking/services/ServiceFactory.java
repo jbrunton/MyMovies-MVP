@@ -13,7 +13,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ServiceFactory {
-    public static MovieService createService() {
+    public static LegacyMovieService createService() {
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
                 .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
@@ -26,7 +26,7 @@ public class ServiceFactory {
                 .addCallAdapterFactory(DescriptiveErrorFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
-        return retrofit.create(MovieService.class);
+        return retrofit.create(LegacyMovieService.class);
     }
 
     private static OkHttpClient createClient() {

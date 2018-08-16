@@ -4,7 +4,7 @@ import com.jbrunton.entities.MoviesRepository;
 import com.jbrunton.networking.resources.configuration.ConfigurationResponse;
 import com.jbrunton.networking.resources.movies.MovieDetailsResponse;
 import com.jbrunton.networking.resources.movies.MoviesCollection;
-import com.jbrunton.networking.services.MovieService;
+import com.jbrunton.networking.services.LegacyMovieService;
 import com.jbrunton.entities.Configuration;
 import com.jbrunton.entities.Movie;
 
@@ -13,9 +13,9 @@ import java.util.List;
 import io.reactivex.Observable;
 
 public class HttpMoviesRepository implements MoviesRepository {
-    private final MovieService service;
+    private final LegacyMovieService service;
 
-    public HttpMoviesRepository(MovieService service) {
+    public HttpMoviesRepository(LegacyMovieService service) {
         this.service = service;
     }
 

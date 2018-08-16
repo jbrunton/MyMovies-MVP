@@ -10,7 +10,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
-public interface MovieService {
+public interface LegacyMovieService {
     @GET("configuration")
     Observable<ConfigurationResponse> configuration();
 
