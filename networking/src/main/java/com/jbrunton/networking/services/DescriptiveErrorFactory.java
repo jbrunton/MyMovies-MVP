@@ -27,13 +27,13 @@ public class DescriptiveErrorFactory extends CallAdapter.Factory {
                 (CallAdapter<Object, Observable<?>>) retrofit.nextCallAdapter(this,
                         returnType, annotations);
 
-        return new DescriptiveErrorCallAdapter(delegate);
+        return new DescriptiveErrorRxCallAdapter(delegate);
     }
 
-    private static class DescriptiveErrorCallAdapter implements CallAdapter<Object, Observable<?>> {
+    private static class DescriptiveErrorRxCallAdapter implements CallAdapter<Object, Observable<?>> {
         private final CallAdapter<Object, Observable<?>> delegate;
 
-        private DescriptiveErrorCallAdapter(CallAdapter<Object, Observable<?>> delegate) {
+        private DescriptiveErrorRxCallAdapter(CallAdapter<Object, Observable<?>> delegate) {
             this.delegate = delegate;
         }
 
