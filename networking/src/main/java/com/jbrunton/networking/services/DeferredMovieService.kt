@@ -6,7 +6,7 @@ import kotlinx.coroutines.Deferred
 import retrofit2.http.GET
 import retrofit2.http.Path
 
-interface MovieService {
+interface DeferredMovieService {
     @GET("configuration")
     fun configuration(): Deferred<ConfigurationResponse>
 

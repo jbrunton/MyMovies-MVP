@@ -30,7 +30,7 @@ public class ServiceFactory {
         return retrofit.create(RxMovieService.class);
     }
 
-    public static MovieService createService() {
+    public static DeferredMovieService createService() {
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
                 .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
@@ -43,7 +43,7 @@ public class ServiceFactory {
                 .addCallAdapterFactory(DescriptiveErrorFactory.create())
                 .addCallAdapterFactory(CoroutineCallAdapterFactory.create())
                 .build();
-        return retrofit.create(MovieService.class);
+        return retrofit.create(DeferredMovieService.class);
     }
 
     private static OkHttpClient createClient() {
