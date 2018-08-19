@@ -7,9 +7,6 @@ import android.arch.lifecycle.ViewModelProvider
 import com.jbrunton.entities.Movie
 import com.jbrunton.entities.MoviesRepository
 import com.jbrunton.mymovies.shared.BaseViewModel
-import com.jbrunton.networking.DescriptiveError
-import kotlinx.coroutines.android.UI
-import kotlinx.coroutines.launch
 
 class MovieDetailsViewModel(private val movieId: String, private val repository: MoviesRepository) : BaseViewModel() {
     private val viewState = MutableLiveData<MovieDetailsViewState>()
@@ -29,13 +26,8 @@ class MovieDetailsViewModel(private val movieId: String, private val repository:
 
     private fun loadDetails() {
         viewState.setValue(viewStateFactory.loadingState())
-        launch(UI) {
-            try {
-                val movie = repository.getMovie(movieId)
-                setMovieResponse(movie)
-            } catch (e: DescriptiveError) {
-                setErrorResponse(e)
-            }
+        launchSafely({ setErrorResponse(it) }) {
+            setMovieResponse(repository.getMovie(movieId))
         }
     }
 
