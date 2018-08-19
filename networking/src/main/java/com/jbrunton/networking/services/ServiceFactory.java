@@ -24,7 +24,7 @@ public class ServiceFactory {
                 .client(createClient())
                 .baseUrl("https://api.themoviedb.org/3/")
                 .addConverterFactory(GsonConverterFactory.create(gson))
-                .addCallAdapterFactory(DescriptiveErrorFactory.create())
+                .addCallAdapterFactory(DescriptiveErrorFactory.Companion.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
         return retrofit.create(RxMovieService.class);
@@ -40,7 +40,7 @@ public class ServiceFactory {
                 .client(createClient())
                 .baseUrl("https://api.themoviedb.org/3/")
                 .addConverterFactory(GsonConverterFactory.create(gson))
-                .addCallAdapterFactory(DescriptiveErrorFactory.create())
+                .addCallAdapterFactory(DescriptiveErrorFactory.Companion.create())
                 .addCallAdapterFactory(CoroutineCallAdapterFactory.create())
                 .build();
         return retrofit.create(DeferredMovieService.class);
