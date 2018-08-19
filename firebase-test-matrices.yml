@@ -26,7 +26,3 @@ roadtest:
       version: 25
       locale: de
       orientation: portrait
-    - model: trelte # Galaxy Note 4
-      version: 22
-      locale: en
-      orientation: portrait
