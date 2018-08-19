@@ -3,16 +3,16 @@ package com.jbrunton.networking.repositories;
 import com.jbrunton.entities.Genre;
 import com.jbrunton.entities.GenresRepository;
 import com.jbrunton.networking.resources.genres.GenresResponse;
-import com.jbrunton.networking.services.LegacyMovieService;
+import com.jbrunton.networking.services.RxMovieService;
 
 import java.util.List;
 
 import io.reactivex.Observable;
 
 public class HttpGenresRepository implements GenresRepository {
-    private final LegacyMovieService service;
+    private final RxMovieService service;
 
-    public HttpGenresRepository(LegacyMovieService service) {
+    public HttpGenresRepository(RxMovieService service) {
         this.service = service;
     }
 
