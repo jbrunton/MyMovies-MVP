@@ -35,8 +35,6 @@ class MovieDetailsViewModel(private val movieId: String, private val repository:
                 setMovieResponse(movie)
             } catch (e: DescriptiveError) {
                 setErrorResponse(e)
-            } catch (e: Throwable) {
-                e.printStackTrace()
             }
         }
     }
