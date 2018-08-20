@@ -11,8 +11,8 @@ import io.reactivex.rxkotlin.Observables
 
 class HttpMoviesRepository(private val service: MovieService) : MoviesRepository {
 
-    override fun getMovieLegacy(movieId: String): Observable<Movie> {
-        return Observables.zip(service.movieRx(movieId), legacyConfig()) {
+    override fun getMovieRx(movieId: String): Observable<Movie> {
+        return Observables.zip(service.movieRx(movieId), config()) {
             response, config -> MovieDetailsResponse.toMovie(response, config)
         }
     }
@@ -26,28 +26,24 @@ class HttpMoviesRepository(private val service: MovieService) : MoviesRepository
     }
 
     override fun searchMovies(query: String): Observable<List<Movie>> {
-        return Observables.zip(service.search(query), legacyConfig()) {
+        return Observables.zip(service.search(query), config()) {
             response, config -> MoviesCollection.toCollection(response, config)
         }
     }
 
     override fun nowPlaying(): Observable<List<Movie>> {
-        return Observables.zip(service.nowPlaying(), legacyConfig()) {
+        return Observables.zip(service.nowPlaying(), config()) {
             response, config -> MoviesCollection.toCollection(response, config)
         }
     }
 
     override fun discoverByGenre(genreId: String): Observable<List<Movie>> {
-        return Observables.zip(service.discoverByGenre(genreId), legacyConfig()) {
+        return Observables.zip(service.discoverByGenre(genreId), config()) {
             response, config -> MoviesCollection.toCollection(response, config)
         }
     }
 
-    private fun legacyConfig(): Observable<Configuration> {
+    private fun config(): Observable<Configuration> {
         return service.configurationRx().map { it.toModel() }
     }
-//
-//    private fun config(): Deferred<Configuration> {
-//        return deferredService.configurationRx().await().toModel()
-//    }
 }

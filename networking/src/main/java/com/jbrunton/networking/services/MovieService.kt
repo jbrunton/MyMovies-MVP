@@ -33,6 +33,6 @@ interface MovieService {
     @GET("genre/movie/list")
     fun genres(): Observable<GenresResponse>
 
-    @GET("discover/movieRx")
+    @GET("discover/movie")
     fun discoverByGenre(@Query("with_genres") genreId: String): Observable<MoviesCollection>
 }
