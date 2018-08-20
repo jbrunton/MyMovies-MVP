@@ -26,8 +26,9 @@ class MovieDetailsViewModel(private val movieId: String, private val repository:
 
     private fun loadDetails() {
         viewState.setValue(viewStateFactory.loadingState())
-        launchSafely({ setErrorResponse(it) }) {
-            setMovieResponse(repository.getMovie(movieId))
+        launchSafely {
+            action { setMovieResponse(repository.getMovie(movieId)) }
+            onError { setErrorResponse(it) }
         }
     }
 
