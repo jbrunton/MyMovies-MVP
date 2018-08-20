@@ -10,7 +10,7 @@ import com.jbrunton.networking.services.MovieService
 import com.jbrunton.networking.services.ServiceFactory
 
 class HttpDependencies : ApplicationDependencies {
-    val service: MovieService = ServiceFactory.createLegacyService()
+    val service: MovieService = ServiceFactory.createService()
 
     override val moviesRepository: MoviesRepository = HttpMoviesRepository(service)
     override val genresRepository: GenresRepository = HttpGenresRepository(service)
