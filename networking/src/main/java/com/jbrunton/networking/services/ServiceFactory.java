@@ -14,7 +14,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ServiceFactory {
-    public static RxMovieService createLegacyService() {
+    public static MovieService createLegacyService() {
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
                 .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
@@ -26,24 +26,9 @@ public class ServiceFactory {
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(DescriptiveErrorFactory.Companion.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .build();
-        return retrofit.create(RxMovieService.class);
-    }
-
-    public static DeferredMovieService createService() {
-        Gson gson = new GsonBuilder()
-                .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
-                .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-                .create();
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .client(createClient())
-                .baseUrl("https://api.themoviedb.org/3/")
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .addCallAdapterFactory(DescriptiveErrorFactory.Companion.create())
                 .addCallAdapterFactory(CoroutineCallAdapterFactory.create())
                 .build();
-        return retrofit.create(DeferredMovieService.class);
+        return retrofit.create(MovieService.class);
     }
 
     private static OkHttpClient createClient() {
