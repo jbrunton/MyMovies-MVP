@@ -2,5 +2,4 @@
 
 set -e
 
-./gradlew ktlintCheck detektCheck
 ./gradlew testDebug
