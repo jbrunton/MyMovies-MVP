@@ -11,9 +11,10 @@ import com.jbrunton.mymovies.shared.BaseActivity
 import kotlinx.android.synthetic.main.activity_movie_details.*
 import kotlinx.android.synthetic.main.content_movie_details.*
 import kotlinx.android.synthetic.main.layout_loading_state.*
+import org.koin.android.architecture.ext.viewModel
 
 class MovieDetailsActivity : BaseActivity<MovieDetailsViewModel>() {
-
+    val viewModel: MovieDetailsViewModel by viewModel { mapOf("MOVIE_ID" to movieId()) }
     private val picassoHelper = PicassoHelper()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,6 +28,7 @@ class MovieDetailsActivity : BaseActivity<MovieDetailsViewModel>() {
         error_try_again.setOnClickListener { viewModel.retry() }
 
         viewModel.viewState().observe(this, Observer<MovieDetailsViewState> { this.updateView(it!!) })
+        viewModel.start()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -39,11 +41,7 @@ class MovieDetailsActivity : BaseActivity<MovieDetailsViewModel>() {
         return super.onOptionsItemSelected(item)
     }
 
-    override fun provideViewModel(): MovieDetailsViewModel {
-        val factory = MovieDetailsViewModel.Factory(
-                intent.getStringExtra("MOVIE_ID"), dependencies().moviesRepository)
-        return getViewModel(MovieDetailsViewModel::class.java, factory)
-    }
+    private fun movieId(): String = intent.extras["MOVIE_ID"] as String
 
     private fun updateView(viewState: MovieDetailsViewState) {
         updateLoadingView(viewState.loadingViewState)

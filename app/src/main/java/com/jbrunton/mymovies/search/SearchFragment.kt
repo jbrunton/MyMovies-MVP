@@ -15,10 +15,13 @@ import com.jbrunton.mymovies.shared.BaseFragment
 import com.trello.rxlifecycle2.android.lifecycle.kotlin.bindToLifecycle
 import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.android.synthetic.main.layout_loading_state.*
+import org.koin.android.architecture.ext.viewModel
 import java.util.concurrent.TimeUnit
 
 class SearchFragment : BaseFragment<SearchViewModel>() {
     private lateinit var searchResultsAdapter: SearchResultsAdapter
+
+    val viewModel: SearchViewModel by viewModel()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_search, container, false)
@@ -45,10 +48,7 @@ class SearchFragment : BaseFragment<SearchViewModel>() {
         super.onActivityCreated(savedInstanceState)
         (activity as AppCompatActivity).setSupportActionBar(my_toolbar)
         viewModel.viewState.observe(this, this::updateView)
-    }
-
-    override fun provideViewModel(): SearchViewModel {
-        return getViewModel(SearchViewModel::class.java, dependencies().searchViewModelFactory)
+        viewModel.start()
     }
 
     private fun performSearch() {
