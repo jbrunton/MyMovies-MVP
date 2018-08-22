@@ -18,7 +18,7 @@ import org.koin.android.architecture.ext.viewModel
 class GenreResultsActivity : BaseActivity<GenreResultsViewModel>() {
     private lateinit var moviesAdapter: SearchResultsAdapter
 
-    val genreResultsViewModel: GenreResultsViewModel by viewModel { mapOf("GENRE_ID" to genreId()) }
+    val viewModel: GenreResultsViewModel by viewModel { mapOf("GENRE_ID" to genreId()) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +33,7 @@ class GenreResultsActivity : BaseActivity<GenreResultsViewModel>() {
         movies_list.layoutManager = LinearLayoutManager(this)
 
         viewModel.viewState.observe(this, this::updateView)
+        viewModel.start()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -43,10 +44,6 @@ class GenreResultsActivity : BaseActivity<GenreResultsViewModel>() {
             }
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    override fun provideViewModel(): GenreResultsViewModel {
-        return genreResultsViewModel
     }
 
     private fun genreId(): String = intent.extras["GENRE_ID"] as String

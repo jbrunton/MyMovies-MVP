@@ -21,7 +21,7 @@ import org.koin.android.architecture.ext.viewModel
 class GenresActivity : BaseActivity<GenresViewModel>() {
     private lateinit var genresAdapter: GenresAdapter
 
-    val genresViewModel: GenresViewModel by viewModel()
+    val viewModel: GenresViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +35,7 @@ class GenresActivity : BaseActivity<GenresViewModel>() {
         genres_list.adapter = genresAdapter
 
         viewModel.viewState.observe(this, this::updateView)
+        viewModel.start()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -45,10 +46,6 @@ class GenresActivity : BaseActivity<GenresViewModel>() {
             }
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    override fun provideViewModel(): GenresViewModel {
-        return genresViewModel
     }
 
     private fun updateView(viewState: GenresViewState) {

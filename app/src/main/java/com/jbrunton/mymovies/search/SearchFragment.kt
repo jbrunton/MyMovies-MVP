@@ -21,7 +21,7 @@ import java.util.concurrent.TimeUnit
 class SearchFragment : BaseFragment<SearchViewModel>() {
     private lateinit var searchResultsAdapter: SearchResultsAdapter
 
-    val searchViewModel: SearchViewModel by viewModel()
+    val viewModel: SearchViewModel by viewModel()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_search, container, false)
@@ -48,10 +48,7 @@ class SearchFragment : BaseFragment<SearchViewModel>() {
         super.onActivityCreated(savedInstanceState)
         (activity as AppCompatActivity).setSupportActionBar(my_toolbar)
         viewModel.viewState.observe(this, this::updateView)
-    }
-
-    override fun provideViewModel(): SearchViewModel {
-        return searchViewModel
+        viewModel.start()
     }
 
     private fun performSearch() {

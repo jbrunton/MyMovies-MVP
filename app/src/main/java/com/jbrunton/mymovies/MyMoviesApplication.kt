@@ -4,6 +4,7 @@ import android.app.Application
 import com.jbrunton.entities.GenresRepository
 import com.jbrunton.entities.MoviesRepository
 import com.jbrunton.mymovies.discover.DiscoverViewModel
+import com.jbrunton.mymovies.discover.GenreResultsViewModel
 import com.jbrunton.mymovies.discover.GenresViewModel
 import com.jbrunton.mymovies.moviedetails.MovieDetailsViewModel
 import com.jbrunton.mymovies.search.SearchViewModel
@@ -23,16 +24,14 @@ val applicationModule : Module = applicationContext {
     viewModel { DiscoverViewModel(get()) }
     viewModel { GenresViewModel(get()) }
     viewModel { params -> MovieDetailsViewModel(params["MOVIE_ID"], get()) }
+    viewModel { params -> GenreResultsViewModel(params["GENRE_ID"], get()) }
 }
 
 open class MyMoviesApplication : Application() {
-    lateinit var dependencies: ApplicationDependencies private set
-
     override fun onCreate() {
         super.onCreate()
-        dependencies = createDependencyGraph()
-        startKoin(this, listOf(applicationModule))
+        startKoin(this, createDependencies())
     }
 
-    protected open fun createDependencyGraph(): ApplicationDependencies = HttpDependencies()
+    protected open fun createDependencies() = listOf(applicationModule)
 }

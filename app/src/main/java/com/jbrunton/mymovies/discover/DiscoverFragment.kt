@@ -20,7 +20,7 @@ import org.koin.android.architecture.ext.viewModel
 class DiscoverFragment : BaseFragment<DiscoverViewModel>() {
     private lateinit var nowPlayingAdapter: SearchResultsAdapter
 
-    private val discoverViewModel: DiscoverViewModel by viewModel()
+    private val viewModel: DiscoverViewModel by viewModel()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_discover, container, false)
@@ -44,10 +44,7 @@ class DiscoverFragment : BaseFragment<DiscoverViewModel>() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel.viewState.observe(this, this::updateView)
-    }
-
-    override fun provideViewModel(): DiscoverViewModel {
-        return discoverViewModel
+        viewModel.start()
     }
 
     private fun updateView(viewState: SearchViewState) {
