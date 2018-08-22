@@ -91,10 +91,10 @@ public class MainActivityTest extends BaseTest<MainActivity> {
     }
 
     private SearchFragment searchFragment() {
-        return (SearchFragment) activityRule.getActivity().getSupportFragmentManager().findFragmentById(R.id.content);
+        return (SearchFragment) getActivityRule().getActivity().getSupportFragmentManager().findFragmentById(R.id.content);
     }
 
     private void setViewState(SearchViewState viewState) {
-        activityRule.getActivity().runOnUiThread(() -> searchFragment().updateView(viewState));
+        getActivityRule().getActivity().runOnUiThread(() -> searchFragment().updateView(viewState));
     }
 }
