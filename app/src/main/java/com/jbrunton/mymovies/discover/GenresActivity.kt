@@ -16,9 +16,12 @@ import com.jbrunton.mymovies.helpers.observe
 import com.jbrunton.mymovies.helpers.toVisibility
 import com.jbrunton.mymovies.shared.BaseActivity
 import kotlinx.android.synthetic.main.activity_genres.*
+import org.koin.android.architecture.ext.viewModel
 
 class GenresActivity : BaseActivity<GenresViewModel>() {
     private lateinit var genresAdapter: GenresAdapter
+
+    val genresViewModel: GenresViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,8 +48,7 @@ class GenresActivity : BaseActivity<GenresViewModel>() {
     }
 
     override fun provideViewModel(): GenresViewModel {
-        val factory = GenresViewModel.Factory(dependencies().genresRepository)
-        return getViewModel(GenresViewModel::class.java, factory)
+        return genresViewModel
     }
 
     private fun updateView(viewState: GenresViewState) {

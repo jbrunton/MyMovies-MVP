@@ -15,9 +15,12 @@ import com.jbrunton.mymovies.search.SearchViewState
 import com.jbrunton.mymovies.shared.BaseFragment
 import com.trello.rxlifecycle2.android.lifecycle.kotlin.bindToLifecycle
 import kotlinx.android.synthetic.main.fragment_discover.*
+import org.koin.android.architecture.ext.viewModel
 
 class DiscoverFragment : BaseFragment<DiscoverViewModel>() {
     private lateinit var nowPlayingAdapter: SearchResultsAdapter
+
+    private val discoverViewModel: DiscoverViewModel by viewModel()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_discover, container, false)
@@ -44,8 +47,7 @@ class DiscoverFragment : BaseFragment<DiscoverViewModel>() {
     }
 
     override fun provideViewModel(): DiscoverViewModel {
-        val factory = DiscoverViewModel.Factory(dependencies().moviesRepository)
-        return getViewModel(DiscoverViewModel::class.java, factory)
+        return discoverViewModel
     }
 
     private fun updateView(viewState: SearchViewState) {

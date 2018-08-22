@@ -3,6 +3,8 @@ package com.jbrunton.mymovies
 import android.app.Application
 import com.jbrunton.entities.GenresRepository
 import com.jbrunton.entities.MoviesRepository
+import com.jbrunton.mymovies.discover.DiscoverViewModel
+import com.jbrunton.mymovies.discover.GenresViewModel
 import com.jbrunton.mymovies.search.SearchViewModel
 import com.jbrunton.networking.repositories.HttpGenresRepository
 import com.jbrunton.networking.repositories.HttpMoviesRepository
@@ -17,6 +19,8 @@ val applicationModule : Module = applicationContext {
     bean { HttpMoviesRepository(get()) as MoviesRepository }
     bean { HttpGenresRepository(get()) as GenresRepository }
     viewModel { SearchViewModel(get()) }
+    viewModel { DiscoverViewModel(get()) }
+    viewModel { GenresViewModel(get()) }
 }
 
 open class MyMoviesApplication : Application() {
