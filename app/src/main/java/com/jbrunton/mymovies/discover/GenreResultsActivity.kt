@@ -12,9 +12,13 @@ import com.jbrunton.mymovies.search.SearchResultsAdapter
 import com.jbrunton.mymovies.search.SearchViewState
 import com.jbrunton.mymovies.shared.BaseActivity
 import kotlinx.android.synthetic.main.activity_genre_results.*
+import org.koin.android.architecture.ext.viewModel
+
 
 class GenreResultsActivity : BaseActivity<GenreResultsViewModel>() {
     private lateinit var moviesAdapter: SearchResultsAdapter
+
+    val genreResultsViewModel: GenreResultsViewModel by viewModel { mapOf("GENRE_ID" to genreId()) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,10 +46,10 @@ class GenreResultsActivity : BaseActivity<GenreResultsViewModel>() {
     }
 
     override fun provideViewModel(): GenreResultsViewModel {
-        val factory = GenreResultsViewModel.Factory(
-                intent.extras!!.getString("GENRE_ID"), dependencies().moviesRepository)
-        return getViewModel(GenreResultsViewModel::class.java, factory)
+        return genreResultsViewModel
     }
+
+    private fun genreId(): String = intent.extras["GENRE_ID"] as String
 
     private fun updateView(viewState: SearchViewState) {
         updateLoadingView(viewState.loadingViewState)

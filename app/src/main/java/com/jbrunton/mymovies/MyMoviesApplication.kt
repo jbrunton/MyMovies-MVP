@@ -5,6 +5,7 @@ import com.jbrunton.entities.GenresRepository
 import com.jbrunton.entities.MoviesRepository
 import com.jbrunton.mymovies.discover.DiscoverViewModel
 import com.jbrunton.mymovies.discover.GenresViewModel
+import com.jbrunton.mymovies.moviedetails.MovieDetailsViewModel
 import com.jbrunton.mymovies.search.SearchViewModel
 import com.jbrunton.networking.repositories.HttpGenresRepository
 import com.jbrunton.networking.repositories.HttpMoviesRepository
@@ -21,6 +22,7 @@ val applicationModule : Module = applicationContext {
     viewModel { SearchViewModel(get()) }
     viewModel { DiscoverViewModel(get()) }
     viewModel { GenresViewModel(get()) }
+    viewModel { params -> MovieDetailsViewModel(params["MOVIE_ID"], get()) }
 }
 
 open class MyMoviesApplication : Application() {
