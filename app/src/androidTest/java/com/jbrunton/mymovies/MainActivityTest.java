@@ -7,6 +7,7 @@ import android.widget.ProgressBar;
 import com.jbrunton.entities.Movie;
 import com.jbrunton.fixtures.MovieFactory;
 import com.jbrunton.mymovies.fixtures.BaseTest;
+import com.jbrunton.mymovies.fixtures.ProgressBarViewActions;
 import com.jbrunton.mymovies.search.SearchFragment;
 import com.jbrunton.mymovies.search.SearchViewState;
 import com.jbrunton.mymovies.search.SearchViewStateFactory;
@@ -22,7 +23,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFro
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static com.jbrunton.mymovies.fixtures.ProgressBarViewActions.replaceProgressBarDrawable;
 import static com.jbrunton.mymovies.fixtures.RecyclerViewUtils.withRecyclerView;
 import static java.util.Arrays.asList;
 
@@ -56,7 +56,7 @@ public class MainActivityTest extends BaseTest<MainActivity> {
     }
 
     @Test public void showsLoadingState() {
-        onView(isAssignableFrom(ProgressBar.class)).perform(replaceProgressBarDrawable());
+        onView(isAssignableFrom(ProgressBar.class)).perform(ProgressBarViewActions.INSTANCE.replaceProgressBarDrawable());
 
         setViewState(LOADING_STATE);
 
