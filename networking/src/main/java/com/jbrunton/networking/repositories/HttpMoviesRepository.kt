@@ -11,8 +11,8 @@ import io.reactivex.rxkotlin.Observables
 
 class HttpMoviesRepository(private val service: MovieService) : MoviesRepository {
 
-    override fun getMovie(movieId: String): Observable<Movie> {
-        return Observables.zip(service.movie(movieId), config()) {
+    override fun getMovieRx(movieId: String): Observable<Movie> {
+        return Observables.zip(service.movieRx(movieId), config()) {
             response, config -> MovieDetailsResponse.toMovie(response, config)
         }
     }
@@ -36,6 +36,6 @@ class HttpMoviesRepository(private val service: MovieService) : MoviesRepository
     }
 
     private fun config(): Observable<Configuration> {
-        return service.configuration().map { it.toModel() }
+        return service.configurationRx().map { it.toModel() }
     }
 }

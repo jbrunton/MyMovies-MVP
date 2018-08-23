@@ -26,7 +26,7 @@ class MovieDetailsViewModel(private val movieId: String, private val repository:
 
     private fun loadDetails() {
         viewState.setValue(viewStateFactory.loadingState())
-        repository.getMovie(movieId)
+        repository.getMovieRx(movieId)
                 .compose(applySchedulers())
                 .subscribe(this::setMovieResponse, this::setErrorResponse)
     }

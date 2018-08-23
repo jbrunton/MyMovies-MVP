@@ -31,7 +31,7 @@ public class RepositoryFixtures {
         }
 
         public void toReturnDelayed(Movie movie, int delay) {
-            when(repository.getMovie(id)).thenReturn(Observable.just(movie).delay(delay, TimeUnit.SECONDS));
+            when(repository.getMovieRx(id)).thenReturn(Observable.just(movie).delay(delay, TimeUnit.SECONDS));
         }
 
         public void toErrorWith(Throwable throwable) {
@@ -39,7 +39,7 @@ public class RepositoryFixtures {
         }
 
         public void toErrorWithDelayed(Throwable throwable, int delay) {
-            when(repository.getMovie(id)).thenReturn(Observable.<Movie>error(throwable).delay(delay, TimeUnit.SECONDS));
+            when(repository.getMovieRx(id)).thenReturn(Observable.<Movie>error(throwable).delay(delay, TimeUnit.SECONDS));
         }
     }
 
