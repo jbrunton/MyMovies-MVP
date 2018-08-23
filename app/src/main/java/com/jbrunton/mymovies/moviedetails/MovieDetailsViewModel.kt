@@ -2,18 +2,19 @@ package com.jbrunton.mymovies.moviedetails
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
-import android.arch.lifecycle.ViewModelProvider
 import com.jbrunton.entities.Movie
 import com.jbrunton.entities.MoviesRepository
 import com.jbrunton.mymovies.shared.BaseViewModel
+import com.jbrunton.mymovies.shared.CoroutineDispatchers
 import com.jbrunton.networking.DescriptiveError
-import kotlinx.coroutines.CommonPool
-import kotlinx.coroutines.android.UI
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class MovieDetailsViewModel(private val movieId: String, private val repository: MoviesRepository) : BaseViewModel() {
+class MovieDetailsViewModel(
+        private val movieId: String,
+        private val repository: MoviesRepository,
+        private val dispatchers: CoroutineDispatchers
+) : BaseViewModel() {
     private val viewState = MutableLiveData<MovieDetailsViewState>()
     private val viewStateFactory = MovieDetailsViewStateFactory()
 
@@ -31,9 +32,9 @@ class MovieDetailsViewModel(private val movieId: String, private val repository:
 
     private fun loadDetails() {
         viewState.setValue(viewStateFactory.loadingState())
-        launch(UI) {
+        launch(dispatchers.Main) {
             try {
-                val movie = withContext(CommonPool) {
+                val movie = withContext(dispatchers.IO) {
                     repository.getMovie(movieId)
                 }
                 setMovieResponse(movie)
@@ -49,14 +50,5 @@ class MovieDetailsViewModel(private val movieId: String, private val repository:
 
     private fun setErrorResponse(throwable: Throwable) {
         viewState.value = viewStateFactory.fromError(throwable)
-    }
-
-    class Factory(
-            private val movieId: String,
-            private val repository: MoviesRepository
-    ) : ViewModelProvider.NewInstanceFactory() {
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return MovieDetailsViewModel(movieId, repository) as T
-        }
     }
 }
