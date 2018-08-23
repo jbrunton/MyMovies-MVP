@@ -2,8 +2,8 @@ package com.jbrunton.mymovies.fixtures
 
 import com.jbrunton.entities.Movie
 import com.jbrunton.entities.MoviesRepository
+import com.nhaarman.mockito_kotlin.whenever
 import io.reactivex.Observable
-import org.mockito.Mockito.`when`
 import java.util.concurrent.TimeUnit
 
 object RepositoryFixtures {
@@ -16,7 +16,7 @@ object RepositoryFixtures {
         }
 
         fun toReturnDelayed(movie: Movie, delay: Int) {
-            `when`(repository.getMovie(id)).thenReturn(Observable.just(movie).delay(delay.toLong(), TimeUnit.SECONDS))
+            whenever(repository.getMovie(id)).thenReturn(Observable.just(movie).delay(delay.toLong(), TimeUnit.SECONDS))
         }
 
         fun toErrorWith(throwable: Throwable) {
@@ -24,7 +24,7 @@ object RepositoryFixtures {
         }
 
         fun toErrorWithDelayed(throwable: Throwable, delay: Int) {
-            `when`(repository.getMovie(id)).thenReturn(Observable.error<Movie>(throwable).delay(delay.toLong(), TimeUnit.SECONDS))
+            whenever(repository.getMovie(id)).thenReturn(Observable.error<Movie>(throwable).delay(delay.toLong(), TimeUnit.SECONDS))
         }
     }
 
