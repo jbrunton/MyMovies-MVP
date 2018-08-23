@@ -11,6 +11,7 @@ import com.jbrunton.networking.DescriptiveError
 import kotlinx.coroutines.CommonPool
 import kotlinx.coroutines.android.UI
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MovieDetailsViewModel(private val movieId: String, private val repository: MoviesRepository) : BaseViewModel() {
     private val viewState = MutableLiveData<MovieDetailsViewState>()
@@ -30,12 +31,14 @@ class MovieDetailsViewModel(private val movieId: String, private val repository:
 
     private fun loadDetails() {
         viewState.setValue(viewStateFactory.loadingState())
-        launch(CommonPool) {
+        launch(UI) {
             try {
-                val movie = repository.getMovie(movieId)
-                launch(UI){ setMovieResponse(movie) }
+                val movie = withContext(CommonPool) {
+                    repository.getMovie(movieId)
+                }
+                setMovieResponse(movie)
             } catch (e: DescriptiveError) {
-                launch(UI) { setErrorResponse(e) }
+                setErrorResponse(e)
             }
         }
     }
