@@ -6,6 +6,7 @@ import com.jbrunton.networking.resources.movies.MovieDetailsResponse
 import com.jbrunton.networking.resources.movies.MoviesCollection
 
 import io.reactivex.Observable
+import kotlinx.coroutines.Deferred
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -14,8 +15,14 @@ interface MovieService {
     @GET("configuration")
     fun configurationRx(): Observable<ConfigurationResponse>
 
+    @GET("configuration")
+    fun configuration(): Deferred<ConfigurationResponse>
+
     @GET("movie/{movie_id}")
     fun movieRx(@Path("movie_id") movieId: String): Observable<MovieDetailsResponse>
+
+    @GET("movie/{movie_id}")
+    fun movie(@Path("movie_id") movieId: String): Deferred<MovieDetailsResponse>
 
     @GET("search/movie")
     fun search(@Query("query") query: String): Observable<MoviesCollection>

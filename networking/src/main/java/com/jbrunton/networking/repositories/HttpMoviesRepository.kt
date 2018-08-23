@@ -10,6 +10,11 @@ import io.reactivex.Observable
 import io.reactivex.rxkotlin.Observables
 
 class HttpMoviesRepository(private val service: MovieService) : MoviesRepository {
+    override suspend fun getMovie(movieId: String): Movie {
+        val config = service.configuration()
+        val movie = service.movie(movieId)
+        return MovieDetailsResponse.toMovie(movie.await(), config.await().toModel())
+    }
 
     override fun getMovieRx(movieId: String): Observable<Movie> {
         return Observables.zip(service.movieRx(movieId), config()) {
