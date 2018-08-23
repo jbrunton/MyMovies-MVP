@@ -20,7 +20,7 @@ class MovieDetailsViewModelTest {
     @get:Rule
     var schedulerRule = TestSchedulerRule()
 
-    private var repository: MoviesRepository? = null
+    private lateinit var repository: MoviesRepository
     private val movieFactory = MovieFactory()
     private val MOVIE = movieFactory.create()
     private val NETWORK_ERROR = DescriptiveError("Network Error", true)
