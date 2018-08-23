@@ -17,6 +17,7 @@ interface MovieService {
     @GET("movie/{movie_id}")
     fun movie(@Path("movie_id") movieId: String): Observable<MovieDetailsResponse>
 
+
     @GET("search/movie")
     fun search(@Query("query") query: String): Observable<MoviesCollection>
 
