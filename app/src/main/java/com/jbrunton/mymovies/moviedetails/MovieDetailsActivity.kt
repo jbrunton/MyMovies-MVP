@@ -1,17 +1,14 @@
 package com.jbrunton.mymovies.moviedetails
 
-import android.arch.lifecycle.Observer
+import androidx.lifecycle.Observer
 import android.os.Bundle
-import android.support.v7.widget.Toolbar
+import androidx.appcompat.widget.Toolbar
 import android.view.MenuItem
 import android.view.View
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.helpers.PicassoHelper
 import com.jbrunton.mymovies.shared.BaseActivity
 import kotlinx.android.synthetic.main.activity_movie_details.*
-import kotlinx.android.synthetic.main.content_movie_details.*
-import kotlinx.android.synthetic.main.layout_loading_state.*
-import org.koin.android.architecture.ext.viewModel
 
 class MovieDetailsActivity : BaseActivity<MovieDetailsViewModel>() {
     val viewModel: MovieDetailsViewModel by viewModel { mapOf("MOVIE_ID" to movieId()) }

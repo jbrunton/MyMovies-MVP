@@ -1,22 +1,16 @@
 package com.jbrunton.mymovies.search
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.jakewharton.rxbinding2.view.clicks
-import com.jakewharton.rxbinding2.widget.textChanges
 import com.jbrunton.mymovies.R
-import com.jbrunton.mymovies.helpers.observe
 import com.jbrunton.mymovies.helpers.toVisibility
 import com.jbrunton.mymovies.shared.BaseFragment
-import com.trello.rxlifecycle2.android.lifecycle.kotlin.bindToLifecycle
-import kotlinx.android.synthetic.main.fragment_search.*
-import kotlinx.android.synthetic.main.layout_loading_state.*
-import org.koin.android.architecture.ext.viewModel
 import java.util.concurrent.TimeUnit
+import kotlinx.android.synthetic.main.fragment_search.*
 
 class SearchFragment : BaseFragment<SearchViewModel>() {
     private lateinit var searchResultsAdapter: SearchResultsAdapter
@@ -30,7 +24,7 @@ class SearchFragment : BaseFragment<SearchViewModel>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        movies_list.layoutManager = LinearLayoutManager(activity)
+        movies_list.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(activity)
         searchResultsAdapter = SearchResultsAdapter(activity!!, R.layout.item_movie_card_list)
         movies_list.adapter = searchResultsAdapter
 

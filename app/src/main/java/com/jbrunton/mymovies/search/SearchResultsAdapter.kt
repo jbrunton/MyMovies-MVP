@@ -2,7 +2,7 @@ package com.jbrunton.mymovies.search
 
 import android.content.Context
 import android.content.Intent
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.text.Html
 import android.view.View
 import android.widget.ImageView
@@ -21,7 +21,7 @@ class SearchResultsAdapter(
         ViewHolderFactory(context)
 ) {
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class ViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
         val titleView: TextView
         val releaseDateView: TextView?
         val poster: ImageView

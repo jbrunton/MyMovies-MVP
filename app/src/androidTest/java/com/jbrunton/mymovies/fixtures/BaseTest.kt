@@ -1,7 +1,7 @@
 package com.jbrunton.mymovies.fixtures
 
 import android.app.Activity
-import android.support.test.rule.ActivityTestRule
+import androidx.test.rule.ActivityTestRule
 
 import com.google.android.libraries.cloudtesting.screenshots.ScreenShotter
 import com.squareup.spoon.SpoonRule

@@ -1,6 +1,6 @@
 package com.jbrunton.mymovies.shared;
 
-import android.support.annotation.DrawableRes;
+import androidx.annotation.DrawableRes;
 
 import com.google.auto.value.AutoValue;
 

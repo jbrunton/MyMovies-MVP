@@ -1,15 +1,15 @@
 package com.jbrunton.mymovies.shared
 
-import android.support.annotation.LayoutRes
-import android.support.v7.widget.RecyclerView
+import androidx.annotation.LayoutRes
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 
-abstract class BaseRecyclerAdapter<D, H : RecyclerView.ViewHolder>(
+abstract class BaseRecyclerAdapter<D, H : androidx.recyclerview.widget.RecyclerView.ViewHolder>(
         @field:LayoutRes private val layout: Int,
         private val viewHolderFactory: ViewHolderFactory<D, H>
-) : RecyclerView.Adapter<H>() {
+) : androidx.recyclerview.widget.RecyclerView.Adapter<H>() {
     private var dataSource: List<D> = ArrayList()
 
     private val clickListener = View.OnClickListener { v ->
@@ -43,7 +43,7 @@ abstract class BaseRecyclerAdapter<D, H : RecyclerView.ViewHolder>(
 
     protected fun onItemClicked(item: D) {}
 
-    interface ViewHolderFactory<D, H : RecyclerView.ViewHolder> {
+    interface ViewHolderFactory<D, H : androidx.recyclerview.widget.RecyclerView.ViewHolder> {
         fun createViewHolder(view: View): H
         fun bindHolder(holder: H, item: D)
     }

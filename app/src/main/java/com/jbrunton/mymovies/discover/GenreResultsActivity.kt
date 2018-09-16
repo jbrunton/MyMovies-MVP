@@ -1,18 +1,16 @@
 package com.jbrunton.mymovies.discover
 
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.Toolbar
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.appcompat.widget.Toolbar
 import android.view.MenuItem
 import android.view.View
 import com.jbrunton.mymovies.R
-import com.jbrunton.mymovies.helpers.observe
 import com.jbrunton.mymovies.helpers.toVisibility
 import com.jbrunton.mymovies.search.SearchResultsAdapter
 import com.jbrunton.mymovies.search.SearchViewState
 import com.jbrunton.mymovies.shared.BaseActivity
 import kotlinx.android.synthetic.main.activity_genre_results.*
-import org.koin.android.architecture.ext.viewModel
 
 
 class GenreResultsActivity : BaseActivity<GenreResultsViewModel>() {
@@ -30,7 +28,7 @@ class GenreResultsActivity : BaseActivity<GenreResultsViewModel>() {
 
         moviesAdapter = SearchResultsAdapter(this, R.layout.item_movie_card_list)
         movies_list.adapter = moviesAdapter
-        movies_list.layoutManager = LinearLayoutManager(this)
+        movies_list.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this)
 
         viewModel.viewState.observe(this, this::updateView)
         viewModel.start()

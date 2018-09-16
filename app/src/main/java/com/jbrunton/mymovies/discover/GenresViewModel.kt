@@ -1,6 +1,6 @@
 package com.jbrunton.mymovies.discover
 
-import android.arch.lifecycle.MutableLiveData
+import androidx.lifecycle.MutableLiveData
 import com.jbrunton.entities.Genre
 import com.jbrunton.entities.GenresRepository
 import com.jbrunton.mymovies.shared.BaseViewModel

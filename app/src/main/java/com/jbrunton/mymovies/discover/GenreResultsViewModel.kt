@@ -1,6 +1,6 @@
 package com.jbrunton.mymovies.discover
 
-import android.arch.lifecycle.MutableLiveData
+import androidx.lifecycle.MutableLiveData
 import com.jbrunton.entities.Movie
 import com.jbrunton.entities.MoviesRepository
 import com.jbrunton.mymovies.search.SearchViewState

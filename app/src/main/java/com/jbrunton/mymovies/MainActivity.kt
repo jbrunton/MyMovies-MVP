@@ -1,8 +1,8 @@
 package com.jbrunton.mymovies
 
 import android.os.Bundle
-import android.support.design.widget.BottomNavigationView
-import android.support.v7.app.AppCompatActivity
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import androidx.appcompat.app.AppCompatActivity
 import com.crashlytics.android.Crashlytics
 import com.jbrunton.mymovies.discover.DiscoverFragment
 import com.jbrunton.mymovies.search.SearchFragment
