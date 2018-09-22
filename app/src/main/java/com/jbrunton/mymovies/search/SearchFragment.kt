@@ -11,6 +11,7 @@ import com.jbrunton.mymovies.helpers.toVisibility
 import com.jbrunton.mymovies.shared.BaseFragment
 import java.util.concurrent.TimeUnit
 import kotlinx.android.synthetic.main.fragment_search.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SearchFragment : BaseFragment<SearchViewModel>() {
     private lateinit var searchResultsAdapter: SearchResultsAdapter

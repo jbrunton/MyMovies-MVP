@@ -11,12 +11,12 @@ import com.jbrunton.mymovies.search.SearchResultsAdapter
 import com.jbrunton.mymovies.search.SearchViewState
 import com.jbrunton.mymovies.shared.BaseActivity
 import kotlinx.android.synthetic.main.activity_genre_results.*
-
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class GenreResultsActivity : BaseActivity<GenreResultsViewModel>() {
     private lateinit var moviesAdapter: SearchResultsAdapter
 
-    val viewModel: GenreResultsViewModel by viewModel { mapOf("GENRE_ID" to genreId()) }
+    val viewModel: GenreResultsViewModel by viewModel { genreId() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

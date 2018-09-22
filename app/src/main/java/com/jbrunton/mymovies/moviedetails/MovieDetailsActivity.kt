@@ -9,9 +9,10 @@ import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.helpers.PicassoHelper
 import com.jbrunton.mymovies.shared.BaseActivity
 import kotlinx.android.synthetic.main.activity_movie_details.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MovieDetailsActivity : BaseActivity<MovieDetailsViewModel>() {
-    val viewModel: MovieDetailsViewModel by viewModel { mapOf("MOVIE_ID" to movieId()) }
+    val viewModel: MovieDetailsViewModel by viewModel { movieId() }
     private val picassoHelper = PicassoHelper()
 
     override fun onCreate(savedInstanceState: Bundle?) {

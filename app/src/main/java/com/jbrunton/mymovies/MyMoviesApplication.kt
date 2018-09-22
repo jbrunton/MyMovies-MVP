@@ -11,8 +11,8 @@ import com.jbrunton.mymovies.search.SearchViewModel
 import com.jbrunton.networking.repositories.HttpGenresRepository
 import com.jbrunton.networking.repositories.HttpMoviesRepository
 import com.jbrunton.networking.services.ServiceFactory
-import org.koin.android.architecture.ext.viewModel
 import org.koin.android.ext.android.startKoin
+import org.koin.androidx.viewmodel.ext.koin.viewModel
 import org.koin.dsl.module.Module
 import org.koin.dsl.module.applicationContext
 
@@ -23,8 +23,8 @@ val applicationModule : Module = applicationContext {
     viewModel { SearchViewModel(get()) }
     viewModel { DiscoverViewModel(get()) }
     viewModel { GenresViewModel(get()) }
-    viewModel { params -> MovieDetailsViewModel(params["MOVIE_ID"], get()) }
-    viewModel { params -> GenreResultsViewModel(params["GENRE_ID"], get()) }
+    viewModel { (movieId: String) -> MovieDetailsViewModel(movieId, get()) }
+    viewModel { (genreId: String) -> GenreResultsViewModel(genreId, get()) }
 }
 
 open class MyMoviesApplication : Application() {
