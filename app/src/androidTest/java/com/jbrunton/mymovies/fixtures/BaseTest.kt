@@ -16,7 +16,8 @@ abstract class BaseTest<T : Activity> {
 
     @JvmOverloads
     fun takeScreenshot(tag: String = "_") {
-        spoonRule.screenshot(activityRule.activity, tag)
+        // TODO: figure out why getting permissions errors since upgrading to using API 28
+        // spoonRule.screenshot(activityRule.activity, tag)
         ScreenShotter.takeScreenshot(tag, activityRule.activity)
     }
 

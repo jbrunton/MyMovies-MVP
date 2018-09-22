@@ -67,8 +67,10 @@ dependencies {
     testCompile 'junit:junit:4.12'
     testCompile 'org.assertj:assertj-core:3.8.0'
     androidTestCompile 'com.squareup.spoon:spoon-client:2.0.0-SNAPSHOT'
+    androidTestImplementation 'com.android.support.test:rules:1.0.2'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
 
-    compile 'org.koin:koin-androidx-viewmodel:1.0.0'
+    compile 'org.koin:koin-androidx-viewmodel:1.0.1-alpha-1'
     
     compile 'io.reactivex.rxjava2:rxjava:2.2.0'
     compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
@@ -102,6 +104,7 @@ repositories {
 
 spoon {
     failIfNoDeviceConnected = true
+    grantAllPermissions = true
 }
 
 apply plugin: 'kotlin-android-extensions'
