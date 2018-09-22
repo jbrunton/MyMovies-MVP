@@ -9,7 +9,7 @@ import com.jbrunton.mymovies.moviedetails.MovieDetailsViewModel
 import com.jbrunton.mymovies.search.SearchViewModel
 import com.jbrunton.networking.services.ServiceFactory
 import com.nhaarman.mockito_kotlin.mock
-import org.koin.android.architecture.ext.viewModel
+import org.koin.androidx.viewmodel.ext.koin.viewModel
 import org.koin.dsl.module.Module
 import org.koin.dsl.module.applicationContext
 
@@ -26,8 +26,8 @@ val testModule : Module = applicationContext {
 
     viewModel { DiscoverViewModel(get()) }
     viewModel { GenresViewModel(get()) }
-    viewModel { params -> MovieDetailsViewModel(params["MOVIE_ID"], get()) }
-    viewModel { params -> GenreResultsViewModel(params["GENRE_ID"], get()) }
+    viewModel { (movieId: String) -> MovieDetailsViewModel(movieId, get()) }
+    viewModel { (genreId: String) -> GenreResultsViewModel(genreId, get()) }
 }
 
 class TestApplication : MyMoviesApplication() {

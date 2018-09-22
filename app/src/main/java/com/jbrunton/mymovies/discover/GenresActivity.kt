@@ -3,7 +3,7 @@ package com.jbrunton.mymovies.discover
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.widget.Toolbar
+import androidx.appcompat.widget.Toolbar
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -12,11 +12,10 @@ import android.widget.ArrayAdapter
 import android.widget.TextView
 import com.jbrunton.entities.Genre
 import com.jbrunton.mymovies.R
-import com.jbrunton.mymovies.helpers.observe
-import com.jbrunton.mymovies.helpers.toVisibility
+import com.jbrunton.mymovies.helpers.*
 import com.jbrunton.mymovies.shared.BaseActivity
 import kotlinx.android.synthetic.main.activity_genres.*
-import org.koin.android.architecture.ext.viewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class GenresActivity : BaseActivity<GenresViewModel>() {
     private lateinit var genresAdapter: GenresAdapter

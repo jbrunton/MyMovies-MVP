@@ -1,6 +1,6 @@
 package com.jbrunton.mymovies.shared
 
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import com.jbrunton.mymovies.helpers.toVisibility
 import io.reactivex.ObservableTransformer
 import io.reactivex.android.schedulers.AndroidSchedulers

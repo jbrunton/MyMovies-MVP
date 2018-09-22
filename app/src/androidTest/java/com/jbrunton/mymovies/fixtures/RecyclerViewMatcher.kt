@@ -1,7 +1,7 @@
 package com.jbrunton.mymovies.fixtures
 
 import android.content.res.Resources
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 
 import org.hamcrest.Description
@@ -43,9 +43,9 @@ class RecyclerViewMatcher(private val recyclerViewId: Int) {
                 this.resources = view.resources
 
                 if (childView == null) {
-                    val recyclerView = view.rootView.findViewById<View>(recyclerViewId) as? RecyclerView
+                    val recyclerView = view.rootView.findViewById<View>(recyclerViewId) as? androidx.recyclerview.widget.RecyclerView
                     if (recyclerView != null && recyclerView.id == recyclerViewId) {
-                        childView = recyclerView.findViewHolderForAdapterPosition(position).itemView
+                        childView = recyclerView.findViewHolderForAdapterPosition(position)?.itemView
                     } else {
                         return false
                     }

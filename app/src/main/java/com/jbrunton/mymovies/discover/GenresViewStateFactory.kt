@@ -1,6 +1,6 @@
 package com.jbrunton.mymovies.discover
 
-import android.support.annotation.DrawableRes
+import androidx.annotation.DrawableRes
 import com.jbrunton.entities.Genre
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.shared.LoadingViewState

@@ -2,20 +2,19 @@ package com.jbrunton.mymovies.discover
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.jakewharton.rxbinding2.view.clicks
 import com.jbrunton.mymovies.R
-import com.jbrunton.mymovies.helpers.observe
-import com.jbrunton.mymovies.helpers.toVisibility
+import com.jbrunton.mymovies.helpers.*
 import com.jbrunton.mymovies.search.SearchResultsAdapter
 import com.jbrunton.mymovies.search.SearchViewState
 import com.jbrunton.mymovies.shared.BaseFragment
 import com.trello.rxlifecycle2.android.lifecycle.kotlin.bindToLifecycle
 import kotlinx.android.synthetic.main.fragment_discover.*
-import org.koin.android.architecture.ext.viewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class DiscoverFragment : BaseFragment<DiscoverViewModel>() {
     private lateinit var nowPlayingAdapter: SearchResultsAdapter
@@ -30,7 +29,7 @@ class DiscoverFragment : BaseFragment<DiscoverViewModel>() {
         super.onViewCreated(view, savedInstanceState)
 
         nowPlayingAdapter = SearchResultsAdapter(activity!!, R.layout.item_movie_card_grid)
-        now_playing.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+        now_playing.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(activity, androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL, false)
         now_playing.adapter = nowPlayingAdapter
 
         genres_link.clicks()
