@@ -78,7 +78,7 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
     compile 'com.jakewharton.rxbinding2:rxbinding-kotlin:2.1.0'
-    compile 'com.trello.rxlifecycle2:rxlifecycle-android-lifecycle-kotlin:2.2.1'
+    compile 'com.trello.rxlifecycle2:rxlifecycle-android-lifecycle-kotlin:2.2.2'
 
     implementation "androidx.lifecycle:lifecycle-extensions:2.0.0-rc01"
     testImplementation "androidx.arch.core:core-testing:2.0.0"
