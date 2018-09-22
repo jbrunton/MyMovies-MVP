@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.jakewharton.rxbinding2.view.clicks
 import com.jbrunton.mymovies.R
-import com.jbrunton.mymovies.helpers.toVisibility
+import com.jbrunton.mymovies.helpers.*
 import com.jbrunton.mymovies.search.SearchResultsAdapter
 import com.jbrunton.mymovies.search.SearchViewState
 import com.jbrunton.mymovies.shared.BaseFragment

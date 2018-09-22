@@ -6,7 +6,7 @@ import androidx.appcompat.widget.Toolbar
 import android.view.MenuItem
 import android.view.View
 import com.jbrunton.mymovies.R
-import com.jbrunton.mymovies.helpers.toVisibility
+import com.jbrunton.mymovies.helpers.*
 import com.jbrunton.mymovies.search.SearchResultsAdapter
 import com.jbrunton.mymovies.search.SearchViewState
 import com.jbrunton.mymovies.shared.BaseActivity

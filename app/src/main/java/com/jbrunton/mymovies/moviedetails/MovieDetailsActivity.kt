@@ -9,6 +9,7 @@ import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.helpers.PicassoHelper
 import com.jbrunton.mymovies.shared.BaseActivity
 import kotlinx.android.synthetic.main.activity_movie_details.*
+import kotlinx.android.synthetic.main.content_movie_details.*
 import kotlinx.android.synthetic.main.layout_loading_state.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf

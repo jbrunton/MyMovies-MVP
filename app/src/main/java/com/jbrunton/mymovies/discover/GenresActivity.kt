@@ -12,7 +12,7 @@ import android.widget.ArrayAdapter
 import android.widget.TextView
 import com.jbrunton.entities.Genre
 import com.jbrunton.mymovies.R
-import com.jbrunton.mymovies.helpers.toVisibility
+import com.jbrunton.mymovies.helpers.*
 import com.jbrunton.mymovies.shared.BaseActivity
 import kotlinx.android.synthetic.main.activity_genres.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
