@@ -17,9 +17,9 @@ import org.koin.dsl.module.Module
 import org.koin.dsl.module.applicationContext
 
 val applicationModule : Module = applicationContext {
-    bean { ServiceFactory.createService() }
-    bean { HttpMoviesRepository(get()) as MoviesRepository }
-    bean { HttpGenresRepository(get()) as GenresRepository }
+    single { ServiceFactory.createService() }
+    single { HttpMoviesRepository(get()) as MoviesRepository }
+    single { HttpGenresRepository(get()) as GenresRepository }
     viewModel { SearchViewModel(get()) }
     viewModel { DiscoverViewModel(get()) }
     viewModel { GenresViewModel(get()) }

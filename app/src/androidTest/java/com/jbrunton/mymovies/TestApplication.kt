@@ -14,9 +14,9 @@ import org.koin.dsl.module.Module
 import org.koin.dsl.module.applicationContext
 
 val testModule : Module = applicationContext {
-    bean { mock<ServiceFactory>() }
-    bean { mock<MoviesRepository>() }
-    bean { mock<GenresRepository>() }
+    single { mock<ServiceFactory>() }
+    single { mock<MoviesRepository>() }
+    single { mock<GenresRepository>() }
 
     viewModel {
         object : SearchViewModel(get()) {
