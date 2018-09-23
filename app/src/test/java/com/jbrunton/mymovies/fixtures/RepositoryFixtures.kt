@@ -16,7 +16,7 @@ object RepositoryFixtures {
         }
 
         fun toReturnDelayed(movie: Movie, delay: Int) {
-            whenever(repository.getMovie(id)).thenReturn(Observable.just(movie).delay(delay.toLong(), TimeUnit.SECONDS))
+            whenever(repository.getMovieRx(id)).thenReturn(Observable.just(movie).delay(delay.toLong(), TimeUnit.SECONDS))
         }
 
         fun toErrorWith(throwable: Throwable) {
@@ -24,7 +24,7 @@ object RepositoryFixtures {
         }
 
         fun toErrorWithDelayed(throwable: Throwable, delay: Int) {
-            whenever(repository.getMovie(id)).thenReturn(Observable.error<Movie>(throwable).delay(delay.toLong(), TimeUnit.SECONDS))
+            whenever(repository.getMovieRx(id)).thenReturn(Observable.error<Movie>(throwable).delay(delay.toLong(), TimeUnit.SECONDS))
         }
     }
 
