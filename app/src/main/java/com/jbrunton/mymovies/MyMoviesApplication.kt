@@ -15,11 +15,12 @@ import org.koin.android.ext.android.startKoin
 import org.koin.androidx.viewmodel.ext.koin.viewModel
 import org.koin.dsl.module.Module
 import org.koin.dsl.module.applicationContext
+import org.koin.dsl.module.module
 
-val applicationModule : Module = applicationContext {
-    bean { ServiceFactory.createService() }
-    bean { HttpMoviesRepository(get()) as MoviesRepository }
-    bean { HttpGenresRepository(get()) as GenresRepository }
+val applicationModule : Module = module {
+    single { ServiceFactory.createService() }
+    single { HttpMoviesRepository(get()) as MoviesRepository }
+    single { HttpGenresRepository(get()) as GenresRepository }
     viewModel { SearchViewModel(get()) }
     viewModel { DiscoverViewModel(get()) }
     viewModel { GenresViewModel(get()) }
