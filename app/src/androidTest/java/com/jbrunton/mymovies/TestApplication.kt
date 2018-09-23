@@ -12,8 +12,10 @@ import com.nhaarman.mockito_kotlin.mock
 import org.koin.androidx.viewmodel.ext.koin.viewModel
 import org.koin.dsl.module.Module
 import org.koin.dsl.module.applicationContext
+import org.koin.dsl.module.module
+import kotlin.math.sin
 
-val testModule : Module = applicationContext {
+val testModule : Module = module {
     single { mock<ServiceFactory>() }
     single { mock<MoviesRepository>() }
     single { mock<GenresRepository>() }
