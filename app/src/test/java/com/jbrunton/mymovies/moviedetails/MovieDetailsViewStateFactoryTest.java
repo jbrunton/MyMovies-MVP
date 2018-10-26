@@ -5,7 +5,7 @@ import com.jbrunton.entities.Movie;
 import com.jbrunton.fixtures.MovieFactory;
 import com.jbrunton.networking.DescriptiveError;
 import com.jbrunton.mymovies.movies.MovieViewState;
-import com.jbrunton.mymovies.shared.LoadingViewState;
+import com.jbrunton.mymovies.shared.LegacyLoadingViewState;
 import com.jbrunton.mymovies.shared.LoadingViewStateFactory;
 
 import org.junit.Before;
@@ -28,7 +28,7 @@ public class MovieDetailsViewStateFactoryTest {
     @Test public void createsLoadingState() {
         MovieDetailsViewState viewState = factory.loadingState();
 
-        assertThat(viewState.getLoadingViewState()).isEqualTo(LoadingViewState.LOADING_STATE);
+        assertThat(viewState.getLoadingViewState()).isEqualTo(LegacyLoadingViewState.LOADING_STATE);
         assertThat(viewState.getMovie()).isEqualTo(MovieViewState.Companion.getEMPTY());
     }
 

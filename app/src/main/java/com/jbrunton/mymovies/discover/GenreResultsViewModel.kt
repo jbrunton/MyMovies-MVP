@@ -6,7 +6,7 @@ import com.jbrunton.entities.MoviesRepository
 import com.jbrunton.mymovies.search.SearchViewState
 import com.jbrunton.mymovies.search.SearchViewStateFactory
 import com.jbrunton.mymovies.shared.BaseViewModel
-import com.jbrunton.mymovies.shared.LoadingViewState
+import com.jbrunton.mymovies.shared.LegacyLoadingViewState
 import com.jbrunton.networking.DescriptiveError
 
 class GenreResultsViewModel(private val genreId: String, private val repository: MoviesRepository) : BaseViewModel() {
@@ -16,7 +16,7 @@ class GenreResultsViewModel(private val genreId: String, private val repository:
     override fun start() {
         viewState.setValue(
                 SearchViewState(
-                        LoadingViewState.LOADING_STATE,
+                        LegacyLoadingViewState.LOADING_STATE,
                         emptyList()))
         repository.discoverByGenre(genreId)
                 .compose(applySchedulers())

@@ -1,8 +1,8 @@
 package com.jbrunton.mymovies.search
 
 import com.jbrunton.mymovies.movies.MovieSearchResultViewState
-import com.jbrunton.mymovies.shared.LoadingViewState
+import com.jbrunton.mymovies.shared.LegacyLoadingViewState
 
 data class SearchViewState(
-        val loadingViewState: LoadingViewState,
+        val loadingViewState: LegacyLoadingViewState,
         val movies: List<MovieSearchResultViewState>)

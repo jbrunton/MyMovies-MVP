@@ -1,22 +1,22 @@
 package com.jbrunton.mymovies.shared;
 
-import androidx.annotation.DrawableRes;
-
 import com.google.auto.value.AutoValue;
 
+import androidx.annotation.DrawableRes;
+
 @AutoValue
-public abstract class LoadingViewState {
+public abstract class LegacyLoadingViewState {
     public enum State {
         OK,
         LOADING,
         ERROR
     }
 
-    public static final LoadingViewState OK_STATE = LoadingViewState.builder()
+    public static final LegacyLoadingViewState OK_STATE = LegacyLoadingViewState.builder()
             .setCurrentState(State.OK)
             .build();
 
-    public static final LoadingViewState LOADING_STATE = LoadingViewState.builder()
+    public static final LegacyLoadingViewState LOADING_STATE = LegacyLoadingViewState.builder()
             .setCurrentState(State.LOADING)
             .build();
 
@@ -56,6 +56,6 @@ public abstract class LoadingViewState {
         public abstract Builder setErrorIcon(@DrawableRes int errorIcon);
         public abstract Builder setShowTryAgainButton(boolean showTryAgainButton);
 
-        public abstract LoadingViewState build();
+        public abstract LegacyLoadingViewState build();
     }
 }

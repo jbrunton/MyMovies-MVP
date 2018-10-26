@@ -16,7 +16,7 @@ abstract class BaseActivity<T : BaseViewModel> : AppCompatActivity() {
         }
     }
 
-    fun updateLoadingView(viewState: LoadingViewState) {
+    fun updateLoadingView(viewState: LegacyLoadingViewState) {
         loading_indicator.visibility = toVisibility(viewState.showLoadingIndicator())
         error_case.visibility = toVisibility(viewState.showError())
         error_text.text = viewState.errorMessage()
