@@ -1,15 +1,17 @@
 package com.jbrunton.mymovies.discover
 
 import android.os.Bundle
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.appcompat.widget.Toolbar
 import android.view.MenuItem
 import android.view.View
+import androidx.appcompat.widget.Toolbar
 import com.jbrunton.mymovies.R
-import com.jbrunton.mymovies.helpers.*
+import com.jbrunton.mymovies.helpers.observe
+import com.jbrunton.mymovies.helpers.toVisibility
 import com.jbrunton.mymovies.search.SearchResultsAdapter
 import com.jbrunton.mymovies.search.SearchViewState
 import com.jbrunton.mymovies.shared.BaseActivity
+import com.jbrunton.mymovies.shared.LoadingViewState
+import com.jbrunton.mymovies.shared.Success
 import kotlinx.android.synthetic.main.activity_genre_results.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
@@ -47,9 +49,11 @@ class GenreResultsActivity : BaseActivity<GenreResultsViewModel>() {
 
     private fun genreId(): String = intent.extras["GENRE_ID"] as String
 
-    private fun updateView(viewState: SearchViewState) {
-        updateLoadingView(viewState.loadingViewState)
-        movies_list.visibility = toVisibility(!viewState.loadingViewState.showError())
-        moviesAdapter!!.setDataSource(viewState.movies)
+    private fun updateView(viewState: LoadingViewState<SearchViewState>) {
+        updateLoadingView(viewState)
+        movies_list.visibility = toVisibility(viewState is Success)
+        if (viewState is Success) {
+            moviesAdapter!!.setDataSource(viewState.value)
+        }
     }
 }

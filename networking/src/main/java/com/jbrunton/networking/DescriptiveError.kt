@@ -22,4 +22,7 @@ class DescriptiveError : RuntimeException {
 
         private fun messageFromThrowable(throwable: Throwable) = throwable.message ?: "Unexpected Error"
     }
+
+    override val message: String
+        get() = super.message!!
 }

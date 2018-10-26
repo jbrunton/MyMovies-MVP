@@ -2,16 +2,19 @@ package com.jbrunton.mymovies.discover
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.jakewharton.rxbinding2.view.clicks
 import com.jbrunton.mymovies.R
-import com.jbrunton.mymovies.helpers.*
+import com.jbrunton.mymovies.helpers.observe
+import com.jbrunton.mymovies.helpers.toVisibility
 import com.jbrunton.mymovies.search.SearchResultsAdapter
 import com.jbrunton.mymovies.search.SearchViewState
 import com.jbrunton.mymovies.shared.BaseFragment
+import com.jbrunton.mymovies.shared.LoadingViewState
+import com.jbrunton.mymovies.shared.Success
 import com.trello.rxlifecycle2.android.lifecycle.kotlin.bindToLifecycle
 import kotlinx.android.synthetic.main.fragment_discover.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -46,9 +49,11 @@ class DiscoverFragment : BaseFragment<DiscoverViewModel>() {
         viewModel.start()
     }
 
-    private fun updateView(viewState: SearchViewState) {
-        discover_content.visibility = toVisibility(viewState.loadingViewState.showContent())
-        nowPlayingAdapter.setDataSource(viewState.movies)
-        updateLoadingView(viewState.loadingViewState)
+    private fun updateView(viewState: LoadingViewState<SearchViewState>) {
+        discover_content.visibility = toVisibility(viewState is Success)
+        if (viewState is Success) {
+            nowPlayingAdapter.setDataSource(viewState.value)
+        }
+        updateLoadingView(viewState)
     }
 }

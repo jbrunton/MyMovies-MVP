@@ -4,42 +4,47 @@ import com.jbrunton.entities.Movie
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.movies.MovieSearchResultViewState
 import com.jbrunton.mymovies.movies.from
-import com.jbrunton.mymovies.shared.LegacyLoadingViewState
-import com.jbrunton.mymovies.shared.LoadingViewStateFactory
+import com.jbrunton.mymovies.shared.Failure
+import com.jbrunton.mymovies.shared.Loading
+import com.jbrunton.mymovies.shared.LoadingViewState
+import com.jbrunton.mymovies.shared.Success
 
 class SearchViewStateFactory {
-    private val loadingViewStateFactory = LoadingViewStateFactory()
+    //private val loadingViewStateFactory = LoadingViewStateFactory()
 
-    private val errorNoResults = LegacyLoadingViewState.errorBuilder()
-            .setErrorMessage("No Results")
-            .setErrorIcon(R.drawable.ic_search_black_24dp)
-            .build()
+//    private val errorNoResults = LegacyLoadingViewState.errorBuilder()
+//            .setErrorMessage("No Results")
+//            .setErrorIcon(R.drawable.ic_search_black_24dp)
+//            .build()
 
-    private val errorEmptyState = LegacyLoadingViewState.errorBuilder()
-            .setErrorMessage("Search")
-            .setErrorIcon(R.drawable.ic_search_black_24dp)
-            .build()
+    private val errorNoResults = Failure<SearchViewState>(
+            errorMessage = "No Results",
+            errorIcon = R.drawable.ic_search_black_24dp
+    )
 
-    val searchEmptyState = fromLoadingViewState(errorEmptyState)
+    private val errorEmptyState = Failure<SearchViewState>(
+            errorMessage = "Search",
+            errorIcon = R.drawable.ic_search_black_24dp
+    )
 
-    val loadingState = fromLoadingViewState(LegacyLoadingViewState.LOADING_STATE)
+    val searchEmptyState = errorEmptyState
 
-    fun fromList(movies: List<Movie>): SearchViewState {
+    val loadingState = Loading<SearchViewState>()
+
+    fun fromList(movies: List<Movie>): LoadingViewState<SearchViewState> {
         return if (movies.isEmpty()) {
-            fromLoadingViewState(errorNoResults)
+            errorEmptyState
         } else {
-            SearchViewState(
-                    LegacyLoadingViewState.OK_STATE,
-                    movies.map { toMovieSearchResultViewState(it) })
+            Success(movies.map { toMovieSearchResultViewState(it) })
         }
     }
 
-    fun fromError(throwable: Throwable) =
-            fromLoadingViewState(loadingViewStateFactory.fromError(throwable))
-
-    private fun fromLoadingViewState(loadingViewState: LegacyLoadingViewState): SearchViewState {
-        return SearchViewState(loadingViewState, emptyList())
-    }
+//    fun fromError(throwable: Throwable) =
+//            fromLoadingViewState(loadingViewStateFactory.fromError(throwable))
+//
+//    private fun fromLoadingViewState(loadingViewState: LegacyLoadingViewState): SearchViewState {
+//        return SearchViewState(loadingViewState, emptyList())
+//    }
 
     private fun toMovieSearchResultViewState(movie: Movie): MovieSearchResultViewState {
         return MovieSearchResultViewState.Builder()

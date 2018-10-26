@@ -4,9 +4,10 @@ import androidx.lifecycle.MutableLiveData
 import com.jbrunton.entities.Movie
 import com.jbrunton.entities.MoviesRepository
 import com.jbrunton.mymovies.shared.BaseViewModel
+import com.jbrunton.mymovies.shared.LoadingViewState
 
 open class SearchViewModel(private val repository: MoviesRepository) : BaseViewModel() {
-    val viewState = MutableLiveData<SearchViewState>()
+    val viewState = MutableLiveData<LoadingViewState<SearchViewState>>()
     private val viewStateFactory = SearchViewStateFactory()
 
     override fun start() {
@@ -29,6 +30,6 @@ open class SearchViewModel(private val repository: MoviesRepository) : BaseViewM
     }
 
     private fun setErrorResponse(throwable: Throwable) {
-        viewState.postValue(viewStateFactory.fromError(throwable))
+        viewState.postValue(LoadingViewState.fromError(throwable))
     }
 }

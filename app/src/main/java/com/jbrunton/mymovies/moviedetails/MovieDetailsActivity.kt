@@ -8,6 +8,9 @@ import android.view.View
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.helpers.PicassoHelper
 import com.jbrunton.mymovies.shared.BaseActivity
+import com.jbrunton.mymovies.shared.LoadingViewState
+import com.jbrunton.mymovies.shared.Success
+import com.jbrunton.mymovies.helpers.observe
 import kotlinx.android.synthetic.main.activity_movie_details.*
 import kotlinx.android.synthetic.main.content_movie_details.*
 import kotlinx.android.synthetic.main.layout_loading_state.*
@@ -28,7 +31,7 @@ class MovieDetailsActivity : BaseActivity<MovieDetailsViewModel>() {
         title = ""
         error_try_again.setOnClickListener { viewModel.retry() }
 
-        viewModel.viewState().observe(this, Observer<MovieDetailsViewState> { this.updateView(it!!) })
+        viewModel.viewState().observe(this, this::updateView)
         viewModel.start()
     }
 
@@ -44,14 +47,14 @@ class MovieDetailsActivity : BaseActivity<MovieDetailsViewModel>() {
 
     private fun movieId(): String = intent.extras["MOVIE_ID"] as String
 
-    private fun updateView(viewState: MovieDetailsViewState) {
-        updateLoadingView(viewState.loadingViewState)
+    private fun updateView(viewState: LoadingViewState<MovieDetailsViewState>) {
+        updateLoadingView(viewState)
 
-        title = viewState.movie.title
-        overview.text = viewState.movie.overview
+        if (viewState is Success) {
+            title = viewState.value.movie.title
+            overview.text = viewState.value.movie.overview
 
-        picassoHelper.loadImage(this, backdrop, viewState.movie.backdropUrl)
-
-        updateLoadingView(viewState.loadingViewState)
+            picassoHelper.loadImage(this, backdrop, viewState.value.movie.backdropUrl)
+        }
     }
 }

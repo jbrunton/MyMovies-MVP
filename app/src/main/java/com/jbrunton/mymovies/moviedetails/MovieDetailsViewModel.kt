@@ -5,12 +5,13 @@ import androidx.lifecycle.MutableLiveData
 import com.jbrunton.entities.Movie
 import com.jbrunton.entities.MoviesRepository
 import com.jbrunton.mymovies.shared.BaseViewModel
+import com.jbrunton.mymovies.shared.LoadingViewState
 
 class MovieDetailsViewModel(private val movieId: String, private val repository: MoviesRepository) : BaseViewModel() {
-    private val viewState = MutableLiveData<MovieDetailsViewState>()
+    private val viewState = MutableLiveData<LoadingViewState<MovieDetailsViewState>>()
     private val viewStateFactory = MovieDetailsViewStateFactory()
 
-    fun viewState(): LiveData<MovieDetailsViewState> {
+    fun viewState(): LiveData<LoadingViewState<MovieDetailsViewState>> {
         return viewState
     }
 
