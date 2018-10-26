@@ -1,8 +1,6 @@
 package com.jbrunton.mymovies.discover
 
 import com.jbrunton.entities.Genre
-import com.jbrunton.mymovies.shared.LegacyLoadingViewState
+import com.jbrunton.mymovies.shared.LoadingViewState
 
-data class GenresViewState(
-        val loadingViewState: LegacyLoadingViewState,
-        val genres: List<Genre>)
+typealias GenresViewState = LoadingViewState<List<Genre>>

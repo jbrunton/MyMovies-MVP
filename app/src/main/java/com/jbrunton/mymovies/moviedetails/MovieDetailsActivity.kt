@@ -1,16 +1,16 @@
 package com.jbrunton.mymovies.moviedetails
 
-import androidx.lifecycle.Observer
 import android.os.Bundle
-import androidx.appcompat.widget.Toolbar
 import android.view.MenuItem
 import android.view.View
+import androidx.appcompat.widget.Toolbar
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.helpers.PicassoHelper
+import com.jbrunton.mymovies.helpers.observe
+import com.jbrunton.mymovies.movies.MovieViewState
 import com.jbrunton.mymovies.shared.BaseActivity
 import com.jbrunton.mymovies.shared.LoadingViewState
 import com.jbrunton.mymovies.shared.Success
-import com.jbrunton.mymovies.helpers.observe
 import kotlinx.android.synthetic.main.activity_movie_details.*
 import kotlinx.android.synthetic.main.content_movie_details.*
 import kotlinx.android.synthetic.main.layout_loading_state.*
@@ -47,14 +47,14 @@ class MovieDetailsActivity : BaseActivity<MovieDetailsViewModel>() {
 
     private fun movieId(): String = intent.extras["MOVIE_ID"] as String
 
-    private fun updateView(viewState: LoadingViewState<MovieDetailsViewState>) {
+    private fun updateView(viewState: LoadingViewState<MovieViewState>) {
         updateLoadingView(viewState)
 
         if (viewState is Success) {
-            title = viewState.value.movie.title
-            overview.text = viewState.value.movie.overview
+            title = viewState.value.title
+            overview.text = viewState.value.overview
 
-            picassoHelper.loadImage(this, backdrop, viewState.value.movie.backdropUrl)
+            picassoHelper.loadImage(this, backdrop, viewState.value.backdropUrl)
         }
     }
 }

@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import com.jbrunton.entities.Genre
 import com.jbrunton.entities.GenresRepository
 import com.jbrunton.mymovies.shared.BaseViewModel
+import com.jbrunton.mymovies.shared.LoadingViewState
 
 class GenresViewModel(private val repository: GenresRepository) : BaseViewModel() {
     val viewState = MutableLiveData<GenresViewState>()
@@ -20,6 +21,6 @@ class GenresViewModel(private val repository: GenresRepository) : BaseViewModel(
     }
 
     private fun setErrorResponse(throwable: Throwable) {
-        viewState.value = converter.fromError(throwable)
+        viewState.value = LoadingViewState.fromError(throwable)
     }
 }

@@ -3,17 +3,19 @@ package com.jbrunton.mymovies.discover
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.appcompat.widget.Toolbar
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
+import androidx.appcompat.widget.Toolbar
 import com.jbrunton.entities.Genre
 import com.jbrunton.mymovies.R
-import com.jbrunton.mymovies.helpers.*
+import com.jbrunton.mymovies.helpers.observe
+import com.jbrunton.mymovies.helpers.toVisibility
 import com.jbrunton.mymovies.shared.BaseActivity
+import com.jbrunton.mymovies.shared.Success
 import kotlinx.android.synthetic.main.activity_genres.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -48,10 +50,12 @@ class GenresActivity : BaseActivity<GenresViewModel>() {
     }
 
     private fun updateView(viewState: GenresViewState) {
-        genres_list.visibility = toVisibility(!viewState.loadingViewState.showError())
-        genresAdapter.addAll(viewState.genres)
+        genres_list.visibility = toVisibility(viewState is Success)
+        if (viewState is Success) {
+            genresAdapter.addAll(viewState.value)
+        }
 
-        updateLoadingView(viewState.loadingViewState)
+        updateLoadingView(viewState)
     }
 
     protected class GenresAdapter(context: Context) : ArrayAdapter<Genre>(context, android.R.layout.simple_list_item_1) {

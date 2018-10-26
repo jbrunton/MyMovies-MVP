@@ -3,23 +3,19 @@ package com.jbrunton.mymovies.moviedetails
 import com.jbrunton.entities.Movie
 import com.jbrunton.mymovies.movies.MovieViewState
 import com.jbrunton.mymovies.movies.from
-import com.jbrunton.mymovies.shared.LegacyLoadingViewState
+import com.jbrunton.mymovies.shared.Loading
+import com.jbrunton.mymovies.shared.LoadingViewState
 import com.jbrunton.mymovies.shared.LoadingViewStateFactory
+import com.jbrunton.mymovies.shared.Success
 
 class MovieDetailsViewStateFactory {
     private val loadingViewStateFactory = LoadingViewStateFactory()
 
-    fun fromMovie(movie: Movie) = MovieDetailsViewState(
-            loadingViewState = LegacyLoadingViewState.OK_STATE,
-            movie = toMovieViewState(movie))
+    fun fromMovie(movie: Movie) = Success(toMovieViewState(movie))
 
-    fun fromError(throwable: Throwable) = MovieDetailsViewState(
-            loadingViewState = loadingViewStateFactory.fromError(throwable),
-            movie = MovieViewState.EMPTY)
+    fun fromError(throwable: Throwable): LoadingViewState<MovieViewState> = LoadingViewState.fromError(throwable)
 
-    fun loadingState() = MovieDetailsViewState(
-                loadingViewState = LegacyLoadingViewState.LOADING_STATE,
-                movie = MovieViewState.EMPTY)
+    fun loadingState(): LoadingViewState<MovieViewState> = Loading()
 
     private fun toMovieViewState(movie: Movie): MovieViewState {
         return MovieViewState.Builder().from(movie).apply {

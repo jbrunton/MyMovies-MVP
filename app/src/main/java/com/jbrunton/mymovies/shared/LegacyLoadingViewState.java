@@ -38,7 +38,7 @@ public abstract class LegacyLoadingViewState {
     public abstract boolean showTryAgainButton();
 
     public static Builder builder() {
-        return new AutoValue_LoadingViewState.Builder()
+        return new AutoValue_LegacyLoadingViewState.Builder()
                 .setErrorIcon(0)
                 .setErrorMessage("")
                 .setShowTryAgainButton(false);

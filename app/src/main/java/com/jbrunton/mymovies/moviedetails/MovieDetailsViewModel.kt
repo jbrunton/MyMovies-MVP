@@ -4,14 +4,16 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.jbrunton.entities.Movie
 import com.jbrunton.entities.MoviesRepository
+import com.jbrunton.mymovies.movies.MovieViewState
 import com.jbrunton.mymovies.shared.BaseViewModel
+import com.jbrunton.mymovies.shared.Loading
 import com.jbrunton.mymovies.shared.LoadingViewState
 
 class MovieDetailsViewModel(private val movieId: String, private val repository: MoviesRepository) : BaseViewModel() {
-    private val viewState = MutableLiveData<LoadingViewState<MovieDetailsViewState>>()
+    private val viewState = MutableLiveData<LoadingViewState<MovieViewState>>()
     private val viewStateFactory = MovieDetailsViewStateFactory()
 
-    fun viewState(): LiveData<LoadingViewState<MovieDetailsViewState>> {
+    fun viewState(): LiveData<LoadingViewState<MovieViewState>> {
         return viewState
     }
 
@@ -24,7 +26,7 @@ class MovieDetailsViewModel(private val movieId: String, private val repository:
     }
 
     private fun loadDetails() {
-        viewState.setValue(viewStateFactory.loadingState())
+        viewState.setValue(Loading())
         repository.getMovie(movieId)
                 .compose(applySchedulers())
                 .subscribe(this::setMovieResponse, this::setErrorResponse)
