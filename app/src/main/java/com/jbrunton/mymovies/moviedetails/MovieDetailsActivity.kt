@@ -17,6 +17,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
 class MovieDetailsActivity : BaseActivity<MovieDetailsViewModel>() {
+    override val content: View get() = content
     val viewModel: MovieDetailsViewModel by viewModel { parametersOf(movieId()) }
     private val picassoHelper = PicassoHelper()
 
@@ -47,7 +48,7 @@ class MovieDetailsActivity : BaseActivity<MovieDetailsViewModel>() {
     private fun movieId(): String = intent.extras["MOVIE_ID"] as String
 
     private fun updateView(viewState: LoadingViewState<MovieViewState>) {
-        viewState.updateLayout(findViewById(android.R.id.content), content = content) {
+        viewState.updateLayout(this) {
             title = it.title
             overview.text = it.overview
 

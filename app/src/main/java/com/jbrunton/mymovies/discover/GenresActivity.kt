@@ -18,6 +18,7 @@ import kotlinx.android.synthetic.main.activity_genres.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class GenresActivity : BaseActivity<GenresViewModel>() {
+    override val content: View get() = genres_list
     private lateinit var genresAdapter: GenresAdapter
 
     val viewModel: GenresViewModel by viewModel()
@@ -48,7 +49,7 @@ class GenresActivity : BaseActivity<GenresViewModel>() {
     }
 
     private fun updateView(viewState: GenresViewState) {
-        viewState.updateLayout(findViewById(android.R.id.content), content = genres_list) {
+        viewState.updateLayout(this) {
             genresAdapter.addAll(it)
         }
     }

@@ -48,6 +48,10 @@ sealed class LoadingViewState<out T> {
         updateLayout(fragment.view!!, fragment.content, onSuccess)
     }
 
+    fun updateLayout(activity: BaseActivity<*>, onSuccess: (T) -> Unit) {
+        updateLayout(activity.findViewById(android.R.id.content), activity.content, onSuccess)
+    }
+
     data class Success<T>(val value: T): LoadingViewState<T>()
 
     data class Failure<T>(

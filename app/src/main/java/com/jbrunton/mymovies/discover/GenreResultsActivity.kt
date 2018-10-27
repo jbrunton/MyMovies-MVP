@@ -15,6 +15,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
 class GenreResultsActivity : BaseActivity<GenreResultsViewModel>() {
+    override val content: View get() = movies_list
     private lateinit var moviesAdapter: SearchResultsAdapter
 
     val viewModel: GenreResultsViewModel by viewModel { parametersOf(genreId()) }
@@ -48,7 +49,7 @@ class GenreResultsActivity : BaseActivity<GenreResultsViewModel>() {
     private fun genreId(): String = intent.extras["GENRE_ID"] as String
 
     private fun updateView(viewState: LoadingViewState<SearchViewState>) {
-        viewState.updateLayout(findViewById(android.R.id.content), content = movies_list) {
+        viewState.updateLayout(this) {
             moviesAdapter.setDataSource(it)
         }
     }
