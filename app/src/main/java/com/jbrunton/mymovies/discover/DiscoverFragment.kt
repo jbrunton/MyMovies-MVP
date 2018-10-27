@@ -47,7 +47,7 @@ class DiscoverFragment : BaseFragment<DiscoverViewModel>() {
     }
 
     private fun updateView(viewState: LoadingViewState<SearchViewState>) {
-        updateLayout(viewState, content = discover_content) {
+        viewState.updateLayout(view!!, content = discover_content) {
             nowPlayingAdapter.setDataSource(it)
         }
     }

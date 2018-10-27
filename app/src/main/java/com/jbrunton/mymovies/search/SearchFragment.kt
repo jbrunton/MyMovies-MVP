@@ -55,7 +55,7 @@ class SearchFragment : BaseFragment<SearchViewModel>() {
     }
 
     fun updateView(viewState: LoadingViewState<SearchViewState>) {
-        updateLayout(viewState, content = movies_list) {
+        viewState.updateLayout(view!!, content = movies_list) {
             searchResultsAdapter.setDataSource(it)
         }
     }

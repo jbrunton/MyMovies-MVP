@@ -1,7 +1,11 @@
 package com.jbrunton.mymovies.shared
 
+import android.view.View
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.annotation.DrawableRes
 import com.jbrunton.mymovies.R
+import com.jbrunton.mymovies.helpers.toVisibility
 import com.jbrunton.networking.DescriptiveError
 
 sealed class LoadingViewState<T> {
@@ -16,6 +20,27 @@ sealed class LoadingViewState<T> {
             return Failure<T>(errorMessage = error.message,
                     errorIcon = resId,
                     showTryAgainButton = true)
+        }
+    }
+
+    fun updateLayout(root: View, content: View, onSuccess: (T) -> Unit) {
+        val loadingIndicator = root.findViewById<View>(R.id.loading_indicator)
+        val errorCase = root.findViewById<View>(R.id.error_case)
+        val errorText = root.findViewById<TextView>(R.id.error_text)
+        val errorTryAgain = root.findViewById<View>(R.id.error_try_again)
+        val errorImage = root.findViewById<ImageView>(R.id.error_image)
+        content.visibility = toVisibility(this is Success)
+        loadingIndicator.visibility = toVisibility(this is Loading)
+        errorCase.visibility = toVisibility(this is Failure)
+        when (this) {
+            is Failure -> {
+                errorText.text = errorMessage
+                errorTryAgain.visibility = toVisibility(showTryAgainButton)
+                errorImage.setImageResource(errorIcon)
+            }
+            is Success -> {
+                onSuccess(value)
+            }
         }
     }
 }
