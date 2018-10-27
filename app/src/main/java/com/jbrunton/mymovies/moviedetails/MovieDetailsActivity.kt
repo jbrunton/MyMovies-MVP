@@ -1,13 +1,16 @@
 package com.jbrunton.mymovies.moviedetails
 
-import androidx.lifecycle.Observer
 import android.os.Bundle
-import androidx.appcompat.widget.Toolbar
 import android.view.MenuItem
 import android.view.View
+import androidx.appcompat.widget.Toolbar
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.helpers.PicassoHelper
+import com.jbrunton.mymovies.helpers.observe
+import com.jbrunton.mymovies.movies.MovieViewState
 import com.jbrunton.mymovies.shared.BaseActivity
+import com.jbrunton.mymovies.shared.LoadingLayoutManager
+import com.jbrunton.mymovies.shared.LoadingViewState
 import kotlinx.android.synthetic.main.activity_movie_details.*
 import kotlinx.android.synthetic.main.content_movie_details.*
 import kotlinx.android.synthetic.main.layout_loading_state.*
@@ -16,6 +19,7 @@ import org.koin.core.parameter.parametersOf
 
 class MovieDetailsActivity : BaseActivity<MovieDetailsViewModel>() {
     val viewModel: MovieDetailsViewModel by viewModel { parametersOf(movieId()) }
+    lateinit var loadingLayoutManager: LoadingLayoutManager
     private val picassoHelper = PicassoHelper()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,10 +29,12 @@ class MovieDetailsActivity : BaseActivity<MovieDetailsViewModel>() {
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
+        loadingLayoutManager = LoadingLayoutManager.buildFor(this, content)
+
         title = ""
         error_try_again.setOnClickListener { viewModel.retry() }
 
-        viewModel.viewState().observe(this, Observer<MovieDetailsViewState> { this.updateView(it!!) })
+        viewModel.viewState.observe(this, this::updateView)
         viewModel.start()
     }
 
@@ -44,14 +50,12 @@ class MovieDetailsActivity : BaseActivity<MovieDetailsViewModel>() {
 
     private fun movieId(): String = intent.extras["MOVIE_ID"] as String
 
-    private fun updateView(viewState: MovieDetailsViewState) {
-        updateLoadingView(viewState.loadingViewState)
+    private fun updateView(viewState: LoadingViewState<MovieViewState>) {
+        loadingLayoutManager.updateLayout(viewState) {
+            title = it.title
+            overview.text = it.overview
 
-        title = viewState.movie.title
-        overview.text = viewState.movie.overview
-
-        picassoHelper.loadImage(this, backdrop, viewState.movie.backdropUrl)
-
-        updateLoadingView(viewState.loadingViewState)
+            picassoHelper.loadImage(this, backdrop, it.backdropUrl)
+        }
     }
 }

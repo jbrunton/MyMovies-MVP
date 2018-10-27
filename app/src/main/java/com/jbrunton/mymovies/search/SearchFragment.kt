@@ -1,23 +1,25 @@
 package com.jbrunton.mymovies.search
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import com.jakewharton.rxbinding2.view.clicks
 import com.jakewharton.rxbinding2.widget.textChanges
 import com.jbrunton.mymovies.R
-import com.jbrunton.mymovies.helpers.*
+import com.jbrunton.mymovies.helpers.observe
 import com.jbrunton.mymovies.shared.BaseFragment
+import com.jbrunton.mymovies.shared.LoadingLayoutManager
+import com.jbrunton.mymovies.shared.LoadingViewState
 import com.trello.rxlifecycle2.android.lifecycle.kotlin.bindToLifecycle
-import java.util.concurrent.TimeUnit
 import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.android.synthetic.main.layout_loading_state.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.util.concurrent.TimeUnit
 
 class SearchFragment : BaseFragment<SearchViewModel>() {
+    private lateinit var loadingLayoutManager: LoadingLayoutManager
     private lateinit var searchResultsAdapter: SearchResultsAdapter
 
     val viewModel: SearchViewModel by viewModel()
@@ -29,6 +31,7 @@ class SearchFragment : BaseFragment<SearchViewModel>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        loadingLayoutManager = LoadingLayoutManager.buildFor(this, movies_list)
         movies_list.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(activity)
         searchResultsAdapter = SearchResultsAdapter(activity!!, R.layout.item_movie_card_list)
         movies_list.adapter = searchResultsAdapter
@@ -54,9 +57,7 @@ class SearchFragment : BaseFragment<SearchViewModel>() {
         viewModel.performSearch(search_query.text.toString())
     }
 
-    fun updateView(viewState: SearchViewState) {
-        movies_list.visibility = toVisibility(viewState.loadingViewState.showContent())
-        searchResultsAdapter.setDataSource(viewState.movies)
-        updateLoadingView(viewState.loadingViewState)
+    fun updateView(viewState: LoadingViewState<SearchViewState>) {
+        loadingLayoutManager.updateLayout(viewState, searchResultsAdapter::setDataSource)
     }
 }

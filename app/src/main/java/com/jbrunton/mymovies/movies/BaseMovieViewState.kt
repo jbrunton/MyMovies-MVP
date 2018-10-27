@@ -4,38 +4,19 @@ import com.google.common.base.Optional
 import com.jbrunton.entities.Movie
 import org.joda.time.LocalDate
 
-interface BaseMovieViewState {
-    val movieId: String
-    val title: String
-    val yearReleased: String
-    val posterUrl: String
-    val backdropUrl: String
-    val rating: String
+abstract class BaseMovieViewState(movie: Movie) {
+    val movieId = movie.id
+    val title = movie.title
+    val yearReleased = convertReleaseDate(movie.releaseDate)
+    val posterUrl = movie.posterUrl.or("")
+    val backdropUrl = movie.backdropUrl.or("")
+    val rating = "&#9734; ${movie.rating}"
 
-    open class Builder {
-        var movieId: String = ""
-        var title: String = ""
-        var yearReleased: String = ""
-        var posterUrl: String = ""
-        var backdropUrl: String = ""
-        var rating: String = ""
-    }
-}
-
-fun <T : BaseMovieViewState.Builder> T.from(movie: Movie): T {
-    movieId = movie.id
-    title = movie.title
-    yearReleased = convertReleaseDate(movie.releaseDate)
-    rating = "&#9734; " + movie.rating
-    posterUrl = movie.posterUrl.or("")
-    backdropUrl = movie.backdropUrl.or("")
-    return this
-}
-
-private fun convertReleaseDate(date: Optional<LocalDate>): String {
-    return if (date.isPresent) {
-        Integer.toString(date.get().year)
-    } else {
-        ""
+    private fun convertReleaseDate(date: Optional<LocalDate>): String {
+        return if (date.isPresent) {
+            Integer.toString(date.get().year)
+        } else {
+            ""
+        }
     }
 }

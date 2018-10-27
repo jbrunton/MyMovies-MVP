@@ -5,6 +5,8 @@ import com.jbrunton.entities.MoviesRepository
 import com.jbrunton.fixtures.MovieFactory
 import com.jbrunton.mymovies.fixtures.RepositoryFixtures.stubFind
 import com.jbrunton.mymovies.fixtures.TestSchedulerRule
+import com.jbrunton.mymovies.movies.MovieViewState
+import com.jbrunton.mymovies.shared.LoadingViewState
 import com.jbrunton.networking.DescriptiveError
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
@@ -24,7 +26,9 @@ class MovieDetailsViewModelTest {
     private val movieFactory = MovieFactory()
     private val MOVIE = movieFactory.create()
     private val NETWORK_ERROR = DescriptiveError("Network Error", true)
-    private val viewStateFactory = MovieDetailsViewStateFactory()
+
+    private val SUCCESS_VIEW_STATE = LoadingViewState.Success(MovieViewState(MOVIE))
+    private val NETWORK_ERROR_VIEW_STATE = LoadingViewState.fromError<MovieViewState>(NETWORK_ERROR)
 
     private lateinit var viewModel: MovieDetailsViewModel
 
@@ -38,14 +42,14 @@ class MovieDetailsViewModelTest {
     @Test
     fun startsWithLoadingState() {
         viewModel.start()
-        assertThat(viewModel.viewState().value).isEqualTo(viewStateFactory.loadingState())
+        assertThat(viewModel.viewState.value).isEqualTo(LoadingViewState.Loading)
     }
 
     @Test
     fun loadsMovie() {
         viewModel.start()
         schedulerRule.TEST_SCHEDULER.advanceTimeBy(1, TimeUnit.SECONDS)
-        assertThat(viewModel.viewState().value).isEqualTo(viewStateFactory.fromMovie(MOVIE))
+        assertThat(viewModel.viewState.value).isEqualTo(SUCCESS_VIEW_STATE)
     }
 
     @Test
@@ -55,7 +59,7 @@ class MovieDetailsViewModelTest {
 
         schedulerRule.TEST_SCHEDULER.advanceTimeBy(1, TimeUnit.SECONDS)
 
-        assertThat(viewModel.viewState().value).isEqualTo(viewStateFactory.fromError(NETWORK_ERROR))
+        assertThat(viewModel.viewState.value).isEqualTo(NETWORK_ERROR_VIEW_STATE)
     }
 
     @Test
@@ -63,12 +67,12 @@ class MovieDetailsViewModelTest {
         stubFind(repository, "1").toErrorWithDelayed(NETWORK_ERROR, 1)
         viewModel.start()
         schedulerRule.TEST_SCHEDULER.advanceTimeBy(1, TimeUnit.SECONDS)
-        assertThat(viewModel.viewState().value).isEqualTo(viewStateFactory.fromError(NETWORK_ERROR))
+        assertThat(viewModel.viewState.value).isEqualTo(NETWORK_ERROR_VIEW_STATE)
 
         stubFind(repository, "1").toReturnDelayed(MOVIE, 1)
         viewModel.retry()
 
-        assertThat(viewModel.viewState().value).isEqualTo(viewStateFactory.loadingState())
+        assertThat(viewModel.viewState.value).isEqualTo(LoadingViewState.Loading)
     }
 
     @Test
@@ -80,6 +84,6 @@ class MovieDetailsViewModelTest {
         viewModel.retry()
 
         schedulerRule.TEST_SCHEDULER.advanceTimeBy(1, TimeUnit.SECONDS)
-        assertThat(viewModel.viewState().value).isEqualTo(viewStateFactory.fromMovie(MOVIE))
+        assertThat(viewModel.viewState.value).isEqualTo(SUCCESS_VIEW_STATE)
     }
 }

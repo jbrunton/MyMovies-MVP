@@ -3,47 +3,26 @@ package com.jbrunton.mymovies.search
 import com.jbrunton.entities.Movie
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.movies.MovieSearchResultViewState
-import com.jbrunton.mymovies.movies.from
 import com.jbrunton.mymovies.shared.LoadingViewState
-import com.jbrunton.mymovies.shared.LoadingViewStateFactory
 
 class SearchViewStateFactory {
-    private val loadingViewStateFactory = LoadingViewStateFactory()
+    companion object {
+        val errorNoResults = buildEmptyState("No Results")
+        val emptyState = buildEmptyState("Search")
 
-    private val errorNoResults = LoadingViewState.errorBuilder()
-            .setErrorMessage("No Results")
-            .setErrorIcon(R.drawable.ic_search_black_24dp)
-            .build()
-
-    private val errorEmptyState = LoadingViewState.errorBuilder()
-            .setErrorMessage("Search")
-            .setErrorIcon(R.drawable.ic_search_black_24dp)
-            .build()
-
-    val searchEmptyState = fromLoadingViewState(errorEmptyState)
-
-    val loadingState = fromLoadingViewState(LoadingViewState.LOADING_STATE)
-
-    fun fromList(movies: List<Movie>): SearchViewState {
-        return if (movies.isEmpty()) {
-            fromLoadingViewState(errorNoResults)
-        } else {
-            SearchViewState(
-                    LoadingViewState.OK_STATE,
-                    movies.map { toMovieSearchResultViewState(it) })
+        fun fromList(movies: List<Movie>): LoadingViewState<SearchViewState> {
+            if (movies.isEmpty()) {
+                return errorNoResults
+            } else {
+                return LoadingViewState.Success(movies.map { MovieSearchResultViewState(it) })
+            }
         }
-    }
 
-    fun fromError(throwable: Throwable) =
-            fromLoadingViewState(loadingViewStateFactory.fromError(throwable))
-
-    private fun fromLoadingViewState(loadingViewState: LoadingViewState): SearchViewState {
-        return SearchViewState(loadingViewState, emptyList())
-    }
-
-    private fun toMovieSearchResultViewState(movie: Movie): MovieSearchResultViewState {
-        return MovieSearchResultViewState.Builder()
-                .from(movie)
-                .build()
+        private fun buildEmptyState(errorMessage: String): LoadingViewState.Failure<SearchViewState> {
+            return LoadingViewState.Failure(
+                    errorMessage = errorMessage,
+                    errorIcon = R.drawable.ic_search_black_24dp
+            )
+        }
     }
 }

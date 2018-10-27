@@ -3,22 +3,24 @@ package com.jbrunton.mymovies.discover
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.appcompat.widget.Toolbar
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
+import androidx.appcompat.widget.Toolbar
 import com.jbrunton.entities.Genre
 import com.jbrunton.mymovies.R
-import com.jbrunton.mymovies.helpers.*
+import com.jbrunton.mymovies.helpers.observe
 import com.jbrunton.mymovies.shared.BaseActivity
+import com.jbrunton.mymovies.shared.LoadingLayoutManager
 import kotlinx.android.synthetic.main.activity_genres.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class GenresActivity : BaseActivity<GenresViewModel>() {
     private lateinit var genresAdapter: GenresAdapter
+    private lateinit var loadingLayoutManager: LoadingLayoutManager
 
     val viewModel: GenresViewModel by viewModel()
 
@@ -29,6 +31,8 @@ class GenresActivity : BaseActivity<GenresViewModel>() {
         val toolbar = findViewById<View>(R.id.toolbar) as Toolbar
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+
+        loadingLayoutManager = LoadingLayoutManager.buildFor(this, genres_list)
 
         genresAdapter = GenresAdapter(this)
         genres_list.adapter = genresAdapter
@@ -48,10 +52,9 @@ class GenresActivity : BaseActivity<GenresViewModel>() {
     }
 
     private fun updateView(viewState: GenresViewState) {
-        genres_list.visibility = toVisibility(!viewState.loadingViewState.showError())
-        genresAdapter.addAll(viewState.genres)
-
-        updateLoadingView(viewState.loadingViewState)
+        loadingLayoutManager.updateLayout(viewState) {
+            genresAdapter.addAll(it)
+        }
     }
 
     protected class GenresAdapter(context: Context) : ArrayAdapter<Genre>(context, android.R.layout.simple_list_item_1) {

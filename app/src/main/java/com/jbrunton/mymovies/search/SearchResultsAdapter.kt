@@ -2,16 +2,15 @@ package com.jbrunton.mymovies.search
 
 import android.content.Context
 import android.content.Intent
-import androidx.recyclerview.widget.RecyclerView
 import android.text.Html
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import com.jbrunton.mymovies.R
+import com.jbrunton.mymovies.helpers.PicassoHelper
 import com.jbrunton.mymovies.moviedetails.MovieDetailsActivity
 import com.jbrunton.mymovies.movies.MovieSearchResultViewState
 import com.jbrunton.mymovies.shared.BaseRecyclerAdapter
-import com.squareup.picasso.Picasso
 
 class SearchResultsAdapter(
         context: Context,
@@ -39,6 +38,8 @@ class SearchResultsAdapter(
 
     class ViewHolderFactory(private val context: Context) : BaseRecyclerAdapter.ViewHolderFactory<MovieSearchResultViewState, ViewHolder> {
 
+        private val picassoHelper = PicassoHelper()
+
         override fun createViewHolder(view: View): ViewHolder {
             return ViewHolder(view)
         }
@@ -51,11 +52,7 @@ class SearchResultsAdapter(
             if (holder.ratingView != null) {
                 holder.ratingView.text = Html.fromHtml(item.rating)
             }
-            Picasso.with(context)
-                    .load(item.posterUrl)
-                    .resize(185, 275)
-                    .centerCrop()
-                    .into(holder.poster)
+            picassoHelper.loadSearchResultImage(context, holder.poster, item.posterUrl)
             holder.movieCardView.setOnClickListener {
                 val intent = Intent(context, MovieDetailsActivity::class.java)
                 intent.putExtra("MOVIE_ID", item.movieId)
