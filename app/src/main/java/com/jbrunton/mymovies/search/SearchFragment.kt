@@ -9,10 +9,8 @@ import com.jakewharton.rxbinding2.view.clicks
 import com.jakewharton.rxbinding2.widget.textChanges
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.helpers.observe
-import com.jbrunton.mymovies.helpers.toVisibility
 import com.jbrunton.mymovies.shared.BaseFragment
 import com.jbrunton.mymovies.shared.LoadingViewState
-import com.jbrunton.mymovies.shared.Success
 import com.trello.rxlifecycle2.android.lifecycle.kotlin.bindToLifecycle
 import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.android.synthetic.main.layout_loading_state.*
@@ -57,10 +55,8 @@ class SearchFragment : BaseFragment<SearchViewModel>() {
     }
 
     fun updateView(viewState: LoadingViewState<SearchViewState>) {
-        movies_list.visibility = toVisibility(viewState is Success)
-        if (viewState is Success) {
-            searchResultsAdapter.setDataSource(viewState.value)
+        updateLayout(viewState, content = movies_list) {
+            searchResultsAdapter.setDataSource(it)
         }
-        updateLoadingView(viewState)
     }
 }
