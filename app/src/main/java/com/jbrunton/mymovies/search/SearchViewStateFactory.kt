@@ -2,7 +2,7 @@ package com.jbrunton.mymovies.search
 
 import com.jbrunton.entities.Movie
 import com.jbrunton.mymovies.R
-import com.jbrunton.mymovies.movies.toSearchResultViewState
+import com.jbrunton.mymovies.movies.MovieSearchResultViewState
 import com.jbrunton.mymovies.shared.Failure
 import com.jbrunton.mymovies.shared.LoadingViewState
 import com.jbrunton.mymovies.shared.Success
@@ -23,7 +23,7 @@ class SearchViewStateFactory {
             if (movies.isEmpty()) {
                 return errorNoResults
             } else {
-                return Success(movies.map { it.toSearchResultViewState() })
+                return Success(movies.map { MovieSearchResultViewState(it) })
             }
         }
     }

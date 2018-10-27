@@ -33,7 +33,7 @@ class MovieDetailsViewModel(private val movieId: String, private val repository:
     }
 
     private fun setMovieResponse(movie: Movie) {
-        viewState.value = Success(movie.toViewState())
+        viewState.value = Success(MovieViewState(movie))
     }
 
     private fun setErrorResponse(throwable: Throwable) {
