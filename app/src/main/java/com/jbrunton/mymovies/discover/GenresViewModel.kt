@@ -3,12 +3,14 @@ package com.jbrunton.mymovies.discover
 import androidx.lifecycle.MutableLiveData
 import com.jbrunton.entities.Genre
 import com.jbrunton.entities.GenresRepository
+import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.shared.BaseViewModel
+import com.jbrunton.mymovies.shared.Failure
 import com.jbrunton.mymovies.shared.LoadingViewState
+import com.jbrunton.mymovies.shared.Success
 
 class GenresViewModel(private val repository: GenresRepository) : BaseViewModel() {
     val viewState = MutableLiveData<GenresViewState>()
-    private val converter = GenresViewStateFactory()
 
     override fun start() {
         repository.genres()
@@ -17,7 +19,14 @@ class GenresViewModel(private val repository: GenresRepository) : BaseViewModel(
     }
 
     private fun setGenresResponse(genres: List<Genre>) {
-        viewState.value = converter.fromList(genres)
+        if (genres.isEmpty()) {
+            viewState.value = Failure(
+                    errorMessage = "Could not load genres at this time",
+                    errorIcon = R.drawable.ic_sentiment_dissatisfied_black_24dp,
+                    showTryAgainButton = true)
+        } else {
+            viewState.value = Success(genres)
+        }
     }
 
     private fun setErrorResponse(throwable: Throwable) {

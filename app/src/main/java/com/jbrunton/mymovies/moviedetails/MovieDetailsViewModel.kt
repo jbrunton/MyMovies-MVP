@@ -8,10 +8,10 @@ import com.jbrunton.mymovies.movies.MovieViewState
 import com.jbrunton.mymovies.shared.BaseViewModel
 import com.jbrunton.mymovies.shared.Loading
 import com.jbrunton.mymovies.shared.LoadingViewState
+import com.jbrunton.mymovies.shared.Success
 
 class MovieDetailsViewModel(private val movieId: String, private val repository: MoviesRepository) : BaseViewModel() {
-    private val viewState = MutableLiveData<LoadingViewState<MovieViewState>>()
-    private val viewStateFactory = MovieDetailsViewStateFactory()
+    private val viewState = MutableLiveData<MovieDetailsViewState>()
 
     fun viewState(): LiveData<LoadingViewState<MovieViewState>> {
         return viewState
@@ -33,10 +33,10 @@ class MovieDetailsViewModel(private val movieId: String, private val repository:
     }
 
     private fun setMovieResponse(movie: Movie) {
-        viewState.value = viewStateFactory.fromMovie(movie)
+        viewState.value = Success(movie.toViewState())
     }
 
     private fun setErrorResponse(throwable: Throwable) {
-        viewState.value = viewStateFactory.fromError(throwable)
+        viewState.value = LoadingViewState.fromError(throwable)
     }
 }

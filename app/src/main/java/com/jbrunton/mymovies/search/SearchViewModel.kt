@@ -4,21 +4,21 @@ import androidx.lifecycle.MutableLiveData
 import com.jbrunton.entities.Movie
 import com.jbrunton.entities.MoviesRepository
 import com.jbrunton.mymovies.shared.BaseViewModel
+import com.jbrunton.mymovies.shared.Loading
 import com.jbrunton.mymovies.shared.LoadingViewState
 
 open class SearchViewModel(private val repository: MoviesRepository) : BaseViewModel() {
     val viewState = MutableLiveData<LoadingViewState<SearchViewState>>()
-    private val viewStateFactory = SearchViewStateFactory()
 
     override fun start() {
-        viewState.value = viewStateFactory.searchEmptyState
+        viewState.value = SearchViewStateFactory.emptyState
     }
 
     open fun performSearch(query: String) {
         if (query.isEmpty()) {
-            viewState.postValue(viewStateFactory.searchEmptyState)
+            viewState.postValue(SearchViewStateFactory.emptyState)
         } else {
-            viewState.postValue(viewStateFactory.loadingState)
+            viewState.postValue(Loading())
             repository.searchMovies(query)
                     .compose(applySchedulers())
                     .subscribe(this::setMoviesResponse, this::setErrorResponse)
@@ -26,7 +26,7 @@ open class SearchViewModel(private val repository: MoviesRepository) : BaseViewM
     }
 
     private fun setMoviesResponse(movies: List<Movie>) {
-        viewState.postValue(viewStateFactory.fromList(movies))
+        viewState.postValue(SearchViewStateFactory.fromList(movies))
     }
 
     private fun setErrorResponse(throwable: Throwable) {

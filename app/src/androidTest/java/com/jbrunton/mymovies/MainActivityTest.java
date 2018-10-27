@@ -10,7 +10,6 @@ import com.jbrunton.mymovies.fixtures.BaseTest;
 import com.jbrunton.mymovies.fixtures.ProgressBarViewActions;
 import com.jbrunton.mymovies.search.SearchFragment;
 import com.jbrunton.mymovies.search.SearchViewState;
-import com.jbrunton.mymovies.search.SearchViewStateFactory;
 import com.jbrunton.networking.DescriptiveError;
 
 import org.junit.Test;

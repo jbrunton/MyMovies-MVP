@@ -1,5 +1,7 @@
 package com.jbrunton.mymovies.movies
 
+import com.jbrunton.entities.Movie
+
 data class MovieSearchResultViewState(
         override val movieId: String,
         override val title: String,
@@ -19,4 +21,10 @@ data class MovieSearchResultViewState(
                 rating = rating
         )
     }
+}
+
+fun Movie.toSearchResultViewState(): MovieSearchResultViewState {
+    return MovieSearchResultViewState.Builder()
+            .from(this)
+            .build()
 }
