@@ -11,14 +11,14 @@ import com.jbrunton.mymovies.helpers.observe
 import com.jbrunton.mymovies.search.SearchResultsAdapter
 import com.jbrunton.mymovies.search.SearchViewState
 import com.jbrunton.mymovies.shared.BaseFragment
+import com.jbrunton.mymovies.shared.LoadingLayoutManager
 import com.jbrunton.mymovies.shared.LoadingViewState
 import com.trello.rxlifecycle2.android.lifecycle.kotlin.bindToLifecycle
 import kotlinx.android.synthetic.main.fragment_discover.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class DiscoverFragment : BaseFragment<DiscoverViewModel>() {
-    override val content: View get() = discover_content
-
+    private lateinit var loadingLayoutManager: LoadingLayoutManager
     private lateinit var nowPlayingAdapter: SearchResultsAdapter
 
     private val viewModel: DiscoverViewModel by viewModel()
@@ -30,6 +30,7 @@ class DiscoverFragment : BaseFragment<DiscoverViewModel>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        loadingLayoutManager = LoadingLayoutManager.buildFor(this, discover_content)
         nowPlayingAdapter = SearchResultsAdapter(activity!!, R.layout.item_movie_card_grid)
         now_playing.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(activity, androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL, false)
         now_playing.adapter = nowPlayingAdapter
@@ -49,7 +50,7 @@ class DiscoverFragment : BaseFragment<DiscoverViewModel>() {
     }
 
     private fun updateView(viewState: LoadingViewState<SearchViewState>) {
-        viewState.updateLayout(this) {
+        loadingLayoutManager.updateLayout(viewState) {
             nowPlayingAdapter.setDataSource(it)
         }
     }

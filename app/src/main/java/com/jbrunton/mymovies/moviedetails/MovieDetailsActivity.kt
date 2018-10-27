@@ -9,6 +9,7 @@ import com.jbrunton.mymovies.helpers.PicassoHelper
 import com.jbrunton.mymovies.helpers.observe
 import com.jbrunton.mymovies.movies.MovieViewState
 import com.jbrunton.mymovies.shared.BaseActivity
+import com.jbrunton.mymovies.shared.LoadingLayoutManager
 import com.jbrunton.mymovies.shared.LoadingViewState
 import kotlinx.android.synthetic.main.activity_movie_details.*
 import kotlinx.android.synthetic.main.content_movie_details.*
@@ -17,8 +18,8 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
 class MovieDetailsActivity : BaseActivity<MovieDetailsViewModel>() {
-    override val content: View get() = content
     val viewModel: MovieDetailsViewModel by viewModel { parametersOf(movieId()) }
+    lateinit var loadingLayoutManager: LoadingLayoutManager
     private val picassoHelper = PicassoHelper()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,6 +28,8 @@ class MovieDetailsActivity : BaseActivity<MovieDetailsViewModel>() {
         val toolbar = findViewById<View>(R.id.toolbar) as Toolbar
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+
+        loadingLayoutManager = LoadingLayoutManager.buildFor(this, content)
 
         title = ""
         error_try_again.setOnClickListener { viewModel.retry() }
@@ -48,7 +51,7 @@ class MovieDetailsActivity : BaseActivity<MovieDetailsViewModel>() {
     private fun movieId(): String = intent.extras["MOVIE_ID"] as String
 
     private fun updateView(viewState: LoadingViewState<MovieViewState>) {
-        viewState.updateLayout(this) {
+        loadingLayoutManager.updateLayout(viewState) {
             title = it.title
             overview.text = it.overview
 

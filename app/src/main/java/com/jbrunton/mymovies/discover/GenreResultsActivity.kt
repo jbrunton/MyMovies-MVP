@@ -9,14 +9,15 @@ import com.jbrunton.mymovies.helpers.observe
 import com.jbrunton.mymovies.search.SearchResultsAdapter
 import com.jbrunton.mymovies.search.SearchViewState
 import com.jbrunton.mymovies.shared.BaseActivity
+import com.jbrunton.mymovies.shared.LoadingLayoutManager
 import com.jbrunton.mymovies.shared.LoadingViewState
 import kotlinx.android.synthetic.main.activity_genre_results.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
 class GenreResultsActivity : BaseActivity<GenreResultsViewModel>() {
-    override val content: View get() = movies_list
     private lateinit var moviesAdapter: SearchResultsAdapter
+    private lateinit var loadingLayoutManager: LoadingLayoutManager
 
     val viewModel: GenreResultsViewModel by viewModel { parametersOf(genreId()) }
 
@@ -27,6 +28,8 @@ class GenreResultsActivity : BaseActivity<GenreResultsViewModel>() {
         val toolbar = findViewById<View>(R.id.toolbar) as Toolbar
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+
+        loadingLayoutManager = LoadingLayoutManager.buildFor(this, movies_list)
 
         moviesAdapter = SearchResultsAdapter(this, R.layout.item_movie_card_list)
         movies_list.adapter = moviesAdapter
@@ -49,7 +52,7 @@ class GenreResultsActivity : BaseActivity<GenreResultsViewModel>() {
     private fun genreId(): String = intent.extras["GENRE_ID"] as String
 
     private fun updateView(viewState: LoadingViewState<SearchViewState>) {
-        viewState.updateLayout(this) {
+        loadingLayoutManager.updateLayout(viewState) {
             moviesAdapter.setDataSource(it)
         }
     }
