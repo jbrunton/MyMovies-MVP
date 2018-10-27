@@ -16,10 +16,9 @@ class MovieDetailsViewModel(val movieId: String, val repository: MoviesRepositor
     }
 
     private fun loadDetails() {
-        viewState.setValue(LoadingViewState.Loading)
-        repository.getMovie(movieId)
-                .compose(applySchedulers())
-                .subscribe(this::setMovieResponse, this::setErrorResponse)
+        load({
+            repository.getMovie(movieId)
+        }, this::setMovieResponse)
     }
 
     private fun setMovieResponse(movie: Movie) {
