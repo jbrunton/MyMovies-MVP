@@ -52,8 +52,6 @@ class GenreResultsActivity : BaseActivity<GenreResultsViewModel>() {
     private fun genreId(): String = intent.extras["GENRE_ID"] as String
 
     private fun updateView(viewState: LoadingViewState<SearchViewState>) {
-        loadingLayoutManager.updateLayout(viewState) {
-            moviesAdapter.setDataSource(it)
-        }
+        loadingLayoutManager.updateLayout(viewState, moviesAdapter::setDataSource)
     }
 }

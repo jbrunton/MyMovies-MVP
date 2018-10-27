@@ -50,8 +50,6 @@ class DiscoverFragment : BaseFragment<DiscoverViewModel>() {
     }
 
     private fun updateView(viewState: LoadingViewState<SearchViewState>) {
-        loadingLayoutManager.updateLayout(viewState) {
-            nowPlayingAdapter.setDataSource(it)
-        }
+        loadingLayoutManager.updateLayout(viewState, nowPlayingAdapter::setDataSource)
     }
 }
