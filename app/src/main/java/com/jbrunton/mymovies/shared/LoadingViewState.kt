@@ -17,7 +17,7 @@ sealed class LoadingViewState<out T> {
             else
                 R.drawable.ic_sentiment_very_dissatisfied_black_24dp
 
-            return Failure<T>(errorMessage = error.message,
+            return Failure(errorMessage = error.message,
                     errorIcon = resId,
                     showTryAgainButton = true)
         }
