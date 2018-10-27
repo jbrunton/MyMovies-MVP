@@ -5,8 +5,6 @@ import com.jbrunton.entities.Movie;
 import com.jbrunton.fixtures.MovieFactory;
 import com.jbrunton.networking.DescriptiveError;
 import com.jbrunton.mymovies.movies.MovieViewState;
-import com.jbrunton.mymovies.shared.LegacyLoadingViewState;
-import com.jbrunton.mymovies.shared.LoadingViewStateFactory;
 
 import org.junit.Before;
 import org.junit.Test;
