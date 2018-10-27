@@ -10,7 +10,6 @@ import com.jbrunton.mymovies.helpers.observe
 import com.jbrunton.mymovies.movies.MovieViewState
 import com.jbrunton.mymovies.shared.BaseActivity
 import com.jbrunton.mymovies.shared.LoadingViewState
-import com.jbrunton.mymovies.shared.Success
 import kotlinx.android.synthetic.main.activity_movie_details.*
 import kotlinx.android.synthetic.main.content_movie_details.*
 import kotlinx.android.synthetic.main.layout_loading_state.*
@@ -48,13 +47,11 @@ class MovieDetailsActivity : BaseActivity<MovieDetailsViewModel>() {
     private fun movieId(): String = intent.extras["MOVIE_ID"] as String
 
     private fun updateView(viewState: LoadingViewState<MovieViewState>) {
-        updateLoadingView(viewState)
+        viewState.updateLayout(findViewById(android.R.id.content), content = content) {
+            title = it.title
+            overview.text = it.overview
 
-        if (viewState is Success) {
-            title = viewState.value.title
-            overview.text = viewState.value.overview
-
-            picassoHelper.loadImage(this, backdrop, viewState.value.backdropUrl)
+            picassoHelper.loadImage(this, backdrop, it.backdropUrl)
         }
     }
 }

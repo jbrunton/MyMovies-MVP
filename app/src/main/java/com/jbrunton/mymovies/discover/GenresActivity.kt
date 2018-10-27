@@ -13,9 +13,7 @@ import androidx.appcompat.widget.Toolbar
 import com.jbrunton.entities.Genre
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.helpers.observe
-import com.jbrunton.mymovies.helpers.toVisibility
 import com.jbrunton.mymovies.shared.BaseActivity
-import com.jbrunton.mymovies.shared.Success
 import kotlinx.android.synthetic.main.activity_genres.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -50,12 +48,9 @@ class GenresActivity : BaseActivity<GenresViewModel>() {
     }
 
     private fun updateView(viewState: GenresViewState) {
-        genres_list.visibility = toVisibility(viewState is Success)
-        if (viewState is Success) {
-            genresAdapter.addAll(viewState.value)
+        viewState.updateLayout(findViewById(android.R.id.content), content = genres_list) {
+            genresAdapter.addAll(it)
         }
-
-        updateLoadingView(viewState)
     }
 
     protected class GenresAdapter(context: Context) : ArrayAdapter<Genre>(context, android.R.layout.simple_list_item_1) {
