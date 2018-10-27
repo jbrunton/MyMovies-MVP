@@ -5,9 +5,7 @@ import com.jbrunton.entities.Genre
 import com.jbrunton.entities.GenresRepository
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.shared.BaseViewModel
-import com.jbrunton.mymovies.shared.Failure
 import com.jbrunton.mymovies.shared.LoadingViewState
-import com.jbrunton.mymovies.shared.Success
 
 class GenresViewModel(private val repository: GenresRepository) : BaseViewModel() {
     val viewState = MutableLiveData<GenresViewState>()
@@ -20,12 +18,12 @@ class GenresViewModel(private val repository: GenresRepository) : BaseViewModel(
 
     private fun setGenresResponse(genres: List<Genre>) {
         if (genres.isEmpty()) {
-            viewState.value = Failure(
+            viewState.value = LoadingViewState.Failure(
                     errorMessage = "Could not load genres at this time",
                     errorIcon = R.drawable.ic_sentiment_dissatisfied_black_24dp,
                     showTryAgainButton = true)
         } else {
-            viewState.value = Success(genres)
+            viewState.value = LoadingViewState.Success(genres)
         }
     }
 

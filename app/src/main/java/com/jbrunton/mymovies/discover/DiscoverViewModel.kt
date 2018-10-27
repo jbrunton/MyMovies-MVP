@@ -6,14 +6,13 @@ import com.jbrunton.entities.MoviesRepository
 import com.jbrunton.mymovies.search.SearchViewState
 import com.jbrunton.mymovies.search.SearchViewStateFactory
 import com.jbrunton.mymovies.shared.BaseViewModel
-import com.jbrunton.mymovies.shared.Loading
 import com.jbrunton.mymovies.shared.LoadingViewState
 
 class DiscoverViewModel internal constructor(private val repository: MoviesRepository) : BaseViewModel() {
     val viewState = MutableLiveData<LoadingViewState<SearchViewState>>()
 
     override fun start() {
-        viewState.setValue(Loading())
+        viewState.setValue(LoadingViewState.Loading)
         repository.nowPlaying()
                 .compose(applySchedulers())
                 .subscribe(this::setMoviesResponse, this::setErrorResponse)

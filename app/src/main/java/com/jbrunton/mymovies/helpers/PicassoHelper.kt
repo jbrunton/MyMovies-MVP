@@ -14,4 +14,14 @@ class PicassoHelper {
                     .into(target)
         }
     }
+
+    fun loadSearchResultImage(context: Context, target: ImageView, url: String) {
+        if (!url.isEmpty()) {
+            Picasso.with(context)
+                    .load(url)
+                    .resize(185, 275)
+                    .centerCrop()
+                    .into(target)
+        }
+    }
 }
