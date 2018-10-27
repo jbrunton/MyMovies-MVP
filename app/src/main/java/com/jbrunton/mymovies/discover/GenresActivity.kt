@@ -10,12 +10,15 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
+import com.jakewharton.rxbinding2.view.clicks
 import com.jbrunton.entities.Genre
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.helpers.observe
 import com.jbrunton.mymovies.shared.BaseActivity
 import com.jbrunton.mymovies.shared.LoadingLayoutManager
+import com.trello.rxlifecycle2.android.lifecycle.kotlin.bindToLifecycle
 import kotlinx.android.synthetic.main.activity_genres.*
+import kotlinx.android.synthetic.main.layout_loading_state.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class GenresActivity : BaseActivity<GenresViewModel>() {
@@ -39,6 +42,10 @@ class GenresActivity : BaseActivity<GenresViewModel>() {
 
         viewModel.viewState.observe(this, this::updateView)
         viewModel.start()
+
+        error_try_again.clicks()
+                .bindToLifecycle(this)
+                .subscribe { viewModel.retry() }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

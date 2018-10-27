@@ -12,6 +12,14 @@ class DiscoverViewModel internal constructor(private val repository: MoviesRepos
     val viewState = MutableLiveData<LoadingViewState<SearchViewState>>()
 
     override fun start() {
+        loadNowPlaying()
+    }
+
+    fun retry() {
+        loadNowPlaying()
+    }
+
+    private fun loadNowPlaying() {
         viewState.setValue(LoadingViewState.Loading)
         repository.nowPlaying()
                 .compose(applySchedulers())

@@ -11,6 +11,14 @@ class GenresViewModel(private val repository: GenresRepository) : BaseViewModel(
     val viewState = MutableLiveData<GenresViewState>()
 
     override fun start() {
+        loadGenres()
+    }
+
+    fun retry() {
+        loadGenres()
+    }
+
+    private fun loadGenres() {
         repository.genres()
                 .compose(applySchedulers())
                 .subscribe(this::setGenresResponse, this::setErrorResponse)
