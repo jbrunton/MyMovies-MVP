@@ -30,7 +30,7 @@ class MovieDetailsActivity : BaseActivity<MovieDetailsViewModel>() {
         title = ""
         error_try_again.setOnClickListener { viewModel.retry() }
 
-        viewModel.viewState().observe(this, this::updateView)
+        viewModel.viewState.observe(this, this::updateView)
         viewModel.start()
     }
 

@@ -1,14 +1,11 @@
 package com.jbrunton.mymovies.search
 
-import androidx.lifecycle.MutableLiveData
 import com.jbrunton.entities.Movie
 import com.jbrunton.entities.MoviesRepository
-import com.jbrunton.mymovies.shared.BaseViewModel
+import com.jbrunton.mymovies.shared.BaseLoadingViewModel
 import com.jbrunton.mymovies.shared.LoadingViewState
 
-open class SearchViewModel(private val repository: MoviesRepository) : BaseViewModel() {
-    val viewState = MutableLiveData<LoadingViewState<SearchViewState>>()
-
+open class SearchViewModel(val repository: MoviesRepository) : BaseLoadingViewModel<SearchViewState>() {
     override fun start() {
         viewState.value = SearchViewStateFactory.emptyState
     }
@@ -26,9 +23,5 @@ open class SearchViewModel(private val repository: MoviesRepository) : BaseViewM
 
     private fun setMoviesResponse(movies: List<Movie>) {
         viewState.postValue(SearchViewStateFactory.fromList(movies))
-    }
-
-    private fun setErrorResponse(throwable: Throwable) {
-        viewState.postValue(LoadingViewState.fromError(throwable))
     }
 }
