@@ -44,6 +44,10 @@ sealed class LoadingViewState<out T> {
         }
     }
 
+    fun updateLayout(fragment: BaseFragment<*>, onSuccess: (T) -> Unit) {
+        updateLayout(fragment.view!!, fragment.content, onSuccess)
+    }
+
     data class Success<T>(val value: T): LoadingViewState<T>()
 
     data class Failure<T>(

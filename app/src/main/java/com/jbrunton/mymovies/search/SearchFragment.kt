@@ -18,6 +18,8 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.concurrent.TimeUnit
 
 class SearchFragment : BaseFragment<SearchViewModel>() {
+    override val content: View get() = movies_list
+
     private lateinit var searchResultsAdapter: SearchResultsAdapter
 
     val viewModel: SearchViewModel by viewModel()
@@ -55,7 +57,7 @@ class SearchFragment : BaseFragment<SearchViewModel>() {
     }
 
     fun updateView(viewState: LoadingViewState<SearchViewState>) {
-        viewState.updateLayout(view!!, content = movies_list) {
+        viewState.updateLayout(this) {
             searchResultsAdapter.setDataSource(it)
         }
     }

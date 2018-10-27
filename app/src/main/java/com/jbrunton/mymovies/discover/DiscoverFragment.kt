@@ -17,6 +17,8 @@ import kotlinx.android.synthetic.main.fragment_discover.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class DiscoverFragment : BaseFragment<DiscoverViewModel>() {
+    override val content: View get() = discover_content
+
     private lateinit var nowPlayingAdapter: SearchResultsAdapter
 
     private val viewModel: DiscoverViewModel by viewModel()
@@ -47,7 +49,7 @@ class DiscoverFragment : BaseFragment<DiscoverViewModel>() {
     }
 
     private fun updateView(viewState: LoadingViewState<SearchViewState>) {
-        viewState.updateLayout(view!!, content = discover_content) {
+        viewState.updateLayout(this) {
             nowPlayingAdapter.setDataSource(it)
         }
     }
