@@ -42,14 +42,14 @@ class MovieDetailsViewModelTest {
     @Test
     fun startsWithLoadingState() {
         viewModel.start()
-        assertThat(viewModel.viewState().value).isEqualTo(LoadingViewState.Loading)
+        assertThat(viewModel.viewState.value).isEqualTo(LoadingViewState.Loading)
     }
 
     @Test
     fun loadsMovie() {
         viewModel.start()
         schedulerRule.TEST_SCHEDULER.advanceTimeBy(1, TimeUnit.SECONDS)
-        assertThat(viewModel.viewState().value).isEqualTo(SUCCESS_VIEW_STATE)
+        assertThat(viewModel.viewState.value).isEqualTo(SUCCESS_VIEW_STATE)
     }
 
     @Test
@@ -59,7 +59,7 @@ class MovieDetailsViewModelTest {
 
         schedulerRule.TEST_SCHEDULER.advanceTimeBy(1, TimeUnit.SECONDS)
 
-        assertThat(viewModel.viewState().value).isEqualTo(NETWORK_ERROR_VIEW_STATE)
+        assertThat(viewModel.viewState.value).isEqualTo(NETWORK_ERROR_VIEW_STATE)
     }
 
     @Test
@@ -67,12 +67,12 @@ class MovieDetailsViewModelTest {
         stubFind(repository, "1").toErrorWithDelayed(NETWORK_ERROR, 1)
         viewModel.start()
         schedulerRule.TEST_SCHEDULER.advanceTimeBy(1, TimeUnit.SECONDS)
-        assertThat(viewModel.viewState().value).isEqualTo(NETWORK_ERROR_VIEW_STATE)
+        assertThat(viewModel.viewState.value).isEqualTo(NETWORK_ERROR_VIEW_STATE)
 
         stubFind(repository, "1").toReturnDelayed(MOVIE, 1)
         viewModel.retry()
 
-        assertThat(viewModel.viewState().value).isEqualTo(LoadingViewState.Loading)
+        assertThat(viewModel.viewState.value).isEqualTo(LoadingViewState.Loading)
     }
 
     @Test
@@ -84,6 +84,6 @@ class MovieDetailsViewModelTest {
         viewModel.retry()
 
         schedulerRule.TEST_SCHEDULER.advanceTimeBy(1, TimeUnit.SECONDS)
-        assertThat(viewModel.viewState().value).isEqualTo(SUCCESS_VIEW_STATE)
+        assertThat(viewModel.viewState.value).isEqualTo(SUCCESS_VIEW_STATE)
     }
 }
