@@ -10,7 +10,7 @@ import com.jbrunton.entities.MoviesRepository
 import com.jbrunton.fixtures.MovieFactory
 import com.jbrunton.mymovies.fixtures.BaseTest
 import com.jbrunton.mymovies.fixtures.RecyclerViewUtils.withRecyclerView
-import com.jbrunton.mymovies.fixtures.TestMoviesRepository
+import com.jbrunton.mymovies.fixtures.stubSearch
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.koin.standalone.inject
@@ -22,7 +22,7 @@ class SearchFragmentTest : BaseTest<MainActivity>() {
     val MOVIE1 = MOVIE_FACTORY.create()
     val MOVIE2 = MOVIE_FACTORY.create()
 
-    val repository: MoviesRepository by inject()
+    val moviesRepository: MoviesRepository by inject()
 
     @Test
     fun defaultsToSearchFragment() {
@@ -32,11 +32,11 @@ class SearchFragmentTest : BaseTest<MainActivity>() {
 
     @Test
     fun performsASearch() {
-        (repository as TestMoviesRepository).stubSearch("Star Wars", listOf(MOVIE1, MOVIE2))
+        moviesRepository.stubSearch("Star Wars", listOf(MOVIE1, MOVIE2))
+
         onView(withId(R.id.search_query)).perform(ViewActions.replaceText("Star Wars"))
 
         takeScreenshot()
-
         onView(withRecyclerView(R.id.movies_list).atPosition(0))
                 .check(matches(hasDescendant(withText(MOVIE1.title))))
         onView(withRecyclerView(R.id.movies_list).atPosition(1))
