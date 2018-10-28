@@ -111,8 +111,4 @@ spoon {
     grantAllPermissions = true
 }
 
-shot {
-    appId = 'com.jbrunton.mymovies'
-}
-
 apply plugin: 'kotlin-android-extensions'
