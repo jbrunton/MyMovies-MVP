@@ -7,8 +7,9 @@ import com.google.android.libraries.cloudtesting.screenshots.ScreenShotter
 import com.squareup.spoon.SpoonRule
 
 import org.junit.Rule
+import org.koin.test.KoinTest
 
-abstract class BaseTest<T : Activity> {
+abstract class BaseTest<T : Activity> : KoinTest {
     @get:Rule
     val activityRule = createActivityTestRule()
     @get:Rule

@@ -11,16 +11,17 @@ import com.jbrunton.mymovies.search.SearchViewModel
 import com.jbrunton.networking.repositories.HttpGenresRepository
 import com.jbrunton.networking.repositories.HttpMoviesRepository
 import com.jbrunton.networking.services.ServiceFactory
+import io.reactivex.schedulers.Schedulers
 import org.koin.android.ext.android.startKoin
 import org.koin.androidx.viewmodel.ext.koin.viewModel
 import org.koin.dsl.module.Module
-import org.koin.dsl.module.applicationContext
 import org.koin.dsl.module.module
 
 val applicationModule : Module = module {
     single { ServiceFactory.createService() }
     single { HttpMoviesRepository(get()) as MoviesRepository }
     single { HttpGenresRepository(get()) as GenresRepository }
+    single { Schedulers.computation() }
     viewModel { SearchViewModel(get()) }
     viewModel { DiscoverViewModel(get()) }
     viewModel { GenresViewModel(get()) }
