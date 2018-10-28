@@ -1,5 +1,6 @@
 package com.jbrunton.mymovies
 
+import android.widget.EditText
 import android.widget.ProgressBar
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
@@ -8,6 +9,7 @@ import androidx.test.rule.ActivityTestRule
 import androidx.test.runner.AndroidJUnit4
 import com.jbrunton.fixtures.MovieFactory
 import com.jbrunton.mymovies.fixtures.BaseTest
+import com.jbrunton.mymovies.fixtures.EditTextViewActions
 import com.jbrunton.mymovies.fixtures.ProgressBarViewActions
 import com.jbrunton.mymovies.fixtures.RecyclerViewUtils.withRecyclerView
 import com.jbrunton.mymovies.search.SearchFragment
@@ -15,6 +17,7 @@ import com.jbrunton.mymovies.search.SearchViewState
 import com.jbrunton.mymovies.search.SearchViewStateFactory
 import com.jbrunton.mymovies.shared.LoadingViewState
 import com.jbrunton.networking.DescriptiveError
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.util.Arrays.asList
@@ -30,6 +33,11 @@ class MainActivityTest : BaseTest<MainActivity>() {
     val LOADING_STATE = LoadingViewState.Loading
 
     private val NETWORK_ERROR = DescriptiveError("Network Error", true)
+
+    @Before
+    fun disableFocus() {
+        onView(isAssignableFrom(EditText::class.java)).perform(EditTextViewActions.hideCursor())
+    }
 
     @Test
     fun defaultsToSearchFragment() {
