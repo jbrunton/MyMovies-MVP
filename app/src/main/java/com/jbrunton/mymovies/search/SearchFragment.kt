@@ -13,8 +13,10 @@ import com.jbrunton.mymovies.shared.BaseFragment
 import com.jbrunton.mymovies.shared.LoadingLayoutManager
 import com.jbrunton.mymovies.shared.LoadingViewState
 import com.trello.rxlifecycle2.android.lifecycle.kotlin.bindToLifecycle
+import io.reactivex.Scheduler
 import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.android.synthetic.main.layout_loading_state.*
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.concurrent.TimeUnit
 
@@ -23,6 +25,7 @@ class SearchFragment : BaseFragment<SearchViewModel>() {
     private lateinit var searchResultsAdapter: SearchResultsAdapter
 
     val viewModel: SearchViewModel by viewModel()
+    val scheduler: Scheduler by inject()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_search, container, false)
@@ -37,7 +40,7 @@ class SearchFragment : BaseFragment<SearchViewModel>() {
         movies_list.adapter = searchResultsAdapter
 
         search_query.textChanges()
-                .debounce(500, TimeUnit.MILLISECONDS)
+                .debounce(500, TimeUnit.MILLISECONDS, scheduler)
                 .bindToLifecycle(this)
                 .subscribe { this.performSearch() }
 
