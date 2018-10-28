@@ -4,10 +4,10 @@ import android.widget.ProgressBar
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
-import androidx.test.rule.ActivityTestRule
 import androidx.test.runner.AndroidJUnit4
 import com.jbrunton.fixtures.MovieFactory
-import com.jbrunton.mymovies.fixtures.BaseActivityTest
+import com.jbrunton.mymovies.fixtures.BaseFragmentTest
+import com.jbrunton.mymovies.fixtures.FragmentTestRule
 import com.jbrunton.mymovies.fixtures.ProgressBarViewActions
 import com.jbrunton.mymovies.fixtures.RecyclerViewUtils.withRecyclerView
 import com.jbrunton.mymovies.search.SearchFragment
@@ -21,7 +21,7 @@ import java.util.Arrays.asList
 
 
 @RunWith(AndroidJUnit4::class)
-class SearchFragmentLayoutTests : BaseActivityTest<MainActivity>() {
+class SearchFragmentLayoutTests : BaseFragmentTest<SearchFragment>() {
     val MOVIE_FACTORY = MovieFactory()
     val MOVIE1 = MOVIE_FACTORY.create()
     val MOVIE2 = MOVIE_FACTORY.create()
@@ -81,15 +81,11 @@ class SearchFragmentLayoutTests : BaseActivityTest<MainActivity>() {
                 .check(matches(hasDescendant(withText(MOVIE2.title))))
     }
 
-    override fun createActivityTestRule(): ActivityTestRule<MainActivity> {
-        return ActivityTestRule(MainActivity::class.java)
-    }
-
-    private fun searchFragment(): SearchFragment {
-        return activityRule.activity.supportFragmentManager.findFragmentById(R.id.content) as SearchFragment
+    override fun createFragmentTestRule(): FragmentTestRule<*, SearchFragment> {
+        return FragmentTestRule.create(SearchFragment::class.java)
     }
 
     private fun setViewState(viewState: LoadingViewState<SearchViewState>) {
-        activityRule.activity.runOnUiThread { searchFragment().updateView(viewState) }
+        fragmentRule.runOnUiThread { fragment.updateView(viewState) }
     }
 }

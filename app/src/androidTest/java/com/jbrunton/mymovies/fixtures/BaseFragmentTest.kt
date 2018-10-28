@@ -12,6 +12,8 @@ abstract class BaseFragmentTest<T : Fragment> : KoinTest {
     @get:Rule
     val spoonRule = SpoonRule()
 
+    val fragment: T get() = fragmentRule.fragment
+
     @JvmOverloads
     fun takeScreenshot(tag: String = "_") {
         // TODO: figure out why getting permissions errors since upgrading to using API 28
