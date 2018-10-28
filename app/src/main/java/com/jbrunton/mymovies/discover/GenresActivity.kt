@@ -16,6 +16,7 @@ import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.helpers.observe
 import com.jbrunton.mymovies.shared.BaseActivity
 import com.jbrunton.mymovies.shared.LoadingLayoutManager
+import com.jbrunton.mymovies.shared.LoadingViewState
 import com.trello.rxlifecycle2.android.lifecycle.kotlin.bindToLifecycle
 import kotlinx.android.synthetic.main.activity_genres.*
 import kotlinx.android.synthetic.main.layout_loading_state.*
@@ -58,10 +59,8 @@ class GenresActivity : BaseActivity<GenresViewModel>() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun updateView(viewState: GenresViewState) {
-        loadingLayoutManager.updateLayout(viewState) {
-            genresAdapter.addAll(it)
-        }
+    private fun updateView(viewState: LoadingViewState<GenresViewState>) {
+        loadingLayoutManager.updateLayout(viewState, genresAdapter::addAll)
     }
 
     protected class GenresAdapter(context: Context) : ArrayAdapter<Genre>(context, android.R.layout.simple_list_item_1) {
