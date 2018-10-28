@@ -9,7 +9,7 @@ import com.squareup.spoon.SpoonRule
 import org.junit.Rule
 import org.koin.test.KoinTest
 
-abstract class BaseTest<T : Activity> : KoinTest {
+abstract class BaseActivityTest<T : Activity> : KoinTest {
     @get:Rule
     val activityRule = createActivityTestRule()
     @get:Rule

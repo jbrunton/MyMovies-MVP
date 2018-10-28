@@ -4,20 +4,21 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
-import androidx.test.rule.ActivityTestRule
 import androidx.test.runner.AndroidJUnit4
 import com.jbrunton.entities.MoviesRepository
 import com.jbrunton.fixtures.MovieFactory
-import com.jbrunton.mymovies.fixtures.BaseTest
+import com.jbrunton.mymovies.fixtures.BaseFragmentTest
+import com.jbrunton.mymovies.fixtures.FragmentTestRule
 import com.jbrunton.mymovies.fixtures.RecyclerViewUtils.withRecyclerView
 import com.jbrunton.mymovies.fixtures.stubSearch
+import com.jbrunton.mymovies.search.SearchFragment
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.koin.standalone.inject
 
 
 @RunWith(AndroidJUnit4::class)
-class SearchFragmentTest : BaseTest<MainActivity>() {
+class SearchFragmentTest : BaseFragmentTest<SearchFragment>() {
     val MOVIE_FACTORY = MovieFactory()
     val MOVIE1 = MOVIE_FACTORY.create()
     val MOVIE2 = MOVIE_FACTORY.create()
@@ -43,7 +44,7 @@ class SearchFragmentTest : BaseTest<MainActivity>() {
                 .check(matches(hasDescendant(withText(MOVIE2.title))))
     }
 
-    override fun createActivityTestRule(): ActivityTestRule<MainActivity> {
-        return ActivityTestRule(MainActivity::class.java)
+    override fun createFragmentTestRule(): FragmentTestRule<*, SearchFragment> {
+        return FragmentTestRule.create(SearchFragment::class.java)
     }
 }

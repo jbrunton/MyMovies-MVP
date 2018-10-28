@@ -7,7 +7,7 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.rule.ActivityTestRule
 import androidx.test.runner.AndroidJUnit4
 import com.jbrunton.fixtures.MovieFactory
-import com.jbrunton.mymovies.fixtures.BaseTest
+import com.jbrunton.mymovies.fixtures.BaseActivityTest
 import com.jbrunton.mymovies.fixtures.ProgressBarViewActions
 import com.jbrunton.mymovies.fixtures.RecyclerViewUtils.withRecyclerView
 import com.jbrunton.mymovies.search.SearchFragment
@@ -21,7 +21,7 @@ import java.util.Arrays.asList
 
 
 @RunWith(AndroidJUnit4::class)
-class SearchFragmentLayoutTests : BaseTest<MainActivity>() {
+class SearchFragmentLayoutTests : BaseActivityTest<MainActivity>() {
     val MOVIE_FACTORY = MovieFactory()
     val MOVIE1 = MOVIE_FACTORY.create()
     val MOVIE2 = MOVIE_FACTORY.create()
