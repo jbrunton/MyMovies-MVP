@@ -21,7 +21,7 @@ import java.util.Arrays.asList
 
 
 @RunWith(AndroidJUnit4::class)
-class MainActivityTest : BaseTest<MainActivity>() {
+class SearchFragmentLayoutTests : BaseTest<MainActivity>() {
     val MOVIE_FACTORY = MovieFactory()
     val MOVIE1 = MOVIE_FACTORY.create()
     val MOVIE2 = MOVIE_FACTORY.create()
