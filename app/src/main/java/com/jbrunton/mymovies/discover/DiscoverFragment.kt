@@ -15,6 +15,7 @@ import com.jbrunton.mymovies.shared.LoadingLayoutManager
 import com.jbrunton.mymovies.shared.LoadingViewState
 import com.trello.rxlifecycle2.android.lifecycle.kotlin.bindToLifecycle
 import kotlinx.android.synthetic.main.fragment_discover.*
+import kotlinx.android.synthetic.main.layout_loading_state.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class DiscoverFragment : BaseFragment<DiscoverViewModel>() {
@@ -41,6 +42,10 @@ class DiscoverFragment : BaseFragment<DiscoverViewModel>() {
                     val intent = Intent(activity, GenresActivity::class.java)
                     startActivity(intent)
                 }
+
+        error_try_again.clicks()
+                .bindToLifecycle(this)
+                .subscribe { viewModel.retry() }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

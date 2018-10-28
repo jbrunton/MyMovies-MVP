@@ -6,13 +6,12 @@ import com.jbrunton.networking.DescriptiveError
 
 sealed class LoadingViewState<out T> {
     companion object {
-        fun <T>fromError(throwable: Throwable): LoadingViewState<T> {
+        fun <T>fromError(throwable: Throwable, allowRetry: Boolean = false): LoadingViewState<T> {
             val error = DescriptiveError.from(throwable)
             @DrawableRes val resId = if (error.isNetworkError)
                 R.drawable.ic_sentiment_dissatisfied_black_24dp
             else
                 R.drawable.ic_sentiment_very_dissatisfied_black_24dp
-
             return Failure(errorMessage = error.message,
                     errorIcon = resId,
                     showTryAgainButton = true)
