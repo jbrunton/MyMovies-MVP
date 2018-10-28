@@ -17,6 +17,7 @@ apply plugin: 'io.fabric'
 apply plugin: 'kotlin-android'
 apply plugin: "com.jaredsburrows.spoon"
 apply plugin: 'com.google.gms.google-services'
+apply plugin: 'shot'
 
 android {
     compileSdkVersion 28
@@ -73,6 +74,7 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.assertj:assertj-core:3.8.0'
     androidTestImplementation 'com.squareup.spoon:spoon-client:2.0.0-SNAPSHOT'
+    //androidTestImplementation 'com.facebook.testing.screenshot:layout-hierarchy-common:0.8.0'
     androidTestImplementation 'com.android.support.test:rules:1.0.2'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
 
@@ -107,6 +109,10 @@ repositories {
 spoon {
     failIfNoDeviceConnected = true
     grantAllPermissions = true
+}
+
+shot {
+    appId = 'com.jbrunton.mymovies'
 }
 
 apply plugin: 'kotlin-android-extensions'

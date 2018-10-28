@@ -73,7 +73,7 @@ class MainActivityTest : BaseTest<MainActivity>() {
     fun showsResults() {
         setViewState(SearchViewStateFactory.fromList(asList(MOVIE1, MOVIE2)))
 
-        takeScreenshot()
+        takeScreenshot("showsResults")
 
         onView(withRecyclerView(R.id.movies_list).atPosition(0))
                 .check(matches(hasDescendant(withText(MOVIE1.title))))
