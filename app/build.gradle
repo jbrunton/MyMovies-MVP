@@ -17,7 +17,7 @@ apply plugin: 'io.fabric'
 apply plugin: 'kotlin-android'
 apply plugin: "com.jaredsburrows.spoon"
 apply plugin: 'com.google.gms.google-services'
-apply plugin: 'shot'
+apply plugin: 'com.facebook.testing.screenshot'
 
 android {
     compileSdkVersion 28

@@ -18,7 +18,7 @@ buildscript {
         classpath "com.jaredsburrows:gradle-spoon-plugin:1.4.0"
         classpath 'com.google.gms:google-services:3.1.0'
         classpath "gradle.plugin.org.jlleitschuh.gradle:ktlint-gradle:3.0.1"
-        classpath 'com.karumi:shot:2.1.0'
+        classpath 'com.facebook.testing.screenshot:plugin:0.8.0'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
