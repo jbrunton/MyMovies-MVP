@@ -1,11 +1,13 @@
 package com.jbrunton.mymovies.fixtures
 
 import android.app.Activity
+import androidx.test.espresso.Espresso
 import androidx.test.rule.ActivityTestRule
 import com.facebook.testing.screenshot.Screenshot
 
 import com.google.android.libraries.cloudtesting.screenshots.ScreenShotter
 import com.squareup.spoon.SpoonRule
+import org.junit.Before
 
 import org.junit.Rule
 
@@ -14,6 +16,11 @@ abstract class BaseTest<T : Activity> {
     val activityRule = createActivityTestRule()
     @get:Rule
     val spoonRule = SpoonRule()
+
+    @Before
+    fun disableKeyboard() {
+        Espresso.closeSoftKeyboard()
+    }
 
     @JvmOverloads
     fun takeScreenshot(tag: String = "_") {
