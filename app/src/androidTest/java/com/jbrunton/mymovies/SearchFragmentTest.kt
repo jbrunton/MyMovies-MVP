@@ -35,7 +35,7 @@ class SearchFragmentTest : BaseFragmentTest<SearchFragment>() {
     fun performsASearch() {
         moviesRepository.stubSearch("Star Wars", listOf(MOVIE1, MOVIE2))
 
-        onView(withId(R.id.search_query)).perform(ViewActions.replaceText("Star Wars"))
+        onView(withId(R.id.search_query)).perform(ViewActions.typeText("Star Wars"))
 
         takeScreenshot()
         onView(withRecyclerView(R.id.movies_list).atPosition(0))
