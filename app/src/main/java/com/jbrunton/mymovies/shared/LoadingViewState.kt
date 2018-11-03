@@ -1,12 +1,13 @@
 package com.jbrunton.mymovies.shared
 
 import androidx.annotation.DrawableRes
+import com.jbrunton.entities.models.LoadingState
 import com.jbrunton.mymovies.R
 import com.jbrunton.networking.DescriptiveError
 
 sealed class LoadingViewState<out T> {
     companion object {
-        fun <T>fromError(throwable: Throwable, allowRetry: Boolean = false): LoadingViewState<T> {
+        fun <T>fromError(throwable: Throwable, cachedValue: T? = null): LoadingViewState<T> {
             val error = DescriptiveError.from(throwable)
             @DrawableRes val resId = if (error.isNetworkError)
                 R.drawable.ic_sentiment_dissatisfied_black_24dp
@@ -14,7 +15,16 @@ sealed class LoadingViewState<out T> {
                 R.drawable.ic_sentiment_very_dissatisfied_black_24dp
             return Failure(errorMessage = error.message,
                     errorIcon = resId,
-                    showTryAgainButton = true)
+                    showTryAgainButton = true,
+                    cachedValue = cachedValue)
+        }
+
+        fun <S, T>from(state: LoadingState<S>, converter: (value: S) -> T): LoadingViewState<T> {
+            return when (state) {
+                is LoadingState.Success -> Success(value = converter(state.value))
+                is LoadingState.Loading -> Loading(cachedValue = state.cachedValue?.let(converter))
+                is LoadingState.Failure -> fromError(state.throwable, state.cachedValue?.let(converter))
+            }
         }
     }
 
@@ -23,7 +33,16 @@ sealed class LoadingViewState<out T> {
     data class Failure<T>(
             val errorMessage: String,
             @DrawableRes val errorIcon: Int,
-            val showTryAgainButton: Boolean = false) : LoadingViewState<T>()
+            val showTryAgainButton: Boolean = false,
+            val cachedValue: T? = null) : LoadingViewState<T>()
 
-    object Loading : LoadingViewState<Nothing>()
+    data class Loading<T>(val cachedValue: T? = null) : LoadingViewState<T>()
+}
+
+fun <S, T>LoadingState<S>.toViewState(converter: (value: S) -> T): LoadingViewState<T> {
+    return LoadingViewState.from(this, converter)
+}
+
+fun <T>LoadingState<T>.toViewState(): LoadingViewState<T> {
+    return LoadingViewState.from(this, { it })
 }
