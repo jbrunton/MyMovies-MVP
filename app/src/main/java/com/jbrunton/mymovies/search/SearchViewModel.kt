@@ -1,6 +1,6 @@
 package com.jbrunton.mymovies.search
 
-import com.jbrunton.entities.MoviesRepository
+import com.jbrunton.entities.repositories.MoviesRepository
 
 open class SearchViewModel(val repository: MoviesRepository) : BaseSearchViewModel() {
     override fun start() {

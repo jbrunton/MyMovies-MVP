@@ -1,6 +1,6 @@
 package com.jbrunton.mymovies.discover
 
-import com.jbrunton.entities.MoviesRepository
+import com.jbrunton.entities.repositories.MoviesRepository
 import com.jbrunton.mymovies.search.BaseSearchViewModel
 
 class GenreResultsViewModel(val genreId: String, val repository: MoviesRepository) : BaseSearchViewModel() {

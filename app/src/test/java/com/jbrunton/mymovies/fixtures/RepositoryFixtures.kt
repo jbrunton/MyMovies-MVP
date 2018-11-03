@@ -1,7 +1,7 @@
 package com.jbrunton.mymovies.fixtures
 
-import com.jbrunton.entities.Movie
-import com.jbrunton.entities.MoviesRepository
+import com.jbrunton.entities.models.Movie
+import com.jbrunton.entities.repositories.MoviesRepository
 import com.nhaarman.mockito_kotlin.whenever
 import io.reactivex.Observable
 import java.util.concurrent.TimeUnit

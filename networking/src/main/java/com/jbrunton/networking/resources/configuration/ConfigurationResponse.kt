@@ -1,6 +1,6 @@
 package com.jbrunton.networking.resources.configuration
 
-import com.jbrunton.entities.Configuration
+import com.jbrunton.entities.models.Configuration
 
 data class ConfigurationResponse(private val images: ConfigurationImageResource) {
 

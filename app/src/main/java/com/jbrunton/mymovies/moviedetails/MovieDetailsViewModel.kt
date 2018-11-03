@@ -1,7 +1,7 @@
 package com.jbrunton.mymovies.moviedetails
 
-import com.jbrunton.entities.Movie
-import com.jbrunton.entities.MoviesRepository
+import com.jbrunton.entities.models.Movie
+import com.jbrunton.entities.repositories.MoviesRepository
 import com.jbrunton.mymovies.movies.MovieViewState
 import com.jbrunton.mymovies.shared.BaseLoadingViewModel
 import com.jbrunton.mymovies.shared.LoadingViewState

@@ -1,7 +1,7 @@
 package com.jbrunton.mymovies.discover
 
-import com.jbrunton.entities.Genre
-import com.jbrunton.entities.GenresRepository
+import com.jbrunton.entities.models.Genre
+import com.jbrunton.entities.repositories.GenresRepository
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.shared.BaseLoadingViewModel
 import com.jbrunton.mymovies.shared.LoadingViewState

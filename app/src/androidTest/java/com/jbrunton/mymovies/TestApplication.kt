@@ -1,7 +1,7 @@
 package com.jbrunton.mymovies
 
-import com.jbrunton.entities.GenresRepository
-import com.jbrunton.entities.MoviesRepository
+import com.jbrunton.entities.repositories.GenresRepository
+import com.jbrunton.entities.repositories.MoviesRepository
 import com.jbrunton.mymovies.discover.DiscoverViewModel
 import com.jbrunton.mymovies.discover.GenreResultsViewModel
 import com.jbrunton.mymovies.discover.GenresViewModel

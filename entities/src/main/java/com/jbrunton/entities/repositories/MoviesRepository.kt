@@ -1,5 +1,6 @@
-package com.jbrunton.entities
+package com.jbrunton.entities.repositories
 
+import com.jbrunton.entities.models.Movie
 import io.reactivex.Observable
 
 interface MoviesRepository {

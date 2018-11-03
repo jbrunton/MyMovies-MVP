@@ -1,4 +1,4 @@
-package com.jbrunton.entities
+package com.jbrunton.entities.models
 
 import com.google.common.base.Optional
 

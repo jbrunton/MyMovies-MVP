@@ -1,8 +1,8 @@
 package com.jbrunton.networking.repositories
 
-import com.jbrunton.entities.Configuration
-import com.jbrunton.entities.Movie
-import com.jbrunton.entities.MoviesRepository
+import com.jbrunton.entities.models.Configuration
+import com.jbrunton.entities.models.Movie
+import com.jbrunton.entities.repositories.MoviesRepository
 import com.jbrunton.networking.resources.movies.MovieDetailsResponse
 import com.jbrunton.networking.resources.movies.MoviesCollection
 import com.jbrunton.networking.services.MovieService

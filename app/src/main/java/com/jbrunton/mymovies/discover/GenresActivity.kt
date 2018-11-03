@@ -11,7 +11,7 @@ import android.widget.ArrayAdapter
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import com.jakewharton.rxbinding2.view.clicks
-import com.jbrunton.entities.Genre
+import com.jbrunton.entities.models.Genre
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.helpers.observe
 import com.jbrunton.mymovies.shared.BaseActivity

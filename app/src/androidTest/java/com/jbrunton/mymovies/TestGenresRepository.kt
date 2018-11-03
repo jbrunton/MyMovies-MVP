@@ -1,7 +1,7 @@
 package com.jbrunton.mymovies
 
-import com.jbrunton.entities.Genre
-import com.jbrunton.entities.GenresRepository
+import com.jbrunton.entities.models.Genre
+import com.jbrunton.entities.repositories.GenresRepository
 import io.reactivex.Observable
 
 class TestGenresRepository : GenresRepository {

@@ -1,6 +1,6 @@
 package com.jbrunton.mymovies.search
 
-import com.jbrunton.entities.Movie
+import com.jbrunton.entities.models.Movie
 import com.jbrunton.mymovies.shared.BaseLoadingViewModel
 import io.reactivex.Observable
 
