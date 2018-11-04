@@ -5,6 +5,8 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.runner.AndroidJUnit4
+import com.jbrunton.entities.models.LoadingState
+import com.jbrunton.entities.models.Movie
 import com.jbrunton.fixtures.MovieFactory
 import com.jbrunton.mymovies.fixtures.BaseFragmentTest
 import com.jbrunton.mymovies.fixtures.FragmentTestRule
@@ -14,6 +16,7 @@ import com.jbrunton.mymovies.search.SearchFragment
 import com.jbrunton.mymovies.search.SearchViewState
 import com.jbrunton.mymovies.search.SearchViewStateFactory
 import com.jbrunton.mymovies.shared.LoadingViewState
+import com.jbrunton.mymovies.shared.toViewState
 import com.jbrunton.networking.DescriptiveError
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -27,7 +30,7 @@ class SearchFragmentLayoutTests : BaseFragmentTest<SearchFragment>() {
     val MOVIE2 = MOVIE_FACTORY.create()
 
     val EMPTY_STATE = SearchViewStateFactory.emptyState
-    val LOADING_STATE = LoadingViewState.Loading
+    val LOADING_STATE = LoadingViewState.Loading<SearchViewState>()
 
     private val NETWORK_ERROR = DescriptiveError("Network Error", true)
 
@@ -71,7 +74,7 @@ class SearchFragmentLayoutTests : BaseFragmentTest<SearchFragment>() {
 
     @Test
     fun showsResults() {
-        setViewState(SearchViewStateFactory.fromList(asList(MOVIE1, MOVIE2)))
+        setViewState(toViewState(asList(MOVIE1, MOVIE2)))
 
         takeScreenshot()
 
@@ -87,5 +90,10 @@ class SearchFragmentLayoutTests : BaseFragmentTest<SearchFragment>() {
 
     private fun setViewState(viewState: LoadingViewState<SearchViewState>) {
         fragmentRule.runOnUiThread { fragment.updateView(viewState) }
+    }
+
+    private fun toViewState(movies: List<Movie>): LoadingViewState<SearchViewState> {
+        return LoadingState.Success(movies)
+                .toViewState(SearchViewStateFactory.Companion::toViewState)
     }
 }
