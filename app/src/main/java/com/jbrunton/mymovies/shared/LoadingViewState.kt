@@ -54,10 +54,27 @@ fun <T>LoadingState<T>.toViewState(): LoadingViewState<T> {
     return LoadingViewState.from(this, { it })
 }
 
-class LoadingStateBuilder<S, T>(converter: (value: S) -> T) {
-    var onSuccess: ((LoadingState.Success<S>) -> LoadingViewState<T>) = { LoadingViewState.Success(converter(it.value)) }
-    var onLoading: ((LoadingState.Loading<S>) -> LoadingViewState<T>) = { LoadingViewState.Loading(it.cachedValue?.let(converter)) }
-    var onFailure: ((LoadingState.Failure<S>) -> LoadingViewState<T>) = { LoadingViewState.Failure(it.throwable, it.cachedValue?.let(converter)) }
+class LoadingStateBuilder<S, T>(val converter: (value: S) -> T) {
+    var errorHandlers = arrayListOf<(Throwable) -> LoadingViewState<T>?>()
+
+    var onSuccess: ((LoadingState.Success<S>) -> LoadingViewState<T>) = {
+        LoadingViewState.Success(converter(it.value))
+    }
+
+    var onLoading: ((LoadingState.Loading<S>) -> LoadingViewState<T>) = {
+        LoadingViewState.Loading(it.cachedValue?.let(converter))
+    }
+
+    var onFailure: ((LoadingState.Failure<S>) -> LoadingViewState<T>) = { state ->
+        val viewState = errorHandlers.map { it(state.throwable) }
+                .filterNotNull()
+                .firstOrNull()
+        if (viewState != null) {
+            viewState
+        } else {
+            LoadingViewState.Failure(state.throwable, state.cachedValue?.let(converter))
+        }
+    }
 
     fun onSuccess(onSuccess: (LoadingState.Success<S>) -> LoadingViewState<T>): Unit {
         this.onSuccess = onSuccess
@@ -69,6 +86,20 @@ class LoadingStateBuilder<S, T>(converter: (value: S) -> T) {
 
     fun onFailure(onFailure: (LoadingState.Failure<S>) -> LoadingViewState<T>): Unit {
         this.onFailure = onFailure
+    }
+
+    fun onError(errorHandler: (Throwable) -> LoadingViewState<T>?): Unit {
+        this.errorHandlers.add(errorHandler)
+    }
+
+    inline fun <reified E : Throwable>onError(crossinline predicate: (E) -> Boolean = { true }, crossinline errorHandler: (E) -> LoadingViewState<T>): Unit {
+        this.errorHandlers.add {
+            if (it is E && predicate(it)) {
+                errorHandler(it)
+            } else {
+                null
+            }
+        }
     }
 
     fun build(state: LoadingState<S>): LoadingViewState<T> {

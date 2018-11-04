@@ -23,13 +23,10 @@ class AccountViewModel(private val repository: AccountRepository) : BaseLoadingV
 
     private fun setAccountResponse(state: LoadingState<Account>) {
         val viewState: LoadingViewState<AccountViewState> = buildViewState(state, { AccountViewState(it) }) {
-            onFailure {
-                val httpException = it.throwable as? HttpException
-                if (httpException != null && httpException.code() == 401) {
-                    LoadingViewState.Success(AccountViewState(showAccountDetails = false, showSignInDetails = true))
-                } else {
-                    LoadingViewState.Failure(it.throwable, it.cachedValue?.let { AccountViewState(it) })
-                }
+            onError({
+                error: HttpException -> error.code() == 401
+            }) {
+                LoadingViewState.Success(AccountViewState(showAccountDetails = false, showSignInDetails = true))
             }
         }
         this.viewState.postValue(viewState)
