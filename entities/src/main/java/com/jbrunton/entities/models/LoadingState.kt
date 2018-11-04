@@ -38,3 +38,16 @@ fun <T>LoadingState<T>.onFailure(transform: (LoadingState.Failure<T>) -> Loading
         else -> this
     }
 }
+
+inline fun <T, reified E: Throwable>LoadingState<T>.onError(predicate: (E) -> Boolean, errorHandler: (E) -> LoadingState<T>): LoadingState<T> {
+    return when (this) {
+        is LoadingState.Failure -> {
+            if (this.error is E && predicate(this.error)) {
+                errorHandler(this.error)
+            } else {
+                this
+            }
+        }
+        else -> this
+    }
+}

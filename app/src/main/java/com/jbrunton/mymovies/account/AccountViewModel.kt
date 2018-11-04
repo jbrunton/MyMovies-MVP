@@ -3,7 +3,7 @@ package com.jbrunton.mymovies.account
 import com.jbrunton.entities.models.Account
 import com.jbrunton.entities.models.LoadingState
 import com.jbrunton.entities.models.map
-import com.jbrunton.entities.models.onFailure
+import com.jbrunton.entities.models.onError
 import com.jbrunton.entities.repositories.AccountRepository
 import com.jbrunton.mymovies.shared.BaseLoadingViewModel
 import retrofit2.HttpException
@@ -24,13 +24,10 @@ class AccountViewModel(private val repository: AccountRepository) : BaseLoadingV
     private fun setAccountResponse(state: LoadingState<Account>) {
         val viewState: LoadingState<AccountViewState> = state
                 .map { AccountViewState(it) }
-                .onFailure {
-                    val error = it.error as? HttpException
-                    if (error != null && error.code() == 401) {
-                        LoadingState.Success(AccountViewState(showAccountDetails = false, showSignInDetails = true))
-                    } else {
-                        it
-                    }
+                .onError({
+                    error: HttpException -> error.code() == 401
+                }) {
+                    LoadingState.Success(AccountViewState(showAccountDetails = false, showSignInDetails = true))
                 }
         this.viewState.postValue(viewState)
     }
