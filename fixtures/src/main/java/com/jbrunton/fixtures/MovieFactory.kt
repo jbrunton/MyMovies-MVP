@@ -1,7 +1,7 @@
 package com.jbrunton.fixtures
 
 import com.google.common.base.Optional
-import com.jbrunton.entities.Movie
+import com.jbrunton.entities.models.Movie
 import org.joda.time.LocalDate
 
 class MovieFactory {

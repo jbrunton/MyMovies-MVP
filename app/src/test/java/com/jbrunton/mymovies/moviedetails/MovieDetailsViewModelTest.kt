@@ -1,7 +1,7 @@
 package com.jbrunton.mymovies.moviedetails
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.jbrunton.entities.MoviesRepository
+import com.jbrunton.entities.repositories.MoviesRepository
 import com.jbrunton.fixtures.MovieFactory
 import com.jbrunton.mymovies.fixtures.RepositoryFixtures.stubFind
 import com.jbrunton.mymovies.fixtures.TestSchedulerRule
@@ -29,6 +29,7 @@ class MovieDetailsViewModelTest {
 
     private val SUCCESS_VIEW_STATE = LoadingViewState.Success(MovieViewState(MOVIE))
     private val NETWORK_ERROR_VIEW_STATE = LoadingViewState.fromError<MovieViewState>(NETWORK_ERROR)
+    private val LOADING_VIEW_STATE = LoadingViewState.Loading<MovieViewState>()
 
     private lateinit var viewModel: MovieDetailsViewModel
 
@@ -37,12 +38,6 @@ class MovieDetailsViewModelTest {
         repository = mock(MoviesRepository::class.java)
         viewModel = MovieDetailsViewModel("1", repository!!)
         stubFind(repository, "1").toReturnDelayed(MOVIE, 1)
-    }
-
-    @Test
-    fun startsWithLoadingState() {
-        viewModel.start()
-        assertThat(viewModel.viewState.value).isEqualTo(LoadingViewState.Loading)
     }
 
     @Test
@@ -60,19 +55,6 @@ class MovieDetailsViewModelTest {
         schedulerRule.TEST_SCHEDULER.advanceTimeBy(1, TimeUnit.SECONDS)
 
         assertThat(viewModel.viewState.value).isEqualTo(NETWORK_ERROR_VIEW_STATE)
-    }
-
-    @Test
-    fun showsLoadingStateWhenRetrying() {
-        stubFind(repository, "1").toErrorWithDelayed(NETWORK_ERROR, 1)
-        viewModel.start()
-        schedulerRule.TEST_SCHEDULER.advanceTimeBy(1, TimeUnit.SECONDS)
-        assertThat(viewModel.viewState.value).isEqualTo(NETWORK_ERROR_VIEW_STATE)
-
-        stubFind(repository, "1").toReturnDelayed(MOVIE, 1)
-        viewModel.retry()
-
-        assertThat(viewModel.viewState.value).isEqualTo(LoadingViewState.Loading)
     }
 
     @Test

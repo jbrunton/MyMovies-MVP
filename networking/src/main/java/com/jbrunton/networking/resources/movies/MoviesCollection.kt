@@ -1,7 +1,7 @@
 package com.jbrunton.networking.resources.movies
 
-import com.jbrunton.entities.Configuration
-import com.jbrunton.entities.Movie
+import com.jbrunton.entities.models.Configuration
+import com.jbrunton.entities.models.Movie
 import com.jbrunton.networking.resources.PagedCollection
 
 class MoviesCollection(

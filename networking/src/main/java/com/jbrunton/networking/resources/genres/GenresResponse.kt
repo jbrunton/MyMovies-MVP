@@ -1,6 +1,6 @@
 package com.jbrunton.networking.resources.genres
 
-import com.jbrunton.entities.Genre
+import com.jbrunton.entities.models.Genre
 
 data class GenresResponse(private val genres: List<GenreResource>) {
 

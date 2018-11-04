@@ -1,6 +1,6 @@
 package com.jbrunton.mymovies.movies
 
-import com.jbrunton.entities.Movie
+import com.jbrunton.entities.models.Movie
 
 data class MovieViewState(
         val movie: Movie
