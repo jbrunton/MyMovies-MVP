@@ -5,13 +5,6 @@ import com.jbrunton.entities.models.LoadingState
 import io.reactivex.Observable
 
 abstract class BaseRepository {
-//    protected fun <T>buildResponse(loadingState: T, apiSource: Observable<T>): Observable<T> {
-//        return Observable.concatArrayEager(
-//                Observable.just(loadingState),
-//                apiSource
-//        )
-//    }
-
     protected fun <T>buildResponse(apiSource: Observable<T>, cachedValue: T? = null): DataStream<T> {
         return apiSource
                 .map { success(it) }
