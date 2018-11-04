@@ -84,8 +84,8 @@ class LoadingStateBuilder<S, T>(converter: (value: S) -> T) {
     }
 }
 
-fun <S, T>buildViewState(converter: (value: S) -> T, init: LoadingStateBuilder<S, T>.() -> Unit): LoadingStateBuilder<S, T> {
+fun <S, T>buildViewState(state: LoadingState<S>, converter: (value: S) -> T, init: LoadingStateBuilder<S, T>.() -> Unit): LoadingViewState<T> {
     val builder: LoadingStateBuilder<S, T> = LoadingStateBuilder(converter)
     builder.init()
-    return builder
+    return builder.build(state)
 }

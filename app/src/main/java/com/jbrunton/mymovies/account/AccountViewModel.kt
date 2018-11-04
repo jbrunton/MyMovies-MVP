@@ -6,6 +6,7 @@ import com.jbrunton.entities.repositories.AccountRepository
 import com.jbrunton.mymovies.shared.BaseLoadingViewModel
 import com.jbrunton.mymovies.shared.LoadingViewState
 import com.jbrunton.mymovies.shared.buildViewState
+import retrofit2.HttpException
 
 class AccountViewModel(private val repository: AccountRepository) : BaseLoadingViewModel<AccountViewState>() {
     override fun start() {
@@ -21,13 +22,16 @@ class AccountViewModel(private val repository: AccountRepository) : BaseLoadingV
     }
 
     private fun setAccountResponse(state: LoadingState<Account>) {
-        //val viewState = state
-        //        .toViewState { AccountViewState(it) }
-        val viewState = buildViewState<Account, AccountViewState>({ AccountViewState(it) }) {
+        val viewState: LoadingViewState<AccountViewState> = buildViewState(state, { AccountViewState(it) }) {
             onFailure {
+                if (it.throwable is HttpException) {
+                    if ((it.throwable as HttpException).code() == 401) {
+                        LoadingViewState.from
+                    }
+                }
                 LoadingViewState.fromError(it.throwable, it.cachedValue?.let { AccountViewState(it) })
             }
-        }.build(state)
+        }
         this.viewState.postValue(viewState)
     }
 }
