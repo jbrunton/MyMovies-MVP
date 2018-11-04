@@ -31,10 +31,10 @@ class GenresViewModel(private val repository: GenresRepository) : BaseLoadingVie
 
     private fun errorIfEmpty(genres: List<Genre>): LoadingViewState<GenresViewState> {
         if (genres.isEmpty()) {
-            return LoadingViewState.Failure(
+            return LoadingViewState.failure(
                     errorMessage = "Could not load genres at this time",
                     errorIcon = R.drawable.ic_sentiment_dissatisfied_black_24dp,
-                    showTryAgainButton = true)
+                    allowRetry = true)
         } else {
             return LoadingViewState.Success(genres)
         }
