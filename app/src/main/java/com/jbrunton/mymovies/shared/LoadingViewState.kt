@@ -42,77 +42,94 @@ fun <S, T>LoadingState<S>.toViewState(converter: (value: S) -> T): LoadingViewSt
     return LoadingViewState.from(this, converter)
 }
 
-fun <T>LoadingViewState<T>.map(onSuccess: (value: T) -> LoadingViewState<T>): LoadingViewState<T> {
+fun <T>LoadingViewState<T>.map(transform: (LoadingViewState<T>) -> LoadingViewState<T>): LoadingViewState<T> {
+    return transform(this)
+}
+
+fun <T>LoadingViewState<T>.onSuccess(transform: (LoadingViewState.Success<T>) -> LoadingViewState<T>): LoadingViewState<T> {
     return when (this) {
-        is LoadingViewState.Success -> onSuccess(this.value)
-        is LoadingViewState.Loading -> this
-        is LoadingViewState.Failure -> this
+        is LoadingViewState.Success -> transform(this)
+        else -> this
+    }
+}
+
+fun <T>LoadingViewState<T>.onLoading(transform: (LoadingViewState.Loading<T>) -> LoadingViewState<T>): LoadingViewState<T> {
+    return when (this) {
+        is LoadingViewState.Loading -> transform(this)
+        else -> this
+    }
+}
+
+fun <T>LoadingViewState<T>.onFailure(transform: (LoadingViewState.Failure<T>) -> LoadingViewState<T>): LoadingViewState<T> {
+    return when (this) {
+        is LoadingViewState.Failure -> transform(this)
+        else -> this
     }
 }
 
 fun <T>LoadingState<T>.toViewState(): LoadingViewState<T> {
     return LoadingViewState.from(this, { it })
 }
-
-class LoadingStateBuilder<S, T>(val converter: (value: S) -> T) {
-    var errorHandlers = arrayListOf<(Throwable) -> LoadingViewState<T>?>()
-
-    var onSuccess: ((LoadingState.Success<S>) -> LoadingViewState<T>) = {
-        LoadingViewState.Success(converter(it.value))
-    }
-
-    var onLoading: ((LoadingState.Loading<S>) -> LoadingViewState<T>) = {
-        LoadingViewState.Loading(it.cachedValue?.let(converter))
-    }
-
-    var onFailure: ((LoadingState.Failure<S>) -> LoadingViewState<T>) = { state ->
-        val viewState = errorHandlers.map { it(state.throwable) }
-                .filterNotNull()
-                .firstOrNull()
-        if (viewState != null) {
-            viewState
-        } else {
-            LoadingViewState.Failure(state.throwable, state.cachedValue?.let(converter))
-        }
-    }
-
-    fun onSuccess(onSuccess: (LoadingState.Success<S>) -> LoadingViewState<T>): Unit {
-        this.onSuccess = onSuccess
-    }
-
-    fun onLoading(onLoading: (LoadingState.Loading<S>) -> LoadingViewState<T>): Unit {
-        this.onLoading = onLoading
-    }
-
-    fun onFailure(onFailure: (LoadingState.Failure<S>) -> LoadingViewState<T>): Unit {
-        this.onFailure = onFailure
-    }
-
-    fun onError(errorHandler: (Throwable) -> LoadingViewState<T>?): Unit {
-        this.errorHandlers.add(errorHandler)
-    }
-
-    inline fun <reified E : Throwable>onError(crossinline predicate: (E) -> Boolean = { true }, crossinline errorHandler: (E) -> LoadingViewState<T>): Unit {
-        this.errorHandlers.add {
-            if (it is E && predicate(it)) {
-                errorHandler(it)
-            } else {
-                null
-            }
-        }
-    }
-
-    fun build(state: LoadingState<S>): LoadingViewState<T> {
-        return when (state) {
-            is LoadingState.Success -> onSuccess(state)
-            is LoadingState.Loading -> onLoading(state)
-            is LoadingState.Failure -> onFailure(state)
-        }
-    }
-}
-
-fun <S, T>buildViewState(state: LoadingState<S>, converter: (value: S) -> T, init: LoadingStateBuilder<S, T>.() -> Unit): LoadingViewState<T> {
-    val builder: LoadingStateBuilder<S, T> = LoadingStateBuilder(converter)
-    builder.init()
-    return builder.build(state)
-}
+//
+//class LoadingStateBuilder<S, T>(val converter: (value: S) -> T) {
+//    var errorHandlers = arrayListOf<(Throwable) -> LoadingViewState<T>?>()
+//
+//    var onSuccess: ((LoadingState.Success<S>) -> LoadingViewState<T>) = {
+//        LoadingViewState.Success(converter(it.value))
+//    }
+//
+//    var onLoading: ((LoadingState.Loading<S>) -> LoadingViewState<T>) = {
+//        LoadingViewState.Loading(it.cachedValue?.let(converter))
+//    }
+//
+//    var onFailure: ((LoadingState.Failure<S>) -> LoadingViewState<T>) = { state ->
+//        val viewState = errorHandlers.map { it(state.throwable) }
+//                .filterNotNull()
+//                .firstOrNull()
+//        if (viewState != null) {
+//            viewState
+//        } else {
+//            LoadingViewState.Failure(state.throwable, state.cachedValue?.let(converter))
+//        }
+//    }
+//
+//    fun onSuccess(onSuccess: (LoadingState.Success<S>) -> LoadingViewState<T>): Unit {
+//        this.onSuccess = onSuccess
+//    }
+//
+//    fun onLoading(onLoading: (LoadingState.Loading<S>) -> LoadingViewState<T>): Unit {
+//        this.onLoading = onLoading
+//    }
+//
+//    fun onFailure(onFailure: (LoadingState.Failure<S>) -> LoadingViewState<T>): Unit {
+//        this.onFailure = onFailure
+//    }
+//
+//    fun onError(errorHandler: (Throwable) -> LoadingViewState<T>?): Unit {
+//        this.errorHandlers.add(errorHandler)
+//    }
+//
+//    inline fun <reified E : Throwable>onError(crossinline predicate: (E) -> Boolean = { true }, crossinline errorHandler: (E) -> LoadingViewState<T>): Unit {
+//        this.errorHandlers.add {
+//            if (it is E && predicate(it)) {
+//                errorHandler(it)
+//            } else {
+//                null
+//            }
+//        }
+//    }
+//
+//    fun build(state: LoadingState<S>): LoadingViewState<T> {
+//        return when (state) {
+//            is LoadingState.Success -> onSuccess(state)
+//            is LoadingState.Loading -> onLoading(state)
+//            is LoadingState.Failure -> onFailure(state)
+//        }
+//    }
+//}
+//
+//fun <S, T>buildViewState(state: LoadingState<S>, converter: (value: S) -> T, init: LoadingStateBuilder<S, T>.() -> Unit): LoadingViewState<T> {
+//    val builder: LoadingStateBuilder<S, T> = LoadingStateBuilder(converter)
+//    builder.init()
+//    return builder.build(state)
+//}
