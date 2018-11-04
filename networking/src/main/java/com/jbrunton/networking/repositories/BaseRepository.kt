@@ -13,10 +13,10 @@ abstract class BaseRepository {
 //    }
 
     protected fun <T>buildResponse(apiSource: Observable<T>, cachedValue: T? = null): DataStream<T> {
-        return Observable.concatArrayEager(
-                Observable.just(LoadingState.Loading(cachedValue)),
-                apiSource.map { success(it) }.onErrorReturn { error(it, cachedValue) }
-        )
+        return apiSource
+                .map { success(it) }
+                .onErrorReturn { error(it, cachedValue) }
+                .startWith(LoadingState.Loading(cachedValue))
     }
 
     private fun <T>success(value: T): LoadingState<T> {

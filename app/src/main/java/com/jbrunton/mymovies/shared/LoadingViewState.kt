@@ -43,6 +43,14 @@ fun <S, T>LoadingState<S>.toViewState(converter: (value: S) -> T): LoadingViewSt
     return LoadingViewState.from(this, converter)
 }
 
+fun <T>LoadingViewState<T>.map(onSuccess: (value: T) -> LoadingViewState<T>): LoadingViewState<T> {
+    return when (this) {
+        is LoadingViewState.Success -> onSuccess(this.value)
+        is LoadingViewState.Loading -> this
+        is LoadingViewState.Failure -> this
+    }
+}
+
 fun <T>LoadingState<T>.toViewState(): LoadingViewState<T> {
     return LoadingViewState.from(this, { it })
 }
