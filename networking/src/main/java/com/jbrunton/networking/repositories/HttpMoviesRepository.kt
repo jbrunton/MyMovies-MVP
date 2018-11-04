@@ -19,19 +19,19 @@ class HttpMoviesRepository(private val service: MovieService): BaseRepository(),
     }
 
     override fun searchMovies(query: String): DataStream<List<Movie>> {
-        return buildResponse(Observables.zip(service.search(query), config()) {
-            response, config -> MoviesCollection.toCollection(response, config)
-        })
+        return buildResponse(service.search(query))
     }
 
     override fun nowPlaying(): DataStream<List<Movie>> {
-        return buildResponse(Observables.zip(service.nowPlaying(), config()) {
-            response, config -> MoviesCollection.toCollection(response, config)
-        })
+        return buildResponse(service.nowPlaying())
     }
 
     override fun discoverByGenre(genreId: String): DataStream<List<Movie>> {
-        return buildResponse(Observables.zip(service.discoverByGenre(genreId), config()) {
+        return buildResponse(service.discoverByGenre(genreId))
+    }
+
+    private fun buildResponse(apiSource: Observable<MoviesCollection>): DataStream<List<Movie>> {
+        return buildResponse(Observables.zip(apiSource, config()) {
             response, config -> MoviesCollection.toCollection(response, config)
         })
     }
