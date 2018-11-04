@@ -6,13 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.jakewharton.rxbinding2.view.clicks
+import com.jbrunton.entities.models.LoadingState
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.helpers.observe
 import com.jbrunton.mymovies.search.SearchResultsAdapter
 import com.jbrunton.mymovies.search.SearchViewState
 import com.jbrunton.mymovies.shared.BaseFragment
 import com.jbrunton.mymovies.shared.LoadingLayoutManager
-import com.jbrunton.mymovies.shared.LoadingViewState
 import com.trello.rxlifecycle2.android.lifecycle.kotlin.bindToLifecycle
 import kotlinx.android.synthetic.main.fragment_discover.*
 import kotlinx.android.synthetic.main.layout_loading_state.*
@@ -54,7 +54,7 @@ class DiscoverFragment : BaseFragment<DiscoverViewModel>() {
         viewModel.start()
     }
 
-    private fun updateView(viewState: LoadingViewState<SearchViewState>) {
+    private fun updateView(viewState: LoadingState<SearchViewState>) {
         loadingLayoutManager.updateLayout(viewState, nowPlayingAdapter::setDataSource)
     }
 }

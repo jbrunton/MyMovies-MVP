@@ -5,12 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.jakewharton.rxbinding2.view.clicks
+import com.jbrunton.entities.models.LoadingState
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.helpers.observe
 import com.jbrunton.mymovies.helpers.toVisibility
 import com.jbrunton.mymovies.shared.BaseFragment
 import com.jbrunton.mymovies.shared.LoadingLayoutManager
-import com.jbrunton.mymovies.shared.LoadingViewState
 import com.trello.rxlifecycle2.android.lifecycle.kotlin.bindToLifecycle
 import kotlinx.android.synthetic.main.fragment_account.*
 import kotlinx.android.synthetic.main.layout_loading_state.*
@@ -41,7 +41,7 @@ class AccountFragment : BaseFragment<AccountViewModel>() {
         viewModel.start()
     }
 
-    private fun updateView(viewState: LoadingViewState<AccountViewState>) {
+    private fun updateView(viewState: LoadingState<AccountViewState>) {
         loadingLayoutManager.updateLayout(viewState) {
             account_details.visibility = toVisibility(it.showAccountDetails)
             sign_in.visibility = toVisibility(it.showSignInDetails)

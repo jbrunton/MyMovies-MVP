@@ -12,11 +12,11 @@ import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import com.jakewharton.rxbinding2.view.clicks
 import com.jbrunton.entities.models.Genre
+import com.jbrunton.entities.models.LoadingState
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.helpers.observe
 import com.jbrunton.mymovies.shared.BaseActivity
 import com.jbrunton.mymovies.shared.LoadingLayoutManager
-import com.jbrunton.mymovies.shared.LoadingViewState
 import com.trello.rxlifecycle2.android.lifecycle.kotlin.bindToLifecycle
 import kotlinx.android.synthetic.main.activity_genres.*
 import kotlinx.android.synthetic.main.layout_loading_state.*
@@ -59,7 +59,7 @@ class GenresActivity : BaseActivity<GenresViewModel>() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun updateView(viewState: LoadingViewState<GenresViewState>) {
+    private fun updateView(viewState: LoadingState<GenresViewState>) {
         loadingLayoutManager.updateLayout(viewState, genresAdapter::addAll)
     }
 

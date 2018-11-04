@@ -4,13 +4,13 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.widget.Toolbar
+import com.jbrunton.entities.models.LoadingState
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.helpers.PicassoHelper
 import com.jbrunton.mymovies.helpers.observe
 import com.jbrunton.mymovies.movies.MovieViewState
 import com.jbrunton.mymovies.shared.BaseActivity
 import com.jbrunton.mymovies.shared.LoadingLayoutManager
-import com.jbrunton.mymovies.shared.LoadingViewState
 import kotlinx.android.synthetic.main.activity_movie_details.*
 import kotlinx.android.synthetic.main.content_movie_details.*
 import kotlinx.android.synthetic.main.layout_loading_state.*
@@ -50,7 +50,7 @@ class MovieDetailsActivity : BaseActivity<MovieDetailsViewModel>() {
 
     private fun movieId(): String = intent.extras["MOVIE_ID"] as String
 
-    private fun updateView(viewState: LoadingViewState<MovieViewState>) {
+    private fun updateView(viewState: LoadingState<MovieViewState>) {
         loadingLayoutManager.updateLayout(viewState) {
             title = it.title
             overview.text = it.overview

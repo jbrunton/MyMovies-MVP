@@ -3,6 +3,7 @@ package com.jbrunton.mymovies.shared
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import com.jbrunton.entities.models.LoadingState
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.helpers.toVisibility
 import java.io.IOException
@@ -24,35 +25,36 @@ class LoadingLayoutManager(root: View, val content: View) {
         }
     }
 
-    fun <T>updateLayout(viewState: LoadingViewState<T>, onSuccess: (T) -> Unit) {
+    fun <T>updateLayout(viewState: LoadingState<T>, onSuccess: (T) -> Unit) {
         content.visibility = toVisibility(showContent(viewState))
         loadingIndicator.visibility = toVisibility(showLoadingIndicator(viewState))
         errorCase.visibility = toVisibility(showErrorCase(viewState))
         when (viewState) {
-            is LoadingViewState.Failure -> {
-                if (viewState.cachedValue == null) {
+            is LoadingState.Failure -> {
+                val cachedValue = viewState.cachedValue
+                if (cachedValue == null) {
                     showErrorDetails(viewState.error)
                 } else {
-                    onSuccess(viewState.cachedValue)
+                    onSuccess(cachedValue)
                 }
             }
-            is LoadingViewState.Success -> {
+            is LoadingState.Success -> {
                 onSuccess(viewState.value)
             }
         }
     }
 
-    protected fun <T>showContent(viewState: LoadingViewState<T>): Boolean {
-        return viewState is LoadingViewState.Success
-                || viewState is LoadingViewState.Failure && viewState.cachedValue != null
+    protected fun <T>showContent(viewState: LoadingState<T>): Boolean {
+        return viewState is LoadingState.Success
+                || viewState is LoadingState.Failure && viewState.cachedValue != null
     }
 
-    protected fun <T>showLoadingIndicator(viewState: LoadingViewState<T>): Boolean {
-        return viewState is LoadingViewState.Loading
+    protected fun <T>showLoadingIndicator(viewState: LoadingState<T>): Boolean {
+        return viewState is LoadingState.Loading
     }
 
-    protected fun <T>showErrorCase(viewState: LoadingViewState<T>): Boolean {
-        return viewState is LoadingViewState.Failure && viewState.cachedValue == null
+    protected fun <T>showErrorCase(viewState: LoadingState<T>): Boolean {
+        return viewState is LoadingState.Failure && viewState.cachedValue == null
     }
 
     protected fun showErrorDetails(error: Throwable) {

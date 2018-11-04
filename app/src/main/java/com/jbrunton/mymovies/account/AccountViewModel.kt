@@ -2,11 +2,10 @@ package com.jbrunton.mymovies.account
 
 import com.jbrunton.entities.models.Account
 import com.jbrunton.entities.models.LoadingState
+import com.jbrunton.entities.models.map
+import com.jbrunton.entities.models.onFailure
 import com.jbrunton.entities.repositories.AccountRepository
 import com.jbrunton.mymovies.shared.BaseLoadingViewModel
-import com.jbrunton.mymovies.shared.LoadingViewState
-import com.jbrunton.mymovies.shared.onFailure
-import com.jbrunton.mymovies.shared.toViewState
 import retrofit2.HttpException
 
 class AccountViewModel(private val repository: AccountRepository) : BaseLoadingViewModel<AccountViewState>() {
@@ -23,11 +22,12 @@ class AccountViewModel(private val repository: AccountRepository) : BaseLoadingV
     }
 
     private fun setAccountResponse(state: LoadingState<Account>) {
-        val viewState: LoadingViewState<AccountViewState> = state
-                .toViewState { AccountViewState(it) }
+        val viewState: LoadingState<AccountViewState> = state
+                .map { AccountViewState(it) }
                 .onFailure {
-                    if (it.error is HttpException && it.error.code() == 401) {
-                        LoadingViewState.Success(AccountViewState(showAccountDetails = false, showSignInDetails = true))
+                    val error = it.error as? HttpException
+                    if (error != null && error.code() == 401) {
+                        LoadingState.Success(AccountViewState(showAccountDetails = false, showSignInDetails = true))
                     } else {
                         it
                     }

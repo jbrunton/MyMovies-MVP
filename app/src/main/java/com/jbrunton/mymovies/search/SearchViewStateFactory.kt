@@ -1,9 +1,10 @@
 package com.jbrunton.mymovies.search
 
+import com.jbrunton.entities.models.LoadingState
 import com.jbrunton.entities.models.Movie
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.movies.MovieSearchResultViewState
-import com.jbrunton.mymovies.shared.LoadingViewState
+import com.jbrunton.mymovies.shared.LoadingViewStateError
 
 class SearchViewStateFactory {
     companion object {
@@ -14,20 +15,16 @@ class SearchViewStateFactory {
             return movies.map { MovieSearchResultViewState(it) }
         }
 
-        fun errorIfEmpty(movies: SearchViewState): LoadingViewState<SearchViewState> {
+        fun errorIfEmpty(movies: SearchViewState): LoadingState<SearchViewState> {
             return if (movies.isEmpty()) {
                 SearchViewStateFactory.errorNoResults
             } else {
-                LoadingViewState.Success(movies)
+                LoadingState.Success(movies)
             }
         }
 
-        private fun buildEmptyState(errorMessage: String): LoadingViewState<SearchViewState> {
-            return LoadingViewState.failure(
-                    errorMessage = errorMessage,
-                    errorIcon = R.drawable.ic_search_black_24dp,
-                    allowRetry = false
-            )
+        private fun buildEmptyState(errorMessage: String): LoadingState<SearchViewState> {
+            return LoadingState.Failure(LoadingViewStateError(errorMessage, R.drawable.ic_search_black_24dp, false))
         }
     }
 }

@@ -30,15 +30,15 @@
 //
 //        override fun adapt(call: Call<Any>): Observable<T> {
 //            val observable = delegate.adapt(call)
-//            return observable.onErrorResumeNext { throwable: Throwable ->
-//                if (throwable is IOException) {
+//            return observable.onErrorResumeNext { error: Throwable ->
+//                if (error is IOException) {
 //                    Observable.error<T>(
 //                            DescriptiveError(
 //                                    "There was a problem with your connection.",
-//                                    throwable,
+//                                    error,
 //                                    true))
 //                } else {
-//                    Observable.error<T>(DescriptiveError.from(throwable))
+//                    Observable.error<T>(DescriptiveError.from(error))
 //                }
 //            }
 //        }
