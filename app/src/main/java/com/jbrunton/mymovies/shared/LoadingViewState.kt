@@ -60,19 +60,16 @@ class LoadingStateBuilder<S, T>(converter: (value: S) -> T) {
     var onLoading: ((LoadingState.Loading<S>) -> LoadingViewState<T>) = { LoadingViewState.Loading(it.cachedValue?.let(converter)) }
     var onFailure: ((LoadingState.Failure<S>) -> LoadingViewState<T>) = { LoadingViewState.fromError(it.throwable, it.cachedValue?.let(converter)) }
 
-    fun onSuccess(onSuccess: (LoadingState.Success<S>) -> LoadingViewState<T>): LoadingStateBuilder<S, T> {
+    fun onSuccess(onSuccess: (LoadingState.Success<S>) -> LoadingViewState<T>): Unit {
         this.onSuccess = onSuccess
-        return this
     }
 
-    fun onLoading(onLoading: (LoadingState.Loading<S>) -> LoadingViewState<T>): LoadingStateBuilder<S, T> {
+    fun onLoading(onLoading: (LoadingState.Loading<S>) -> LoadingViewState<T>): Unit {
         this.onLoading = onLoading
-        return this
     }
 
-    fun onFailure(onFailure: (LoadingState.Failure<S>) -> LoadingViewState<T>): LoadingStateBuilder<S, T> {
+    fun onFailure(onFailure: (LoadingState.Failure<S>) -> LoadingViewState<T>): Unit {
         this.onFailure = onFailure
-        return this
     }
 
     fun build(state: LoadingState<S>): LoadingViewState<T> {

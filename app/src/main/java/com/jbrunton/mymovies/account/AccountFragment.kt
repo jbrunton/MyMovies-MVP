@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import com.jakewharton.rxbinding2.view.clicks
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.helpers.observe
+import com.jbrunton.mymovies.helpers.toVisibility
 import com.jbrunton.mymovies.shared.BaseFragment
 import com.jbrunton.mymovies.shared.LoadingLayoutManager
 import com.jbrunton.mymovies.shared.LoadingViewState
@@ -42,6 +43,8 @@ class AccountFragment : BaseFragment<AccountViewModel>() {
 
     private fun updateView(viewState: LoadingViewState<AccountViewState>) {
         loadingLayoutManager.updateLayout(viewState) {
+            account_details.visibility = toVisibility(it.showAccountDetails)
+            sign_in.visibility = toVisibility(it.showSignInDetails)
             account_username.text = it.username
             account_name.text = it.name
         }
