@@ -25,10 +25,10 @@ class AccountViewModel(private val repository: AccountRepository) : BaseLoadingV
         val viewState: LoadingState<AccountViewState> = state
                 .map { AccountViewState(it) }
                 .onError(HttpException::class) {
-                    whenever { it.code() == 401 } map {
-                        LoadingState.Success(AccountViewState(showAccountDetails = false, showSignInDetails = true))
-                    }
+                    map { AuthViewState } whenever { it.code() == 401 }
                 }
         this.viewState.postValue(viewState)
     }
+
+    private val AuthViewState = LoadingState.Success(AccountViewState(showAccountDetails = false, showSignInDetails = true))
 }
