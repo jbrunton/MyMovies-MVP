@@ -2,6 +2,7 @@ package com.jbrunton.mymovies.moviedetails
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.jbrunton.entities.MoviesRepository
+import com.jbrunton.fixtures.FakeMovieRepository
 import com.jbrunton.fixtures.MovieFactory
 import com.jbrunton.mymovies.fixtures.RepositoryFixtures.stubFind
 import com.jbrunton.mymovies.fixtures.TestSchedulerRule
@@ -30,9 +31,8 @@ class MovieDetailsViewModelTest {
 
     @Before
     fun setUp() {
-        repository = mock(MoviesRepository::class.java)
+        repository = FakeMovieRepository(listOf(MOVIE))
         viewModel = MovieDetailsViewModel("1", repository!!)
-        stubFind(repository, "1").toReturnDelayed(MOVIE, 1)
     }
 
     @Test
