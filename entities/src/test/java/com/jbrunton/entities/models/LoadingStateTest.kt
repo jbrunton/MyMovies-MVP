@@ -109,6 +109,36 @@ class LoadingStateTest {
         assertThat(otherState).isEqualTo(failureState)
     }
 
+    @Test
+    fun zipsSuccesses() {
+        val state = successState(2).zipWith(successState(3)) { x, y -> x * y }
+        assertThat(state).isEqualTo(LoadingState.Success(6))
+    }
+
+    @Test
+    fun zipsLeftFailures() {
+        val state = failureState(error, 2).zipWith(successState(3)) { x, y -> x * y }
+        assertThat(state).isEqualTo(LoadingState.Failure(error, 6))
+    }
+
+    @Test
+    fun zipsRightFailures() {
+        val state = successState(3).zipWith(failureState(error, 2)) { x, y -> x * y }
+        assertThat(state).isEqualTo(LoadingState.Failure(error, 6))
+    }
+
+    @Test
+    fun zipsLeftLoadingStates() {
+        val state = loadingState(2).zipWith(successState(3)) { x, y -> x * y }
+        assertThat(state).isEqualTo(LoadingState.Loading(6))
+    }
+
+    @Test
+    fun zipsRightLoadingStates() {
+        val state = successState(2).zipWith(loadingState(3)) { x, y -> x * y }
+        assertThat(state).isEqualTo(LoadingState.Loading(6))
+    }
+
     private fun successState(value: Int): LoadingState<Int> {
         return LoadingState.Success(value)
     }
