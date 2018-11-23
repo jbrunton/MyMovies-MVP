@@ -74,7 +74,7 @@ class LoadingStateTest {
 
     @Test
     fun transformsOnlyFailureStates() {
-        val state = failureState(error,1).onLoading {
+        val state = failureState(error,1).onFailure {
             LoadingState.Success(it.toValue() * 2)
         }
         assertThat(state).isEqualTo(LoadingState.Success(2))
@@ -82,8 +82,8 @@ class LoadingStateTest {
 
     @Test
     fun doesNotTransformOtherStatesWhenExpectingFailure() {
-        successState(value).onLoading { throw IllegalStateException() }
-        loadingState(value).onLoading { throw IllegalStateException() }
+        successState(value).onFailure { throw IllegalStateException() }
+        loadingState(value).onFailure { throw IllegalStateException() }
     }
 
     @Test
