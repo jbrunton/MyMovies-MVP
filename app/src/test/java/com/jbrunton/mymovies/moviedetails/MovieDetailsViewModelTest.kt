@@ -37,7 +37,7 @@ class MovieDetailsViewModelTest {
     @Before
     fun setUp() {
         repository = mock(MoviesRepository::class.java)
-        viewModel = MovieDetailsViewModel("1", repository!!)
+        viewModel = MovieDetailsViewModel("1", repository)
         stubFind(repository, "1").toReturnDelayed(MOVIE, 1)
     }
 
