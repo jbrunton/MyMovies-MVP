@@ -23,7 +23,7 @@ fun <T>LoadingState<T>.toValue(): T {
     return when (this) {
         is LoadingState.Success -> this.value
         is LoadingState.Loading -> this.cachedValue ?: throw NullPointerException()
-        is LoadingState.Failure -> throw this.error
+        is LoadingState.Failure -> this.cachedValue ?: throw this.error
     }
 }
 
