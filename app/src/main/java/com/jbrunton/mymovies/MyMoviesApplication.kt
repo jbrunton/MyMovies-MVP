@@ -1,16 +1,13 @@
 package com.jbrunton.mymovies
 
 import android.app.Application
-import com.jbrunton.entities.repositories.AccountRepository
 import com.jbrunton.entities.repositories.GenresRepository
 import com.jbrunton.entities.repositories.MoviesRepository
-import com.jbrunton.mymovies.account.AccountViewModel
 import com.jbrunton.mymovies.discover.DiscoverViewModel
 import com.jbrunton.mymovies.discover.GenreResultsViewModel
 import com.jbrunton.mymovies.discover.GenresViewModel
 import com.jbrunton.mymovies.moviedetails.MovieDetailsViewModel
 import com.jbrunton.mymovies.search.SearchViewModel
-import com.jbrunton.networking.repositories.HttpAccountRepository
 import com.jbrunton.networking.repositories.HttpGenresRepository
 import com.jbrunton.networking.repositories.HttpMoviesRepository
 import com.jbrunton.networking.services.ServiceFactory
@@ -24,12 +21,10 @@ val applicationModule : Module = module {
     single { ServiceFactory.createService() }
     single { HttpMoviesRepository(get()) as MoviesRepository }
     single { HttpGenresRepository(get()) as GenresRepository }
-    single { HttpAccountRepository(get()) as AccountRepository }
     single { Schedulers.computation() }
     viewModel { SearchViewModel(get()) }
     viewModel { DiscoverViewModel(get()) }
     viewModel { GenresViewModel(get()) }
-    viewModel { AccountViewModel(get()) }
     viewModel { (movieId: String) -> MovieDetailsViewModel(movieId, get()) }
     viewModel { (genreId: String) -> GenreResultsViewModel(genreId, get()) }
 }
