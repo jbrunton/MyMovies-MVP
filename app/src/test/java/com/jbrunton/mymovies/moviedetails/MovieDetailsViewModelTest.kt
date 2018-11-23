@@ -1,12 +1,12 @@
 package com.jbrunton.mymovies.moviedetails
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.jbrunton.entities.models.LoadingState
 import com.jbrunton.entities.repositories.MoviesRepository
 import com.jbrunton.fixtures.MovieFactory
 import com.jbrunton.mymovies.fixtures.RepositoryFixtures.stubFind
 import com.jbrunton.mymovies.fixtures.TestSchedulerRule
 import com.jbrunton.mymovies.movies.MovieViewState
-import com.jbrunton.mymovies.shared.LoadingViewState
 import com.jbrunton.networking.DescriptiveError
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
@@ -19,6 +19,7 @@ class MovieDetailsViewModelTest {
 
     @get:Rule
     var instantExecutorRule = InstantTaskExecutorRule()
+
     @get:Rule
     var schedulerRule = TestSchedulerRule()
 
@@ -27,9 +28,9 @@ class MovieDetailsViewModelTest {
     private val MOVIE = movieFactory.create()
     private val NETWORK_ERROR = DescriptiveError("Network Error", true)
 
-    private val SUCCESS_VIEW_STATE = LoadingViewState.Success(MovieViewState(MOVIE))
-    private val NETWORK_ERROR_VIEW_STATE = LoadingViewState.fromError<MovieViewState>(NETWORK_ERROR)
-    private val LOADING_VIEW_STATE = LoadingViewState.Loading<MovieViewState>()
+    private val SUCCESS_VIEW_STATE = LoadingState.Success(MovieViewState(MOVIE))
+    private val NETWORK_ERROR_VIEW_STATE = LoadingState.Failure<MovieViewState>(NETWORK_ERROR)
+    private val LOADING_VIEW_STATE = LoadingState.Loading<MovieViewState>()
 
     private lateinit var viewModel: MovieDetailsViewModel
 
