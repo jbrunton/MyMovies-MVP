@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.crashlytics.android.Crashlytics
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.jbrunton.mymovies.account.AccountFragment
 import com.jbrunton.mymovies.discover.DiscoverFragment
 import com.jbrunton.mymovies.search.SearchFragment
 import io.fabric.sdk.android.Fabric
@@ -23,12 +22,6 @@ class MainActivity : AppCompatActivity() {
             R.id.navigation_discover -> {
                 supportFragmentManager.beginTransaction()
                         .replace(R.id.content, DiscoverFragment())
-                        .commit()
-                return@OnNavigationItemSelectedListener true
-            }
-            R.id.navigation_account -> {
-                supportFragmentManager.beginTransaction()
-                        .replace(R.id.content, AccountFragment())
                         .commit()
                 return@OnNavigationItemSelectedListener true
             }

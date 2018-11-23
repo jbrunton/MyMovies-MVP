@@ -1,6 +1,5 @@
 package com.jbrunton.networking.services
 
-import com.jbrunton.networking.resources.account.AccountResponse
 import com.jbrunton.networking.resources.configuration.ConfigurationResponse
 import com.jbrunton.networking.resources.genres.GenresResponse
 import com.jbrunton.networking.resources.movies.MovieDetailsResponse
@@ -14,9 +13,6 @@ import retrofit2.http.Query
 interface MovieService {
     @GET("configuration")
     fun configuration(): Observable<ConfigurationResponse>
-
-    @GET("account")
-    fun account(): Observable<AccountResponse>
 
     @GET("movie/{movie_id}")
     fun movie(@Path("movie_id") movieId: String): Observable<MovieDetailsResponse>
