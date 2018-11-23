@@ -11,6 +11,40 @@ sealed class LoadingState<out T> {
 
 typealias DataStream<T> = Observable<LoadingState<T>>
 
+fun <T>LoadingState<T>.toValueOrNull(): T? {
+    return when (this) {
+        is LoadingState.Success -> this.value
+        is LoadingState.Loading -> this.cachedValue
+        is LoadingState.Failure -> this.cachedValue
+    }
+}
+
+fun <T>LoadingState<T>.toValue(): T {
+    return when (this) {
+        is LoadingState.Success -> this.value
+        is LoadingState.Loading -> this.cachedValue ?: throw NullPointerException()
+        is LoadingState.Failure -> throw this.error
+    }
+}
+
+fun <S, T, U>LoadingState<S>.zipWith(other: LoadingState<T>, transform: (S, T) -> U): LoadingState<U> {
+    if (this is LoadingState.Success && other is LoadingState.Success) {
+        return LoadingState.Success(transform(this.value, other.value))
+    }
+
+    val cachedValue = this.toValueOrNull()?.let { thisValue ->
+        other.toValueOrNull()?.let { otherValue -> transform(thisValue, otherValue) }
+    }
+
+    return if (this is LoadingState.Failure) {
+        LoadingState.Failure(this.error, cachedValue)
+    } else if (other is LoadingState.Failure) {
+        LoadingState.Failure(other.error, cachedValue)
+    } else {
+        LoadingState.Loading(cachedValue)
+    }
+}
+
 fun <S, T>LoadingState<S>.map(transform: (S) -> T): LoadingState<T> {
     return when (this) {
         is LoadingState.Success -> LoadingState.Success(transform(this.value))
