@@ -23,7 +23,7 @@ class SearchViewStateFactory {
             }
         }
 
-        private fun buildEmptyState(errorMessage: String): LoadingState<SearchViewState> {
+        private fun buildEmptyState(errorMessage: String): LoadingState.Failure<SearchViewState> {
             return LoadingState.Failure(LoadingViewStateError(errorMessage, R.drawable.ic_search_black_24dp, false))
         }
     }
