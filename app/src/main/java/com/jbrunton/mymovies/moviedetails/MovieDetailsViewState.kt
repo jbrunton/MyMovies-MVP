@@ -1,6 +1,6 @@
 package com.jbrunton.mymovies.moviedetails
 
+import com.jbrunton.entities.models.LoadingState
 import com.jbrunton.mymovies.movies.MovieViewState
-import com.jbrunton.mymovies.shared.LoadingViewState
 
-typealias MovieDetailsViewState = LoadingViewState<MovieViewState>
+typealias MovieDetailsViewState = LoadingState<MovieViewState>

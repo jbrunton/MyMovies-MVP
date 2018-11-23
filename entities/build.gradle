@@ -8,6 +8,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
 
     compile 'joda-time:joda-time:2.9.9'
     compile 'com.google.guava:guava:23.5-android'
@@ -15,6 +16,10 @@ dependencies {
 
     compileOnly "com.google.auto.value:auto-value:1.5"
     apt "com.google.auto.value:auto-value:1.5"
+
+    testCompile "com.nhaarman:mockito-kotlin:1.5.0"
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.assertj:assertj-core:3.8.0'
 }
 
 sourceCompatibility = "1.8"

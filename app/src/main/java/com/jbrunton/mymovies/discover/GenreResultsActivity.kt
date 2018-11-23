@@ -5,13 +5,13 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.widget.Toolbar
 import com.jakewharton.rxbinding2.view.clicks
+import com.jbrunton.entities.models.LoadingState
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.helpers.observe
 import com.jbrunton.mymovies.search.SearchResultsAdapter
 import com.jbrunton.mymovies.search.SearchViewState
 import com.jbrunton.mymovies.shared.BaseActivity
 import com.jbrunton.mymovies.shared.LoadingLayoutManager
-import com.jbrunton.mymovies.shared.LoadingViewState
 import com.trello.rxlifecycle2.android.lifecycle.kotlin.bindToLifecycle
 import kotlinx.android.synthetic.main.activity_genre_results.*
 import kotlinx.android.synthetic.main.layout_loading_state.*
@@ -58,7 +58,7 @@ class GenreResultsActivity : BaseActivity<GenreResultsViewModel>() {
 
     private fun genreId(): String = intent.extras["GENRE_ID"] as String
 
-    private fun updateView(viewState: LoadingViewState<SearchViewState>) {
+    private fun updateView(viewState: LoadingState<SearchViewState>) {
         loadingLayoutManager.updateLayout(viewState, moviesAdapter::setDataSource)
     }
 }

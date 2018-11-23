@@ -3,8 +3,10 @@ package com.jbrunton.mymovies.shared
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import com.jbrunton.entities.models.LoadingState
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.helpers.toVisibility
+import java.io.IOException
 
 class LoadingLayoutManager(root: View, val content: View) {
     val loadingIndicator = root.findViewById<View>(R.id.loading_indicator)
@@ -23,19 +25,52 @@ class LoadingLayoutManager(root: View, val content: View) {
         }
     }
 
-    fun <T>updateLayout(viewState: LoadingViewState<T>, onSuccess: (T) -> Unit) {
-        content.visibility = toVisibility(viewState is LoadingViewState.Success)
-        loadingIndicator.visibility = toVisibility(viewState is LoadingViewState.Loading)
-        errorCase.visibility = toVisibility(viewState is LoadingViewState.Failure)
+    fun <T>updateLayout(viewState: LoadingState<T>, onSuccess: (T) -> Unit) {
+        content.visibility = toVisibility(showContent(viewState))
+        loadingIndicator.visibility = toVisibility(showLoadingIndicator(viewState))
+        errorCase.visibility = toVisibility(showErrorCase(viewState))
         when (viewState) {
-            is LoadingViewState.Failure -> {
-                errorText.text = viewState.errorMessage
-                errorTryAgain.visibility = toVisibility(viewState.showTryAgainButton)
-                errorImage.setImageResource(viewState.errorIcon)
+            is LoadingState.Failure -> {
+                val cachedValue = viewState.cachedValue
+                if (cachedValue == null) {
+                    showErrorDetails(viewState.error)
+                } else {
+                    onSuccess(cachedValue)
+                }
             }
-            is LoadingViewState.Success -> {
+            is LoadingState.Success -> {
                 onSuccess(viewState.value)
             }
+        }
+    }
+
+    protected fun <T>showContent(viewState: LoadingState<T>): Boolean {
+        return viewState is LoadingState.Success
+                || viewState is LoadingState.Failure && viewState.cachedValue != null
+    }
+
+    protected fun <T>showLoadingIndicator(viewState: LoadingState<T>): Boolean {
+        return viewState is LoadingState.Loading
+    }
+
+    protected fun <T>showErrorCase(viewState: LoadingState<T>): Boolean {
+        return viewState is LoadingState.Failure && viewState.cachedValue == null
+    }
+
+    protected fun showErrorDetails(error: Throwable) {
+        if (error is IOException) {
+            errorText.text = "There was a problem with your connection."
+            errorTryAgain.visibility = View.VISIBLE
+            errorImage.setImageResource(R.drawable.ic_sentiment_dissatisfied_black_24dp)
+        } else if (error is LoadingViewStateError) {
+            errorText.text = error.message
+            errorTryAgain.visibility = toVisibility(error.allowRetry)
+            errorImage.setImageResource(error.errorIcon)
+
+        } else {
+            errorText.text = "Unexpected error."
+            errorTryAgain.visibility = View.GONE
+            errorImage.setImageResource(R.drawable.ic_sentiment_very_dissatisfied_black_24dp)
         }
     }
 }
