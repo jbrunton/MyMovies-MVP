@@ -58,19 +58,26 @@ class LoadingLayoutManager(root: View, val content: View) {
     }
 
     protected fun showErrorDetails(error: Throwable) {
-        if (error is IOException) {
-            errorText.text = "There was a problem with your connection."
-            errorTryAgain.visibility = View.VISIBLE
-            errorImage.setImageResource(R.drawable.ic_sentiment_dissatisfied_black_24dp)
-        } else if (error is LoadingViewStateError) {
+        if (error is LoadingViewStateError) {
             errorText.text = error.message
             errorTryAgain.visibility = toVisibility(error.allowRetry)
             errorImage.setImageResource(error.errorIcon)
-
         } else {
-            errorText.text = "Unexpected error."
-            errorTryAgain.visibility = View.GONE
-            errorImage.setImageResource(R.drawable.ic_sentiment_very_dissatisfied_black_24dp)
+            throw error
         }
+//        if (error is IOException) {
+//            errorText.text = "There was a problem with your connection."
+//            errorTryAgain.visibility = View.VISIBLE
+//            errorImage.setImageResource(R.drawable.ic_sentiment_dissatisfied_black_24dp)
+//        } else if (error is LoadingViewStateError) {
+//            errorText.text = error.message
+//            errorTryAgain.visibility = toVisibility(error.allowRetry)
+//            errorImage.setImageResource(error.errorIcon)
+//
+//        } else {
+//            errorText.text = "Unexpected error."
+//            errorTryAgain.visibility = View.GONE
+//            errorImage.setImageResource(R.drawable.ic_sentiment_very_dissatisfied_black_24dp)
+//        }
     }
 }
