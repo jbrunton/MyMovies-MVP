@@ -1,4 +1,4 @@
-package com.jbrunton.mymovies
+package com.jbrunton.mymovies.search
 
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
@@ -7,11 +7,11 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.runner.AndroidJUnit4
 import com.jbrunton.entities.repositories.MoviesRepository
 import com.jbrunton.fixtures.MovieFactory
+import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.fixtures.BaseFragmentTest
 import com.jbrunton.mymovies.fixtures.FragmentTestRule
 import com.jbrunton.mymovies.fixtures.RecyclerViewUtils.withRecyclerView
 import com.jbrunton.mymovies.fixtures.stubSearch
-import com.jbrunton.mymovies.search.SearchFragment
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.koin.standalone.inject

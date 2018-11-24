@@ -1,4 +1,4 @@
-package com.jbrunton.mymovies
+package com.jbrunton.mymovies.search
 
 import android.widget.ProgressBar
 import androidx.test.espresso.Espresso.onView
@@ -9,15 +9,12 @@ import com.jbrunton.entities.models.LoadingState
 import com.jbrunton.entities.models.Movie
 import com.jbrunton.entities.models.map
 import com.jbrunton.fixtures.MovieFactory
+import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.fixtures.BaseFragmentTest
 import com.jbrunton.mymovies.fixtures.FragmentTestRule
 import com.jbrunton.mymovies.fixtures.ProgressBarViewActions
 import com.jbrunton.mymovies.fixtures.RecyclerViewUtils.withRecyclerView
-import com.jbrunton.mymovies.search.SearchFragment
-import com.jbrunton.mymovies.search.SearchViewState
-import com.jbrunton.mymovies.search.SearchViewStateFactory
 import com.jbrunton.mymovies.shared.LoadingViewStateError
-import com.jbrunton.networking.DescriptiveError
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.util.Arrays.asList
