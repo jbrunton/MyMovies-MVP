@@ -32,12 +32,6 @@ class SearchFragmentLayoutTests : BaseFragmentTest<SearchFragment>() {
     private val NETWORK_ERROR = LoadingViewStateError("Network Error", R.drawable.ic_error_outline_black_24dp, true)
 
     @Test
-    fun defaultsToSearchFragment() {
-        takeScreenshot()
-        onView(withId(R.id.search_query)).check(matches(isDisplayed()))
-    }
-
-    @Test
     fun showsEmptySearchState() {
         setViewState(EMPTY_STATE)
 
