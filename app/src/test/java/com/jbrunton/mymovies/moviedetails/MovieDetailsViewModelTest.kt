@@ -2,17 +2,22 @@ package com.jbrunton.mymovies.moviedetails
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.jbrunton.entities.models.LoadingState
+import com.jbrunton.entities.models.Movie
 import com.jbrunton.entities.repositories.MoviesRepository
 import com.jbrunton.fixtures.MovieFactory
 import com.jbrunton.mymovies.fixtures.RepositoryFixtures.stubFind
 import com.jbrunton.mymovies.fixtures.TestSchedulerRule
 import com.jbrunton.mymovies.movies.MovieViewState
+import com.jbrunton.mymovies.shared.networkFailure
 import com.jbrunton.networking.DescriptiveError
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mockito.mock
+import retrofit2.HttpException
+import java.io.IOException
+import java.net.SocketTimeoutException
 import java.util.concurrent.TimeUnit
 
 class MovieDetailsViewModelTest {
@@ -26,10 +31,10 @@ class MovieDetailsViewModelTest {
     private lateinit var repository: MoviesRepository
     private val movieFactory = MovieFactory()
     private val MOVIE = movieFactory.create()
-    private val NETWORK_ERROR = DescriptiveError("Network Error", true)
+    private val NETWORK_ERROR = SocketTimeoutException()
 
     private val SUCCESS_VIEW_STATE = LoadingState.Success(MovieViewState(MOVIE))
-    private val NETWORK_ERROR_VIEW_STATE = LoadingState.Failure<MovieViewState>(NETWORK_ERROR)
+    private val NETWORK_FAILURE_VIEW_STATE = networkFailure<MovieViewState>()
     private val LOADING_VIEW_STATE = LoadingState.Loading<MovieViewState>()
 
     private lateinit var viewModel: MovieDetailsViewModel
@@ -55,7 +60,7 @@ class MovieDetailsViewModelTest {
 
         schedulerRule.TEST_SCHEDULER.advanceTimeBy(1, TimeUnit.SECONDS)
 
-        assertThat(viewModel.viewState.value).isEqualTo(NETWORK_ERROR_VIEW_STATE)
+        assertThat(viewModel.viewState.value).isEqualTo(NETWORK_FAILURE_VIEW_STATE)
     }
 
     @Test
