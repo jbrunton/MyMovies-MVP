@@ -21,7 +21,7 @@ import org.junit.Test
 import org.koin.standalone.inject
 import java.util.*
 
-class MovieDetailsLayoutTests : BaseActivityTest<MovieDetailsActivity>() {
+class MovieDetailsActivityLayoutTest : BaseActivityTest<MovieDetailsActivity>() {
     val LOADING_STATE = LoadingState.Loading<MovieViewState>()
 
     val movies = MovieFactory()
