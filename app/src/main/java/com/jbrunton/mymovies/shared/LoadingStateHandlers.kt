@@ -4,6 +4,7 @@ import com.jbrunton.entities.models.LoadingState
 import com.jbrunton.entities.models.onError
 import com.jbrunton.mymovies.R
 import java.io.IOException
+import java.lang.RuntimeException
 
 inline fun<T> LoadingState<T>.onNetworkError(crossinline errorHandler: (IOException) -> LoadingState<T>): LoadingState<T> {
     return this.onError(IOException::class) {
@@ -15,11 +16,14 @@ fun <T> LoadingState<T>.handleNetworkErrors(allowRetry: Boolean = true): Loading
     return this.onNetworkError { networkFailure(allowRetry) }
 }
 
-fun <T>networkFailure(allowRetry: Boolean = true): LoadingState<T> {
+fun <T>networkFailure(allowRetry: Boolean = true, cachedValue: T? = null): LoadingState.Failure<T> {
     val error = LoadingViewStateError(
             message = "There was a problem with your connection.",
             errorIcon = R.drawable.ic_sentiment_dissatisfied_black_24dp,
             allowRetry = allowRetry
     )
-    return LoadingState.Failure(error)
+    return LoadingState.Failure(error, cachedValue)
 }
+
+class UnhandledFailureException(cause: Throwable) :
+        RuntimeException("Unhandled LoadingViewState.Failure", cause)

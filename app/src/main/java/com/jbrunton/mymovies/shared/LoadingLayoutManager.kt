@@ -31,16 +31,25 @@ class LoadingLayoutManager(root: View, val content: View) {
         errorCase.visibility = toVisibility(showErrorCase(viewState))
         when (viewState) {
             is LoadingState.Failure -> {
-                val cachedValue = viewState.cachedValue
-                if (cachedValue == null) {
-                    showErrorDetails(viewState.error)
-                } else {
-                    onSuccess(cachedValue)
-                }
+                handleFailure(viewState, onSuccess)
             }
             is LoadingState.Success -> {
                 onSuccess(viewState.value)
             }
+        }
+    }
+
+    protected fun <T>handleFailure(viewState: LoadingState.Failure<T>, onSuccess: (T) -> Unit) {
+        val error = viewState.error
+        if (error is LoadingViewStateError) {
+            val cachedValue = viewState.cachedValue
+            if (cachedValue == null) {
+                showErrorDetails(error)
+            } else {
+                onSuccess(cachedValue)
+            }
+        } else {
+            throw UnhandledFailureException(viewState.error)
         }
     }
 
@@ -57,13 +66,9 @@ class LoadingLayoutManager(root: View, val content: View) {
         return viewState is LoadingState.Failure && viewState.cachedValue == null
     }
 
-    protected fun showErrorDetails(error: Throwable) {
-        if (error is LoadingViewStateError) {
-            errorText.text = error.message
-            errorTryAgain.visibility = toVisibility(error.allowRetry)
-            errorImage.setImageResource(error.errorIcon)
-        } else {
-            throw error
-        }
+    protected fun showErrorDetails(error: LoadingViewStateError) {
+        errorText.text = error.message
+        errorTryAgain.visibility = toVisibility(error.allowRetry)
+        errorImage.setImageResource(error.errorIcon)
     }
 }
