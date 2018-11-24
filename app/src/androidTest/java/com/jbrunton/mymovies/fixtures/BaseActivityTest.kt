@@ -15,6 +15,9 @@ abstract class BaseActivityTest<T : Activity> : KoinTest {
     @get:Rule
     val spoonRule = SpoonRule()
 
+    val activity: T
+        get() = activityRule.activity
+
     @JvmOverloads
     fun takeScreenshot(tag: String = "_") {
         // TODO: figure out why getting permissions errors since upgrading to using API 28

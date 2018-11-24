@@ -13,6 +13,8 @@ import androidx.test.runner.AndroidJUnit4
 import com.jbrunton.entities.models.LoadingState
 import com.jbrunton.fixtures.MovieFactory
 import com.jbrunton.mymovies.R
+import com.jbrunton.mymovies.fixtures.BaseActivityTest
+import com.jbrunton.mymovies.moviedetails.MovieDetailsActivity
 import com.jbrunton.mymovies.moviedetails.MovieDetailsViewState
 import com.jbrunton.mymovies.movies.MovieViewState
 import kotlinx.android.synthetic.main.content_movie_details.*
@@ -24,7 +26,11 @@ import java.net.SocketTimeoutException
 
 
 @RunWith(AndroidJUnit4::class)
-class LoadingLayoutManagerTest {
+class LoadingLayoutManagerTest : BaseActivityTest<MovieDetailsActivity>() {
+    override fun createActivityTestRule(): ActivityTestRule<MovieDetailsActivity> {
+        return ActivityTestRule(MovieDetailsActivity::class.java)
+    }
+
     val movies = MovieFactory()
     val movieViewState = MovieViewState(movies.create())
 
@@ -32,14 +38,11 @@ class LoadingLayoutManagerTest {
     lateinit var overviewView: TextView
     lateinit var layoutManager: LoadingLayoutManager
 
-    @get:Rule
-    val rule = ActivityTestRule(MyTestActivity::class.java)
-
     @Before
     fun setUp() {
-        view = rule.activity.findViewById(android.R.id.content)
+        view = activity.findViewById(android.R.id.content)
         overviewView = view.findViewById(R.id.overview)
-        layoutManager = rule.activity.layoutManager
+        layoutManager = activity.loadingLayoutManager
     }
 
     @Test
