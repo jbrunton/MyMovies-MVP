@@ -15,11 +15,12 @@ fun <T> AsyncResult<T>.handleNetworkErrors(allowRetry: Boolean = true): AsyncRes
     return this.onNetworkError { networkFailure(allowRetry) }
 }
 
+fun networkError(allowRetry: Boolean = true) = LoadingViewStateError(
+        message = "There was a problem with your connection.",
+        errorIcon = R.drawable.ic_sentiment_dissatisfied_black_24dp,
+        allowRetry = allowRetry
+)
+
 fun <T>networkFailure(allowRetry: Boolean = true): AsyncResult<T> {
-    val error = LoadingViewStateError(
-            message = "There was a problem with your connection.",
-            errorIcon = R.drawable.ic_sentiment_dissatisfied_black_24dp,
-            allowRetry = allowRetry
-    )
-    return AsyncResult.Failure(error)
+    return AsyncResult.Failure(networkError(allowRetry))
 }

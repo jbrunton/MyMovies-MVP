@@ -10,4 +10,16 @@ data class Movie(
     val backdropUrl: Optional<String>,
     val releaseDate: Optional<LocalDate>,
     val rating: String,
-    val overview: Optional<String>)
+    val overview: Optional<String>) {
+    companion object {
+        val emptyMovie = Movie(
+                id = "",
+                title = "",
+                posterUrl = Optional.absent(),
+                backdropUrl = Optional.absent(),
+                releaseDate = Optional.absent(),
+                rating = "",
+                overview = Optional.absent()
+        )
+    }
+}

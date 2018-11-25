@@ -6,6 +6,8 @@ import com.jbrunton.entities.models.onSuccess
 import com.jbrunton.entities.repositories.GenresRepository
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.shared.BaseLoadingViewModel
+import com.jbrunton.mymovies.shared.handleNetworkErrors
+import com.jbrunton.mymovies.shared.toLoadingViewState
 
 class GenresViewModel(private val repository: GenresRepository) : BaseLoadingViewModel<GenresViewState>() {
     override fun start() {
@@ -23,6 +25,8 @@ class GenresViewModel(private val repository: GenresRepository) : BaseLoadingVie
     private fun setGenresResponse(state: AsyncResult<List<Genre>>) {
         val viewState = state
                 .onSuccess(this::errorIfEmpty)
+                .handleNetworkErrors()
+                .toLoadingViewState(emptyList())
         this.viewState.postValue(viewState)
     }
 

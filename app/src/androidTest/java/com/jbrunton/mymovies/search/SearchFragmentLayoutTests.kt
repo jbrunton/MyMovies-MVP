@@ -14,7 +14,9 @@ import com.jbrunton.mymovies.fixtures.BaseFragmentTest
 import com.jbrunton.mymovies.fixtures.FragmentTestRule
 import com.jbrunton.mymovies.fixtures.ProgressBarViewActions
 import com.jbrunton.mymovies.fixtures.RecyclerViewUtils.withRecyclerView
+import com.jbrunton.mymovies.shared.LoadingViewState
 import com.jbrunton.mymovies.shared.LoadingViewStateError
+import com.jbrunton.mymovies.shared.toLoadingViewState
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.util.Arrays.asList
@@ -33,7 +35,7 @@ class SearchFragmentLayoutTests : BaseFragmentTest<SearchFragment>() {
 
     @Test
     fun showsEmptySearchState() {
-        setViewState(EMPTY_STATE)
+        setViewState(EMPTY_STATE.toLoadingViewState(emptyList()))
 
         takeScreenshot("showsEmptySearchState")
         onView(withId(R.id.error_text))
@@ -45,7 +47,7 @@ class SearchFragmentLayoutTests : BaseFragmentTest<SearchFragment>() {
     fun showsLoadingState() {
         onView(isAssignableFrom(ProgressBar::class.java)).perform(ProgressBarViewActions.replaceProgressBarDrawable())
 
-        setViewState(LOADING_STATE)
+        setViewState(LOADING_STATE.toLoadingViewState(emptyList()))
 
         takeScreenshot("showsLoadingState")
         onView(withId(R.id.loading_indicator))
@@ -54,7 +56,7 @@ class SearchFragmentLayoutTests : BaseFragmentTest<SearchFragment>() {
 
     @Test
     fun showsErrorState() {
-        setViewState(AsyncResult.Failure(NETWORK_ERROR))
+        setViewState(AsyncResult.Failure<SearchViewState>(NETWORK_ERROR).toLoadingViewState(emptyList()))
 
         takeScreenshot("showsErrorState")
         onView(withId(R.id.error_text))
@@ -65,7 +67,7 @@ class SearchFragmentLayoutTests : BaseFragmentTest<SearchFragment>() {
 
     @Test
     fun showsResults() {
-        setViewState(toViewState(asList(MOVIE1, MOVIE2)))
+        setViewState(toViewState(asList(MOVIE1, MOVIE2)).toLoadingViewState(emptyList()))
 
         takeScreenshot()
 
@@ -79,7 +81,7 @@ class SearchFragmentLayoutTests : BaseFragmentTest<SearchFragment>() {
         return FragmentTestRule.create(SearchFragment::class.java)
     }
 
-    private fun setViewState(viewState: AsyncResult<SearchViewState>) {
+    private fun setViewState(viewState: LoadingViewState<SearchViewState>) {
         fragmentRule.runOnUiThread { fragment.updateView(viewState) }
     }
 

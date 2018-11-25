@@ -9,12 +9,15 @@ import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.rule.ActivityTestRule
 import com.jbrunton.entities.models.AsyncResult
+import com.jbrunton.entities.models.Movie
 import com.jbrunton.entities.repositories.MoviesRepository
 import com.jbrunton.fixtures.MovieFactory
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.fixtures.*
 import com.jbrunton.mymovies.movies.MovieViewState
+import com.jbrunton.mymovies.shared.LoadingViewState
 import com.jbrunton.mymovies.shared.LoadingViewStateError
+import com.jbrunton.mymovies.shared.toLoadingViewState
 import org.junit.Before
 import org.junit.Test
 import org.koin.standalone.inject
@@ -41,7 +44,7 @@ class MovieDetailsActivityLayoutTest : BaseActivityTest<MovieDetailsActivity>() 
     fun showsLoadingState() {
         onView(ViewMatchers.isAssignableFrom(ProgressBar::class.java)).perform(ProgressBarViewActions.replaceProgressBarDrawable())
 
-        setViewState(LOADING_STATE)
+        setViewState(LOADING_STATE.toLoadingViewState(MovieViewState(Movie.emptyMovie)))
 
         takeScreenshot("showsLoadingState")
         onView(ViewMatchers.withId(R.id.loading_indicator))
@@ -50,7 +53,7 @@ class MovieDetailsActivityLayoutTest : BaseActivityTest<MovieDetailsActivity>() 
 
     @Test
     fun showsErrorState() {
-        setViewState(AsyncResult.Failure(NETWORK_ERROR))
+        setViewState(AsyncResult.Failure<MovieViewState>(NETWORK_ERROR).toLoadingViewState(MovieViewState(Movie.emptyMovie)))
 
         takeScreenshot("showsErrorState")
         onView(withId(R.id.error_text))
@@ -62,7 +65,7 @@ class MovieDetailsActivityLayoutTest : BaseActivityTest<MovieDetailsActivity>() 
     @Test
     fun showsMovieDetails() {
         val viewState = MovieViewState(movie1)
-        setViewState(AsyncResult.Success(viewState))
+        setViewState(AsyncResult.Success(viewState).toLoadingViewState(MovieViewState(Movie.emptyMovie)))
 
         takeScreenshot()
 
@@ -74,7 +77,7 @@ class MovieDetailsActivityLayoutTest : BaseActivityTest<MovieDetailsActivity>() 
         return ActivityTestRule(MovieDetailsActivity::class.java, false, false)
     }
 
-    private fun setViewState(viewState: MovieDetailsViewState) {
+    private fun setViewState(viewState: LoadingViewState<MovieViewState>) {
         activityRule.runOnUiThread { activity.updateView(viewState) }
     }
 }

@@ -12,6 +12,7 @@ import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.helpers.observe
 import com.jbrunton.mymovies.shared.BaseFragment
 import com.jbrunton.mymovies.shared.LoadingLayoutManager
+import com.jbrunton.mymovies.shared.LoadingViewState
 import com.trello.rxlifecycle2.android.lifecycle.kotlin.bindToLifecycle
 import io.reactivex.Scheduler
 import kotlinx.android.synthetic.main.fragment_search.*
@@ -60,7 +61,7 @@ class SearchFragment : BaseFragment<SearchViewModel>() {
         viewModel.performSearch(search_query.text.toString())
     }
 
-    fun updateView(viewState: AsyncResult<SearchViewState>) {
+    fun updateView(viewState: LoadingViewState<SearchViewState>) {
         loadingLayoutManager.updateLayout(viewState, searchResultsAdapter::setDataSource)
     }
 }
