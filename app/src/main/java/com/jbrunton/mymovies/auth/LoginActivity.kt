@@ -44,7 +44,10 @@ class LoginActivity : BaseActivity<LoginViewModel>() {
                 }
     }
 
-    fun updateView(viewState: LoadingViewState<Unit>) {
-        loadingLayoutManager.updateLayout(viewState) {}
+    fun updateView(viewState: LoadingViewState<LoginViewState>) {
+        loadingLayoutManager.updateLayout(viewState) {
+            username_layout.error = it.usernameError
+            password_layout.error = it.passwordError
+        }
     }
 }
