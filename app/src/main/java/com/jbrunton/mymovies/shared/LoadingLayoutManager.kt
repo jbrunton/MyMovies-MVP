@@ -60,6 +60,7 @@ class LoadingLayoutManager(root: View, val content: View) {
     protected fun <T>onFailure(viewState: Result.Failure<T>, onSuccess: (T) -> Unit) {
         val cachedValue = viewState.cachedValue
         if (cachedValue == null) {
+            errorCase.visibility = View.VISIBLE
             onError(viewState.error)
         } else {
             content.visibility = View.VISIBLE
