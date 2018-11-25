@@ -76,6 +76,18 @@ fun <T> AsyncResult<T>.onFailure(transform: (AsyncResult.Failure<T>) -> AsyncRes
     }
 }
 
+fun <T> AsyncResult<T>.doOnSuccess(action: (AsyncResult.Success<T>) -> Unit): AsyncResult<T> {
+    return onSuccess { action(it); it }
+}
+
+fun <T> AsyncResult<T>.doOnLoading(action: (AsyncResult.Loading<T>) -> Unit): AsyncResult<T> {
+    return onLoading { action(it); it }
+}
+
+fun <T> AsyncResult<T>.doOnFailure(action: (AsyncResult.Failure<T>) -> Unit): AsyncResult<T> {
+    return onFailure{ action(it); it }
+}
+
 fun <T, E: Throwable> AsyncResult<T>.onError(
         klass: KClass<E>,
         block: ErrorHandler<T, E>.() -> Unit
