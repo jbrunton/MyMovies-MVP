@@ -32,13 +32,13 @@ class AccountFragment : BaseFragment<AccountViewModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        loadingLayoutManager = LoadingLayoutManager.buildFor(this, account_content)
+        loadingLayoutManager = LoadingLayoutManager.buildFor(this, account_details)
         error_try_again.clicks()
                 .bindToLifecycle(this)
                 .subscribe { viewModel.retry() }
-        sign_in.clicks()
-                .bindToLifecycle(this)
-                .subscribe { viewModel.login(username_field.text.toString(), password_field.text.toString()) }
+//        sign_in.clicks()
+//                .bindToLifecycle(this)
+//                .subscribe { viewModel.login(username_field.text.toString(), password_field.text.toString()) }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -49,8 +49,6 @@ class AccountFragment : BaseFragment<AccountViewModel>() {
 
     private fun updateView(viewState: LoadingViewState<AccountViewState>) {
         loadingLayoutManager.updateLayout(viewState) {
-            account_details.visibility = it.accountDetailsVisibility
-            sign_in_details.visibility = it.signInDetailsVisibility
             account_username.text = it.username
             account_name.text = it.name
 

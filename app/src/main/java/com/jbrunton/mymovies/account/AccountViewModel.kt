@@ -32,7 +32,7 @@ class AccountViewModel(private val repository: AccountRepository) : BaseLoadingV
         val viewState: LoadingViewState<AccountViewState> = result
                 .map { AccountViewState(it) }
                 .onError(HttpException::class) {
-                    map { AuthViewState } whenever { it.code() == 401 }
+                    map { SignedOutViewState } whenever { it.code() == 401 }
                 }
                 .handleNetworkErrors()
                 .toLoadingViewState(AccountViewState())
@@ -46,5 +46,10 @@ class AccountViewModel(private val repository: AccountRepository) : BaseLoadingV
         }
     }
 
-    private val AuthViewState = AsyncResult.Success(AccountViewState(signInDetailsVisibility = View.VISIBLE))
+    private val SignedOutViewState = AsyncResult.Success(
+            AccountViewState(
+                    avatarUrl = "https://www.gravatar.com/avatar/0?d=mp",
+                    username = "Signed Out"
+            )
+    )
 }
