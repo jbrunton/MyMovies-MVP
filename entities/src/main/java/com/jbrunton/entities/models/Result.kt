@@ -83,7 +83,7 @@ fun <T, E: Throwable> Result<T>.onError(
         block: ErrorHandler<T, E>.() -> Unit
 ) = ErrorHandler(klass, this).apply(block).handle()
 
-class ErrorHandler<T, E: Throwable>(val klass: KClass<E>, val state: Result<T>) {
+class ErrorHandler<T, E: Throwable>(val klass: KClass<E>, val result: Result<T>) {
     var filter: (E) -> Boolean = { true }
 
     infix fun whenever(filter: (E) -> Boolean) = apply {
@@ -97,15 +97,15 @@ class ErrorHandler<T, E: Throwable>(val klass: KClass<E>, val state: Result<T>) 
     }
 
     fun handle(): Result<T> {
-        when (state) {
+        when (result) {
             is Result.Failure -> {
-                if (klass.isInstance(state.error) && filter(state.error as E)) {
-                    return transform(state)
+                if (klass.isInstance(result.error) && filter(result.error as E)) {
+                    return transform(result)
                 } else {
-                    return state
+                    return result
                 }
             }
-            else -> return state
+            else -> return result
         }
     }
 }
