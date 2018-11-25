@@ -12,11 +12,14 @@ import io.reactivex.Observable
 import io.reactivex.rxkotlin.Observables
 
 class HttpMoviesRepository(private val service: MovieService): MoviesRepository {
+    private val cache = HashMap<String, Movie>()
 
     override fun getMovie(movieId: String): DataStream<Movie> {
         return Observables.zip(service.movie(movieId), config()) {
             response, config -> MovieDetailsResponse.toMovie(response, config)
-        }.toDataStream()
+        }.doOnNext {
+            cache[it.id] = it
+        }.toDataStream(cache.get(movieId))
     }
 
     override fun searchMovies(query: String): DataStream<List<Movie>> {
