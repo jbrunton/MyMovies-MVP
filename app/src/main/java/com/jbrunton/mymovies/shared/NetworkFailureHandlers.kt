@@ -26,14 +26,6 @@ fun <T> AsyncResult<T>.doOnNetworkError(action: (AsyncResult.Failure<T>) -> Unit
     }
 }
 
-fun <T> AsyncResult<T>.doOnNetworkErrorWithCachedValue(action: (AsyncResult.Failure<T>) -> Unit): AsyncResult<T> {
-    return this.doOnNetworkError{
-        if (it.cachedValue != null) {
-            action(it)
-        }
-    }
-}
-
 fun networkError(allowRetry: Boolean = true) = LoadingViewStateError(
         message = "There was a problem with your connection.",
         errorIcon = R.drawable.ic_sentiment_dissatisfied_black_24dp,

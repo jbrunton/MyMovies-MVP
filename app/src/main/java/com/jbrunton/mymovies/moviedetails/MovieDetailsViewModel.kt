@@ -6,8 +6,6 @@ import com.jbrunton.mymovies.movies.MovieViewState
 import com.jbrunton.mymovies.shared.*
 
 class MovieDetailsViewModel(val movieId: String, val repository: MoviesRepository) : BaseLoadingViewModel<MovieViewState>() {
-    val showRetrySnackbar = SingleLiveEvent<Unit>()
-
     override fun start() {
         loadDetails()
     }
@@ -25,9 +23,7 @@ class MovieDetailsViewModel(val movieId: String, val repository: MoviesRepositor
     private fun setMovieResponse(state: AsyncResult<Movie>) {
         viewState.value = state
                 .map { MovieViewState(it) }
-                .doOnNetworkErrorWithCachedValue {
-                    showRetrySnackbar.call()
-                }
+                .doOnNetworkError(this::showSnackbarIfCachedValue)
                 .handleNetworkErrors()
                 .toLoadingViewState(defaultViewState)
     }
