@@ -9,8 +9,6 @@ sealed class AsyncResult<out T> {
     data class Loading<T>(val cachedValue: T? = null): AsyncResult<T>()
 }
 
-typealias DataStream<T> = Observable<AsyncResult<T>>
-
 fun <T> AsyncResult<T>.get(): T {
     return when (this) {
         is AsyncResult.Success -> this.value

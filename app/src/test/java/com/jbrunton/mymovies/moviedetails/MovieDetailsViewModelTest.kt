@@ -2,12 +2,16 @@ package com.jbrunton.mymovies.moviedetails
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.jbrunton.entities.models.AsyncResult
+import com.jbrunton.entities.models.Movie
 import com.jbrunton.entities.repositories.MoviesRepository
 import com.jbrunton.fixtures.MovieFactory
 import com.jbrunton.mymovies.fixtures.RepositoryFixtures.stubFind
 import com.jbrunton.mymovies.fixtures.TestSchedulerRule
 import com.jbrunton.mymovies.movies.MovieViewState
+import com.jbrunton.mymovies.shared.LoadingViewState
+import com.jbrunton.mymovies.shared.networkError
 import com.jbrunton.mymovies.shared.networkFailure
+import com.jbrunton.mymovies.shared.toLoadingViewState
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Rule
@@ -29,8 +33,8 @@ class MovieDetailsViewModelTest {
     private val MOVIE = movieFactory.create()
     private val NETWORK_ERROR = SocketTimeoutException()
 
-    private val SUCCESS_VIEW_STATE = AsyncResult.Success(MovieViewState(MOVIE))
-    private val NETWORK_FAILURE_VIEW_STATE = networkFailure<MovieViewState>()
+    private val SUCCESS_VIEW_STATE = LoadingViewState.success(MovieViewState(MOVIE))
+    private val NETWORK_FAILURE_VIEW_STATE = LoadingViewState.failure(networkError(), MovieViewState(Movie.emptyMovie))
     private val LOADING_VIEW_STATE = AsyncResult.Loading<MovieViewState>()
 
     private lateinit var viewModel: MovieDetailsViewModel

@@ -1,6 +1,5 @@
 package com.jbrunton.entities.repositories
 
-import com.jbrunton.entities.models.DataStream
 import com.jbrunton.entities.models.Movie
 
 interface MoviesRepository {

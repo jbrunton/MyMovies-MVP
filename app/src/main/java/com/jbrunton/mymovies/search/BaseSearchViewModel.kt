@@ -1,6 +1,7 @@
 package com.jbrunton.mymovies.search
 
 import com.jbrunton.entities.models.*
+import com.jbrunton.entities.repositories.DataStream
 import com.jbrunton.mymovies.shared.BaseLoadingViewModel
 import com.jbrunton.mymovies.shared.handleNetworkErrors
 import com.jbrunton.mymovies.shared.toLoadingViewState
