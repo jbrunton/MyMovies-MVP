@@ -24,9 +24,8 @@
         </activity>
         <activity android:name=".discover.GenresActivity" />
         <activity android:name=".discover.GenreResultsActivity" />
-        <activity
-            android:name=".moviedetails.MovieDetailsActivity"
-            android:theme="@style/AppTheme" />
+        <activity android:name=".moviedetails.MovieDetailsActivity" />
+        <activity android:name=".auth.LoginActivity" />
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="8f9bc823ae8b6b8c1ecfc5a6ec883c73e0abb270" />

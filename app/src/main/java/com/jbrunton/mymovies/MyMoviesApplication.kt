@@ -5,6 +5,7 @@ import com.jbrunton.entities.repositories.AccountRepository
 import com.jbrunton.entities.repositories.GenresRepository
 import com.jbrunton.entities.repositories.MoviesRepository
 import com.jbrunton.mymovies.account.AccountViewModel
+import com.jbrunton.mymovies.auth.LoginViewModel
 import com.jbrunton.mymovies.discover.DiscoverViewModel
 import com.jbrunton.mymovies.discover.GenreResultsViewModel
 import com.jbrunton.mymovies.discover.GenresViewModel
@@ -30,6 +31,7 @@ val applicationModule : Module = module {
     viewModel { DiscoverViewModel(get()) }
     viewModel { GenresViewModel(get()) }
     viewModel { AccountViewModel(get()) }
+    viewModel { LoginViewModel(get()) }
     viewModel { (movieId: String) -> MovieDetailsViewModel(movieId, get()) }
     viewModel { (genreId: String) -> GenreResultsViewModel(genreId, get()) }
 }

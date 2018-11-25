@@ -18,12 +18,6 @@ class AccountViewModel(private val repository: AccountRepository) : BaseLoadingV
         loadAccount()
     }
 
-    fun login(username: String, password: String) {
-        repository.login(username, password)
-                .compose(applySchedulers())
-                .subscribe(this::onLoginSuccess, this::setErrorResponse)
-    }
-
     private fun loadAccount() {
         load(repository::account, this::setAccountResponse)
     }
@@ -37,13 +31,6 @@ class AccountViewModel(private val repository: AccountRepository) : BaseLoadingV
                 .handleNetworkErrors()
                 .toLoadingViewState(AccountViewState())
         this.viewState.postValue(viewState)
-    }
-
-    private fun onLoginSuccess(result: AsyncResult<AuthSession>) {
-        if (result is AsyncResult.Success) {
-            result.get()
-            retry()
-        }
     }
 
     private val SignedOutViewState = AsyncResult.Success(
