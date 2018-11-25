@@ -8,7 +8,7 @@ abstract class BaseSearchViewModel : BaseLoadingViewModel<SearchViewState>() {
         load(source, this::setMoviesResponse)
     }
 
-    protected fun setMoviesResponse(movies: LoadingState<List<Movie>>) {
+    protected fun setMoviesResponse(movies: AsyncResult<List<Movie>>) {
         val viewState = movies
                 .map(SearchViewStateFactory.Companion::toViewState)
                 .onSuccess {

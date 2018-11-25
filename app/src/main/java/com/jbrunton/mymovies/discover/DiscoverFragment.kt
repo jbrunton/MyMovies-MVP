@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.jakewharton.rxbinding2.view.clicks
-import com.jbrunton.entities.models.LoadingState
+import com.jbrunton.entities.models.AsyncResult
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.helpers.observe
 import com.jbrunton.mymovies.search.SearchResultsAdapter
@@ -54,7 +54,7 @@ class DiscoverFragment : BaseFragment<DiscoverViewModel>() {
         viewModel.start()
     }
 
-    private fun updateView(viewState: LoadingState<SearchViewState>) {
+    private fun updateView(viewState: AsyncResult<SearchViewState>) {
         loadingLayoutManager.updateLayout(viewState, nowPlayingAdapter::setDataSource)
     }
 }

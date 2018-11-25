@@ -1,6 +1,6 @@
 package com.jbrunton.mymovies.moviedetails
 
-import com.jbrunton.entities.models.LoadingState
+import com.jbrunton.entities.models.AsyncResult
 import com.jbrunton.mymovies.movies.MovieViewState
 
-typealias MovieDetailsViewState = LoadingState<MovieViewState>
+typealias MovieDetailsViewState = AsyncResult<MovieViewState>

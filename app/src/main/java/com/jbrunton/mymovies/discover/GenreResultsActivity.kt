@@ -5,7 +5,7 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.widget.Toolbar
 import com.jakewharton.rxbinding2.view.clicks
-import com.jbrunton.entities.models.LoadingState
+import com.jbrunton.entities.models.AsyncResult
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.helpers.observe
 import com.jbrunton.mymovies.search.SearchResultsAdapter
@@ -58,7 +58,7 @@ class GenreResultsActivity : BaseActivity<GenreResultsViewModel>() {
 
     private fun genreId(): String = intent.extras["GENRE_ID"] as String
 
-    private fun updateView(viewState: LoadingState<SearchViewState>) {
+    private fun updateView(viewState: AsyncResult<SearchViewState>) {
         loadingLayoutManager.updateLayout(viewState, moviesAdapter::setDataSource)
     }
 }

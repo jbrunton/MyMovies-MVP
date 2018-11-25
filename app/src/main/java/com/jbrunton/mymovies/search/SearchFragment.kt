@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import com.jakewharton.rxbinding2.view.clicks
 import com.jakewharton.rxbinding2.widget.textChanges
-import com.jbrunton.entities.models.LoadingState
+import com.jbrunton.entities.models.AsyncResult
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.helpers.observe
 import com.jbrunton.mymovies.shared.BaseFragment
@@ -60,7 +60,7 @@ class SearchFragment : BaseFragment<SearchViewModel>() {
         viewModel.performSearch(search_query.text.toString())
     }
 
-    fun updateView(viewState: LoadingState<SearchViewState>) {
+    fun updateView(viewState: AsyncResult<SearchViewState>) {
         loadingLayoutManager.updateLayout(viewState, searchResultsAdapter::setDataSource)
     }
 }
