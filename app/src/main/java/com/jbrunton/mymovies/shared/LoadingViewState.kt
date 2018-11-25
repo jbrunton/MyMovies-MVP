@@ -2,7 +2,7 @@ package com.jbrunton.mymovies.shared
 
 import android.view.View
 import androidx.annotation.DrawableRes
-import com.jbrunton.entities.models.Result
+import com.jbrunton.entities.models.AsyncResult
 
 data class LoadingViewState<T>(
         val contentVisibility: Int = View.GONE,
@@ -34,12 +34,12 @@ data class LoadingViewState<T>(
     }
 }
 
-fun <T> Result<T>.toLoadingViewState(defaultViewState: T): LoadingViewState<T> {
+fun <T> AsyncResult<T>.toLoadingViewState(defaultViewState: T): LoadingViewState<T> {
     return when (this) {
-        is Result.Success -> {
+        is AsyncResult.Success -> {
             LoadingViewState.success(this.value)
         }
-        is Result.Loading -> {
+        is AsyncResult.Loading -> {
             val cachedValue = this.cachedValue
             if (cachedValue == null) {
                 LoadingViewState.loading(defaultViewState)
@@ -47,7 +47,7 @@ fun <T> Result<T>.toLoadingViewState(defaultViewState: T): LoadingViewState<T> {
                 LoadingViewState.success(cachedValue)
             }
         }
-        is Result.Failure -> {
+        is AsyncResult.Failure -> {
             val cachedValue = this.cachedValue
             if (cachedValue == null) {
                 val error = this.error
