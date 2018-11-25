@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import com.jbrunton.entities.models.*
 import com.jbrunton.entities.repositories.AccountRepository
 import com.jbrunton.mymovies.shared.*
+import com.jbrunton.networking.parseStatusMessage
 import com.trello.rxlifecycle2.android.lifecycle.kotlin.bindToLifecycle
 import retrofit2.HttpException
 
@@ -33,7 +34,8 @@ class LoginViewModel(private val repository: AccountRepository) : BaseViewModel(
                 }
                 .onError(HttpException::class) {
                     map {
-                        loginFailure.postValue("Invalid credentials - please check your username and password.")
+                        val message = (it.error as HttpException).parseStatusMessage()
+                        loginFailure.postValue(message)
                         AsyncResult.Success(LoginViewState())
                     } whenever { it.code() == 401 }
                 }
