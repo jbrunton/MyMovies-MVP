@@ -24,57 +24,15 @@ class LoadingLayoutManager(root: View, val content: View) {
         }
     }
 
-    fun <T>updateLayout(viewState: AsyncResult<T>, onSuccess: (T) -> Unit) {
-        onResetLayout()
+    fun <T>updateLayout(viewState: LoadingViewState<T>, updateContent: (T) -> Unit) {
+        content.visibility = viewState.contentVisibility
+        loadingIndicator.visibility = viewState.loadingIndicatorVisibility
+        errorCase.visibility = viewState.errorCaseVisibility
 
-        when (viewState) {
-            is AsyncResult.Success -> {
-                content.visibility = View.VISIBLE
-                onSuccess(viewState.value)
-            }
-            is AsyncResult.Loading -> {
-                onLoading(viewState, onSuccess)
-            }
-            is AsyncResult.Failure -> {
-                onFailure(viewState, onSuccess)
-            }
-        }
-    }
+        errorText.text = viewState.errorText
+        errorTryAgain.visibility = viewState.allowRetryVisibility
+        errorImage.setImageResource(viewState.errorIcon)
 
-    protected fun onResetLayout() {
-        content.visibility = View.GONE
-        loadingIndicator.visibility = View.GONE
-        errorCase.visibility = View.GONE
-    }
-
-    protected fun <T>onLoading(viewState: AsyncResult.Loading<T>, onSuccess: (T) -> Unit) {
-        val cachedValue = viewState.cachedValue
-        if (cachedValue == null) {
-            loadingIndicator.visibility = View.VISIBLE
-        } else {
-            content.visibility = View.VISIBLE
-            onSuccess(cachedValue)
-        }
-    }
-
-    protected fun <T>onFailure(viewState: AsyncResult.Failure<T>, onSuccess: (T) -> Unit) {
-        val cachedValue = viewState.cachedValue
-        if (cachedValue == null) {
-            errorCase.visibility = View.VISIBLE
-            onError(viewState.error)
-        } else {
-            content.visibility = View.VISIBLE
-            onSuccess(cachedValue)
-        }
-    }
-    
-    protected fun onError(error: Throwable) {
-        if (error is LoadingViewStateError) {
-            errorText.text = error.message
-            errorTryAgain.visibility = toVisibility(error.allowRetry)
-            errorImage.setImageResource(error.errorIcon)
-        } else {
-            throw error
-        }
+        updateContent(viewState.contentViewState)
     }
 }

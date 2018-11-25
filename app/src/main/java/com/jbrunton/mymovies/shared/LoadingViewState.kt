@@ -11,17 +11,17 @@ data class LoadingViewState<T>(
         val errorText: String = "",
         @DrawableRes val errorIcon: Int = 0,
         val allowRetryVisibility: Int = View.GONE,
-        val contentLoadingState: T
+        val contentViewState: T
 ) {
     companion object {
         fun <T> success(viewState: T) = LoadingViewState(
                 contentVisibility = View.VISIBLE,
-                contentLoadingState = viewState
+                contentViewState = viewState
         )
 
         fun <T> loading(defaultViewState: T) = LoadingViewState(
                 loadingIndicatorVisibility = View.VISIBLE,
-                contentLoadingState = defaultViewState
+                contentViewState = defaultViewState
         )
 
         fun <T> failure(error: LoadingViewStateError, defaultViewState: T) = LoadingViewState(
@@ -29,7 +29,7 @@ data class LoadingViewState<T>(
                 errorText = error.message,
                 errorIcon = error.errorIcon,
                 allowRetryVisibility = if (error.allowRetry) { View.VISIBLE } else { View.GONE },
-                contentLoadingState = defaultViewState
+                contentViewState = defaultViewState
         )
     }
 }
