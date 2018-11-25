@@ -50,7 +50,7 @@ class MovieDetailsActivity : BaseActivity<MovieDetailsViewModel>() {
 
     private fun movieId(): String = intent.extras["MOVIE_ID"] as String
 
-    private fun updateView(viewState: LoadingState<MovieViewState>) {
+    fun updateView(viewState: LoadingState<MovieViewState>) {
         loadingLayoutManager.updateLayout(viewState) {
             title = it.title
             overview.text = it.overview
