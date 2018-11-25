@@ -1,8 +1,8 @@
 package com.jbrunton.mymovies.fixtures
 
-import com.jbrunton.entities.models.DataStream
 import com.jbrunton.entities.models.AsyncResult
 import com.jbrunton.entities.models.Movie
+import com.jbrunton.entities.repositories.DataStream
 import com.jbrunton.entities.repositories.MoviesRepository
 import io.reactivex.Observable
 import java.util.*
