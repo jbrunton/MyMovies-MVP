@@ -73,9 +73,9 @@ class ResultTest {
     @Test
     fun transformsOnlySuccessResults() {
         val result = success(1).onSuccess {
-            Result.Success(it.value * 2)
+            AsyncResult.Success(it.value * 2)
         }
-        assertThat(result).isEqualTo(Result.Success(2))
+        assertThat(result).isEqualTo(AsyncResult.Success(2))
     }
 
     @Test
@@ -87,9 +87,9 @@ class ResultTest {
     @Test
     fun transformsOnlyLoadingResults() {
         val result = loading(1).onLoading {
-            Result.Success(it.get() * 2)
+            AsyncResult.Success(it.get() * 2)
         }
-        assertThat(result).isEqualTo(Result.Success(2))
+        assertThat(result).isEqualTo(AsyncResult.Success(2))
     }
 
     @Test
@@ -101,9 +101,9 @@ class ResultTest {
     @Test
     fun transformsOnlyFailureResults() {
         val result = failure(error,1).onFailure {
-            Result.Success(it.get() * 2)
+            AsyncResult.Success(it.get() * 2)
         }
-        assertThat(result).isEqualTo(Result.Success(2))
+        assertThat(result).isEqualTo(AsyncResult.Success(2))
     }
 
     @Test
@@ -115,9 +115,9 @@ class ResultTest {
     @Test
     fun transformsErrors() {
         val result = failure(HTTPException(401), 1).onError(HTTPException::class) {
-            map { Result.Success(it.get() * 2) }
+            map { AsyncResult.Success(it.get() * 2) }
         }
-        assertThat(result).isEqualTo(Result.Success(2))
+        assertThat(result).isEqualTo(AsyncResult.Success(2))
     }
 
     @Test
@@ -125,55 +125,55 @@ class ResultTest {
         val result = failure(HTTPException(401), 1)
 
         val transformedResult = result.onError(HTTPException::class) {
-            map { Result.Success(it.get() * 2) } whenever { it.statusCode == 401 }
+            map { AsyncResult.Success(it.get() * 2) } whenever { it.statusCode == 401 }
         }
         val otherResult = result.onError(HTTPException::class) {
-            map { Result.Success(it.get() * 2) } whenever { it.statusCode == 400 }
+            map { AsyncResult.Success(it.get() * 2) } whenever { it.statusCode == 400 }
         }
 
-        assertThat(transformedResult).isEqualTo(Result.Success(2))
+        assertThat(transformedResult).isEqualTo(AsyncResult.Success(2))
         assertThat(otherResult).isEqualTo(result)
     }
 
     @Test
     fun zipsSuccesses() {
         val result = success(2).zipWith(success(3)) { x, y -> x * y }
-        assertThat(result).isEqualTo(Result.Success(6))
+        assertThat(result).isEqualTo(AsyncResult.Success(6))
     }
 
     @Test
     fun zipsLeftFailures() {
         val result = failure(error, 2).zipWith(success(3)) { x, y -> x * y }
-        assertThat(result).isEqualTo(Result.Failure(error, 6))
+        assertThat(result).isEqualTo(AsyncResult.Failure(error, 6))
     }
 
     @Test
     fun zipsRightFailures() {
         val result = success(3).zipWith(failure(error, 2)) { x, y -> x * y }
-        assertThat(result).isEqualTo(Result.Failure(error, 6))
+        assertThat(result).isEqualTo(AsyncResult.Failure(error, 6))
     }
 
     @Test
     fun zipsLeftLoadingResults() {
         val result = loading(2).zipWith(success(3)) { x, y -> x * y }
-        assertThat(result).isEqualTo(Result.Loading(6))
+        assertThat(result).isEqualTo(AsyncResult.Loading(6))
     }
 
     @Test
     fun zipsRightLoadingResults() {
         val result = success(2).zipWith(loading(3)) { x, y -> x * y }
-        assertThat(result).isEqualTo(Result.Loading(6))
+        assertThat(result).isEqualTo(AsyncResult.Loading(6))
     }
 
-    private fun success(value: Int): Result<Int> {
-        return Result.Success(value)
+    private fun success(value: Int): AsyncResult<Int> {
+        return AsyncResult.Success(value)
     }
 
-    private fun loading(cachedValue: Int?): Result<Int> {
-        return Result.Loading(cachedValue)
+    private fun loading(cachedValue: Int?): AsyncResult<Int> {
+        return AsyncResult.Loading(cachedValue)
     }
 
-    private fun failure(error: Throwable, cachedValue: Int?): Result<Int> {
-        return Result.Failure(error, cachedValue)
+    private fun failure(error: Throwable, cachedValue: Int?): AsyncResult<Int> {
+        return AsyncResult.Failure(error, cachedValue)
     }
 }

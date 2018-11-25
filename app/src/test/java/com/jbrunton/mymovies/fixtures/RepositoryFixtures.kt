@@ -1,6 +1,6 @@
 package com.jbrunton.mymovies.fixtures
 
-import com.jbrunton.entities.models.Result
+import com.jbrunton.entities.models.AsyncResult
 import com.jbrunton.entities.models.Movie
 import com.jbrunton.entities.repositories.MoviesRepository
 import com.nhaarman.mockito_kotlin.whenever
@@ -17,7 +17,7 @@ object RepositoryFixtures {
         }
 
         fun toReturnDelayed(movie: Movie, delay: Int) {
-            val result: Result<Movie> = Result.Success(movie)
+            val result: AsyncResult<Movie> = AsyncResult.Success(movie)
             whenever(repository.getMovie(id)).thenReturn(Observable.just(result).delay(delay.toLong(), TimeUnit.SECONDS))
         }
 
@@ -26,7 +26,7 @@ object RepositoryFixtures {
         }
 
         fun toErrorWithDelayed(throwable: Throwable, delay: Int) {
-            val result: Result<Movie> = Result.Failure(throwable, null)
+            val result: AsyncResult<Movie> = AsyncResult.Failure(throwable, null)
             whenever(repository.getMovie(id)).thenReturn(Observable.just(result).delay(delay.toLong(), TimeUnit.SECONDS))
         }
     }

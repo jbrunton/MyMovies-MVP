@@ -12,7 +12,7 @@ import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import com.jakewharton.rxbinding2.view.clicks
 import com.jbrunton.entities.models.Genre
-import com.jbrunton.entities.models.Result
+import com.jbrunton.entities.models.AsyncResult
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.helpers.observe
 import com.jbrunton.mymovies.shared.BaseActivity
@@ -59,7 +59,7 @@ class GenresActivity : BaseActivity<GenresViewModel>() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun updateView(viewState: Result<GenresViewState>) {
+    private fun updateView(viewState: AsyncResult<GenresViewState>) {
         loadingLayoutManager.updateLayout(viewState, genresAdapter::addAll)
     }
 

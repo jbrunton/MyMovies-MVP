@@ -1,7 +1,7 @@
 package com.jbrunton.mymovies.moviedetails
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.jbrunton.entities.models.Result
+import com.jbrunton.entities.models.AsyncResult
 import com.jbrunton.entities.repositories.MoviesRepository
 import com.jbrunton.fixtures.MovieFactory
 import com.jbrunton.mymovies.fixtures.RepositoryFixtures.stubFind
@@ -29,9 +29,9 @@ class MovieDetailsViewModelTest {
     private val MOVIE = movieFactory.create()
     private val NETWORK_ERROR = SocketTimeoutException()
 
-    private val SUCCESS_VIEW_STATE = Result.Success(MovieViewState(MOVIE))
+    private val SUCCESS_VIEW_STATE = AsyncResult.Success(MovieViewState(MOVIE))
     private val NETWORK_FAILURE_VIEW_STATE = networkFailure<MovieViewState>()
-    private val LOADING_VIEW_STATE = Result.Loading<MovieViewState>()
+    private val LOADING_VIEW_STATE = AsyncResult.Loading<MovieViewState>()
 
     private lateinit var viewModel: MovieDetailsViewModel
 

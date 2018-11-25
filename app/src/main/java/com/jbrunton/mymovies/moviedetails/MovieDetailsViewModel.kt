@@ -1,6 +1,6 @@
 package com.jbrunton.mymovies.moviedetails
 
-import com.jbrunton.entities.models.Result
+import com.jbrunton.entities.models.AsyncResult
 import com.jbrunton.entities.models.Movie
 import com.jbrunton.entities.models.map
 import com.jbrunton.entities.repositories.MoviesRepository
@@ -23,7 +23,7 @@ class MovieDetailsViewModel(val movieId: String, val repository: MoviesRepositor
         }, this::setMovieResponse)
     }
 
-    private fun setMovieResponse(state: Result<Movie>) {
+    private fun setMovieResponse(state: AsyncResult<Movie>) {
         viewState.value = state
                 .map { MovieViewState(it) }
                 .handleNetworkErrors()
