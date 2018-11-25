@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.widget.Toolbar
+import com.google.android.material.snackbar.Snackbar
 import com.jbrunton.entities.models.AsyncResult
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.helpers.PicassoHelper
@@ -36,6 +37,7 @@ class MovieDetailsActivity : BaseActivity<MovieDetailsViewModel>() {
         error_try_again.setOnClickListener { viewModel.retry() }
 
         viewModel.viewState.observe(this, this::updateView)
+        viewModel.showSnackbar.observe(this, this::showSnackbar)
         viewModel.start()
     }
 
@@ -58,5 +60,13 @@ class MovieDetailsActivity : BaseActivity<MovieDetailsViewModel>() {
 
             picassoHelper.loadImage(this, backdrop, it.backdropUrl)
         }
+    }
+
+    fun showSnackbar(unit: Unit) {
+        Snackbar.make(findViewById(android.R.id.content), "There was a problem reaching the server", Snackbar.LENGTH_INDEFINITE)
+                .setAction("Try Again") {
+                    viewModel.retry()
+                }
+                .show()
     }
 }
