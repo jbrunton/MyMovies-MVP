@@ -2,7 +2,7 @@ package com.jbrunton.mymovies.shared
 
 import androidx.annotation.DrawableRes
 import androidx.lifecycle.ViewModel
-import com.jbrunton.entities.models.Result
+import com.jbrunton.entities.models.AsyncResult
 import io.reactivex.ObservableTransformer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -20,7 +20,7 @@ abstract class BaseViewModel : ViewModel() {
     fun<T>failure(errorMessage: String,
                   @DrawableRes errorIcon: Int = 0,
                   allowRetry: Boolean = false
-    ): Result<T> {
-        return Result.Failure(LoadingViewStateError(errorMessage, errorIcon, allowRetry))
+    ): AsyncResult<T> {
+        return AsyncResult.Failure(LoadingViewStateError(errorMessage, errorIcon, allowRetry))
     }
 }

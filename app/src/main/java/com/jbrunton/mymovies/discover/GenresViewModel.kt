@@ -1,7 +1,7 @@
 package com.jbrunton.mymovies.discover
 
 import com.jbrunton.entities.models.Genre
-import com.jbrunton.entities.models.Result
+import com.jbrunton.entities.models.AsyncResult
 import com.jbrunton.entities.models.onSuccess
 import com.jbrunton.entities.repositories.GenresRepository
 import com.jbrunton.mymovies.R
@@ -20,13 +20,13 @@ class GenresViewModel(private val repository: GenresRepository) : BaseLoadingVie
         load(repository::genres, this::setGenresResponse)
     }
 
-    private fun setGenresResponse(state: Result<List<Genre>>) {
+    private fun setGenresResponse(state: AsyncResult<List<Genre>>) {
         val viewState = state
                 .onSuccess(this::errorIfEmpty)
         this.viewState.postValue(viewState)
     }
 
-    private fun errorIfEmpty(viewState: Result.Success<GenresViewState>): Result<GenresViewState> {
+    private fun errorIfEmpty(viewState: AsyncResult.Success<GenresViewState>): AsyncResult<GenresViewState> {
         if (viewState.value.isEmpty()) {
             return failure(
                     errorMessage = "Could not load genres at this time",

@@ -8,7 +8,7 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.rule.ActivityTestRule
-import com.jbrunton.entities.models.Result
+import com.jbrunton.entities.models.AsyncResult
 import com.jbrunton.entities.repositories.MoviesRepository
 import com.jbrunton.fixtures.MovieFactory
 import com.jbrunton.mymovies.R
@@ -20,7 +20,7 @@ import org.junit.Test
 import org.koin.standalone.inject
 
 class MovieDetailsActivityLayoutTest : BaseActivityTest<MovieDetailsActivity>() {
-    val LOADING_STATE = Result.Loading<MovieViewState>()
+    val LOADING_STATE = AsyncResult.Loading<MovieViewState>()
 
     val movies = MovieFactory()
     val movie1 = movies.create()
@@ -50,7 +50,7 @@ class MovieDetailsActivityLayoutTest : BaseActivityTest<MovieDetailsActivity>() 
 
     @Test
     fun showsErrorState() {
-        setViewState(Result.Failure(NETWORK_ERROR))
+        setViewState(AsyncResult.Failure(NETWORK_ERROR))
 
         takeScreenshot("showsErrorState")
         onView(withId(R.id.error_text))
@@ -62,7 +62,7 @@ class MovieDetailsActivityLayoutTest : BaseActivityTest<MovieDetailsActivity>() 
     @Test
     fun showsMovieDetails() {
         val viewState = MovieViewState(movie1)
-        setViewState(Result.Success(viewState))
+        setViewState(AsyncResult.Success(viewState))
 
         takeScreenshot()
 
