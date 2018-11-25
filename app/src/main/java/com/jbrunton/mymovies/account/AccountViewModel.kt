@@ -49,7 +49,8 @@ class AccountViewModel(private val repository: AccountRepository) : BaseLoadingV
     private val SignedOutViewState = AsyncResult.Success(
             AccountViewState(
                     avatarUrl = "https://www.gravatar.com/avatar/0?d=mp",
-                    username = "Signed Out"
+                    username = "Signed Out",
+                    signInVisibility = View.VISIBLE
             )
     )
 }
