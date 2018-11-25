@@ -5,7 +5,6 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.widget.Toolbar
 import com.google.android.material.snackbar.Snackbar
-import com.jbrunton.entities.models.AsyncResult
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.helpers.PicassoHelper
 import com.jbrunton.mymovies.helpers.observe
@@ -37,7 +36,7 @@ class MovieDetailsActivity : BaseActivity<MovieDetailsViewModel>() {
         error_try_again.setOnClickListener { viewModel.retry() }
 
         viewModel.viewState.observe(this, this::updateView)
-        viewModel.showSnackbar.observe(this, this::showSnackbar)
+        viewModel.showRetrySnackbar.observe(this, this::showSnackbar)
         viewModel.start()
     }
 

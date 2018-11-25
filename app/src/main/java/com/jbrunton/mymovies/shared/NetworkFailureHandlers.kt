@@ -2,6 +2,7 @@ package com.jbrunton.mymovies.shared
 
 import com.jbrunton.entities.models.AsyncResult
 import com.jbrunton.entities.models.onError
+import com.jbrunton.entities.models.onFailure
 import com.jbrunton.mymovies.R
 import java.io.IOException
 
@@ -14,7 +15,23 @@ inline fun<T> AsyncResult<T>.onNetworkError(crossinline errorHandler: (AsyncResu
 }
 
 fun <T> AsyncResult<T>.handleNetworkErrors(allowRetry: Boolean = true): AsyncResult<T> {
-    return this.onNetworkError { networkFailure(allowRetry, it.cachedValue) }
+    return this.onNetworkError {
+        networkFailure(allowRetry, it.cachedValue)
+    }
+}
+
+fun <T> AsyncResult<T>.doOnNetworkError(action: (AsyncResult.Failure<T>) -> Unit): AsyncResult<T> {
+    return this.onNetworkError{
+        action(it); it
+    }
+}
+
+fun <T> AsyncResult<T>.doOnNetworkErrorWithCachedValue(action: (AsyncResult.Failure<T>) -> Unit): AsyncResult<T> {
+    return this.doOnNetworkError{
+        if (it.cachedValue != null) {
+            action(it)
+        }
+    }
 }
 
 fun networkError(allowRetry: Boolean = true) = LoadingViewStateError(
