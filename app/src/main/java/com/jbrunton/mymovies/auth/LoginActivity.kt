@@ -23,6 +23,11 @@ class LoginActivity : BaseActivity<LoginViewModel>() {
     val viewModel: LoginViewModel by viewModel()
     lateinit var loadingLayoutManager: LoadingLayoutManager
 
+    companion object {
+        val LOGIN_REQUEST = 1
+        val LOGIN_SUCCESSFUL = 1
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -30,7 +35,10 @@ class LoginActivity : BaseActivity<LoginViewModel>() {
         loadingLayoutManager = LoadingLayoutManager.buildFor(this, sign_in_details)
 
         viewModel.viewState.observe(this, this::updateView)
-        viewModel.loginSuccessful.observe(this) { finish() }
+        viewModel.loginSuccessful.observe(this) {
+            setResult(LOGIN_SUCCESSFUL)
+            finish()
+        }
         viewModel.loginFailure.observe(this) {
             AlertDialog.Builder(this@LoginActivity)
                     .setMessage(it)
