@@ -5,7 +5,7 @@ import org.junit.Test
 import java.lang.NullPointerException
 import javax.xml.ws.http.HTTPException
 
-class ResultTest {
+class AsyncResultTest {
     val value = 123
     val cachedValue = 456
     val error = Throwable("error")
@@ -113,6 +113,27 @@ class ResultTest {
     }
 
     @Test
+    fun invokesActionsOnSuccessResults() {
+        var x = 0
+        success(value).doOnSuccess { x = it.value + 1 }
+        assertThat(x).isEqualTo(value + 1)
+    }
+
+    @Test
+    fun invokesActionsOnLoadingResults() {
+        var x = 0
+        loading(cachedValue).doOnLoading { x = it.cachedValue!! + 1 }
+        assertThat(x).isEqualTo(cachedValue + 1)
+    }
+
+    @Test
+    fun invokesActionsOnFailureResults() {
+        var x = 0
+        loading(cachedValue).doOnLoading { x = it.cachedValue!! + 1 }
+        assertThat(x).isEqualTo(cachedValue + 1)
+    }
+
+    @Test
     fun transformsErrors() {
         val result = failure(HTTPException(401), 1).onError(HTTPException::class) {
             map { AsyncResult.Success(it.get() * 2) }
@@ -122,7 +143,7 @@ class ResultTest {
 
     @Test
     fun transformsSpecificErrors() {
-        val result = failure(HTTPException(401), 1)
+        val result = failure(HTTPException(401), 2)
 
         val transformedResult = result.onError(HTTPException::class) {
             map { AsyncResult.Success(it.get() * 2) } whenever { it.statusCode == 401 }
@@ -131,7 +152,7 @@ class ResultTest {
             map { AsyncResult.Success(it.get() * 2) } whenever { it.statusCode == 400 }
         }
 
-        assertThat(transformedResult).isEqualTo(AsyncResult.Success(2))
+        assertThat(transformedResult).isEqualTo(AsyncResult.Success(4))
         assertThat(otherResult).isEqualTo(result)
     }
 
