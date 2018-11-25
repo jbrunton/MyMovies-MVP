@@ -33,7 +33,7 @@ class LoginActivity : BaseActivity<LoginViewModel>() {
         viewModel.loginSuccessful.observe(this) { finish() }
         viewModel.loginFailure.observe(this) {
             AlertDialog.Builder(this@LoginActivity)
-                    .setMessage("Error signing in, please try again.")
+                    .setMessage(it)
                     .setPositiveButton("OK", { _, _ -> })
                     .create().show()
         }

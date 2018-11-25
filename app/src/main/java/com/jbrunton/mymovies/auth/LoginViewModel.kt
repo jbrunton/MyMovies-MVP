@@ -5,6 +5,7 @@ import com.jbrunton.entities.models.*
 import com.jbrunton.entities.repositories.AccountRepository
 import com.jbrunton.mymovies.shared.*
 import com.trello.rxlifecycle2.android.lifecycle.kotlin.bindToLifecycle
+import retrofit2.HttpException
 
 class LoginViewModel(private val repository: AccountRepository) : BaseViewModel() {
     val viewState = MutableLiveData<LoadingViewState<LoginViewState>>()
@@ -25,13 +26,18 @@ class LoginViewModel(private val repository: AccountRepository) : BaseViewModel(
     private fun onLoginResult(result: AsyncResult<AuthSession>) {
         val viewState: LoadingViewState<LoginViewState> = result
                 .map { LoginViewState() }
-                .onSuccess {
-                    loginSuccessful.call()
-                    it
-                }.onFailure {
-                    loginFailure.setValue("Auth failed")
+                .doOnSuccess { loginSuccessful.call() }
+                .onNetworkError{
+                    loginFailure.postValue("Could not connect to server - please check your connection.")
                     AsyncResult.Success(LoginViewState())
-                }.toLoadingViewState(LoginViewState())
+                }
+                .onError(HttpException::class) {
+                    map {
+                        loginFailure.postValue("Invalid credentials - please check your username and password.")
+                        AsyncResult.Success(LoginViewState())
+                    } whenever { it.code() == 401 }
+                }
+                .toLoadingViewState(LoginViewState())
         this.viewState.postValue(viewState)
     }
 
