@@ -19,22 +19,30 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class AccountFragment : BaseFragment<AccountViewModel>() {
     private lateinit var loadingLayoutManager: LoadingLayoutManager
+
     private val viewModel: AccountViewModel by viewModel()
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_account, container, false)
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         loadingLayoutManager = LoadingLayoutManager.buildFor(this, account_content)
         error_try_again.clicks()
                 .bindToLifecycle(this)
                 .subscribe { viewModel.retry() }
+        sign_in.clicks()
+                .bindToLifecycle(this)
+                .subscribe { viewModel.login(username_field.text.toString(), password_field.text.toString()) }
     }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel.viewState.observe(this, this::updateView)
         viewModel.start()
     }
+
     private fun updateView(viewState: LoadingViewState<AccountViewState>) {
         loadingLayoutManager.updateLayout(viewState) {
             account_details.visibility = toVisibility(it.showAccountDetails)

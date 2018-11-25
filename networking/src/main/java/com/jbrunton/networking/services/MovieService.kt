@@ -1,22 +1,34 @@
 package com.jbrunton.networking.services
 
+import com.jbrunton.entities.models.AuthSession
+import com.jbrunton.entities.models.AuthToken
 import com.jbrunton.networking.resources.account.AccountResponse
+import com.jbrunton.networking.resources.auth.AuthSessionRequest
+import com.jbrunton.networking.resources.auth.AuthTokenResponse
+import com.jbrunton.networking.resources.auth.LoginRequest
 import com.jbrunton.networking.resources.configuration.ConfigurationResponse
 import com.jbrunton.networking.resources.genres.GenresResponse
 import com.jbrunton.networking.resources.movies.MovieDetailsResponse
 import com.jbrunton.networking.resources.movies.MoviesCollection
 
 import io.reactivex.Observable
-import retrofit2.http.GET
-import retrofit2.http.Path
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface MovieService {
+    @GET("authentication/token/new")
+    fun newAuthToken(): Observable<AuthToken>
+
+    @POST("authentication/token/validate_with_login")
+    fun login(@Body request: LoginRequest): Observable<AuthToken>
+
+    @POST("authentication/session/new")
+    fun newSession(@Body request: AuthSessionRequest): Observable<AuthSession>
+
     @GET("configuration")
     fun configuration(): Observable<ConfigurationResponse>
 
     @GET("account")
-    fun account(): Observable<AccountResponse>
+    fun account(@Query("session_id") sessionId: String): Observable<AccountResponse>
 
     @GET("movie/{movie_id}")
     fun movie(@Path("movie_id") movieId: String): Observable<MovieDetailsResponse>
