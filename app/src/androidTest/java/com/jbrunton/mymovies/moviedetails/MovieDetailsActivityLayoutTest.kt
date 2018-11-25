@@ -2,14 +2,13 @@ package com.jbrunton.mymovies.moviedetails
 
 import android.content.Intent
 import android.widget.ProgressBar
-import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.rule.ActivityTestRule
-import com.jbrunton.entities.models.LoadingState
+import com.jbrunton.entities.models.Result
 import com.jbrunton.entities.repositories.MoviesRepository
 import com.jbrunton.fixtures.MovieFactory
 import com.jbrunton.mymovies.R
@@ -19,10 +18,9 @@ import com.jbrunton.mymovies.shared.LoadingViewStateError
 import org.junit.Before
 import org.junit.Test
 import org.koin.standalone.inject
-import java.util.*
 
 class MovieDetailsActivityLayoutTest : BaseActivityTest<MovieDetailsActivity>() {
-    val LOADING_STATE = LoadingState.Loading<MovieViewState>()
+    val LOADING_STATE = Result.Loading<MovieViewState>()
 
     val movies = MovieFactory()
     val movie1 = movies.create()
@@ -52,7 +50,7 @@ class MovieDetailsActivityLayoutTest : BaseActivityTest<MovieDetailsActivity>() 
 
     @Test
     fun showsErrorState() {
-        setViewState(LoadingState.Failure(NETWORK_ERROR))
+        setViewState(Result.Failure(NETWORK_ERROR))
 
         takeScreenshot("showsErrorState")
         onView(withId(R.id.error_text))
@@ -64,7 +62,7 @@ class MovieDetailsActivityLayoutTest : BaseActivityTest<MovieDetailsActivity>() 
     @Test
     fun showsMovieDetails() {
         val viewState = MovieViewState(movie1)
-        setViewState(LoadingState.Success(viewState))
+        setViewState(Result.Success(viewState))
 
         takeScreenshot()
 

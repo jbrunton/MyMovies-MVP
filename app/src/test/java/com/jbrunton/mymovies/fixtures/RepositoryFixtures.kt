@@ -1,6 +1,6 @@
 package com.jbrunton.mymovies.fixtures
 
-import com.jbrunton.entities.models.LoadingState
+import com.jbrunton.entities.models.Result
 import com.jbrunton.entities.models.Movie
 import com.jbrunton.entities.repositories.MoviesRepository
 import com.nhaarman.mockito_kotlin.whenever
@@ -17,8 +17,8 @@ object RepositoryFixtures {
         }
 
         fun toReturnDelayed(movie: Movie, delay: Int) {
-            val loadingState: LoadingState<Movie> = LoadingState.Success(movie)
-            whenever(repository.getMovie(id)).thenReturn(Observable.just(loadingState).delay(delay.toLong(), TimeUnit.SECONDS))
+            val result: Result<Movie> = Result.Success(movie)
+            whenever(repository.getMovie(id)).thenReturn(Observable.just(result).delay(delay.toLong(), TimeUnit.SECONDS))
         }
 
         fun toErrorWith(throwable: Throwable) {
@@ -26,8 +26,8 @@ object RepositoryFixtures {
         }
 
         fun toErrorWithDelayed(throwable: Throwable, delay: Int) {
-            val loadingState: LoadingState<Movie> = LoadingState.Failure(throwable, null)
-            whenever(repository.getMovie(id)).thenReturn(Observable.just(loadingState).delay(delay.toLong(), TimeUnit.SECONDS))
+            val result: Result<Movie> = Result.Failure(throwable, null)
+            whenever(repository.getMovie(id)).thenReturn(Observable.just(result).delay(delay.toLong(), TimeUnit.SECONDS))
         }
     }
 

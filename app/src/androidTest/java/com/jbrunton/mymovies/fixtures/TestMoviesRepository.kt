@@ -1,7 +1,7 @@
 package com.jbrunton.mymovies.fixtures
 
 import com.jbrunton.entities.models.DataStream
-import com.jbrunton.entities.models.LoadingState
+import com.jbrunton.entities.models.Result
 import com.jbrunton.entities.models.Movie
 import com.jbrunton.entities.repositories.MoviesRepository
 import io.reactivex.Observable
@@ -22,18 +22,18 @@ class TestMoviesRepository : MoviesRepository {
     }
 
     override fun getMovie(movieId: String): DataStream<Movie> {
-        return Observable.just(LoadingState.Success(movies.find { it.id == movieId }!!))
+        return Observable.just(Result.Success(movies.find { it.id == movieId }!!))
     }
 
     override fun searchMovies(query: String): DataStream<List<Movie>> {
-        return Observable.just(LoadingState.Success(stubbedSearches[query]!!));
+        return Observable.just(Result.Success(stubbedSearches[query]!!));
     }
 
     override fun nowPlaying(): DataStream<List<Movie>> {
-        return Observable.just(LoadingState.Success(movies))
+        return Observable.just(Result.Success(movies))
     }
 
     override fun discoverByGenre(genreId: String): DataStream<List<Movie>> {
-        return Observable.just(LoadingState.Success(movies))
+        return Observable.just(Result.Success(movies))
     }
 }

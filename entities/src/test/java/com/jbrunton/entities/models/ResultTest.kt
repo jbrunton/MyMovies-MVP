@@ -4,52 +4,52 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 import javax.xml.ws.http.HTTPException
 
-class LoadingStateTest {
+class ResultTest {
     val value = 123
     val cachedValue = 456
     val error = Throwable("error")
 
     @Test
     fun convertsSuccessToValueOrNull() {
-        assertThat(successState(value).toValueOrNull()).isEqualTo(value)
+        assertThat(successState(value).getOrNull()).isEqualTo(value)
     }
 
     @Test
     fun convertsLoadingToValueOrNull() {
-        assertThat(loadingState(cachedValue).toValueOrNull()).isEqualTo(cachedValue)
-        assertThat(loadingState(null).toValueOrNull()).isNull()
+        assertThat(loadingState(cachedValue).getOrNull()).isEqualTo(cachedValue)
+        assertThat(loadingState(null).getOrNull()).isNull()
     }
 
     @Test
     fun convertsFailureToValueOrNull() {
-        assertThat(failureState(error, cachedValue).toValueOrNull()).isEqualTo(cachedValue)
-        assertThat(failureState(error,null).toValueOrNull()).isNull()
+        assertThat(failureState(error, cachedValue).getOrNull()).isEqualTo(cachedValue)
+        assertThat(failureState(error,null).getOrNull()).isNull()
     }
 
     @Test
     fun transformsSuccessfulStates() {
         val state = successState(2).map { it * 2 }
-        assertThat(state.toValue()).isEqualTo(4)
+        assertThat(state.get()).isEqualTo(4)
     }
 
     @Test
     fun transformsLoadingStates() {
         val state = loadingState(2).map { it * 2 }
-        assertThat(state.toValue()).isEqualTo(4)
+        assertThat(state.get()).isEqualTo(4)
     }
 
     @Test
     fun transformsFailureStates() {
         val state = failureState(error, 2).map { it * 2 }
-        assertThat(state.toValue()).isEqualTo(4)
+        assertThat(state.get()).isEqualTo(4)
     }
 
     @Test
     fun transformsOnlySuccessStates() {
         val state = successState(1).onSuccess {
-            LoadingState.Success(it.value * 2)
+            Result.Success(it.value * 2)
         }
-        assertThat(state).isEqualTo(LoadingState.Success(2))
+        assertThat(state).isEqualTo(Result.Success(2))
     }
 
     @Test
@@ -61,9 +61,9 @@ class LoadingStateTest {
     @Test
     fun transformsOnlyLoadingStates() {
         val state = loadingState(1).onLoading {
-            LoadingState.Success(it.toValue() * 2)
+            Result.Success(it.get() * 2)
         }
-        assertThat(state).isEqualTo(LoadingState.Success(2))
+        assertThat(state).isEqualTo(Result.Success(2))
     }
 
     @Test
@@ -75,9 +75,9 @@ class LoadingStateTest {
     @Test
     fun transformsOnlyFailureStates() {
         val state = failureState(error,1).onFailure {
-            LoadingState.Success(it.toValue() * 2)
+            Result.Success(it.get() * 2)
         }
-        assertThat(state).isEqualTo(LoadingState.Success(2))
+        assertThat(state).isEqualTo(Result.Success(2))
     }
 
     @Test
@@ -89,9 +89,9 @@ class LoadingStateTest {
     @Test
     fun transformsErrors() {
         val state = failureState(HTTPException(401), 1).onError(HTTPException::class) {
-            map { LoadingState.Success(it.toValue() * 2) }
+            map { Result.Success(it.get() * 2) }
         }
-        assertThat(state).isEqualTo(LoadingState.Success(2))
+        assertThat(state).isEqualTo(Result.Success(2))
     }
 
     @Test
@@ -99,55 +99,55 @@ class LoadingStateTest {
         val failureState = failureState(HTTPException(401), 1)
 
         val transformedState = failureState.onError(HTTPException::class) {
-            map { LoadingState.Success(it.toValue() * 2) } whenever { it.statusCode == 401 }
+            map { Result.Success(it.get() * 2) } whenever { it.statusCode == 401 }
         }
         val otherState = failureState.onError(HTTPException::class) {
-            map { LoadingState.Success(it.toValue() * 2) } whenever { it.statusCode == 400 }
+            map { Result.Success(it.get() * 2) } whenever { it.statusCode == 400 }
         }
 
-        assertThat(transformedState).isEqualTo(LoadingState.Success(2))
+        assertThat(transformedState).isEqualTo(Result.Success(2))
         assertThat(otherState).isEqualTo(failureState)
     }
 
     @Test
     fun zipsSuccesses() {
         val state = successState(2).zipWith(successState(3)) { x, y -> x * y }
-        assertThat(state).isEqualTo(LoadingState.Success(6))
+        assertThat(state).isEqualTo(Result.Success(6))
     }
 
     @Test
     fun zipsLeftFailures() {
         val state = failureState(error, 2).zipWith(successState(3)) { x, y -> x * y }
-        assertThat(state).isEqualTo(LoadingState.Failure(error, 6))
+        assertThat(state).isEqualTo(Result.Failure(error, 6))
     }
 
     @Test
     fun zipsRightFailures() {
         val state = successState(3).zipWith(failureState(error, 2)) { x, y -> x * y }
-        assertThat(state).isEqualTo(LoadingState.Failure(error, 6))
+        assertThat(state).isEqualTo(Result.Failure(error, 6))
     }
 
     @Test
     fun zipsLeftLoadingStates() {
         val state = loadingState(2).zipWith(successState(3)) { x, y -> x * y }
-        assertThat(state).isEqualTo(LoadingState.Loading(6))
+        assertThat(state).isEqualTo(Result.Loading(6))
     }
 
     @Test
     fun zipsRightLoadingStates() {
         val state = successState(2).zipWith(loadingState(3)) { x, y -> x * y }
-        assertThat(state).isEqualTo(LoadingState.Loading(6))
+        assertThat(state).isEqualTo(Result.Loading(6))
     }
 
-    private fun successState(value: Int): LoadingState<Int> {
-        return LoadingState.Success(value)
+    private fun successState(value: Int): Result<Int> {
+        return Result.Success(value)
     }
 
-    private fun loadingState(cachedValue: Int?): LoadingState<Int> {
-        return LoadingState.Loading(cachedValue)
+    private fun loadingState(cachedValue: Int?): Result<Int> {
+        return Result.Loading(cachedValue)
     }
 
-    private fun failureState(error: Throwable, cachedValue: Int?): LoadingState<Int> {
-        return LoadingState.Failure(error, cachedValue)
+    private fun failureState(error: Throwable, cachedValue: Int?): Result<Int> {
+        return Result.Failure(error, cachedValue)
     }
 }

@@ -3,7 +3,7 @@ package com.jbrunton.mymovies.shared
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import com.jbrunton.entities.models.LoadingState
+import com.jbrunton.entities.models.Result
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.helpers.toVisibility
 
@@ -24,18 +24,18 @@ class LoadingLayoutManager(root: View, val content: View) {
         }
     }
 
-    fun <T>updateLayout(viewState: LoadingState<T>, onSuccess: (T) -> Unit) {
+    fun <T>updateLayout(viewState: Result<T>, onSuccess: (T) -> Unit) {
         onResetLayout()
 
         when (viewState) {
-            is LoadingState.Success -> {
+            is Result.Success -> {
                 content.visibility = View.VISIBLE
                 onSuccess(viewState.value)
             }
-            is LoadingState.Loading -> {
+            is Result.Loading -> {
                 onLoading(viewState, onSuccess)
             }
-            is LoadingState.Failure -> {
+            is Result.Failure -> {
                 onFailure(viewState, onSuccess)
             }
         }
@@ -47,7 +47,7 @@ class LoadingLayoutManager(root: View, val content: View) {
         errorCase.visibility = View.GONE
     }
 
-    protected fun <T>onLoading(viewState: LoadingState.Loading<T>, onSuccess: (T) -> Unit) {
+    protected fun <T>onLoading(viewState: Result.Loading<T>, onSuccess: (T) -> Unit) {
         val cachedValue = viewState.cachedValue
         if (cachedValue == null) {
             loadingIndicator.visibility = View.VISIBLE
@@ -57,7 +57,7 @@ class LoadingLayoutManager(root: View, val content: View) {
         }
     }
 
-    protected fun <T>onFailure(viewState: LoadingState.Failure<T>, onSuccess: (T) -> Unit) {
+    protected fun <T>onFailure(viewState: Result.Failure<T>, onSuccess: (T) -> Unit) {
         val cachedValue = viewState.cachedValue
         if (cachedValue == null) {
             onError(viewState.error)

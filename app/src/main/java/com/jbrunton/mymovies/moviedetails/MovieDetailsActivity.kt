@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.widget.Toolbar
-import com.jbrunton.entities.models.LoadingState
+import com.jbrunton.entities.models.Result
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.helpers.PicassoHelper
 import com.jbrunton.mymovies.helpers.observe
@@ -50,7 +50,7 @@ class MovieDetailsActivity : BaseActivity<MovieDetailsViewModel>() {
 
     private fun movieId(): String = intent.extras["MOVIE_ID"] as String
 
-    fun updateView(viewState: LoadingState<MovieViewState>) {
+    fun updateView(viewState: Result<MovieViewState>) {
         loadingLayoutManager.updateLayout(viewState) {
             title = it.title
             overview.text = it.overview

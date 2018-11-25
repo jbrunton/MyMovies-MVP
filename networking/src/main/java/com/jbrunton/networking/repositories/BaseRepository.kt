@@ -1,7 +1,7 @@
 package com.jbrunton.networking.repositories
 
 import com.jbrunton.entities.models.DataStream
-import com.jbrunton.entities.models.LoadingState
+import com.jbrunton.entities.models.Result
 import io.reactivex.Observable
 
 abstract class BaseRepository {
@@ -9,14 +9,14 @@ abstract class BaseRepository {
         return apiSource
                 .map { success(it) }
                 .onErrorReturn { error(it, cachedValue) }
-                .startWith(LoadingState.Loading(cachedValue))
+                .startWith(Result.Loading(cachedValue))
     }
 
-    private fun <T>success(value: T): LoadingState<T> {
-        return LoadingState.Success(value)
+    private fun <T>success(value: T): Result<T> {
+        return Result.Success(value)
     }
 
-    private fun <T>error(throwable: Throwable, cachedValue: T?): LoadingState<T> {
-        return LoadingState.Failure(throwable, cachedValue)
+    private fun <T>error(throwable: Throwable, cachedValue: T?): Result<T> {
+        return Result.Failure(throwable, cachedValue)
     }
 }
