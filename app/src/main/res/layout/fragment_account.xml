@@ -7,21 +7,8 @@
         android:id="@+id/account_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <LinearLayout
-            android:id="@+id/account_details"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-            <TextView android:id="@+id/account_username"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:text="user123"
-                />
-            <TextView android:id="@+id/account_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:text="My Account"/>
-        </LinearLayout>
+        <include layout="@layout/layout_account_details" />
+
         <LinearLayout
             android:id="@+id/sign_in_details"
             android:layout_width="match_parent"
