@@ -74,23 +74,6 @@ fun <T>LoadingState<T>.onFailure(transform: (LoadingState.Failure<T>) -> Loading
     }
 }
 
-//inline fun <T, reified E: Throwable>LoadingState<T>.onError(predicate: (E) -> Boolean, errorHandler: (E) -> LoadingState<T>): LoadingState<T> {
-//    return when (this) {
-//        is LoadingState.Failure -> {
-//            if (this.error is E && predicate(this.error)) {
-//                errorHandler(this.error)
-//            } else {
-//                this
-//            }
-//        }
-//        else -> this
-//    }
-//}
-
-//inline fun <T, reified E: Throwable>LoadingState<T>.onError(errorHandler: (E) -> LoadingState<T>): LoadingState<T> {
-//    return this.onError({ true }, errorHandler)
-//}
-
 fun <T, E: Throwable>LoadingState<T>.onError(
         klass: KClass<E>,
         block: ErrorHandler<T, E>.() -> Unit
