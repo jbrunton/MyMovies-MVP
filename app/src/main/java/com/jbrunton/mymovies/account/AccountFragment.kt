@@ -45,8 +45,8 @@ class AccountFragment : BaseFragment<AccountViewModel>() {
 
     private fun updateView(viewState: LoadingViewState<AccountViewState>) {
         loadingLayoutManager.updateLayout(viewState) {
-            account_details.visibility = toVisibility(it.showAccountDetails)
-            sign_in.visibility = toVisibility(it.showSignInDetails)
+            account_details.visibility = it.accountDetailsVisibility
+            sign_in_details.visibility = it.signInDetailsVisibility
             account_username.text = it.username
             account_name.text = it.name
         }

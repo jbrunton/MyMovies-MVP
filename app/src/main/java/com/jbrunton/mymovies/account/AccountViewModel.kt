@@ -1,5 +1,6 @@
 package com.jbrunton.mymovies.account
 
+import android.view.View
 import com.jbrunton.entities.models.*
 import com.jbrunton.entities.repositories.AccountRepository
 import com.jbrunton.mymovies.shared.BaseLoadingViewModel
@@ -45,5 +46,5 @@ class AccountViewModel(private val repository: AccountRepository) : BaseLoadingV
         }
     }
 
-    private val AuthViewState = AsyncResult.Success(AccountViewState(showAccountDetails = false, showSignInDetails = true))
+    private val AuthViewState = AsyncResult.Success(AccountViewState(signInDetailsVisibility = View.VISIBLE))
 }
