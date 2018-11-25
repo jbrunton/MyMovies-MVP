@@ -1,14 +1,9 @@
 package com.jbrunton.mymovies.moviedetails
 
-import com.google.common.base.Optional
-import com.jbrunton.entities.models.AsyncResult
-import com.jbrunton.entities.models.Movie
-import com.jbrunton.entities.models.map
+import com.jbrunton.entities.models.*
 import com.jbrunton.entities.repositories.MoviesRepository
 import com.jbrunton.mymovies.movies.MovieViewState
-import com.jbrunton.mymovies.shared.BaseLoadingViewModel
-import com.jbrunton.mymovies.shared.handleNetworkErrors
-import com.jbrunton.mymovies.shared.toLoadingViewState
+import com.jbrunton.mymovies.shared.*
 
 class MovieDetailsViewModel(val movieId: String, val repository: MoviesRepository) : BaseLoadingViewModel<MovieViewState>() {
     override fun start() {
@@ -28,6 +23,7 @@ class MovieDetailsViewModel(val movieId: String, val repository: MoviesRepositor
     private fun setMovieResponse(state: AsyncResult<Movie>) {
         viewState.value = state
                 .map { MovieViewState(it) }
+                .doOnNetworkError(this::showSnackbarIfCachedValue)
                 .handleNetworkErrors()
                 .toLoadingViewState(defaultViewState)
     }

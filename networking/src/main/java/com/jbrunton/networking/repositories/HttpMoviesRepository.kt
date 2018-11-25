@@ -1,5 +1,6 @@
 package com.jbrunton.networking.repositories
 
+import androidx.collection.LruCache
 import com.jbrunton.entities.models.Configuration
 import com.jbrunton.entities.models.Movie
 import com.jbrunton.entities.repositories.DataStream
@@ -12,11 +13,14 @@ import io.reactivex.Observable
 import io.reactivex.rxkotlin.Observables
 
 class HttpMoviesRepository(private val service: MovieService): MoviesRepository {
+    private val cache = LruCache<String, Movie>(1024)
 
     override fun getMovie(movieId: String): DataStream<Movie> {
         return Observables.zip(service.movie(movieId), config()) {
             response, config -> MovieDetailsResponse.toMovie(response, config)
-        }.toDataStream()
+        }.doOnNext {
+            cache.put(it.id, it)
+        }.toDataStream(cache.get(movieId))
     }
 
     override fun searchMovies(query: String): DataStream<List<Movie>> {
