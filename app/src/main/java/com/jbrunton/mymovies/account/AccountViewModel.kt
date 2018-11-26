@@ -18,10 +18,9 @@ class AccountViewModel(private val repository: AccountRepository) : BaseLoadingV
         loadAccount()
     }
 
-    fun login(username: String, password: String) {
-        repository.login(username, password)
-                .compose(applySchedulers())
-                .subscribe(this::onLoginSuccess, this::setErrorResponse)
+    fun signOut() {
+        repository.signOut()
+        this.viewState.postValue(SignedOutViewState.toLoadingViewState(AccountViewState()))
     }
 
     private fun loadAccount() {
@@ -32,19 +31,18 @@ class AccountViewModel(private val repository: AccountRepository) : BaseLoadingV
         val viewState: LoadingViewState<AccountViewState> = result
                 .map { AccountViewState(it) }
                 .onError(HttpException::class) {
-                    map { AuthViewState } whenever { it.code() == 401 }
+                    map { SignedOutViewState } whenever { it.code() == 401 }
                 }
                 .handleNetworkErrors()
                 .toLoadingViewState(AccountViewState())
         this.viewState.postValue(viewState)
     }
 
-    private fun onLoginSuccess(result: AsyncResult<AuthSession>) {
-        if (result is AsyncResult.Success) {
-            result.get()
-            retry()
-        }
-    }
-
-    private val AuthViewState = AsyncResult.Success(AccountViewState(signInDetailsVisibility = View.VISIBLE))
+    private val SignedOutViewState = AsyncResult.Success(
+            AccountViewState(
+                    avatarUrl = "https://www.gravatar.com/avatar/0?d=mp",
+                    username = "Signed Out",
+                    signInVisibility = View.VISIBLE
+            )
+    )
 }

@@ -1,20 +1,20 @@
 package com.jbrunton.mymovies.account
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.jakewharton.rxbinding2.view.clicks
 import com.jbrunton.mymovies.R
+import com.jbrunton.mymovies.auth.LoginActivity
 import com.jbrunton.mymovies.helpers.PicassoHelper
 import com.jbrunton.mymovies.helpers.observe
-import com.jbrunton.mymovies.helpers.toVisibility
+import com.jbrunton.mymovies.moviedetails.MovieDetailsActivity
 import com.jbrunton.mymovies.shared.BaseFragment
 import com.jbrunton.mymovies.shared.LoadingLayoutManager
 import com.jbrunton.mymovies.shared.LoadingViewState
 import com.trello.rxlifecycle2.android.lifecycle.kotlin.bindToLifecycle
-import kotlinx.android.synthetic.main.activity_movie_details.*
-import kotlinx.android.synthetic.main.fragment_account.*
 import kotlinx.android.synthetic.main.layout_account_details.*
 import kotlinx.android.synthetic.main.layout_loading_state.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -30,15 +30,27 @@ class AccountFragment : BaseFragment<AccountViewModel>() {
         return inflater.inflate(R.layout.fragment_account, container, false)
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == LoginActivity.LOGIN_REQUEST && resultCode == LoginActivity.LOGIN_SUCCESSFUL) {
+            viewModel.retry()
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        loadingLayoutManager = LoadingLayoutManager.buildFor(this, account_content)
+        loadingLayoutManager = LoadingLayoutManager.buildFor(this, account_details)
         error_try_again.clicks()
                 .bindToLifecycle(this)
                 .subscribe { viewModel.retry() }
         sign_in.clicks()
                 .bindToLifecycle(this)
-                .subscribe { viewModel.login(username_field.text.toString(), password_field.text.toString()) }
+                .subscribe {
+                    val intent = Intent(context, LoginActivity::class.java)
+                    startActivityForResult(intent, LoginActivity.LOGIN_REQUEST)
+                }
+        sign_out.clicks()
+                .bindToLifecycle(this)
+                .subscribe { viewModel.signOut() }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -49,10 +61,10 @@ class AccountFragment : BaseFragment<AccountViewModel>() {
 
     private fun updateView(viewState: LoadingViewState<AccountViewState>) {
         loadingLayoutManager.updateLayout(viewState) {
-            account_details.visibility = it.accountDetailsVisibility
-            sign_in_details.visibility = it.signInDetailsVisibility
             account_username.text = it.username
             account_name.text = it.name
+            sign_in.visibility = it.signInVisibility
+            sign_out.visibility = it.signOutVisibility
 
             picassoHelper.loadImage(context!!, avatar, it.avatarUrl)
         }
