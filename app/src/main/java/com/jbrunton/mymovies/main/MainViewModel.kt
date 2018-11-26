@@ -4,17 +4,19 @@ import com.jbrunton.mymovies.nav.Navigator
 import com.jbrunton.mymovies.shared.BaseViewModel
 
 class MainViewModel(val navigator: Navigator) : BaseViewModel() {
-    override fun start() {}
+    override fun start() {
+        showSearch()
+    }
 
-    fun showSearch(activity: MainActivity) {
+    fun showSearch() {
         navigator.showSearch()
     }
 
-    fun showDiscover(activity: MainActivity) {
+    fun showDiscover() {
         navigator.showDiscover()
     }
 
-    fun showAccount(activity: MainActivity) {
+    fun showAccount() {
         navigator.showAccount()
     }
 }

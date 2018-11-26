@@ -17,13 +17,12 @@ import org.koin.dsl.module.module
 import org.koin.standalone.StandAloneContext.loadKoinModules
 
 abstract class BaseActivity<T : BaseViewModel> : AppCompatActivity() {
-    var scope: Scope? = null
-    val navigator: Navigator by inject()
-
-    override fun onResume() {
-        super.onResume()
+    init {
         loadKoinModules(createActivityModule())
     }
+
+    var scope: Scope? = null
+    val navigator: Navigator by inject()
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         navigator.onActivityResult(requestCode, resultCode, data)

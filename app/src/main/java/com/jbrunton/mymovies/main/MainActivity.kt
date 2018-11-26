@@ -16,35 +16,15 @@ class MainActivity : BaseActivity<MainViewModel>() {
 
     val viewModel: MainViewModel by inject()
 
-    private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
-        when (item.itemId) {
-            R.id.navigation_search -> {
-                viewModel.showSearch(this)
-                return@OnNavigationItemSelectedListener true
-            }
-            R.id.navigation_discover -> {
-                viewModel.showDiscover(this)
-                return@OnNavigationItemSelectedListener true
-            }
-            R.id.navigation_account -> {
-                viewModel.showAccount(this)
-                return@OnNavigationItemSelectedListener true
-            }
-        }
-        false
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Fabric.with(this, Crashlytics())
         setContentView(R.layout.activity_main)
 
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+        navigation.setOnNavigationItemSelectedListener(BottomNavigationAdapter(viewModel))
 
         if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction()
-                    .replace(R.id.content, SearchFragment())
-                    .commit()
+            viewModel.start()
         }
     }
 }
