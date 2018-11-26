@@ -48,6 +48,9 @@ class AccountFragment : BaseFragment<AccountViewModel>() {
                     val intent = Intent(context, LoginActivity::class.java)
                     startActivityForResult(intent, LoginActivity.LOGIN_REQUEST)
                 }
+        sign_out.clicks()
+                .bindToLifecycle(this)
+                .subscribe { viewModel.signOut() }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -61,6 +64,7 @@ class AccountFragment : BaseFragment<AccountViewModel>() {
             account_username.text = it.username
             account_name.text = it.name
             sign_in.visibility = it.signInVisibility
+            sign_out.visibility = it.signOutVisibility
 
             picassoHelper.loadImage(context!!, avatar, it.avatarUrl)
         }

@@ -18,6 +18,11 @@ class AccountViewModel(private val repository: AccountRepository) : BaseLoadingV
         loadAccount()
     }
 
+    fun signOut() {
+        repository.signOut()
+        this.viewState.postValue(SignedOutViewState.toLoadingViewState(AccountViewState()))
+    }
+
     private fun loadAccount() {
         load(repository::account, this::setAccountResponse)
     }

@@ -7,4 +7,5 @@ import com.jbrunton.entities.models.AuthToken
 interface AccountRepository {
     fun account(): DataStream<Account>
     fun login(username: String, password: String): DataStream<AuthSession>
+    fun signOut()
 }

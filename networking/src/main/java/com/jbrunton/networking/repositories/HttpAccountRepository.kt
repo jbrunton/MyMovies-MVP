@@ -13,6 +13,7 @@ import com.jbrunton.networking.services.MovieService
 
 class HttpAccountRepository(private val service: MovieService): AccountRepository {
     var session: AuthSession? = null
+        private set
 
     override fun account(): DataStream<Account> {
         return service.account(session?.sessionId ?: "")
@@ -37,5 +38,9 @@ class HttpAccountRepository(private val service: MovieService): AccountRepositor
                 }.doAfterNext{
                     session = it
                 }.toDataStream()
+    }
+
+    override fun signOut() {
+        session = null
     }
 }

@@ -8,12 +8,14 @@ data class AccountViewState(
         val username: String = "",
         val name: String = "",
         val avatarUrl: String = "",
-        val signInVisibility: Int = View.GONE
+        val signInVisibility: Int = View.GONE,
+        val signOutVisibility: Int = View.GONE
 ) {
     constructor(account: Account) : this(
             id = account.id,
             username = account.username ?: "",
             name = account.name ?: "",
             avatarUrl = account.avatarUrl ?: "",
-            signInVisibility = View.GONE)
+            signInVisibility = View.GONE,
+            signOutVisibility = View.VISIBLE)
 }
