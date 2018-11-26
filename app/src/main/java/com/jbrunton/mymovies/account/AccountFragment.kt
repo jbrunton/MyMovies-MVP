@@ -60,6 +60,7 @@ class AccountFragment : BaseFragment<AccountViewModel>() {
         loadingLayoutManager.updateLayout(viewState) {
             account_username.text = it.username
             account_name.text = it.name
+            sign_in.visibility = it.signInVisibility
 
             picassoHelper.loadImage(context!!, avatar, it.avatarUrl)
         }

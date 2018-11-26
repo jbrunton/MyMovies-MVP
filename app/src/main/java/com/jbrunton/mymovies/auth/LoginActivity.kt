@@ -58,10 +58,6 @@ class LoginActivity : BaseActivity<LoginViewModel>() {
                 }
     }
 
-    private fun validate(text: CharSequence) {
-        viewModel.validate(username_field.text.toString(), password_field.text.toString())
-    }
-
     fun updateView(viewState: LoadingViewState<LoginViewState>) {
         loadingLayoutManager.updateLayout(viewState) {
             username_layout.error = it.usernameError

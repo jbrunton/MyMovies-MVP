@@ -13,8 +13,7 @@ class LoginViewModel(private val repository: AccountRepository) : BaseViewModel(
     val loginSuccessful = SingleLiveEvent<Unit>()
     val loginFailure = SingleLiveEvent<String>()
 
-    override fun start() {
-    }
+    override fun start() {}
 
     fun login(username: String, password: String) {
         if (validate(username, password)) {
