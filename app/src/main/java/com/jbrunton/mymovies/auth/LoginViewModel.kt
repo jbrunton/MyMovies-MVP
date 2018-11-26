@@ -24,23 +24,29 @@ class LoginViewModel(private val repository: AccountRepository) : BaseViewModel(
         }
     }
 
+    private val emptyState = AsyncResult.Success(LoginViewState())
+
     private fun onLoginResult(result: AsyncResult<AuthSession>) {
         val viewState: LoadingViewState<LoginViewState> = result
                 .map { LoginViewState() }
                 .doOnSuccess { loginSuccessful.call() }
-                .onNetworkError{
-                    loginFailure.postValue("Could not connect to server - please check your connection.")
-                    AsyncResult.Success(LoginViewState())
-                }
+                .onNetworkError(this::handleNetworkError)
                 .onError(HttpException::class) {
-                    map {
-                        val message = (it.error as HttpException).parseStatusMessage()
-                        loginFailure.postValue(message)
-                        AsyncResult.Success(LoginViewState())
-                    } whenever { it.code() == 401 }
+                    whenever { it.code() == 401 } map(this@LoginViewModel::handleAuthFailure)
                 }
                 .toLoadingViewState(LoginViewState())
         this.viewState.postValue(viewState)
+    }
+
+    private fun handleNetworkError(result: AsyncResult.Failure<LoginViewState>): AsyncResult<LoginViewState> {
+        loginFailure.postValue("Could not connect to server - please check your connection.")
+        return emptyState
+    }
+
+    private fun handleAuthFailure(result: AsyncResult.Failure<LoginViewState>): AsyncResult<LoginViewState> {
+        val message = (result.error as HttpException).parseStatusMessage()
+        loginFailure.postValue(message)
+        return emptyState
     }
 
     private fun validate(username: String, password: String): Boolean {

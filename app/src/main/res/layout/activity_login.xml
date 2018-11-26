@@ -55,5 +55,5 @@
             </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <include layout="@layout/layout_loading_state" android:visibility="gone" />
+    <include layout="@layout/layout_loading_state" />
 </FrameLayout>
