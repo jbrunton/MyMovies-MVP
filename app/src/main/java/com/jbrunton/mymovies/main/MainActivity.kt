@@ -7,11 +7,12 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.nav.Navigator
 import com.jbrunton.mymovies.search.SearchFragment
+import com.jbrunton.mymovies.shared.BaseActivity
 import io.fabric.sdk.android.Fabric
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.ext.android.inject
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity<MainViewModel>() {
 
     val viewModel: MainViewModel by inject()
 

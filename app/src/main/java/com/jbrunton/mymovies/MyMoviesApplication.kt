@@ -30,12 +30,12 @@ val applicationModule : Module = module {
     single { HttpGenresRepository(get()) as GenresRepository }
     single { HttpAccountRepository(get()) as AccountRepository }
     single { Schedulers.computation() }
-    single { Navigator() }
+    factory { Navigator(get()) }
     viewModel { MainViewModel(get()) }
     viewModel { SearchViewModel(get()) }
     viewModel { DiscoverViewModel(get()) }
     viewModel { GenresViewModel(get()) }
-    viewModel { AccountViewModel(get()) }
+    viewModel { AccountViewModel(get(), get()) }
     viewModel { LoginViewModel(get()) }
     viewModel { (movieId: String) -> MovieDetailsViewModel(movieId, get()) }
     viewModel { (genreId: String) -> GenreResultsViewModel(genreId, get()) }
