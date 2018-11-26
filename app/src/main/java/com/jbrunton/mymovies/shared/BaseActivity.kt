@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import io.reactivex.ObservableTransformer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import org.koin.androidx.scope.ext.android.createScope
 import org.koin.androidx.scope.ext.android.getOrCreateScope
 import org.koin.core.scope.Scope
 import org.koin.dsl.module.Module
@@ -13,7 +14,17 @@ import org.koin.dsl.module.module
 import org.koin.standalone.StandAloneContext.loadKoinModules
 
 abstract class BaseActivity<T : BaseViewModel> : AppCompatActivity() {
-    private lateinit var activityScope: Scope
+    var scope: Scope? = null
+
+    override fun onResume() {
+        super.onResume()
+        loadKoinModules(createActivityModule())
+    }
+
+    override fun onPause() {
+        super.onPause()
+        scope?.close()
+    }
 
     protected fun <T> applySchedulers(): ObservableTransformer<T, T> {
         return ObservableTransformer {
@@ -23,20 +34,10 @@ abstract class BaseActivity<T : BaseViewModel> : AppCompatActivity() {
         }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        loadKoinModules(createActivityModule())
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        activityScope.close()
-    }
-
     fun createActivityModule(): Module {
-        activityScope = getOrCreateScope("ACTIVITY")
-        return module {
-            scope("ACTIVITY") { this@BaseActivity as Activity }
+        scope = getOrCreateScope("ACTIVITY")
+        return module(override = true) {
+            scope("ACTIVITY") { this@BaseActivity as AppCompatActivity }
         }
     }
 }

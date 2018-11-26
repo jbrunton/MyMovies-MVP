@@ -22,7 +22,7 @@ class AccountViewModel(private val repository: AccountRepository, val navigator:
     }
 
     fun showLogin(fragment: BaseFragment<*>) {
-        navigator.login(fragment)
+        navigator.login()
     }
 
     private fun loadAccount() {

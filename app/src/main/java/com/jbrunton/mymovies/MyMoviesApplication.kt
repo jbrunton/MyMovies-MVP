@@ -30,7 +30,7 @@ val applicationModule : Module = module {
     single { HttpGenresRepository(get()) as GenresRepository }
     single { HttpAccountRepository(get()) as AccountRepository }
     single { Schedulers.computation() }
-    factory { Navigator(get()) }
+    single { Navigator() }
     viewModel { MainViewModel(get()) }
     viewModel { SearchViewModel(get()) }
     viewModel { DiscoverViewModel(get()) }
