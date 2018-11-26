@@ -1,35 +1,32 @@
-package com.jbrunton.mymovies
+package com.jbrunton.mymovies.main
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.crashlytics.android.Crashlytics
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.jbrunton.mymovies.account.AccountFragment
-import com.jbrunton.mymovies.discover.DiscoverFragment
+import com.jbrunton.mymovies.R
+import com.jbrunton.mymovies.nav.Navigator
 import com.jbrunton.mymovies.search.SearchFragment
 import io.fabric.sdk.android.Fabric
 import kotlinx.android.synthetic.main.activity_main.*
+import org.koin.android.ext.android.inject
 
 class MainActivity : AppCompatActivity() {
+
+    val viewModel: MainViewModel by inject()
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
             R.id.navigation_search -> {
-                supportFragmentManager.beginTransaction()
-                        .replace(R.id.content, SearchFragment())
-                        .commit()
+                viewModel.showSearch(this)
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_discover -> {
-                supportFragmentManager.beginTransaction()
-                        .replace(R.id.content, DiscoverFragment())
-                        .commit()
+                viewModel.showDiscover(this)
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_account -> {
-                supportFragmentManager.beginTransaction()
-                        .replace(R.id.content, AccountFragment())
-                        .commit()
+                viewModel.showAccount(this)
                 return@OnNavigationItemSelectedListener true
             }
         }

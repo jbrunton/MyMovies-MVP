@@ -11,12 +11,14 @@ import com.jbrunton.mymovies.auth.LoginActivity
 import com.jbrunton.mymovies.helpers.PicassoHelper
 import com.jbrunton.mymovies.helpers.observe
 import com.jbrunton.mymovies.moviedetails.MovieDetailsActivity
+import com.jbrunton.mymovies.nav.Navigator
 import com.jbrunton.mymovies.shared.BaseFragment
 import com.jbrunton.mymovies.shared.LoadingLayoutManager
 import com.jbrunton.mymovies.shared.LoadingViewState
 import com.trello.rxlifecycle2.android.lifecycle.kotlin.bindToLifecycle
 import kotlinx.android.synthetic.main.layout_account_details.*
 import kotlinx.android.synthetic.main.layout_loading_state.*
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -45,8 +47,7 @@ class AccountFragment : BaseFragment<AccountViewModel>() {
         sign_in.clicks()
                 .bindToLifecycle(this)
                 .subscribe {
-                    val intent = Intent(context, LoginActivity::class.java)
-                    startActivityForResult(intent, LoginActivity.LOGIN_REQUEST)
+                    viewModel.showLogin(this)
                 }
         sign_out.clicks()
                 .bindToLifecycle(this)
