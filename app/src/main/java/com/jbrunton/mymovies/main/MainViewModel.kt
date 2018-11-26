@@ -7,14 +7,14 @@ class MainViewModel(val navigator: Navigator) : BaseViewModel() {
     override fun start() {}
 
     fun showSearch(activity: MainActivity) {
-        navigator.search()
+        navigator.showSearch()
     }
 
     fun showDiscover(activity: MainActivity) {
-        navigator.discover()
+        navigator.showDiscover()
     }
 
     fun showAccount(activity: MainActivity) {
-        navigator.account()
+        navigator.showAccount()
     }
 }

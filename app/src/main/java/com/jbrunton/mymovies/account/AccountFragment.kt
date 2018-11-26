@@ -32,12 +32,6 @@ class AccountFragment : BaseFragment<AccountViewModel>() {
         return inflater.inflate(R.layout.fragment_account, container, false)
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == LoginActivity.LOGIN_REQUEST && resultCode == LoginActivity.LOGIN_SUCCESSFUL) {
-            viewModel.retry()
-        }
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         loadingLayoutManager = LoadingLayoutManager.buildFor(this, account_details)
