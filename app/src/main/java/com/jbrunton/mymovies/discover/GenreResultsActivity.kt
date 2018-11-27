@@ -23,11 +23,13 @@ class GenreResultsActivity : BaseActivity<GenreResultsViewModel>() {
     private lateinit var moviesAdapter: SearchResultsAdapter
     private lateinit var loadingLayoutManager: LoadingLayoutManager
 
-    val viewModel: GenreResultsViewModel by viewModel { parametersOf(genreId()) }
+    lateinit var viewModel: GenreResultsViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_genre_results)
+
+        viewModel = resolveViewModel { parametersOf(genreId()) }
 
         val toolbar = findViewById<View>(R.id.toolbar) as Toolbar
         setSupportActionBar(toolbar)
