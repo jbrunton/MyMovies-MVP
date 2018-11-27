@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.jakewharton.rxbinding2.view.clicks
 import com.jbrunton.mymovies.R
+import com.jbrunton.mymovies.di.inject
 import com.jbrunton.mymovies.di.resolve
 import com.jbrunton.mymovies.helpers.PicassoHelper
 import com.jbrunton.mymovies.helpers.observe
@@ -13,6 +14,7 @@ import com.jbrunton.mymovies.nav.Navigator
 import com.jbrunton.mymovies.shared.BaseFragment
 import com.jbrunton.mymovies.shared.LoadingLayoutManager
 import com.jbrunton.mymovies.shared.LoadingViewState
+import com.jbrunton.mymovies.shared.injectViewModel
 import com.trello.rxlifecycle2.android.lifecycle.kotlin.bindToLifecycle
 import kotlinx.android.synthetic.main.layout_account_details.*
 import kotlinx.android.synthetic.main.layout_loading_state.*
@@ -22,8 +24,8 @@ class AccountFragment : BaseFragment<AccountViewModel>() {
     private lateinit var loadingLayoutManager: LoadingLayoutManager
     private val picassoHelper = PicassoHelper()
 
-    private lateinit var viewModel: AccountViewModel
-    val navigator: Navigator by lazy { resolve<Navigator>() }
+    val viewModel: AccountViewModel by injectViewModel()
+    val navigator: Navigator by inject()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_account, container, false)
@@ -47,7 +49,6 @@ class AccountFragment : BaseFragment<AccountViewModel>() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = resolveViewModel()
         viewModel.viewState.observe(this, this::updateView)
         viewModel.start()
     }

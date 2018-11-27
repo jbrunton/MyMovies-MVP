@@ -5,9 +5,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
-import com.jbrunton.mymovies.di.Container
-import com.jbrunton.mymovies.di.ParameterDefinition
-import com.jbrunton.mymovies.di.emptyParameterDefinition
+import com.jbrunton.mymovies.di.*
 import kotlin.reflect.KClass
 
 fun <T : ViewModel> Container.resolveViewModel(
@@ -33,3 +31,13 @@ fun <T : ViewModel> Container.resolveViewModel(
         }
     }).get(klass.java)
 }
+
+inline fun <reified T: ViewModel, S : HasContainer> S.injectViewModel(
+        noinline parameters: ParameterDefinition = emptyParameterDefinition()
+): Lazy<T> where S: FragmentActivity =
+        lazy { container.resolveViewModel(this, T::class, parameters) }
+
+inline fun <reified T: ViewModel, S : HasContainer> S.injectViewModel(
+        noinline parameters: ParameterDefinition = emptyParameterDefinition()
+): Lazy<T> where S: Fragment =
+        lazy { container.resolveViewModel(this, T::class, parameters) }
