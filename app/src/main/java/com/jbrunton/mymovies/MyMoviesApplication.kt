@@ -19,23 +19,6 @@ import com.jbrunton.networking.repositories.HttpMoviesRepository
 import com.jbrunton.networking.services.ServiceFactory
 import io.reactivex.schedulers.Schedulers
 
-//val applicationModule : Module = module {
-//    single { ServiceFactory.createService() }
-//    single { HttpMoviesRepository(get()) as MoviesRepository }
-//    single { HttpGenresRepository(get()) as GenresRepository }
-//    single { HttpAccountRepository(get()) as AccountRepository }
-//    single { Schedulers.computation() }
-//    //single { Navigator() }
-//    viewModel { MainViewModel(get()) }
-//    viewModel { SearchViewModel(get()) }
-//    viewModel { DiscoverViewModel(get()) }
-//    viewModel { GenresViewModel(get()) }
-//    viewModel { AccountViewModel(get(), get()) }
-//    viewModel { LoginViewModel(get()) }
-//    viewModel { (movieId: String) -> MovieDetailsViewModel(movieId, get()) }
-//    viewModel { (genreId: String) -> GenreResultsViewModel(genreId, get()) }
-//}
-
 open class MyMoviesApplication : Application(), HasContainer {
     override val container = Container()
 

@@ -23,11 +23,10 @@ class Container(val parent: Container? = null) {
     fun createChildContainer() = Container(this)
 
     fun <T : Any> resolve(klass: KClass<T>, parameters: ParameterDefinition = emptyParameterDefinition()): T {
-        //Log.d("Container", "Trying to resolve type ${klass.qualifiedName}")
         return tryResolveSingleton(klass, parameters)
                 ?: tryResolveFactory(klass, parameters)
                 ?: parent?.resolve(klass, parameters)
-                ?: throw NullPointerException("Unable to resolve type ${klass.qualifiedName}")
+                ?: throw ResolutionFailure(klass)
     }
 
     private fun <T : Any> tryResolveSingleton(klass: KClass<T>, parameters: ParameterDefinition): T? {

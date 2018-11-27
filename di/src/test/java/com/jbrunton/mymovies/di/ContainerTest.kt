@@ -33,6 +33,11 @@ class ContainerTest {
         assertThat(foo1).isNotEqualTo(foo2)
     }
 
+    @Test(expected = ResolutionFailure::class)
+    fun throwsIfCannotResolve() {
+        container.get<Foo>()
+    }
+
     @Test
     fun resolvesViaParent() {
         val foo = Foo()
