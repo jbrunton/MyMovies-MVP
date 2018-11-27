@@ -51,7 +51,7 @@ fun emptyParameterDefinition() = { ParameterList() }
 class DryRunParameters {
     private val parameterMap = HashMap<KClass<*>, ParameterList>()
 
-    fun map(klass: KClass<*>, parameters: ParameterList) {
+    fun paramsFor(klass: KClass<*>, parameters: ParameterList) {
         parameterMap.put(klass, parameters)
     }
 

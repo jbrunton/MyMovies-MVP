@@ -9,13 +9,12 @@ import com.jbrunton.mymovies.ui.main.MainActivity
 import com.jbrunton.mymovies.ui.moviedetails.MovieDetailsViewModel
 import org.junit.Test
 import org.junit.runner.RunWith
-import kotlin.reflect.KClass
 
 @RunWith(AndroidJUnit4::class)
 class ContainerTest : BaseActivityTest<MainActivity>() {
     val parameters = DryRunParameters().apply {
-        map(MovieDetailsViewModel::class, parametersOf("1"))
-        map(GenreResultsViewModel::class, parametersOf("1"))
+        paramsFor(MovieDetailsViewModel::class, parametersOf("1"))
+        paramsFor(GenreResultsViewModel::class, parametersOf("1"))
     }
 
     @Test

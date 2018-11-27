@@ -125,7 +125,7 @@ class ContainerTest {
         }
 
         container.dryRun {
-            map(Baz::class, parametersOf(Foo()))
+            paramsFor(Baz::class, parametersOf(Foo()))
         }
     }
 
