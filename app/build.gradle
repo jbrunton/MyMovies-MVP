@@ -42,7 +42,9 @@ android {
     packagingOptions {
         exclude 'mockito-extensions/org.mockito.plugins.MockMaker'
     }
-
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
 }
 
 dependencies {

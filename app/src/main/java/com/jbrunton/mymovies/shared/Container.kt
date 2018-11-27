@@ -32,10 +32,10 @@ class Container(val parent: Container? = null) {
     fun createChildContainer() = Container(this)
 
     fun <T : Any> resolve(klass: KClass<T>, parameters: ParameterDefinition = emptyParameterDefinition()): T {
-        Log.d("Container", "Trying to resolve type ${klass.qualifiedName}")
+        //Log.d("Container", "Trying to resolve type ${klass.qualifiedName}")
         return tryResolveSingleton(klass, parameters)
                 ?: tryResolveFactory(klass, parameters)
-                ?: parent?.let { resolve(klass, parameters) }
+                ?: parent?.resolve(klass, parameters)
                 ?: throw NullPointerException("Unable to resolve type ${klass.qualifiedName}")
     }
 

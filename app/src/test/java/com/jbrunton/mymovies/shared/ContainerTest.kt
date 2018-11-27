@@ -33,5 +33,20 @@ class ContainerTest {
         assertThat(foo1).isNotEqualTo(foo2)
     }
 
+    @Test
+    fun resolvesViaParent() {
+        val foo = Foo()
+        val bar = Bar()
+        container.single { foo }
+        val child = container.createChildContainer().apply {
+            single { bar }
+        }
+
+        assertThat(child.get<Foo>()).isEqualTo(foo)
+        assertThat(child.get<Bar>()).isEqualTo(bar)
+    }
+
     class Foo
+
+    class Bar
 }
