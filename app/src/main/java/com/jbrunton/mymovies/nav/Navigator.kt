@@ -14,9 +14,6 @@ import com.jbrunton.mymovies.search.SearchFragment
 import com.jbrunton.mymovies.shared.BaseFragment
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
-import org.koin.standalone.KoinComponent
-import org.koin.standalone.get
-import org.koin.standalone.inject
 import java.util.*
 
 class Navigator(val activity: AppCompatActivity) {

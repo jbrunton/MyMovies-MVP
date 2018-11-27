@@ -10,7 +10,6 @@ import com.jbrunton.mymovies.search.SearchFragment
 import com.jbrunton.mymovies.shared.BaseActivity
 import io.fabric.sdk.android.Fabric
 import kotlinx.android.synthetic.main.activity_main.*
-import org.koin.android.ext.android.inject
 
 class MainActivity : BaseActivity<MainViewModel>() {
 

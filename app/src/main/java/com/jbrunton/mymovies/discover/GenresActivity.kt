@@ -21,7 +21,6 @@ import com.jbrunton.mymovies.shared.LoadingViewState
 import com.trello.rxlifecycle2.android.lifecycle.kotlin.bindToLifecycle
 import kotlinx.android.synthetic.main.activity_genres.*
 import kotlinx.android.synthetic.main.layout_loading_state.*
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class GenresActivity : BaseActivity<GenresViewModel>() {
     private lateinit var genresAdapter: GenresAdapter

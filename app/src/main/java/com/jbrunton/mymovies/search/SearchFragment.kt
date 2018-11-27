@@ -13,20 +13,19 @@ import com.jbrunton.mymovies.helpers.observe
 import com.jbrunton.mymovies.shared.BaseFragment
 import com.jbrunton.mymovies.shared.LoadingLayoutManager
 import com.jbrunton.mymovies.shared.LoadingViewState
+import com.jbrunton.mymovies.shared.resolve
 import com.trello.rxlifecycle2.android.lifecycle.kotlin.bindToLifecycle
 import io.reactivex.Scheduler
 import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.android.synthetic.main.layout_loading_state.*
-import org.koin.android.ext.android.inject
-import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.concurrent.TimeUnit
 
 class SearchFragment : BaseFragment<SearchViewModel>() {
     private lateinit var loadingLayoutManager: LoadingLayoutManager
     private lateinit var searchResultsAdapter: SearchResultsAdapter
 
-    val viewModel: SearchViewModel by viewModel()
-    val scheduler: Scheduler by inject()
+    lateinit var viewModel: SearchViewModel
+    lateinit var scheduler: Scheduler
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_search, container, false)
@@ -34,6 +33,9 @@ class SearchFragment : BaseFragment<SearchViewModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        viewModel = resolveViewModel()
+        scheduler = resolve()
 
         loadingLayoutManager = LoadingLayoutManager.buildFor(this, movies_list)
         movies_list.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(activity)

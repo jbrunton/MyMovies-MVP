@@ -20,28 +20,23 @@ import com.jbrunton.networking.repositories.HttpGenresRepository
 import com.jbrunton.networking.repositories.HttpMoviesRepository
 import com.jbrunton.networking.services.ServiceFactory
 import io.reactivex.schedulers.Schedulers
-import org.koin.android.ext.android.startKoin
-import org.koin.android.ext.koin.androidContext
-import org.koin.androidx.viewmodel.ext.koin.viewModel
-import org.koin.dsl.module.Module
-import org.koin.dsl.module.module
 
-val applicationModule : Module = module {
-    single { ServiceFactory.createService() }
-    single { HttpMoviesRepository(get()) as MoviesRepository }
-    single { HttpGenresRepository(get()) as GenresRepository }
-    single { HttpAccountRepository(get()) as AccountRepository }
-    single { Schedulers.computation() }
-    //single { Navigator() }
-    viewModel { MainViewModel(get()) }
-    viewModel { SearchViewModel(get()) }
-    viewModel { DiscoverViewModel(get()) }
-    viewModel { GenresViewModel(get()) }
-    viewModel { AccountViewModel(get(), get()) }
-    viewModel { LoginViewModel(get()) }
-    viewModel { (movieId: String) -> MovieDetailsViewModel(movieId, get()) }
-    viewModel { (genreId: String) -> GenreResultsViewModel(genreId, get()) }
-}
+//val applicationModule : Module = module {
+//    single { ServiceFactory.createService() }
+//    single { HttpMoviesRepository(get()) as MoviesRepository }
+//    single { HttpGenresRepository(get()) as GenresRepository }
+//    single { HttpAccountRepository(get()) as AccountRepository }
+//    single { Schedulers.computation() }
+//    //single { Navigator() }
+//    viewModel { MainViewModel(get()) }
+//    viewModel { SearchViewModel(get()) }
+//    viewModel { DiscoverViewModel(get()) }
+//    viewModel { GenresViewModel(get()) }
+//    viewModel { AccountViewModel(get(), get()) }
+//    viewModel { LoginViewModel(get()) }
+//    viewModel { (movieId: String) -> MovieDetailsViewModel(movieId, get()) }
+//    viewModel { (genreId: String) -> GenreResultsViewModel(genreId, get()) }
+//}
 
 open class MyMoviesApplication : Application(), HasContainer {
     override val container = Container()
@@ -50,7 +45,6 @@ open class MyMoviesApplication : Application(), HasContainer {
 
     override fun onCreate() {
         super.onCreate()
-        startKoin(this, createDependencies())
         registerDependencies(container)
     }
 
@@ -66,12 +60,9 @@ open class MyMoviesApplication : Application(), HasContainer {
             factory { SearchViewModel(get()) }
             factory { DiscoverViewModel(get()) }
             factory { GenresViewModel(get()) }
-            factory { AccountViewModel(get(), get()) }
             factory { LoginViewModel(get()) }
             factory { (movieId: String) -> MovieDetailsViewModel(movieId, get()) }
             factory { (genreId: String) -> GenreResultsViewModel(genreId, get()) }
         }
     }
-
-    protected open fun createDependencies() = listOf(applicationModule)
 }

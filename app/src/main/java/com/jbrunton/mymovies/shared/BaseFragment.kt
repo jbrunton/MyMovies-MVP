@@ -2,7 +2,6 @@ package com.jbrunton.mymovies.shared
 
 import androidx.lifecycle.ViewModel
 import com.jbrunton.mymovies.MyMoviesApplication
-import org.koin.core.parameter.emptyParameterDefinition
 import kotlin.reflect.KClass
 
 abstract class BaseFragment<T : BaseViewModel> : androidx.fragment.app.Fragment(), HasContainer {

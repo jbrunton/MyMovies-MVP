@@ -4,7 +4,6 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
-import org.koin.core.parameter.emptyParameterDefinition
 import kotlin.reflect.KClass
 
 interface HasContainer {

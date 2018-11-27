@@ -7,8 +7,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.jbrunton.mymovies.nav.Navigator
-import org.koin.core.parameter.ParameterList
-import org.koin.core.parameter.emptyParameterDefinition
 import java.lang.NullPointerException
 import kotlin.reflect.KClass
 
@@ -81,4 +79,3 @@ class Container(val parent: Container? = null) {
 
 typealias Definition<T> = (ParameterList) -> T
 
-typealias ParameterDefinition = () -> ParameterList
