@@ -7,7 +7,7 @@ import com.jbrunton.mymovies.nav.Navigator
 import com.jbrunton.mymovies.shared.*
 import retrofit2.HttpException
 
-class AccountViewModel(private val repository: AccountRepository, val navigator: Navigator) : BaseLoadingViewModel<AccountViewState>() {
+class AccountViewModel(private val repository: AccountRepository) : BaseLoadingViewModel<AccountViewState>() {
     override fun start() {
         loadAccount()
     }
@@ -21,7 +21,7 @@ class AccountViewModel(private val repository: AccountRepository, val navigator:
         this.viewState.postValue(SignedOutViewState.toLoadingViewState(AccountViewState()))
     }
 
-    fun showLogin(fragment: BaseFragment<*>) {
+    fun showLogin(navigator: Navigator) {
         navigator.login().subscribe {
             retry()
         }

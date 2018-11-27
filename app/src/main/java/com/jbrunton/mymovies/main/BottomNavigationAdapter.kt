@@ -3,23 +3,24 @@ package com.jbrunton.mymovies.main
 import android.view.MenuItem
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.jbrunton.mymovies.R
+import com.jbrunton.mymovies.nav.Navigator
 
 class BottomNavigationAdapter(
-        val viewModel: MainViewModel
+        val navigator: Navigator
 ) : BottomNavigationView.OnNavigationItemSelectedListener{
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.navigation_search -> {
-                viewModel.showSearch()
+                navigator.showSearch()
                 return true
             }
             R.id.navigation_discover -> {
-                viewModel.showDiscover()
+                navigator.showDiscover()
                 return true
             }
             R.id.navigation_account -> {
-                viewModel.showAccount()
+                navigator.showAccount()
                 return true
             }
         }

@@ -1,31 +1,29 @@
 package com.jbrunton.mymovies.main
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import com.crashlytics.android.Crashlytics
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.jbrunton.mymovies.R
-import com.jbrunton.mymovies.nav.Navigator
-import com.jbrunton.mymovies.search.SearchFragment
 import com.jbrunton.mymovies.shared.BaseActivity
+import com.jbrunton.mymovies.shared.BaseViewModel
 import io.fabric.sdk.android.Fabric
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : BaseActivity<MainViewModel>() {
+class MainActivity : BaseActivity<MainActivity.MainViewModel>() {
 
-    lateinit var viewModel: MainViewModel
+    class MainViewModel : BaseViewModel() {
+        override fun start() {}
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = resolveViewModel()
 
         Fabric.with(this, Crashlytics())
         setContentView(R.layout.activity_main)
 
-        navigation.setOnNavigationItemSelectedListener(BottomNavigationAdapter(viewModel))
+        navigation.setOnNavigationItemSelectedListener(BottomNavigationAdapter(navigator))
 
         if (savedInstanceState == null) {
-            viewModel.start()
+            navigator.showSearch()
         }
     }
 }

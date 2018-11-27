@@ -9,9 +9,7 @@ import com.jbrunton.mymovies.auth.LoginViewModel
 import com.jbrunton.mymovies.discover.DiscoverViewModel
 import com.jbrunton.mymovies.discover.GenreResultsViewModel
 import com.jbrunton.mymovies.discover.GenresViewModel
-import com.jbrunton.mymovies.main.MainViewModel
 import com.jbrunton.mymovies.moviedetails.MovieDetailsViewModel
-import com.jbrunton.mymovies.nav.Navigator
 import com.jbrunton.mymovies.search.SearchViewModel
 import com.jbrunton.mymovies.shared.Container
 import com.jbrunton.mymovies.shared.HasContainer
@@ -61,6 +59,7 @@ open class MyMoviesApplication : Application(), HasContainer {
             factory { DiscoverViewModel(get()) }
             factory { GenresViewModel(get()) }
             factory { LoginViewModel(get()) }
+            factory { AccountViewModel(get()) }
             factory { (movieId: String) -> MovieDetailsViewModel(movieId, get()) }
             factory { (genreId: String) -> GenreResultsViewModel(genreId, get()) }
         }

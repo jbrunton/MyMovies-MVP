@@ -6,12 +6,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import com.jbrunton.mymovies.MyMoviesApplication
 import com.jbrunton.mymovies.account.AccountViewModel
-import com.jbrunton.mymovies.main.MainViewModel
 import com.jbrunton.mymovies.nav.Navigator
 import io.reactivex.ObservableTransformer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import kotlin.reflect.KClass
 
 abstract class BaseActivity<T : BaseViewModel> : AppCompatActivity(), HasContainer {
     lateinit var navigator: Navigator
@@ -20,8 +18,6 @@ abstract class BaseActivity<T : BaseViewModel> : AppCompatActivity(), HasContain
         (applicationContext as MyMoviesApplication).container.createChildContainer().apply {
             single { this@BaseActivity as AppCompatActivity }
             single { Navigator(get()) }
-            factory { MainViewModel(get()) }
-            factory { AccountViewModel(get(), get()) }
         }
     }
 
