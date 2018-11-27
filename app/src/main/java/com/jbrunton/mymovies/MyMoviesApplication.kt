@@ -36,7 +36,6 @@ open class MyMoviesApplication : Application(), HasContainer {
             single { HttpGenresRepository(get()) as GenresRepository }
             single { HttpAccountRepository(get()) as AccountRepository }
             single { Schedulers.computation() }
-            //single { Navigator() }
 
             factory { SearchViewModel(get()) }
             factory { DiscoverViewModel(get()) }
