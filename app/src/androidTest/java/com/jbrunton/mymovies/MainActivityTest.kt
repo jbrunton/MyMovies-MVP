@@ -7,7 +7,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.rule.ActivityTestRule
 import androidx.test.runner.AndroidJUnit4
 import com.jbrunton.mymovies.fixtures.BaseActivityTest
-import com.jbrunton.mymovies.main.MainActivity
+import com.jbrunton.mymovies.ui.main.MainActivity
 import org.junit.Test
 import org.junit.runner.RunWith
 

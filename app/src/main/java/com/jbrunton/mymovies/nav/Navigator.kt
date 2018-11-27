@@ -1,15 +1,14 @@
 package com.jbrunton.mymovies.nav
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentActivity
 import com.jbrunton.entities.models.AuthSession
-import com.jbrunton.mymovies.main.MainActivity
+import com.jbrunton.mymovies.ui.main.MainActivity
 import com.jbrunton.mymovies.R
-import com.jbrunton.mymovies.account.AccountFragment
-import com.jbrunton.mymovies.auth.LoginActivity
-import com.jbrunton.mymovies.discover.DiscoverFragment
-import com.jbrunton.mymovies.search.SearchFragment
+import com.jbrunton.mymovies.ui.account.AccountFragment
+import com.jbrunton.mymovies.ui.auth.LoginActivity
+import com.jbrunton.mymovies.ui.discover.DiscoverFragment
+import com.jbrunton.mymovies.ui.search.SearchFragment
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 import java.util.*

@@ -7,8 +7,6 @@ import androidx.test.rule.ActivityTestRule
 import com.google.android.libraries.cloudtesting.screenshots.ScreenShotter
 import com.jbrunton.mymovies.di.Container
 import com.jbrunton.mymovies.di.HasContainer
-import com.jbrunton.mymovies.shared.BaseActivity
-import com.jbrunton.mymovies.shared.BaseFragment
 import com.squareup.spoon.SpoonRule
 
 import org.junit.Rule
