@@ -1,6 +1,5 @@
 package com.jbrunton.mymovies.di
 
-import java.lang.NullPointerException
 import kotlin.reflect.KClass
 
 class Container(val parent: Container? = null) {
@@ -45,6 +44,16 @@ class Container(val parent: Container? = null) {
         for (module in modules) {
             module.registerTypes(this)
         }
+    }
+
+    fun dryRun(parameterLists: Map<KClass<*>, ParameterList> = emptyMap()) {
+        singletonDefinitions.forEach { klass, definition ->
+            definition.invoke(parameterLists[klass] ?: ParameterList())
+        }
+        factoryDefinitions.forEach { klass, definition ->
+            definition.invoke(parameterLists[klass] ?: ParameterList())
+        }
+        parent?.dryRun(parameterLists)
     }
 
     private fun <T : Any> tryResolveSingleton(klass: KClass<T>, parameters: ParameterDefinition): T? {

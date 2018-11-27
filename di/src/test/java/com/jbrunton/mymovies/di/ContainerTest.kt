@@ -99,9 +99,41 @@ class ContainerTest {
         assertThat(container.get<Foo>()).isEqualTo(foo2)
     }
 
+    @Test
+    fun itValidatesTheContainer() {
+        container.apply {
+            factory { Foo() }
+            factory { Baz(get()) }
+        }
+
+        container.dryRun()
+    }
+
+    @Test(expected = ResolutionFailure::class)
+    fun itFailsValidationIfMissingDefinitions() {
+        container.apply {
+            factory { Baz(get()) }
+        }
+
+        container.dryRun()
+    }
+
+    @Test
+    fun itValidatesWithParameterLists() {
+        container.apply {
+            factory { (foo: Foo) -> Baz(foo) }
+        }
+
+        container.dryRun(
+                mapOf(
+                        Baz::class to parametersOf(Foo())
+                )
+        )
+    }
+
     class Foo
 
     class Bar
 
-    class Baz
+    class Baz(val foo: Foo? = null)
 }
