@@ -8,13 +8,13 @@ import androidx.test.runner.AndroidJUnit4
 import com.jbrunton.entities.repositories.MoviesRepository
 import com.jbrunton.fixtures.MovieFactory
 import com.jbrunton.mymovies.R
+import com.jbrunton.mymovies.di.inject
 import com.jbrunton.mymovies.fixtures.BaseFragmentTest
 import com.jbrunton.mymovies.fixtures.FragmentTestRule
 import com.jbrunton.mymovies.fixtures.RecyclerViewUtils.withRecyclerView
 import com.jbrunton.mymovies.fixtures.stubSearch
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.koin.standalone.inject
 
 
 @RunWith(AndroidJUnit4::class)

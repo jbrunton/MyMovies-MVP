@@ -11,13 +11,13 @@ import androidx.test.runner.AndroidJUnit4
 import com.jbrunton.entities.repositories.MoviesRepository
 import com.jbrunton.fixtures.MovieFactory
 import com.jbrunton.mymovies.R
+import com.jbrunton.mymovies.di.inject
 import com.jbrunton.mymovies.fixtures.BaseActivityTest
 import com.jbrunton.mymovies.fixtures.stubWith
 import com.jbrunton.mymovies.movies.MovieViewState
 import kotlinx.android.synthetic.main.content_movie_details.view.*
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.koin.standalone.inject
 
 @RunWith(AndroidJUnit4::class)
 class MovieDetailsActivityTest : BaseActivityTest<MovieDetailsActivity>() {

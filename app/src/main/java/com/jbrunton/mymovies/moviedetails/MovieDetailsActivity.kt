@@ -6,26 +6,27 @@ import android.view.View
 import androidx.appcompat.widget.Toolbar
 import com.google.android.material.snackbar.Snackbar
 import com.jbrunton.mymovies.R
+import com.jbrunton.mymovies.di.parametersOf
 import com.jbrunton.mymovies.helpers.PicassoHelper
 import com.jbrunton.mymovies.helpers.observe
 import com.jbrunton.mymovies.movies.MovieViewState
 import com.jbrunton.mymovies.shared.BaseActivity
 import com.jbrunton.mymovies.shared.LoadingLayoutManager
 import com.jbrunton.mymovies.shared.LoadingViewState
+import com.jbrunton.mymovies.shared.injectViewModel
 import kotlinx.android.synthetic.main.activity_movie_details.*
 import kotlinx.android.synthetic.main.content_movie_details.*
 import kotlinx.android.synthetic.main.layout_loading_state.*
-import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.core.parameter.parametersOf
 
 class MovieDetailsActivity : BaseActivity<MovieDetailsViewModel>() {
-    val viewModel: MovieDetailsViewModel by viewModel { parametersOf(movieId()) }
+    val viewModel: MovieDetailsViewModel by injectViewModel() { parametersOf(movieId()) }
     lateinit var loadingLayoutManager: LoadingLayoutManager
     private val picassoHelper = PicassoHelper()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_movie_details)
+
         val toolbar = findViewById<View>(R.id.toolbar) as Toolbar
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)

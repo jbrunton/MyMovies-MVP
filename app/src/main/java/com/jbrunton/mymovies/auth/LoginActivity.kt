@@ -15,18 +15,15 @@ import com.jbrunton.mymovies.moviedetails.MovieDetailsViewModel
 import com.jbrunton.mymovies.shared.BaseActivity
 import com.jbrunton.mymovies.shared.LoadingLayoutManager
 import com.jbrunton.mymovies.shared.LoadingViewState
+import com.jbrunton.mymovies.shared.injectViewModel
 import com.trello.rxlifecycle2.android.lifecycle.kotlin.bindToLifecycle
 import io.reactivex.Scheduler
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.content_movie_details.*
-import org.koin.android.ext.android.inject
-import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.core.parameter.parametersOf
 import java.util.concurrent.TimeUnit
 
 class LoginActivity : BaseActivity<LoginViewModel>() {
-    val viewModel: LoginViewModel by viewModel()
-    val scheduler: Scheduler by inject()
+    val viewModel: LoginViewModel by injectViewModel()
     lateinit var loadingLayoutManager: LoadingLayoutManager
 
     companion object {

@@ -9,23 +9,24 @@ import com.jakewharton.rxbinding2.view.clicks
 import com.jakewharton.rxbinding2.widget.textChanges
 import com.jbrunton.entities.models.AsyncResult
 import com.jbrunton.mymovies.R
+import com.jbrunton.mymovies.di.inject
+import com.jbrunton.mymovies.di.resolve
 import com.jbrunton.mymovies.helpers.observe
 import com.jbrunton.mymovies.shared.BaseFragment
 import com.jbrunton.mymovies.shared.LoadingLayoutManager
 import com.jbrunton.mymovies.shared.LoadingViewState
+import com.jbrunton.mymovies.shared.injectViewModel
 import com.trello.rxlifecycle2.android.lifecycle.kotlin.bindToLifecycle
 import io.reactivex.Scheduler
 import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.android.synthetic.main.layout_loading_state.*
-import org.koin.android.ext.android.inject
-import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.concurrent.TimeUnit
 
 class SearchFragment : BaseFragment<SearchViewModel>() {
     private lateinit var loadingLayoutManager: LoadingLayoutManager
     private lateinit var searchResultsAdapter: SearchResultsAdapter
 
-    val viewModel: SearchViewModel by viewModel()
+    val viewModel: SearchViewModel by injectViewModel()
     val scheduler: Scheduler by inject()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

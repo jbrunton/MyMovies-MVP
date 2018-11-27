@@ -3,10 +3,8 @@ package com.jbrunton.mymovies.account
 import android.view.View
 import com.jbrunton.entities.models.*
 import com.jbrunton.entities.repositories.AccountRepository
-import com.jbrunton.mymovies.shared.BaseLoadingViewModel
-import com.jbrunton.mymovies.shared.LoadingViewState
-import com.jbrunton.mymovies.shared.handleNetworkErrors
-import com.jbrunton.mymovies.shared.toLoadingViewState
+import com.jbrunton.mymovies.nav.Navigator
+import com.jbrunton.mymovies.shared.*
 import retrofit2.HttpException
 
 class AccountViewModel(private val repository: AccountRepository) : BaseLoadingViewModel<AccountViewState>() {
@@ -21,6 +19,12 @@ class AccountViewModel(private val repository: AccountRepository) : BaseLoadingV
     fun signOut() {
         repository.signOut()
         this.viewState.postValue(SignedOutViewState.toLoadingViewState(AccountViewState()))
+    }
+
+    fun showLogin(navigator: Navigator) {
+        navigator.login().subscribe {
+            retry()
+        }
     }
 
     private fun loadAccount() {

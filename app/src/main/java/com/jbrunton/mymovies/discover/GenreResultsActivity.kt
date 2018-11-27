@@ -7,23 +7,23 @@ import androidx.appcompat.widget.Toolbar
 import com.jakewharton.rxbinding2.view.clicks
 import com.jbrunton.entities.models.AsyncResult
 import com.jbrunton.mymovies.R
+import com.jbrunton.mymovies.di.parametersOf
 import com.jbrunton.mymovies.helpers.observe
 import com.jbrunton.mymovies.search.SearchResultsAdapter
 import com.jbrunton.mymovies.search.SearchViewState
 import com.jbrunton.mymovies.shared.BaseActivity
 import com.jbrunton.mymovies.shared.LoadingLayoutManager
 import com.jbrunton.mymovies.shared.LoadingViewState
+import com.jbrunton.mymovies.shared.injectViewModel
 import com.trello.rxlifecycle2.android.lifecycle.kotlin.bindToLifecycle
 import kotlinx.android.synthetic.main.activity_genre_results.*
 import kotlinx.android.synthetic.main.layout_loading_state.*
-import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.core.parameter.parametersOf
 
 class GenreResultsActivity : BaseActivity<GenreResultsViewModel>() {
     private lateinit var moviesAdapter: SearchResultsAdapter
     private lateinit var loadingLayoutManager: LoadingLayoutManager
 
-    val viewModel: GenreResultsViewModel by viewModel { parametersOf(genreId()) }
+    val viewModel: GenreResultsViewModel by injectViewModel { parametersOf(genreId()) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
