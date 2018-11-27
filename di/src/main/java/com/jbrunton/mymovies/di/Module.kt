@@ -15,7 +15,7 @@ fun Module.check(block: DryRunParameters.() -> Unit) {
     check(parameters)
 }
 
-fun<T> T.module(block: Container.() -> Unit): Module {
+fun module(block: Container.() -> Unit): Module {
     return object : Module {
         override fun registerTypes(container: Container) {
             container.apply(block)

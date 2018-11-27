@@ -9,7 +9,7 @@ open class AppModule : Module {
         )
     }
 
-    open fun schedulersModule(): Module = SchedulersModule()
-    open fun httpModule(): Module = HttpModule()
-    open fun uiModule(): Module = UiModule()
+    open fun schedulersModule(): Module = SchedulersModule
+    open fun httpModule(): Module = HttpModule
+    open fun uiModule(): Module = UiModule
 }
