@@ -100,3 +100,8 @@ fun Module.check(parameters: DryRunParameters = DryRunParameters()) {
     container.register(this)
     container.dryRun(parameters)
 }
+
+fun Module.check(block: DryRunParameters.() -> Unit) {
+    val parameters = DryRunParameters().apply(block)
+    check(parameters)
+}
