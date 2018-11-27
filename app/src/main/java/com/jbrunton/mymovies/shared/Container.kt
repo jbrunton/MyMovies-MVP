@@ -1,5 +1,8 @@
 package com.jbrunton.mymovies.shared
 
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import java.lang.NullPointerException
 import kotlin.reflect.KClass
 

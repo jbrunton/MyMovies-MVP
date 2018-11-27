@@ -18,7 +18,7 @@ class MainActivity : BaseActivity<MainViewModel>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = get()
+        viewModel = resolveViewModel()
 
         Fabric.with(this, Crashlytics())
         setContentView(R.layout.activity_main)
