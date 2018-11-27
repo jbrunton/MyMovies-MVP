@@ -2,7 +2,7 @@ package com.jbrunton.mymovies.ui.shared
 
 import android.view.View
 import androidx.annotation.DrawableRes
-import com.jbrunton.entities.models.AsyncResult
+import com.jbrunton.async.AsyncResult
 
 data class LoadingViewState<T>(
         val contentVisibility: Int = View.GONE,

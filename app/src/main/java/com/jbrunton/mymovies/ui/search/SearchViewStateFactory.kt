@@ -1,6 +1,6 @@
 package com.jbrunton.mymovies.ui.search
 
-import com.jbrunton.entities.models.AsyncResult
+import com.jbrunton.async.AsyncResult
 import com.jbrunton.entities.models.Movie
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.ui.movies.MovieSearchResultViewState

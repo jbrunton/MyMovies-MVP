@@ -1,6 +1,6 @@
 package com.jbrunton.entities.repositories
 
-import com.jbrunton.entities.models.AsyncResult
+import com.jbrunton.async.AsyncResult
 import io.reactivex.Observable
 
 typealias DataStream<T> = Observable<AsyncResult<T>>

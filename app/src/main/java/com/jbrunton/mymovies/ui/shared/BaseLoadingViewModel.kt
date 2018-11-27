@@ -1,7 +1,7 @@
 package com.jbrunton.mymovies.ui.shared
 
 import androidx.lifecycle.MutableLiveData
-import com.jbrunton.entities.models.AsyncResult
+import com.jbrunton.async.AsyncResult
 import io.reactivex.Observable
 
 abstract class BaseLoadingViewModel<T> : BaseViewModel() {

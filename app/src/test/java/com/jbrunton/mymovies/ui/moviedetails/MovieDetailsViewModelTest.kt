@@ -1,7 +1,7 @@
 package com.jbrunton.mymovies.ui.moviedetails
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.jbrunton.entities.models.AsyncResult
+import com.jbrunton.async.AsyncResult
 import com.jbrunton.entities.models.Movie
 import com.jbrunton.entities.repositories.MoviesRepository
 import com.jbrunton.fixtures.MovieFactory
