@@ -5,6 +5,10 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import com.jbrunton.inject.Container
+import com.jbrunton.inject.HasContainer
+import com.jbrunton.inject.ParameterDefinition
+import com.jbrunton.inject.emptyParameterDefinition
 import com.jbrunton.mymovies.di.*
 import kotlin.reflect.KClass
 

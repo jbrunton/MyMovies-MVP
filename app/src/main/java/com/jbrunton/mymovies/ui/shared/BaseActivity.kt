@@ -3,6 +3,10 @@ package com.jbrunton.mymovies.ui.shared
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
+import com.jbrunton.inject.HasContainer
+import com.jbrunton.inject.ParameterDefinition
+import com.jbrunton.inject.emptyParameterDefinition
+import com.jbrunton.inject.inject
 import com.jbrunton.mymovies.di.*
 import com.jbrunton.mymovies.nav.Navigator
 import io.reactivex.ObservableTransformer
