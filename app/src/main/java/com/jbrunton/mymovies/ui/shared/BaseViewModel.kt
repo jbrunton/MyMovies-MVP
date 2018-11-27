@@ -2,7 +2,7 @@ package com.jbrunton.mymovies.ui.shared
 
 import androidx.annotation.DrawableRes
 import androidx.lifecycle.ViewModel
-import com.jbrunton.entities.models.AsyncResult
+import com.jbrunton.async.AsyncResult
 import io.reactivex.ObservableTransformer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers

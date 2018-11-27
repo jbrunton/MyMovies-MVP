@@ -1,8 +1,8 @@
 package com.jbrunton.mymovies.ui.discover
 
 import com.jbrunton.entities.models.Genre
-import com.jbrunton.entities.models.AsyncResult
-import com.jbrunton.entities.models.onSuccess
+import com.jbrunton.async.AsyncResult
+import com.jbrunton.async.onSuccess
 import com.jbrunton.entities.repositories.GenresRepository
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.ui.shared.BaseLoadingViewModel

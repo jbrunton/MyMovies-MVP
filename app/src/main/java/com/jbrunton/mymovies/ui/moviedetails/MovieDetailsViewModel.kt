@@ -1,5 +1,6 @@
 package com.jbrunton.mymovies.ui.moviedetails
 
+import com.jbrunton.async.*
 import com.jbrunton.entities.models.*
 import com.jbrunton.entities.repositories.MoviesRepository
 import com.jbrunton.mymovies.ui.movies.MovieViewState

@@ -1,7 +1,6 @@
 package com.jbrunton.mymovies.ui.shared
 
-import com.jbrunton.entities.models.AsyncResult
-import com.jbrunton.entities.models.onError
+import com.jbrunton.async.*
 import com.jbrunton.mymovies.R
 import java.io.IOException
 

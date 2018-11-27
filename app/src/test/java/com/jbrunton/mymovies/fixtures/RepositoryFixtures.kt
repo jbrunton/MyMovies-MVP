@@ -1,6 +1,6 @@
 package com.jbrunton.mymovies.fixtures
 
-import com.jbrunton.entities.models.AsyncResult
+import com.jbrunton.async.AsyncResult
 import com.jbrunton.entities.models.Movie
 import com.jbrunton.entities.repositories.MoviesRepository
 import com.nhaarman.mockito_kotlin.whenever

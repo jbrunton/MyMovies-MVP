@@ -1,5 +1,6 @@
 package com.jbrunton.mymovies.ui.search
 
+import com.jbrunton.async.*
 import com.jbrunton.entities.models.*
 import com.jbrunton.entities.repositories.DataStream
 import com.jbrunton.mymovies.ui.shared.BaseLoadingViewModel
