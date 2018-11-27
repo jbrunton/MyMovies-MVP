@@ -1,6 +1,8 @@
 package com.jbrunton.mymovies.fixtures
 
 import androidx.fragment.app.Fragment
+import androidx.test.InstrumentationRegistry
+import androidx.test.InstrumentationRegistry.getInstrumentation
 import com.google.android.libraries.cloudtesting.screenshots.ScreenShotter
 import com.jbrunton.mymovies.di.Container
 import com.jbrunton.mymovies.di.HasContainer
@@ -16,7 +18,11 @@ abstract class BaseFragmentTest<T : Fragment> : HasContainer {
 
     val fragment: T get() = fragmentRule.fragment
 
-    override val container: Container get() = (fragment as BaseFragment<*>).container
+    override val container: Container by lazy {
+        (fragment as? HasContainer)?.container
+                ?: (getInstrumentation().getTargetContext().getApplicationContext() as HasContainer).container
+    }
+
 
     @JvmOverloads
     fun takeScreenshot(tag: String = "_") {

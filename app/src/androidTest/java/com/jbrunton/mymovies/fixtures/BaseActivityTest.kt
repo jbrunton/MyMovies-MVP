@@ -1,12 +1,14 @@
 package com.jbrunton.mymovies.fixtures
 
 import android.app.Activity
+import androidx.test.InstrumentationRegistry
 import androidx.test.rule.ActivityTestRule
 
 import com.google.android.libraries.cloudtesting.screenshots.ScreenShotter
 import com.jbrunton.mymovies.di.Container
 import com.jbrunton.mymovies.di.HasContainer
 import com.jbrunton.mymovies.shared.BaseActivity
+import com.jbrunton.mymovies.shared.BaseFragment
 import com.squareup.spoon.SpoonRule
 
 import org.junit.Rule
@@ -20,8 +22,10 @@ abstract class BaseActivityTest<T : Activity> : HasContainer {
     val activity: T
         get() = activityRule.activity
 
-    override val container: Container
-        get() = (activity as BaseActivity<*>).container
+    override val container: Container by lazy {
+        (activityRule.activity as? HasContainer)?.container
+                ?: (InstrumentationRegistry.getInstrumentation().getTargetContext().getApplicationContext() as HasContainer).container
+    }
 
     @JvmOverloads
     fun takeScreenshot(tag: String = "_") {
