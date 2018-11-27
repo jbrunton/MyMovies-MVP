@@ -129,6 +129,18 @@ class ContainerTest {
         }
     }
 
+    @Test
+    fun itLoadsModules() {
+        val FooModule = module { single { Foo() } }
+        val BarModule = module { single { Baz(get()) } }
+
+        container.register(FooModule, BarModule)
+
+        val baz: Baz = container.get()
+        val foo: Foo = container.get()
+        assertThat(baz.foo).isEqualTo(foo)
+    }
+
     class Foo
 
     class Bar
