@@ -14,6 +14,7 @@ import com.jbrunton.mymovies.search.SearchViewState
 import com.jbrunton.mymovies.shared.BaseActivity
 import com.jbrunton.mymovies.shared.LoadingLayoutManager
 import com.jbrunton.mymovies.shared.LoadingViewState
+import com.jbrunton.mymovies.shared.injectViewModel
 import com.trello.rxlifecycle2.android.lifecycle.kotlin.bindToLifecycle
 import kotlinx.android.synthetic.main.activity_genre_results.*
 import kotlinx.android.synthetic.main.layout_loading_state.*
@@ -22,13 +23,11 @@ class GenreResultsActivity : BaseActivity<GenreResultsViewModel>() {
     private lateinit var moviesAdapter: SearchResultsAdapter
     private lateinit var loadingLayoutManager: LoadingLayoutManager
 
-    lateinit var viewModel: GenreResultsViewModel
+    val viewModel: GenreResultsViewModel by injectViewModel { parametersOf(genreId()) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_genre_results)
-
-        viewModel = resolveViewModel { parametersOf(genreId()) }
 
         val toolbar = findViewById<View>(R.id.toolbar) as Toolbar
         setSupportActionBar(toolbar)

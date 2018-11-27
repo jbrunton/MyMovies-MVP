@@ -14,6 +14,7 @@ import com.jbrunton.mymovies.search.SearchViewState
 import com.jbrunton.mymovies.shared.BaseFragment
 import com.jbrunton.mymovies.shared.LoadingLayoutManager
 import com.jbrunton.mymovies.shared.LoadingViewState
+import com.jbrunton.mymovies.shared.injectViewModel
 import com.trello.rxlifecycle2.android.lifecycle.kotlin.bindToLifecycle
 import kotlinx.android.synthetic.main.fragment_discover.*
 import kotlinx.android.synthetic.main.layout_loading_state.*
@@ -22,7 +23,7 @@ class DiscoverFragment : BaseFragment<DiscoverViewModel>() {
     private lateinit var loadingLayoutManager: LoadingLayoutManager
     private lateinit var nowPlayingAdapter: SearchResultsAdapter
 
-    lateinit var viewModel: DiscoverViewModel
+    val viewModel: DiscoverViewModel by injectViewModel()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_discover, container, false)
@@ -30,8 +31,6 @@ class DiscoverFragment : BaseFragment<DiscoverViewModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        viewModel = resolveViewModel()
 
         loadingLayoutManager = LoadingLayoutManager.buildFor(this, discover_content)
         nowPlayingAdapter = SearchResultsAdapter(activity!!, R.layout.item_movie_card_grid)

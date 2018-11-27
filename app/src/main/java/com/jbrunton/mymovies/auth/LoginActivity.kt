@@ -15,6 +15,7 @@ import com.jbrunton.mymovies.moviedetails.MovieDetailsViewModel
 import com.jbrunton.mymovies.shared.BaseActivity
 import com.jbrunton.mymovies.shared.LoadingLayoutManager
 import com.jbrunton.mymovies.shared.LoadingViewState
+import com.jbrunton.mymovies.shared.injectViewModel
 import com.trello.rxlifecycle2.android.lifecycle.kotlin.bindToLifecycle
 import io.reactivex.Scheduler
 import kotlinx.android.synthetic.main.activity_login.*
@@ -22,7 +23,7 @@ import kotlinx.android.synthetic.main.content_movie_details.*
 import java.util.concurrent.TimeUnit
 
 class LoginActivity : BaseActivity<LoginViewModel>() {
-    lateinit var viewModel: LoginViewModel
+    val viewModel: LoginViewModel by injectViewModel()
     lateinit var loadingLayoutManager: LoadingLayoutManager
 
     companion object {
@@ -33,8 +34,6 @@ class LoginActivity : BaseActivity<LoginViewModel>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-
-        viewModel = resolveViewModel()
 
         loadingLayoutManager = LoadingLayoutManager.buildFor(this, sign_in_details)
 

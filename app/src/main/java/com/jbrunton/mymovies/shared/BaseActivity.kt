@@ -3,31 +3,24 @@ package com.jbrunton.mymovies.shared
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModel
 import com.jbrunton.mymovies.MyMoviesApplication
 import com.jbrunton.mymovies.account.AccountViewModel
-import com.jbrunton.mymovies.di.HasContainer
-import com.jbrunton.mymovies.di.ParameterDefinition
-import com.jbrunton.mymovies.di.emptyParameterDefinition
-import com.jbrunton.mymovies.di.resolve
+import com.jbrunton.mymovies.di.*
 import com.jbrunton.mymovies.nav.Navigator
 import io.reactivex.ObservableTransformer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 abstract class BaseActivity<T : BaseViewModel> : AppCompatActivity(), HasContainer {
-    lateinit var navigator: Navigator
+    val navigator: Navigator by inject()
 
     override val container by lazy {
         (applicationContext as MyMoviesApplication).container.createChildContainer().apply {
-            single { this@BaseActivity as AppCompatActivity }
+            single { this@BaseActivity as FragmentActivity }
             single { Navigator(get()) }
         }
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        navigator = resolve()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

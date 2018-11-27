@@ -13,12 +13,13 @@ import com.jbrunton.mymovies.movies.MovieViewState
 import com.jbrunton.mymovies.shared.BaseActivity
 import com.jbrunton.mymovies.shared.LoadingLayoutManager
 import com.jbrunton.mymovies.shared.LoadingViewState
+import com.jbrunton.mymovies.shared.injectViewModel
 import kotlinx.android.synthetic.main.activity_movie_details.*
 import kotlinx.android.synthetic.main.content_movie_details.*
 import kotlinx.android.synthetic.main.layout_loading_state.*
 
 class MovieDetailsActivity : BaseActivity<MovieDetailsViewModel>() {
-    lateinit var viewModel: MovieDetailsViewModel
+    val viewModel: MovieDetailsViewModel by injectViewModel() { parametersOf(movieId()) }
     lateinit var loadingLayoutManager: LoadingLayoutManager
     private val picassoHelper = PicassoHelper()
 
@@ -26,7 +27,6 @@ class MovieDetailsActivity : BaseActivity<MovieDetailsViewModel>() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_movie_details)
 
-        viewModel = resolveViewModel { parametersOf(movieId()) }
         val toolbar = findViewById<View>(R.id.toolbar) as Toolbar
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
