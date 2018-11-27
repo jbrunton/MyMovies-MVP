@@ -63,7 +63,6 @@ open class MyMoviesApplication : Application(), HasContainer {
             single { Schedulers.computation() }
             //single { Navigator() }
 
-            factory { MainViewModel(get()) }
             factory { SearchViewModel(get()) }
             factory { DiscoverViewModel(get()) }
             factory { GenresViewModel(get()) }

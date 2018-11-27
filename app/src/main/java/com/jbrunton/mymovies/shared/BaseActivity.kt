@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import com.jbrunton.mymovies.MyMoviesApplication
+import com.jbrunton.mymovies.main.MainViewModel
 import com.jbrunton.mymovies.nav.Navigator
 import io.reactivex.ObservableTransformer
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -29,6 +30,8 @@ abstract class BaseActivity<T : BaseViewModel> : AppCompatActivity(), HasContain
     override val container by lazy {
         (applicationContext as MyMoviesApplication).container.createChildContainer().apply {
             single { this@BaseActivity as AppCompatActivity }
+            single { Navigator(get()) }
+            factory { MainViewModel(get()) }
         }
     }
 
