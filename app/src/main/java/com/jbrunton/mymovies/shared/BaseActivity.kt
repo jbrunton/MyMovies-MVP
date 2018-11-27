@@ -17,7 +17,7 @@ abstract class BaseActivity<T : BaseViewModel> : AppCompatActivity(), HasContain
     val navigator: Navigator by inject()
 
     override val container by lazy {
-        (applicationContext as MyMoviesApplication).container.createChildContainer().apply {
+        (applicationContext as HasContainer).container.createChildContainer().apply {
             single { this@BaseActivity as FragmentActivity }
             single { Navigator(get()) }
         }

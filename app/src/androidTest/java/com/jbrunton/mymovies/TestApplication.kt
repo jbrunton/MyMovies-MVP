@@ -20,6 +20,7 @@ import io.reactivex.schedulers.Schedulers
 
 class TestApplication : MyMoviesApplication() {
     override fun registerDependencies(container: Container) {
+        super.registerDependencies(container)
         container.apply {
             single { ServiceFactory.createService() }
             single { TestMoviesRepository() as MoviesRepository }
