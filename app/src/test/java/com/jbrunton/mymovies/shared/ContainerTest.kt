@@ -15,14 +15,12 @@ class ContainerTest {
 
     @Test
     fun resolvesSingletons() {
-        val foo = Foo()
-        container.single(foo)
+        container.single{ Foo() }
 
         val foo1: Foo = container.get()
         val foo2: Foo = container.get()
 
-        assertThat(foo1).isEqualTo(foo)
-        assertThat(foo2).isEqualTo(foo)
+        assertThat(foo1).isEqualTo(foo2)
     }
 
     @Test

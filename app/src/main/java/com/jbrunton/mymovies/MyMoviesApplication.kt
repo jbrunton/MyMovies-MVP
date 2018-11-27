@@ -13,6 +13,7 @@ import com.jbrunton.mymovies.main.MainViewModel
 import com.jbrunton.mymovies.moviedetails.MovieDetailsViewModel
 import com.jbrunton.mymovies.nav.Navigator
 import com.jbrunton.mymovies.search.SearchViewModel
+import com.jbrunton.mymovies.shared.Container
 import com.jbrunton.networking.repositories.HttpAccountRepository
 import com.jbrunton.networking.repositories.HttpGenresRepository
 import com.jbrunton.networking.repositories.HttpMoviesRepository
@@ -42,10 +43,25 @@ val applicationModule : Module = module {
 }
 
 open class MyMoviesApplication : Application() {
+    val container = Container()
+
+    inline fun <reified T : Any> get() = container.get<T>()
+
     override fun onCreate() {
         super.onCreate()
-        startKoin(this, createDependencies())
+        //startKoin(this, createDependencies())
     }
 
-    protected open fun createDependencies() = listOf(applicationModule)
+    protected open fun registerDependencies(container: Container) {
+        container.single { ServiceFactory.createService() }
+        container.single { HttpMoviesRepository(get()) as MoviesRepository }
+        container.single { HttpGenresRepository(get()) as GenresRepository }
+        container.single { HttpAccountRepository(get()) as AccountRepository }
+        container.single { Schedulers.computation() }
+        container.single { Navigator() }
+
+        container.factory { MainViewModel(get()) }
+    }
+
+    //protected open fun createDependencies() = listOf(applicationModule)
 }
