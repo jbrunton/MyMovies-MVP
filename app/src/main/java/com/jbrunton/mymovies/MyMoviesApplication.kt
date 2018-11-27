@@ -49,7 +49,8 @@ open class MyMoviesApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        //startKoin(this, createDependencies())
+        startKoin(this, createDependencies())
+        registerDependencies(container)
     }
 
     protected open fun registerDependencies(container: Container) {
@@ -63,5 +64,5 @@ open class MyMoviesApplication : Application() {
         container.factory { MainViewModel(get()) }
     }
 
-    //protected open fun createDependencies() = listOf(applicationModule)
+    protected open fun createDependencies() = listOf(applicationModule)
 }

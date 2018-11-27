@@ -14,10 +14,12 @@ import org.koin.android.ext.android.inject
 
 class MainActivity : BaseActivity<MainViewModel>() {
 
-    val viewModel: MainViewModel by inject()
+    lateinit var viewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewModel = get()
+
         Fabric.with(this, Crashlytics())
         setContentView(R.layout.activity_main)
 

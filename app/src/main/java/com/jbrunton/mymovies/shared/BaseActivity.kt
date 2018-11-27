@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.jbrunton.mymovies.MyMoviesApplication
 import com.jbrunton.mymovies.nav.Navigator
 import io.reactivex.ObservableTransformer
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -46,5 +47,9 @@ abstract class BaseActivity<T : BaseViewModel> : AppCompatActivity() {
         return module(override = true) {
             scope("ACTIVITY") { this@BaseActivity as AppCompatActivity }
         }
+    }
+
+    inline fun <reified T : Any> get(): T {
+        return (applicationContext as MyMoviesApplication).get()
     }
 }
