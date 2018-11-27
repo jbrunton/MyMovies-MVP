@@ -1,12 +1,5 @@
-package com.jbrunton.mymovies.shared
+package com.jbrunton.mymovies.di
 
-import android.util.Log
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
-import com.jbrunton.mymovies.nav.Navigator
 import java.lang.NullPointerException
 import kotlin.reflect.KClass
 
@@ -37,30 +30,6 @@ class Container(val parent: Container? = null) {
                 ?: throw NullPointerException("Unable to resolve type ${klass.qualifiedName}")
     }
 
-    fun <T : ViewModel> resolveViewModel(
-            activity: FragmentActivity,
-            klass: KClass<T>,
-            parameters: ParameterDefinition = emptyParameterDefinition()
-    ): T {
-        return ViewModelProviders.of(activity, object : ViewModelProvider.Factory {
-            override fun <S : ViewModel> create(modelClass: Class<S>): S {
-                return resolve(klass, parameters) as S
-            }
-        }).get(klass.java)
-    }
-
-    fun <T : ViewModel> resolveViewModel(
-            fragment: Fragment,
-            klass: KClass<T>,
-            parameters: ParameterDefinition = emptyParameterDefinition()
-    ): T {
-        return ViewModelProviders.of(fragment, object : ViewModelProvider.Factory {
-            override fun <S : ViewModel> create(modelClass: Class<S>): S {
-                return resolve(klass, parameters) as S
-            }
-        }).get(klass.java)
-    }
-
     private fun <T : Any> tryResolveSingleton(klass: KClass<T>, parameters: ParameterDefinition): T? {
         var instance = singletonRegistry.get(klass) as T?
         if (instance == null) {
@@ -78,4 +47,3 @@ class Container(val parent: Container? = null) {
 }
 
 typealias Definition<T> = (ParameterList) -> T
-

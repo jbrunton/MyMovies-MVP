@@ -1,10 +1,6 @@
-package com.jbrunton.mymovies.shared
+package com.jbrunton.mymovies.di
 
-import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
-import kotlin.reflect.KClass
+import com.jbrunton.mymovies.di.Container
 
 interface HasContainer {
     val container: Container

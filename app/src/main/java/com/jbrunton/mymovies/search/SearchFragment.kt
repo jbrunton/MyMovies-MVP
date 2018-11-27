@@ -9,11 +9,11 @@ import com.jakewharton.rxbinding2.view.clicks
 import com.jakewharton.rxbinding2.widget.textChanges
 import com.jbrunton.entities.models.AsyncResult
 import com.jbrunton.mymovies.R
+import com.jbrunton.mymovies.di.resolve
 import com.jbrunton.mymovies.helpers.observe
 import com.jbrunton.mymovies.shared.BaseFragment
 import com.jbrunton.mymovies.shared.LoadingLayoutManager
 import com.jbrunton.mymovies.shared.LoadingViewState
-import com.jbrunton.mymovies.shared.resolve
 import com.trello.rxlifecycle2.android.lifecycle.kotlin.bindToLifecycle
 import io.reactivex.Scheduler
 import kotlinx.android.synthetic.main.fragment_search.*

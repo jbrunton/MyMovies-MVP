@@ -11,8 +11,8 @@ import com.jbrunton.mymovies.discover.GenreResultsViewModel
 import com.jbrunton.mymovies.discover.GenresViewModel
 import com.jbrunton.mymovies.moviedetails.MovieDetailsViewModel
 import com.jbrunton.mymovies.search.SearchViewModel
-import com.jbrunton.mymovies.shared.Container
-import com.jbrunton.mymovies.shared.HasContainer
+import com.jbrunton.mymovies.di.Container
+import com.jbrunton.mymovies.di.HasContainer
 import com.jbrunton.networking.repositories.HttpAccountRepository
 import com.jbrunton.networking.repositories.HttpGenresRepository
 import com.jbrunton.networking.repositories.HttpMoviesRepository

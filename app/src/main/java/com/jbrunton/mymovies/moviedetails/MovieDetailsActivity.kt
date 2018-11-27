@@ -6,13 +6,13 @@ import android.view.View
 import androidx.appcompat.widget.Toolbar
 import com.google.android.material.snackbar.Snackbar
 import com.jbrunton.mymovies.R
+import com.jbrunton.mymovies.di.parametersOf
 import com.jbrunton.mymovies.helpers.PicassoHelper
 import com.jbrunton.mymovies.helpers.observe
 import com.jbrunton.mymovies.movies.MovieViewState
 import com.jbrunton.mymovies.shared.BaseActivity
 import com.jbrunton.mymovies.shared.LoadingLayoutManager
 import com.jbrunton.mymovies.shared.LoadingViewState
-import com.jbrunton.mymovies.shared.parametersOf
 import kotlinx.android.synthetic.main.activity_movie_details.*
 import kotlinx.android.synthetic.main.content_movie_details.*
 import kotlinx.android.synthetic.main.layout_loading_state.*

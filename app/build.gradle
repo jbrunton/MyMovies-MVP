@@ -54,6 +54,7 @@ dependencies {
 
     implementation project(':entities')
     implementation project(':networking')
+    implementation project(':di')
 
     implementation 'com.google.android.material:material:1.0.0-rc02'
     implementation 'androidx.appcompat:appcompat:1.0.0-rc02'

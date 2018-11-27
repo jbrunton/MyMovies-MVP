@@ -1,4 +1,4 @@
-package com.jbrunton.mymovies.shared
+package com.jbrunton.mymovies.di
 
 import java.lang.IllegalArgumentException
 

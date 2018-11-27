@@ -6,6 +6,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import com.jbrunton.mymovies.MyMoviesApplication
 import com.jbrunton.mymovies.account.AccountViewModel
+import com.jbrunton.mymovies.di.HasContainer
+import com.jbrunton.mymovies.di.ParameterDefinition
+import com.jbrunton.mymovies.di.emptyParameterDefinition
+import com.jbrunton.mymovies.di.resolve
 import com.jbrunton.mymovies.nav.Navigator
 import io.reactivex.ObservableTransformer
 import io.reactivex.android.schedulers.AndroidSchedulers
