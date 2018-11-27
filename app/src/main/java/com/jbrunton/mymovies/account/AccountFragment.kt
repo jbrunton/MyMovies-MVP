@@ -26,7 +26,7 @@ class AccountFragment : BaseFragment<AccountViewModel>() {
     private lateinit var loadingLayoutManager: LoadingLayoutManager
     private val picassoHelper = PicassoHelper()
 
-    private val viewModel: AccountViewModel by viewModel()
+    private lateinit var viewModel: AccountViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_account, container, false)
@@ -50,6 +50,7 @@ class AccountFragment : BaseFragment<AccountViewModel>() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        viewModel = resolveViewModel()
         viewModel.viewState.observe(this, this::updateView)
         viewModel.start()
     }

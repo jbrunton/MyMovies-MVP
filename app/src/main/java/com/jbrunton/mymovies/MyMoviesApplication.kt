@@ -54,14 +54,23 @@ open class MyMoviesApplication : Application() {
     }
 
     protected open fun registerDependencies(container: Container) {
-        container.single { ServiceFactory.createService() }
-        container.single { HttpMoviesRepository(get()) as MoviesRepository }
-        container.single { HttpGenresRepository(get()) as GenresRepository }
-        container.single { HttpAccountRepository(get()) as AccountRepository }
-        container.single { Schedulers.computation() }
-        container.single { Navigator() }
+        container.apply {
+            single { ServiceFactory.createService() }
+            single { HttpMoviesRepository(get()) as MoviesRepository }
+            single { HttpGenresRepository(get()) as GenresRepository }
+            single { HttpAccountRepository(get()) as AccountRepository }
+            single { Schedulers.computation() }
+            single { Navigator() }
 
-        container.factory { MainViewModel(get()) }
+            factory { MainViewModel(get()) }
+            factory { SearchViewModel(get()) }
+            factory { DiscoverViewModel(get()) }
+            factory { GenresViewModel(get()) }
+            factory { AccountViewModel(get(), get()) }
+            factory { LoginViewModel(get()) }
+            factory { (movieId: String) -> MovieDetailsViewModel(movieId, get()) }
+            factory { (genreId: String) -> GenreResultsViewModel(genreId, get()) }
+        }
     }
 
     protected open fun createDependencies() = listOf(applicationModule)

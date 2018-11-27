@@ -25,8 +25,7 @@ import org.koin.core.parameter.parametersOf
 import java.util.concurrent.TimeUnit
 
 class LoginActivity : BaseActivity<LoginViewModel>() {
-    val viewModel: LoginViewModel by viewModel()
-    val scheduler: Scheduler by inject()
+    lateinit var viewModel: LoginViewModel
     lateinit var loadingLayoutManager: LoadingLayoutManager
 
     companion object {
@@ -37,6 +36,8 @@ class LoginActivity : BaseActivity<LoginViewModel>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+
+        viewModel = resolveViewModel()
 
         loadingLayoutManager = LoadingLayoutManager.buildFor(this, sign_in_details)
 

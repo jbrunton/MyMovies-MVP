@@ -16,6 +16,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.ext.android.inject
 import org.koin.androidx.scope.ext.android.createScope
 import org.koin.androidx.scope.ext.android.getOrCreateScope
+import org.koin.core.parameter.emptyParameterDefinition
 import org.koin.core.scope.Scope
 import org.koin.dsl.module.Module
 import org.koin.dsl.module.module
@@ -54,15 +55,15 @@ abstract class BaseActivity<T : BaseViewModel> : AppCompatActivity() {
         }
     }
 
-    fun <T : Any> resolve(klass: KClass<T>): T {
+    fun <T : Any> resolve(klass: KClass<T>, parameters: ParameterDefinition = emptyParameterDefinition()): T {
         return (applicationContext as MyMoviesApplication).container.resolve(klass)
     }
 
-    inline fun <reified T: ViewModel> resolve(): T {
-        return resolve(T::class)
+    inline fun <reified T: ViewModel> resolve(noinline parameters: ParameterDefinition = emptyParameterDefinition()): T {
+        return resolve(T::class, parameters)
     }
 
-    inline fun <reified T: ViewModel> resolveViewModel(): T {
-        return (applicationContext as MyMoviesApplication).container.viewModel(this, T::class)
+    inline fun <reified T: ViewModel> resolveViewModel(noinline parameters: ParameterDefinition = emptyParameterDefinition()): T {
+        return (applicationContext as MyMoviesApplication).container.viewModel(this, T::class, parameters)
     }
 }
