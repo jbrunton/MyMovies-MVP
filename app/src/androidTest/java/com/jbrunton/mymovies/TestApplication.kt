@@ -6,6 +6,7 @@ import com.jbrunton.entities.repositories.MoviesRepository
 import com.jbrunton.mymovies.account.AccountViewModel
 import com.jbrunton.mymovies.auth.LoginViewModel
 import com.jbrunton.mymovies.di.Container
+import com.jbrunton.mymovies.di.Module
 import com.jbrunton.mymovies.discover.DiscoverViewModel
 import com.jbrunton.mymovies.discover.GenreResultsViewModel
 import com.jbrunton.mymovies.discover.GenresViewModel
@@ -19,14 +20,22 @@ import com.jbrunton.networking.services.ServiceFactory
 import io.reactivex.schedulers.Schedulers
 
 class TestApplication : MyMoviesApplication() {
-    override fun registerDependencies(container: Container) {
-        super.registerDependencies(container)
-        container.apply {
-            single { ServiceFactory.createService() }
-            single { TestMoviesRepository() as MoviesRepository }
-            single { TestGenresRepository() as GenresRepository }
-            single { HttpAccountRepository(get()) as AccountRepository }
-            single { Schedulers.trampoline() }
+    override fun schedulersModule() = object : Module {
+        override fun registerTypes(container: Container) {
+            container.apply {
+                single(override = true) { Schedulers.trampoline() }
+            }
+        }
+    }
+
+    override fun httpModule() = object : Module {
+        override fun registerTypes(container: Container) {
+            container.apply {
+                single(override = true) { ServiceFactory.createService() }
+                single(override = true) { TestMoviesRepository() as MoviesRepository }
+                single(override = true) { TestGenresRepository() as GenresRepository }
+                single(override = true) { HttpAccountRepository(get()) as AccountRepository }
+            }
         }
     }
 }
