@@ -18,8 +18,7 @@ abstract class BaseActivity<T : BaseViewModel> : AppCompatActivity(), HasContain
 
     override val container by lazy {
         (applicationContext as HasContainer).container.createChildContainer().apply {
-            single { this@BaseActivity as FragmentActivity }
-            single { Navigator(get()) }
+            registerModules(ApplicationModule(this@BaseActivity))
         }
     }
 
@@ -37,5 +36,14 @@ abstract class BaseActivity<T : BaseViewModel> : AppCompatActivity(), HasContain
 
     inline fun <reified T: ViewModel> resolveViewModel(noinline parameters: ParameterDefinition = emptyParameterDefinition()): T {
         return container.resolveViewModel(this, T::class, parameters)
+    }
+
+    class ApplicationModule(val activity: FragmentActivity): Module {
+        override fun registerTypes(container: Container) {
+            container.apply {
+                single { activity }
+                single { Navigator(get()) }
+            }
+        }
     }
 }
