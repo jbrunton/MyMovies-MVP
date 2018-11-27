@@ -1,6 +1,7 @@
 package com.jbrunton.mymovies.di
 
 import java.lang.IllegalArgumentException
+import kotlin.reflect.KClass
 
 class ParameterList(vararg value: Any?) {
 
@@ -46,3 +47,15 @@ fun parametersOf(vararg value: Any?) = ParameterList(*value)
  * Empty Parameter List
  */
 fun emptyParameterDefinition() = { ParameterList() }
+
+class DryRunParameters {
+    private val parameterMap = HashMap<KClass<*>, ParameterList>()
+
+    fun map(klass: KClass<*>, parameters: ParameterList) {
+        parameterMap.put(klass, parameters)
+    }
+
+    fun forClass(klass: KClass<*>): ParameterList {
+        return parameterMap.get(klass) ?: ParameterList()
+    }
+}

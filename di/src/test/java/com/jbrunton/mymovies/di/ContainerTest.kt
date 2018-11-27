@@ -124,11 +124,9 @@ class ContainerTest {
             factory { (foo: Foo) -> Baz(foo) }
         }
 
-        container.dryRun(
-                mapOf(
-                        Baz::class to parametersOf(Foo())
-                )
-        )
+        container.dryRun(DryRunParameters().apply {
+            map(Baz::class, parametersOf(Foo()))
+        })
     }
 
     class Foo

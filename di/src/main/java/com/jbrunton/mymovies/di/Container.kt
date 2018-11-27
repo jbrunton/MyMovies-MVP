@@ -46,14 +46,14 @@ class Container(val parent: Container? = null) {
         }
     }
 
-    fun dryRun(parameterLists: Map<KClass<*>, ParameterList> = emptyMap()) {
+    fun dryRun(parameters: DryRunParameters = DryRunParameters()) {
         singletonDefinitions.forEach { klass, definition ->
-            definition.invoke(parameterLists[klass] ?: ParameterList())
+            definition.invoke(parameters.forClass(klass))
         }
         factoryDefinitions.forEach { klass, definition ->
-            definition.invoke(parameterLists[klass] ?: ParameterList())
+            definition.invoke(parameters.forClass(klass))
         }
-        parent?.dryRun(parameterLists)
+        parent?.dryRun(parameters)
     }
 
     private fun <T : Any> tryResolveSingleton(klass: KClass<T>, parameters: ParameterDefinition): T? {
@@ -90,8 +90,8 @@ interface Module {
     fun registerTypes(container: Container)
 }
 
-fun Module.check(parameterLists: Map<KClass<*>, ParameterList> = emptyMap()) {
+fun Module.check(parameters: DryRunParameters = DryRunParameters()) {
     val container = Container()
     container.register(this)
-    container.dryRun(parameterLists)
+    container.dryRun(parameters)
 }
