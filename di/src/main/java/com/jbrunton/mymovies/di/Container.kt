@@ -34,13 +34,11 @@ class Container(val parent: Container? = null) {
     }
 
     fun <T : Any> registerSingleton(klass: KClass<T>, override: Boolean = false, definition: Definition<T>) {
-        checkNewType(klass, override)
-        singletonDefinitions.put(klass, definition)
+        checkAndPut(singletonDefinitions, klass, override, definition)
     }
 
     fun <T : Any> registerFactory(klass: KClass<T>, override: Boolean = false, definition: Definition<T>) {
-        checkNewType(klass, override)
-        factoryDefinitions.put(klass, definition)
+        checkAndPut(factoryDefinitions, klass, override, definition)
     }
 
     fun registerModules(vararg modules: Module) {
@@ -64,11 +62,16 @@ class Container(val parent: Container? = null) {
         return factoryDefinitions.get(klass)?.invoke(parameters()) as T?
     }
 
-    private fun checkNewType(klass: KClass<*>, override: Boolean) {
-        if (override) return
-        if (isRegistered(klass)) {
+    private fun checkAndPut(
+            definitions: HashMap<KClass<*>, Definition<*>>,
+            klass: KClass<*>,
+            override: Boolean,
+            definition: Definition<*>)
+    {
+        if (!override && isRegistered(klass)) {
             throw TypeAlreadyRegistered(klass)
         }
+        definitions.put(klass, definition)
     }
 }
 
