@@ -43,6 +43,12 @@ class Container(val parent: Container? = null) {
         factoryDefinitions.put(klass, definition)
     }
 
+    fun registerModules(vararg modules: Module) {
+        for (module in modules) {
+            module.registerTypes(this)
+        }
+    }
+
     private fun <T : Any> tryResolveSingleton(klass: KClass<T>, parameters: ParameterDefinition): T? {
         var instance = singletonRegistry.get(klass) as T?
         if (instance == null) {
@@ -67,3 +73,7 @@ class Container(val parent: Container? = null) {
 }
 
 typealias Definition<T> = (ParameterList) -> T
+
+interface Module {
+    fun registerTypes(container: Container)
+}

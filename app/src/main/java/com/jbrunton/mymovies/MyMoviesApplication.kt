@@ -13,6 +13,7 @@ import com.jbrunton.mymovies.moviedetails.MovieDetailsViewModel
 import com.jbrunton.mymovies.search.SearchViewModel
 import com.jbrunton.mymovies.di.Container
 import com.jbrunton.mymovies.di.HasContainer
+import com.jbrunton.mymovies.di.Module
 import com.jbrunton.networking.repositories.HttpAccountRepository
 import com.jbrunton.networking.repositories.HttpGenresRepository
 import com.jbrunton.networking.repositories.HttpMoviesRepository
@@ -26,24 +27,39 @@ open class MyMoviesApplication : Application(), HasContainer {
 
     override fun onCreate() {
         super.onCreate()
-        registerDependencies(container)
+        container.registerModules(schedulersModule(), httpModule(), viewModelsModule())
     }
 
-    protected open fun registerDependencies(container: Container) {
-        container.apply {
-            single { ServiceFactory.createService() }
-            single { HttpMoviesRepository(get()) as MoviesRepository }
-            single { HttpGenresRepository(get()) as GenresRepository }
-            single { HttpAccountRepository(get()) as AccountRepository }
-            single { Schedulers.computation() }
+    open fun schedulersModule() = object : Module {
+        override fun registerTypes(container: Container) {
+            container.apply {
+                single { Schedulers.computation() }
+            }
+        }
+    }
 
-            factory { SearchViewModel(get()) }
-            factory { DiscoverViewModel(get()) }
-            factory { GenresViewModel(get()) }
-            factory { LoginViewModel(get()) }
-            factory { AccountViewModel(get()) }
-            factory { (movieId: String) -> MovieDetailsViewModel(movieId, get()) }
-            factory { (genreId: String) -> GenreResultsViewModel(genreId, get()) }
+    open fun httpModule() = object : Module {
+        override fun registerTypes(container: Container) {
+            container.apply {
+                single { ServiceFactory.createService() }
+                single { HttpMoviesRepository(get()) as MoviesRepository }
+                single { HttpGenresRepository(get()) as GenresRepository }
+                single { HttpAccountRepository(get()) as AccountRepository }
+            }
+        }
+    }
+
+    open fun viewModelsModule() = object : Module {
+        override fun registerTypes(container: Container) {
+            container.apply {
+                factory { SearchViewModel(get()) }
+                factory { DiscoverViewModel(get()) }
+                factory { GenresViewModel(get()) }
+                factory { LoginViewModel(get()) }
+                factory { AccountViewModel(get()) }
+                factory { (movieId: String) -> MovieDetailsViewModel(movieId, get()) }
+                factory { (genreId: String) -> GenreResultsViewModel(genreId, get()) }
+            }
         }
     }
 }
