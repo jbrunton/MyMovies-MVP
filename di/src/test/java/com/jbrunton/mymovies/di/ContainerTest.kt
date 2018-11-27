@@ -1,6 +1,5 @@
-package com.jbrunton.mymovies.shared
+package com.jbrunton.mymovies.di
 
-import com.jbrunton.mymovies.di.Container
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Test
