@@ -7,14 +7,10 @@ import androidx.lifecycle.ViewModelProviders
 import org.koin.core.parameter.emptyParameterDefinition
 import kotlin.reflect.KClass
 
-fun <T : ViewModel> Container.viewModel(
-        activity: FragmentActivity,
-        klass: KClass<T>,
-        parameters: ParameterDefinition = emptyParameterDefinition()
-): T {
-    return ViewModelProviders.of(activity, object : ViewModelProvider.Factory {
-        override fun <S : ViewModel> create(modelClass: Class<S>): S {
-            return resolve(klass, parameters) as S
-        }
-    }).get(klass.java)
+interface HasContainer {
+    val container: Container
+}
+
+inline fun <reified T: Any> HasContainer.resolve(noinline parameters: ParameterDefinition = emptyParameterDefinition()): T {
+    return container.resolve(T::class, parameters)
 }

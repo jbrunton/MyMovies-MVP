@@ -1,20 +1,14 @@
 package com.jbrunton.mymovies.shared
 
-import android.app.Activity
 import android.content.Intent
-import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import com.jbrunton.mymovies.MyMoviesApplication
 import com.jbrunton.mymovies.nav.Navigator
 import io.reactivex.ObservableTransformer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.ext.android.inject
-import org.koin.androidx.scope.ext.android.createScope
 import org.koin.androidx.scope.ext.android.getOrCreateScope
 import org.koin.core.parameter.emptyParameterDefinition
 import org.koin.core.scope.Scope
@@ -23,13 +17,16 @@ import org.koin.dsl.module.module
 import org.koin.standalone.StandAloneContext.loadKoinModules
 import kotlin.reflect.KClass
 
-abstract class BaseActivity<T : BaseViewModel> : AppCompatActivity() {
+abstract class BaseActivity<T : BaseViewModel> : AppCompatActivity(), HasContainer {
     init {
         loadKoinModules(createActivityModule())
     }
 
     var scope: Scope? = null
     val navigator: Navigator by inject()
+
+    override val container: Container
+        get() = (applicationContext as MyMoviesApplication).container
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         navigator.onActivityResult(requestCode, resultCode, data)
@@ -55,15 +52,7 @@ abstract class BaseActivity<T : BaseViewModel> : AppCompatActivity() {
         }
     }
 
-    fun <T : Any> resolve(klass: KClass<T>, parameters: ParameterDefinition = emptyParameterDefinition()): T {
-        return (applicationContext as MyMoviesApplication).container.resolve(klass)
-    }
-
-    inline fun <reified T: ViewModel> resolve(noinline parameters: ParameterDefinition = emptyParameterDefinition()): T {
-        return resolve(T::class, parameters)
-    }
-
     inline fun <reified T: ViewModel> resolveViewModel(noinline parameters: ParameterDefinition = emptyParameterDefinition()): T {
-        return (applicationContext as MyMoviesApplication).container.viewModel(this, T::class, parameters)
+        return container.resolveViewModel(this, T::class, parameters)
     }
 }

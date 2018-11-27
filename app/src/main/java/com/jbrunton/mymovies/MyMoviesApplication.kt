@@ -14,6 +14,7 @@ import com.jbrunton.mymovies.moviedetails.MovieDetailsViewModel
 import com.jbrunton.mymovies.nav.Navigator
 import com.jbrunton.mymovies.search.SearchViewModel
 import com.jbrunton.mymovies.shared.Container
+import com.jbrunton.mymovies.shared.HasContainer
 import com.jbrunton.networking.repositories.HttpAccountRepository
 import com.jbrunton.networking.repositories.HttpGenresRepository
 import com.jbrunton.networking.repositories.HttpMoviesRepository
@@ -42,8 +43,8 @@ val applicationModule : Module = module {
     viewModel { (genreId: String) -> GenreResultsViewModel(genreId, get()) }
 }
 
-open class MyMoviesApplication : Application() {
-    val container = Container()
+open class MyMoviesApplication : Application(), HasContainer {
+    override val container = Container()
 
     inline fun <reified T : Any> get() = container.get<T>()
 
