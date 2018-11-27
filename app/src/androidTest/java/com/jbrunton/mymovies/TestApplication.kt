@@ -22,11 +22,11 @@ class TestApplication : MyMoviesApplication() {
     override fun registerDependencies(container: Container) {
         super.registerDependencies(container)
         container.apply {
-            single { ServiceFactory.createService() }
-            single { TestMoviesRepository() as MoviesRepository }
-            single { TestGenresRepository() as GenresRepository }
-            single { HttpAccountRepository(get()) as AccountRepository }
-            single { Schedulers.trampoline() }
+            single(override = true) { ServiceFactory.createService() }
+            single(override = true) { TestMoviesRepository() as MoviesRepository }
+            single(override = true) { TestGenresRepository() as GenresRepository }
+            single(override = true) { HttpAccountRepository(get()) as AccountRepository }
+            single(override = true) { Schedulers.trampoline() }
         }
     }
 }
