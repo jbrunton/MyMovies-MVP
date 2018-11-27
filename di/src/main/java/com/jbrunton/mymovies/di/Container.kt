@@ -56,6 +56,11 @@ class Container(val parent: Container? = null) {
         parent?.dryRun(parameters)
     }
 
+    fun dryRun(block: DryRunParameters.() -> Unit) {
+        val parameters = DryRunParameters().apply(block)
+        dryRun(parameters)
+    }
+
     private fun <T : Any> tryResolveSingleton(klass: KClass<T>, parameters: ParameterDefinition): T? {
         var instance = singletonRegistry.get(klass) as T?
         if (instance == null) {
