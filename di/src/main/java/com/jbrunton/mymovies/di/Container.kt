@@ -40,7 +40,7 @@ class Container(val parent: Container? = null) {
         checkAndPut(factoryDefinitions, klass, override, definition)
     }
 
-    fun registerModules(vararg modules: Module) {
+    fun register(vararg modules: Module) {
         for (module in modules) {
             module.registerTypes(this)
         }
@@ -88,4 +88,10 @@ typealias Definition<T> = (ParameterList) -> T
 
 interface Module {
     fun registerTypes(container: Container)
+}
+
+fun Module.check(parameterLists: Map<KClass<*>, ParameterList> = emptyMap()) {
+    val container = Container()
+    container.register(this)
+    container.dryRun(parameterLists)
 }

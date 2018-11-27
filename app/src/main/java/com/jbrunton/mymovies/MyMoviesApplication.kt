@@ -10,10 +10,10 @@ open class MyMoviesApplication : Application(), HasContainer {
 
     override fun onCreate() {
         super.onCreate()
-        container.registerModules(schedulersModule(), httpModule(), uiModule())
+        configureContainer(container)
     }
 
-    open fun schedulersModule(): Module = SchedulersModule()
-    open fun httpModule(): Module = HttpModule()
-    open fun uiModule(): Module = UiModule()
+    open fun configureContainer(container: Container) {
+        container.register(AppModule())
+    }
 }

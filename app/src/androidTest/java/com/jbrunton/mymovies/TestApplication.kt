@@ -1,9 +1,10 @@
 package com.jbrunton.mymovies
 
-import com.jbrunton.mymovies.di.TestHttpModule
-import com.jbrunton.mymovies.di.TestSchedulersModule
+import com.jbrunton.mymovies.di.Container
+import com.jbrunton.mymovies.di.TestAppModule
 
 class TestApplication : MyMoviesApplication() {
-    override fun schedulersModule() = TestSchedulersModule()
-    override fun httpModule() = TestHttpModule()
+    override fun configureContainer(container: Container) {
+        container.register(TestAppModule())
+    }
 }

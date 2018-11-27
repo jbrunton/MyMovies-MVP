@@ -2,7 +2,6 @@ package com.jbrunton.mymovies.ui.shared
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModel
 import com.jbrunton.mymovies.di.*
 import com.jbrunton.mymovies.nav.Navigator
@@ -15,7 +14,7 @@ abstract class BaseActivity<T : BaseViewModel> : AppCompatActivity(), HasContain
 
     override val container by lazy {
         (applicationContext as HasContainer).container.createChildContainer().apply {
-            registerModules(ApplicationModule(this@BaseActivity))
+            register(ActivityModule(this@BaseActivity))
         }
     }
 
@@ -35,12 +34,4 @@ abstract class BaseActivity<T : BaseViewModel> : AppCompatActivity(), HasContain
         return container.resolveViewModel(this, T::class, parameters)
     }
 
-    class ApplicationModule(val activity: FragmentActivity): Module {
-        override fun registerTypes(container: Container) {
-            container.apply {
-                single { activity }
-                single { Navigator(get()) }
-            }
-        }
-    }
 }
