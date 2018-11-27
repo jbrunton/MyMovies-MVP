@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".main.MainActivity"
+            android:name="com.jbrunton.mymovies.ui.main.MainActivity"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,10 +22,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".discover.GenresActivity" />
-        <activity android:name=".discover.GenreResultsActivity" />
-        <activity android:name=".moviedetails.MovieDetailsActivity" />
-        <activity android:name=".auth.LoginActivity" />
+        <activity android:name="com.jbrunton.mymovies.ui.discover.GenresActivity" />
+        <activity android:name="com.jbrunton.mymovies.ui.discover.GenreResultsActivity" />
+        <activity android:name="com.jbrunton.mymovies.ui.moviedetails.MovieDetailsActivity" />
+        <activity android:name="com.jbrunton.mymovies.ui.auth.LoginActivity" />
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="8f9bc823ae8b6b8c1ecfc5a6ec883c73e0abb270" />
