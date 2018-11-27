@@ -19,7 +19,7 @@ import org.koin.standalone.get
 import org.koin.standalone.inject
 import java.util.*
 
-class Navigator : KoinComponent {
+class Navigator(val activity: AppCompatActivity) {
     private val resultHandlers = LinkedList<ResultHandler>()
 
     abstract class ResultHandler(val requestCode: Int) {
@@ -74,9 +74,6 @@ class Navigator : KoinComponent {
         activity.startActivityForResult(intent, LoginActivity.LOGIN_REQUEST)
         return observable
     }
-
-    private val activity: AppCompatActivity
-        get() = get()
 
     private val mainActivity: MainActivity
         get() = activity as MainActivity

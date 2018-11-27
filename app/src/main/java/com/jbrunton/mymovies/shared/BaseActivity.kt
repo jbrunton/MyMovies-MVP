@@ -1,6 +1,7 @@
 package com.jbrunton.mymovies.shared
 
 import android.content.Intent
+import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import com.jbrunton.mymovies.MyMoviesApplication
@@ -23,10 +24,18 @@ abstract class BaseActivity<T : BaseViewModel> : AppCompatActivity(), HasContain
     }
 
     var scope: Scope? = null
-    val navigator: Navigator by inject()
+    lateinit var navigator: Navigator
 
-    override val container: Container
-        get() = (applicationContext as MyMoviesApplication).container
+    override val container by lazy {
+        (applicationContext as MyMoviesApplication).container.createChildContainer().apply {
+            single { this@BaseActivity as AppCompatActivity }
+        }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        navigator = resolve()
+    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         navigator.onActivityResult(requestCode, resultCode, data)

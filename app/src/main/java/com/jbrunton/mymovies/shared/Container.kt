@@ -1,16 +1,18 @@
 package com.jbrunton.mymovies.shared
 
+import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import com.jbrunton.mymovies.nav.Navigator
 import org.koin.core.parameter.ParameterList
 import org.koin.core.parameter.emptyParameterDefinition
 import java.lang.NullPointerException
 import kotlin.reflect.KClass
 
-class Container {
+class Container(val parent: Container? = null) {
     val singletonRegistry = HashMap<KClass<*>, Any>()
     val singletonDefinitions = HashMap<KClass<*>, Definition<*>>()
     val factoryDefinitions = HashMap<KClass<*>, Definition<*>>()
@@ -27,10 +29,14 @@ class Container {
         return resolve(T::class)
     }
 
+    fun createChildContainer() = Container(this)
+
     fun <T : Any> resolve(klass: KClass<T>, parameters: ParameterDefinition = emptyParameterDefinition()): T {
+        Log.d("Container", "Trying to resolve type ${klass.qualifiedName}")
         return tryResolveSingleton(klass, parameters)
                 ?: tryResolveFactory(klass, parameters)
-                ?: throw NullPointerException("Unable to resolve type: ${klass.qualifiedName}")
+                ?: parent?.let { resolve(klass, parameters) }
+                ?: throw NullPointerException("Unable to resolve type ${klass.qualifiedName}")
     }
 
     fun <T : ViewModel> resolveViewModel(

@@ -32,7 +32,7 @@ val applicationModule : Module = module {
     single { HttpGenresRepository(get()) as GenresRepository }
     single { HttpAccountRepository(get()) as AccountRepository }
     single { Schedulers.computation() }
-    single { Navigator() }
+    //single { Navigator() }
     viewModel { MainViewModel(get()) }
     viewModel { SearchViewModel(get()) }
     viewModel { DiscoverViewModel(get()) }
@@ -61,7 +61,7 @@ open class MyMoviesApplication : Application(), HasContainer {
             single { HttpGenresRepository(get()) as GenresRepository }
             single { HttpAccountRepository(get()) as AccountRepository }
             single { Schedulers.computation() }
-            single { Navigator() }
+            //single { Navigator() }
 
             factory { MainViewModel(get()) }
             factory { SearchViewModel(get()) }
