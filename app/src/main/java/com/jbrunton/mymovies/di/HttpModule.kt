@@ -3,6 +3,7 @@ package com.jbrunton.mymovies.di
 import com.jbrunton.entities.repositories.AccountRepository
 import com.jbrunton.entities.repositories.GenresRepository
 import com.jbrunton.entities.repositories.MoviesRepository
+import com.jbrunton.inject.module
 import com.jbrunton.networking.repositories.HttpAccountRepository
 import com.jbrunton.networking.repositories.HttpGenresRepository
 import com.jbrunton.networking.repositories.HttpMoviesRepository

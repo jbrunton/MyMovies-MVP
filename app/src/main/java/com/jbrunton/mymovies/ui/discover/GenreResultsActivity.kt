@@ -6,7 +6,7 @@ import android.view.View
 import androidx.appcompat.widget.Toolbar
 import com.jakewharton.rxbinding2.view.clicks
 import com.jbrunton.mymovies.R
-import com.jbrunton.mymovies.di.parametersOf
+import com.jbrunton.inject.parametersOf
 import com.jbrunton.mymovies.helpers.observe
 import com.jbrunton.mymovies.ui.search.SearchResultsAdapter
 import com.jbrunton.mymovies.ui.search.SearchViewState

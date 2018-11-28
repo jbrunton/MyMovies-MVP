@@ -6,7 +6,7 @@ import android.view.View
 import androidx.appcompat.widget.Toolbar
 import com.google.android.material.snackbar.Snackbar
 import com.jbrunton.mymovies.R
-import com.jbrunton.mymovies.di.parametersOf
+import com.jbrunton.inject.parametersOf
 import com.jbrunton.mymovies.helpers.PicassoHelper
 import com.jbrunton.mymovies.helpers.observe
 import com.jbrunton.mymovies.ui.movies.MovieViewState

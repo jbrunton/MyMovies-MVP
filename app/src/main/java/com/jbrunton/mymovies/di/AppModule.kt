@@ -1,5 +1,8 @@
 package com.jbrunton.mymovies.di
 
+import com.jbrunton.inject.Container
+import com.jbrunton.inject.Module
+
 open class AppModule : Module {
     override fun registerTypes(container: Container) {
         container.register(

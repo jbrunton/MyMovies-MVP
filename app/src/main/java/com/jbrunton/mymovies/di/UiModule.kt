@@ -1,5 +1,6 @@
 package com.jbrunton.mymovies.di
 
+import com.jbrunton.inject.module
 import com.jbrunton.mymovies.ui.account.AccountViewModel
 import com.jbrunton.mymovies.ui.auth.LoginViewModel
 import com.jbrunton.mymovies.ui.discover.DiscoverViewModel

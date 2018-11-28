@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.jakewharton.rxbinding2.view.clicks
 import com.jakewharton.rxbinding2.widget.textChanges
 import com.jbrunton.mymovies.R
-import com.jbrunton.mymovies.di.inject
+import com.jbrunton.inject.inject
 import com.jbrunton.mymovies.helpers.observe
 import com.jbrunton.mymovies.ui.shared.BaseFragment
 import com.jbrunton.mymovies.ui.shared.LoadingLayoutManager

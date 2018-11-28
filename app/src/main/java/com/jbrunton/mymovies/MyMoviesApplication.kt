@@ -1,6 +1,8 @@
 package com.jbrunton.mymovies
 
 import android.app.Application
+import com.jbrunton.inject.Container
+import com.jbrunton.inject.HasContainer
 import com.jbrunton.mymovies.di.*
 
 open class MyMoviesApplication : Application(), HasContainer {

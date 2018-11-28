@@ -2,7 +2,12 @@ package com.jbrunton.mymovies
 
 import androidx.test.rule.ActivityTestRule
 import androidx.test.runner.AndroidJUnit4
-import com.jbrunton.mymovies.di.*
+import com.jbrunton.inject.DryRunParameters
+import com.jbrunton.inject.check
+import com.jbrunton.inject.parametersOf
+import com.jbrunton.mymovies.di.ActivityModule
+import com.jbrunton.mymovies.di.AppModule
+import com.jbrunton.mymovies.di.TestAppModule
 import com.jbrunton.mymovies.fixtures.BaseActivityTest
 import com.jbrunton.mymovies.ui.discover.GenreResultsViewModel
 import com.jbrunton.mymovies.ui.main.MainActivity
