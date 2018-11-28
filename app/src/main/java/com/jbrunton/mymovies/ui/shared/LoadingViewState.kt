@@ -2,7 +2,8 @@ package com.jbrunton.mymovies.ui.shared
 
 import android.view.View
 import androidx.annotation.DrawableRes
-import com.jbrunton.async.AsyncResult
+import com.jbrunton.async.*
+import com.jbrunton.async.AsyncResult.Companion.success
 
 data class LoadingViewState<T>(
         val contentVisibility: Int = View.GONE,
@@ -35,30 +36,15 @@ data class LoadingViewState<T>(
 }
 
 fun <T> AsyncResult<T>.toLoadingViewState(defaultViewState: T): LoadingViewState<T> {
-    return when (this) {
-        is AsyncResult.Success -> {
-            LoadingViewState.success(this.value)
-        }
-        is AsyncResult.Loading -> {
-            val cachedValue = this.cachedValue
-            if (cachedValue == null) {
-                LoadingViewState.loading(defaultViewState)
-            } else {
-                LoadingViewState.success(cachedValue)
-            }
-        }
-        is AsyncResult.Failure -> {
-            val cachedValue = this.cachedValue
-            if (cachedValue == null) {
-                val error = this.error
-                if (error is LoadingViewStateError) {
-                    LoadingViewState.failure(error, defaultViewState)
-                } else {
-                    throw error
-                }
-            } else {
-                LoadingViewState.success(cachedValue)
-            }
-        }
+    val loadingViewState = LoadingViewState.loading(defaultViewState)
+    val errorViewState = { error: LoadingViewStateError ->
+        LoadingViewState.failure(error, defaultViewState)
     }
+    return this
+            .map { LoadingViewState.success(it) }
+            .onLoading { it.useCachedValue().or(success(loadingViewState)) }
+            .onFailure { it.useCachedValue() }
+            .onError(LoadingViewStateError::class) {
+                map { success(errorViewState(it.error as LoadingViewStateError)) }
+            }.get()
 }
