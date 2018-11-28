@@ -5,8 +5,8 @@ import androidx.test.InstrumentationRegistry
 import androidx.test.rule.ActivityTestRule
 
 import com.google.android.libraries.cloudtesting.screenshots.ScreenShotter
-import com.jbrunton.mymovies.di.Container
-import com.jbrunton.mymovies.di.HasContainer
+import com.jbrunton.inject.Container
+import com.jbrunton.inject.HasContainer
 import com.squareup.spoon.SpoonRule
 
 import org.junit.Rule

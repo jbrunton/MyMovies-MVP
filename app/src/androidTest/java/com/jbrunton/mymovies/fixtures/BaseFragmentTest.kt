@@ -3,8 +3,8 @@ package com.jbrunton.mymovies.fixtures
 import androidx.fragment.app.Fragment
 import androidx.test.InstrumentationRegistry.getInstrumentation
 import com.google.android.libraries.cloudtesting.screenshots.ScreenShotter
-import com.jbrunton.mymovies.di.Container
-import com.jbrunton.mymovies.di.HasContainer
+import com.jbrunton.inject.Container
+import com.jbrunton.inject.HasContainer
 import com.squareup.spoon.SpoonRule
 import org.junit.Rule
 
