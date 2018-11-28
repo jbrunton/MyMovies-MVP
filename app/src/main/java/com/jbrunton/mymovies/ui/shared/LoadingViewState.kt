@@ -42,8 +42,8 @@ fun <T> AsyncResult<T>.toLoadingViewState(defaultViewState: T): LoadingViewState
     }
     return this
             .map { LoadingViewState.success(it) }
-            .onLoading { it.useCachedValue() }
-            .onFailure { it.useCachedValue().or(success(loadingViewState)) }
+            .onLoading { it.useCachedValue().or(success(loadingViewState)) }
+            .onFailure { it.useCachedValue() }
             .onError(LoadingViewStateError::class) {
                 map { success(errorViewState(it.error as LoadingViewStateError)) }
             }.get()
