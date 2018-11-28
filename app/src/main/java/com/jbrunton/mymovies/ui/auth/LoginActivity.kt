@@ -3,12 +3,12 @@ package com.jbrunton.mymovies.ui.auth
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import com.jakewharton.rxbinding2.view.clicks
+import com.jbrunton.inject.injectViewModel
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.helpers.observe
 import com.jbrunton.mymovies.ui.shared.BaseActivity
 import com.jbrunton.mymovies.ui.shared.LoadingLayoutManager
 import com.jbrunton.mymovies.ui.shared.LoadingViewState
-import com.jbrunton.mymovies.ui.shared.injectViewModel
 import com.trello.rxlifecycle2.android.lifecycle.kotlin.bindToLifecycle
 import kotlinx.android.synthetic.main.activity_login.*
 
