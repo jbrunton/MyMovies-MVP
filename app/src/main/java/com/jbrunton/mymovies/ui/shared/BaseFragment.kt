@@ -8,8 +8,4 @@ abstract class BaseFragment<T : BaseViewModel> : androidx.fragment.app.Fragment(
         (activity as? HasContainer)?.container
                 ?: (activity!!.application as HasContainer).container
     }
-
-//    inline fun <reified T: ViewModel> resolveViewModel(noinline parameters: ParameterDefinition = emptyParameterDefinition()): T {
-//        return container.resolveViewModel(this, T::class, parameters)
-//    }
 }

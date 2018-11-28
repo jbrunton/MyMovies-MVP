@@ -30,9 +30,4 @@ abstract class BaseActivity<T : BaseViewModel> : AppCompatActivity(), HasContain
                     .observeOn(AndroidSchedulers.mainThread())
         }
     }
-
-//    inline fun <reified T: ViewModel> resolveViewModel(noinline parameters: ParameterDefinition = emptyParameterDefinition()): T {
-//        return container.resolveViewModel(this, T::class, parameters)
-//    }
-
 }
