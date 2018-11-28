@@ -5,15 +5,15 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.widget.Toolbar
 import com.google.android.material.snackbar.Snackbar
-import com.jbrunton.mymovies.R
+import com.jbrunton.inject.injectViewModel
 import com.jbrunton.inject.parametersOf
+import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.helpers.PicassoHelper
 import com.jbrunton.mymovies.helpers.observe
 import com.jbrunton.mymovies.ui.movies.MovieViewState
 import com.jbrunton.mymovies.ui.shared.BaseActivity
 import com.jbrunton.mymovies.ui.shared.LoadingLayoutManager
 import com.jbrunton.mymovies.ui.shared.LoadingViewState
-import com.jbrunton.mymovies.ui.shared.injectViewModel
 import kotlinx.android.synthetic.main.activity_movie_details.*
 import kotlinx.android.synthetic.main.content_movie_details.*
 import kotlinx.android.synthetic.main.layout_loading_state.*

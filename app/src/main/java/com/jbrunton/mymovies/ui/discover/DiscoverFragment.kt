@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.jakewharton.rxbinding2.view.clicks
+import com.jbrunton.inject.injectViewModel
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.helpers.observe
 import com.jbrunton.mymovies.ui.search.SearchResultsAdapter
@@ -13,7 +14,6 @@ import com.jbrunton.mymovies.ui.search.SearchViewState
 import com.jbrunton.mymovies.ui.shared.BaseFragment
 import com.jbrunton.mymovies.ui.shared.LoadingLayoutManager
 import com.jbrunton.mymovies.ui.shared.LoadingViewState
-import com.jbrunton.mymovies.ui.shared.injectViewModel
 import com.trello.rxlifecycle2.android.lifecycle.kotlin.bindToLifecycle
 import kotlinx.android.synthetic.main.fragment_discover.*
 import kotlinx.android.synthetic.main.layout_loading_state.*

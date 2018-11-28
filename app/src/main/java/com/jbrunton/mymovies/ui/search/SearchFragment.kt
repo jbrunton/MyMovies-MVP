@@ -7,13 +7,13 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import com.jakewharton.rxbinding2.view.clicks
 import com.jakewharton.rxbinding2.widget.textChanges
-import com.jbrunton.mymovies.R
 import com.jbrunton.inject.inject
+import com.jbrunton.inject.injectViewModel
+import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.helpers.observe
 import com.jbrunton.mymovies.ui.shared.BaseFragment
 import com.jbrunton.mymovies.ui.shared.LoadingLayoutManager
 import com.jbrunton.mymovies.ui.shared.LoadingViewState
-import com.jbrunton.mymovies.ui.shared.injectViewModel
 import com.trello.rxlifecycle2.android.lifecycle.kotlin.bindToLifecycle
 import io.reactivex.Scheduler
 import kotlinx.android.synthetic.main.fragment_search.*
