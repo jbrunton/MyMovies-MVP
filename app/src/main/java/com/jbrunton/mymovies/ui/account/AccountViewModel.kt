@@ -1,11 +1,16 @@
 package com.jbrunton.mymovies.ui.account
 
 import android.view.View
-import com.jbrunton.async.*
-import com.jbrunton.entities.models.*
+import com.jbrunton.async.AsyncResult
+import com.jbrunton.async.map
+import com.jbrunton.async.onError
+import com.jbrunton.entities.models.Account
 import com.jbrunton.entities.repositories.AccountRepository
 import com.jbrunton.mymovies.nav.Navigator
-import com.jbrunton.mymovies.ui.shared.*
+import com.jbrunton.mymovies.ui.shared.BaseLoadingViewModel
+import com.jbrunton.mymovies.ui.shared.LoadingViewState
+import com.jbrunton.mymovies.ui.shared.handleNetworkErrors
+import com.jbrunton.mymovies.ui.shared.toLoadingViewState
 import retrofit2.HttpException
 
 class AccountViewModel(private val repository: AccountRepository) : BaseLoadingViewModel<AccountViewState>() {
@@ -24,7 +29,7 @@ class AccountViewModel(private val repository: AccountRepository) : BaseLoadingV
 
     fun showLogin(navigator: Navigator) {
         navigator.login().subscribe {
-            retry()
+            loadAccount()
         }
     }
 
