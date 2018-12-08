@@ -1,8 +1,11 @@
 package com.jbrunton.mymovies.ui.auth
 
 import androidx.lifecycle.MutableLiveData
-import com.jbrunton.async.*
-import com.jbrunton.entities.models.*
+import com.jbrunton.async.AsyncResult
+import com.jbrunton.async.doOnSuccess
+import com.jbrunton.async.map
+import com.jbrunton.async.onError
+import com.jbrunton.entities.models.AuthSession
 import com.jbrunton.entities.repositories.AccountRepository
 import com.jbrunton.mymovies.ui.shared.*
 import com.jbrunton.networking.parseStatusMessage
@@ -23,29 +26,27 @@ class LoginViewModel(private val repository: AccountRepository) : BaseViewModel(
         }
     }
 
-    private val emptyState = AsyncResult.Success(LoginViewState())
-
     private fun onLoginResult(result: AsyncResult<AuthSession>) {
         val viewState: LoadingViewState<LoginViewState> = result
-                .map { LoginViewState() }
+                .map { LoginViewState.Empty }
                 .doOnSuccess { loginSuccessful.call() }
-                .onNetworkError(this::handleNetworkError)
+                .onNetworkErrorUse(this::handleNetworkError)
                 .onError(HttpException::class) {
-                    whenever { it.code() == 401 } map(this@LoginViewModel::handleAuthFailure)
+                    use(this@LoginViewModel::handleAuthFailure) whenever { it.code() == 401 }
                 }
-                .toLoadingViewState(LoginViewState())
+                .toLoadingViewState(LoginViewState.Empty)
         this.viewState.postValue(viewState)
     }
 
-    private fun handleNetworkError(result: AsyncResult.Failure<LoginViewState>): AsyncResult<LoginViewState> {
+    private fun handleNetworkError(result: AsyncResult.Failure<LoginViewState>): LoginViewState {
         loginFailure.postValue("Could not connect to server - please check your connection.")
-        return emptyState
+        return LoginViewState.Empty
     }
 
-    private fun handleAuthFailure(result: AsyncResult.Failure<LoginViewState>): AsyncResult<LoginViewState> {
+    private fun handleAuthFailure(result: AsyncResult.Failure<LoginViewState>): LoginViewState {
         val message = (result.error as HttpException).parseStatusMessage()
         loginFailure.postValue(message)
-        return emptyState
+        return LoginViewState.Empty
     }
 
     private fun validate(username: String, password: String): Boolean {

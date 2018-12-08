@@ -46,7 +46,7 @@ fun <T> AsyncResult<T>.toLoadingViewState(emptyViewState: T): LoadingViewState<T
                 it.useCachedValue()
             }
             .onError(LoadingViewStateError::class) {
-                map { LoadingViewState.failure(it, emptyViewState) }
+                use { LoadingViewState.failure(it, emptyViewState) }
             }
             .get()
 }
