@@ -17,8 +17,6 @@ import com.jbrunton.mymovies.ui.shared.LoadingViewState
 import io.reactivex.Scheduler
 import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.android.synthetic.main.layout_loading_state.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -70,10 +68,12 @@ class SearchFragment : BaseFragment<SearchViewModel>() {
 
             searchFor = searchText
 
-            GlobalScope.launch(Dispatchers.Main) {
+            launch {
                 delay(500)
                 if (searchText != searchFor)
                     return@launch
+
+                //launch {  }
 
                 performSearch()
             }

@@ -7,14 +7,17 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.runner.AndroidJUnit4
 import com.jbrunton.entities.repositories.MoviesRepository
 import com.jbrunton.fixtures.MovieFactory
-import com.jbrunton.mymovies.R
 import com.jbrunton.inject.inject
+import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.fixtures.BaseFragmentTest
 import com.jbrunton.mymovies.fixtures.FragmentTestRule
 import com.jbrunton.mymovies.fixtures.RecyclerViewUtils.withRecyclerView
 import com.jbrunton.mymovies.fixtures.stubSearch
+import kotlinx.coroutines.test.TestCoroutineContext
 import org.junit.Test
 import org.junit.runner.RunWith
+import java.util.concurrent.TimeUnit
+import kotlin.coroutines.CoroutineContext
 
 
 @RunWith(AndroidJUnit4::class)
@@ -24,6 +27,9 @@ class SearchFragmentTest : BaseFragmentTest<SearchFragment>() {
     val MOVIE2 = MOVIE_FACTORY.create()
 
     val moviesRepository: MoviesRepository by inject()
+    val testCoroutineContext: TestCoroutineContext by lazy {
+        container.get<CoroutineContext>() as TestCoroutineContext
+    }
 
     @Test
     fun defaultsToSearchFragment() {
@@ -36,6 +42,7 @@ class SearchFragmentTest : BaseFragmentTest<SearchFragment>() {
         moviesRepository.stubSearch("Star Wars", listOf(MOVIE1, MOVIE2))
 
         onView(withId(R.id.search_query)).perform(ViewActions.replaceText("Star Wars"))
+        testCoroutineContext.advanceTimeBy(500, TimeUnit.MILLISECONDS)
 
         takeScreenshot()
         onView(withRecyclerView(R.id.movies_list).atPosition(0))
