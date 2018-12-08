@@ -51,6 +51,8 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinx_coroutines_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlinx_coroutines_version"
 
     implementation project(':entities')
     implementation project(':networking')
@@ -99,7 +101,6 @@ dependencies {
 
     implementation 'com.squareup.picasso:picasso:2.5.2'
 
-    implementation 'com.jakewharton.rxbinding2:rxbinding-kotlin:2.1.0'
     implementation 'com.trello.rxlifecycle2:rxlifecycle-android-lifecycle-kotlin:2.2.2'
 
     implementation('com.crashlytics.sdk.android:crashlytics:2.7.1@aar') {
