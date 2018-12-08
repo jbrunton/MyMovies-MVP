@@ -48,7 +48,7 @@ class AccountFragment : BaseFragment<AccountViewModel>() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel.viewState.observe(this, this::updateView)
+        viewModel.viewState.observe(viewLifecycleOwner, this::updateView)
         viewModel.start()
     }
 
