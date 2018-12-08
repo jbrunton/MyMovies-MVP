@@ -6,5 +6,5 @@ import com.jbrunton.mymovies.nav.Navigator
 
 fun ActivityModule(activity: FragmentActivity) = module {
     single { activity }
-    single { Navigator(get()) }
+    single { Navigator(get(), get()) }
 }

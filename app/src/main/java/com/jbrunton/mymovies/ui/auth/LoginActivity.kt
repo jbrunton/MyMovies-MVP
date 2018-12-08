@@ -1,8 +1,10 @@
 package com.jbrunton.mymovies.ui.auth
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import com.jakewharton.rxbinding2.view.clicks
+import com.jbrunton.entities.models.AuthSession
 import com.jbrunton.inject.injectViewModel
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.helpers.observe
@@ -19,6 +21,12 @@ class LoginActivity : BaseActivity<LoginViewModel>() {
     companion object {
         val LOGIN_REQUEST = 1
         val LOGIN_SUCCESSFUL = 1
+
+        fun toIntent(session: AuthSession) = Intent().apply {
+            putExtra("SESSION_ID", session.sessionId)
+        }
+
+        fun fromIntent(intent: Intent) = AuthSession(intent.getStringExtra("SESSION_ID"))
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,7 +40,7 @@ class LoginActivity : BaseActivity<LoginViewModel>() {
 
         viewModel.viewState.observe(this, this::updateView)
         viewModel.loginSuccessful.observe(this) {
-            setResult(LOGIN_SUCCESSFUL)
+            setResult(LOGIN_SUCCESSFUL, toIntent(it))
             finish()
         }
         viewModel.loginFailure.observe(this) {

@@ -27,9 +27,7 @@ class AccountViewModel(private val repository: AccountRepository) : BaseLoadingV
     }
 
     fun showLogin(navigator: Navigator) {
-        navigator.login().subscribe {
-            loadAccount()
-        }
+        navigator.login().subscribe { loadAccount() }
     }
 
     private fun loadAccount() {

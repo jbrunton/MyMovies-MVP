@@ -11,33 +11,8 @@ import com.jbrunton.mymovies.ui.main.MainActivity
 import com.jbrunton.mymovies.ui.search.SearchFragment
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
-import java.util.*
 
-class Navigator(val activity: FragmentActivity) {
-    private val resultHandlers = LinkedList<ResultHandler>()
-
-    abstract class ResultHandler(val requestCode: Int) {
-        fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?): Boolean {
-            if (requestCode == this.requestCode) {
-                onResult(resultCode, data)
-                return true
-            }
-            return false
-        }
-
-        abstract fun onResult(resultCode: Int, data: Intent?)
-    }
-
-    fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        val it = resultHandlers.iterator()
-        while (it.hasNext()) {
-            val handler = it.next()
-            if (handler.onActivityResult(requestCode, resultCode, data)) {
-                it.remove()
-            }
-        }
-    }
-
+class Navigator(val activity: FragmentActivity, val router: ResultRouter) {
     fun showSearch() {
         (activity as MainActivity).supportFragmentManager.beginTransaction()
                 .replace(R.id.content, SearchFragment())
@@ -56,14 +31,16 @@ class Navigator(val activity: FragmentActivity) {
                 .commit()
     }
 
-    fun login(): Observable<AuthSession> {
+    fun login(): Observable<AuthSession?> {
         val observable: PublishSubject<AuthSession> = PublishSubject.create()
-        val intent = Intent(activity, LoginActivity::class.java)
-        resultHandlers.add(object : ResultHandler(LoginActivity.LOGIN_REQUEST){
-            override fun onResult(resultCode: Int, data: Intent?) {
-                observable.onNext(AuthSession(""))
+        router.route(LoginActivity.LOGIN_REQUEST, { resultCode, data ->
+            if (data != null) {
+                observable.onNext(LoginActivity.fromIntent(data))
+            } else {
+                observable.onComplete()
             }
         })
+        val intent = Intent(activity, LoginActivity::class.java)
         activity.startActivityForResult(intent, LoginActivity.LOGIN_REQUEST)
         return observable
     }
