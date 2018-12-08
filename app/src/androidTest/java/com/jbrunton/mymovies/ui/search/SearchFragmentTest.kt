@@ -13,6 +13,7 @@ import com.jbrunton.mymovies.fixtures.BaseFragmentTest
 import com.jbrunton.mymovies.fixtures.FragmentTestRule
 import com.jbrunton.mymovies.fixtures.RecyclerViewUtils.withRecyclerView
 import com.jbrunton.mymovies.fixtures.stubSearch
+import com.jbrunton.mymovies.ui.shared.DebounceTextWatcher
 import kotlinx.coroutines.test.TestCoroutineContext
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -42,7 +43,7 @@ class SearchFragmentTest : BaseFragmentTest<SearchFragment>() {
         moviesRepository.stubSearch("Star Wars", listOf(MOVIE1, MOVIE2))
 
         onView(withId(R.id.search_query)).perform(ViewActions.replaceText("Star Wars"))
-        testCoroutineContext.advanceTimeBy(500, TimeUnit.MILLISECONDS)
+        testCoroutineContext.advanceTimeBy(DebounceTextWatcher.Delay, TimeUnit.MILLISECONDS)
 
         takeScreenshot()
         onView(withRecyclerView(R.id.movies_list).atPosition(0))

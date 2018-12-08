@@ -9,6 +9,8 @@ import io.fabric.sdk.android.Fabric
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivity<MainActivity.MainViewModel>() {
+    override val viewModel: MainViewModel
+        get() = MainViewModel()
 
     class MainViewModel : BaseViewModel() {
         override fun start() {}
@@ -18,12 +20,17 @@ class MainActivity : BaseActivity<MainActivity.MainViewModel>() {
         super.onCreate(savedInstanceState)
 
         Fabric.with(this, Crashlytics())
-        setContentView(R.layout.activity_main)
-
-        navigation.setOnNavigationItemSelectedListener(BottomNavigationAdapter(navigator))
 
         if (savedInstanceState == null) {
             navigator.showSearch()
         }
+    }
+
+    override fun onCreateLayout() {
+        setContentView(R.layout.activity_main)
+    }
+
+    override fun onBindListeners() {
+        navigation.setOnNavigationItemSelectedListener(BottomNavigationAdapter(navigator))
     }
 }

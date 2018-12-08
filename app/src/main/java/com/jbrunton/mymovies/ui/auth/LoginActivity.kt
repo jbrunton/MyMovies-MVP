@@ -1,7 +1,6 @@
 package com.jbrunton.mymovies.ui.auth
 
 import android.content.Intent
-import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import com.jbrunton.entities.models.AuthSession
 import com.jbrunton.inject.injectViewModel
@@ -13,7 +12,7 @@ import com.jbrunton.mymovies.ui.shared.LoadingViewState
 import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : BaseActivity<LoginViewModel>() {
-    val viewModel: LoginViewModel by injectViewModel()
+    override val viewModel: LoginViewModel by injectViewModel()
     lateinit var loadingLayoutManager: LoadingLayoutManager
 
     companion object {
@@ -27,15 +26,22 @@ class LoginActivity : BaseActivity<LoginViewModel>() {
         fun fromIntent(intent: Intent) = AuthSession(intent.getStringExtra("SESSION_ID"))
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onCreateLayout() {
         setContentView(R.layout.activity_login)
 
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
         loadingLayoutManager = LoadingLayoutManager.buildFor(this, sign_in_details)
+    }
 
+    override fun onBindListeners() {
+        sign_in.setOnClickListener {
+            viewModel.login(username_field.text.toString(), password_field.text.toString())
+        }
+    }
+
+    override fun onObserveData() {
         viewModel.viewState.observe(this, this::updateView)
         viewModel.loginSuccessful.observe(this) {
             setResult(LOGIN_SUCCESSFUL, toIntent(it))
@@ -46,9 +52,6 @@ class LoginActivity : BaseActivity<LoginViewModel>() {
                     .setMessage(it)
                     .setPositiveButton("OK", { _, _ -> })
                     .create().show()
-        }
-        sign_in.setOnClickListener {
-            viewModel.login(username_field.text.toString(), password_field.text.toString())
         }
     }
 

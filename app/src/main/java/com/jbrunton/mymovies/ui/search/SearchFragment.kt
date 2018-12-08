@@ -1,8 +1,6 @@
 package com.jbrunton.mymovies.ui.search
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,11 +12,10 @@ import com.jbrunton.mymovies.helpers.observe
 import com.jbrunton.mymovies.ui.shared.BaseFragment
 import com.jbrunton.mymovies.ui.shared.LoadingLayoutManager
 import com.jbrunton.mymovies.ui.shared.LoadingViewState
+import com.jbrunton.mymovies.ui.shared.onTextChanged
 import io.reactivex.Scheduler
 import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.android.synthetic.main.layout_loading_state.*
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 class SearchFragment : BaseFragment<SearchViewModel>() {
     private lateinit var loadingLayoutManager: LoadingLayoutManager
@@ -41,9 +38,8 @@ class SearchFragment : BaseFragment<SearchViewModel>() {
     }
 
     override fun onBindListeners() {
-        search_query.addTextChangedListener(searchQueryWatcher)
+        search_query.onTextChanged(coroutineContext) { performSearch() }
         error_try_again.setOnClickListener { performSearch() }
-
     }
 
     override fun onObserveData() {
@@ -61,28 +57,5 @@ class SearchFragment : BaseFragment<SearchViewModel>() {
 
     fun updateView(viewState: LoadingViewState<SearchViewState>) {
         loadingLayoutManager.updateLayout(viewState, searchResultsAdapter::setDataSource)
-    }
-
-    val searchQueryWatcher = object : TextWatcher {
-        private var searchFor = ""
-
-        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            val searchText = s.toString().trim()
-            if (searchText == searchFor)
-                return
-
-            searchFor = searchText
-
-            launch {
-                delay(500)
-                if (searchText != searchFor)
-                    return@launch
-
-                performSearch()
-            }
-        }
-
-        override fun afterTextChanged(s: Editable?) {}
-        override fun beforeTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
     }
 }

@@ -2,7 +2,6 @@ package com.jbrunton.mymovies.ui.discover
 
 import android.content.Context
 import android.content.Intent
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,10 +21,9 @@ class GenresActivity : BaseActivity<GenresViewModel>() {
     private lateinit var genresAdapter: GenresAdapter
     private lateinit var loadingLayoutManager: LoadingLayoutManager
 
-    val viewModel: GenresViewModel by injectViewModel()
+    override val viewModel: GenresViewModel by injectViewModel()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onCreateLayout() {
         setContentView(R.layout.activity_genres)
 
         setSupportActionBar(toolbar)
@@ -35,11 +33,15 @@ class GenresActivity : BaseActivity<GenresViewModel>() {
 
         genresAdapter = GenresAdapter(this)
         genres_list.adapter = genresAdapter
+    }
 
+    override fun onBindListeners() {
+        error_try_again.setOnClickListener { viewModel.retry() }
+    }
+
+    override fun onObserveData() {
         viewModel.viewState.observe(this, this::updateView)
         viewModel.start()
-
-        error_try_again.setOnClickListener { viewModel.retry() }
     }
 
     private fun updateView(viewState: LoadingViewState<GenresViewState>) {
