@@ -24,7 +24,7 @@ class SearchFragment : BaseFragment<SearchViewModel>() {
     private lateinit var loadingLayoutManager: LoadingLayoutManager
     private lateinit var searchResultsAdapter: SearchResultsAdapter
 
-    val viewModel: SearchViewModel by injectViewModel()
+    override val viewModel: SearchViewModel by injectViewModel()
     val scheduler: Scheduler by inject()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -38,16 +38,21 @@ class SearchFragment : BaseFragment<SearchViewModel>() {
         movies_list.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(activity)
         searchResultsAdapter = SearchResultsAdapter(activity!!, R.layout.item_movie_card_list)
         movies_list.adapter = searchResultsAdapter
+    }
 
+    override fun onBindListeners() {
         search_query.addTextChangedListener(searchQueryWatcher)
         error_try_again.setOnClickListener { performSearch() }
+
+    }
+
+    override fun onObserveData() {
+        viewModel.viewState.observe(viewLifecycleOwner, this::updateView)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        (activity as AppCompatActivity).setSupportActionBar(my_toolbar)
-        viewModel.viewState.observe(viewLifecycleOwner, this::updateView)
-        viewModel.start()
+        (activity as AppCompatActivity).setSupportActionBar(toolbar)
     }
 
     private fun performSearch() {
@@ -72,8 +77,6 @@ class SearchFragment : BaseFragment<SearchViewModel>() {
                 delay(500)
                 if (searchText != searchFor)
                     return@launch
-
-                //launch {  }
 
                 performSearch()
             }
