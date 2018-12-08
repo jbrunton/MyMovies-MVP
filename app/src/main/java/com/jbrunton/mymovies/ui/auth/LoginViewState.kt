@@ -1,6 +1,13 @@
 package com.jbrunton.mymovies.ui.auth
 
 data class LoginViewState(
-        val usernameError: String? = null,
-        val passwordError: String? = null
-)
+        val usernameError: String?,
+        val passwordError: String?
+) {
+    companion object {
+        val Empty = LoginViewState(
+                usernameError = null,
+                passwordError = null
+        )
+    }
+}

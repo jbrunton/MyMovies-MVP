@@ -3,11 +3,11 @@ package com.jbrunton.mymovies.nav
 import android.content.Intent
 import androidx.fragment.app.FragmentActivity
 import com.jbrunton.entities.models.AuthSession
-import com.jbrunton.mymovies.ui.main.MainActivity
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.ui.account.AccountFragment
 import com.jbrunton.mymovies.ui.auth.LoginActivity
 import com.jbrunton.mymovies.ui.discover.DiscoverFragment
+import com.jbrunton.mymovies.ui.main.MainActivity
 import com.jbrunton.mymovies.ui.search.SearchFragment
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
@@ -63,7 +63,6 @@ class Navigator(val activity: FragmentActivity) {
             override fun onResult(resultCode: Int, data: Intent?) {
                 observable.onNext(AuthSession(""))
             }
-
         })
         activity.startActivityForResult(intent, LoginActivity.LOGIN_REQUEST)
         return observable

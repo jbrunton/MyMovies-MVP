@@ -1,9 +1,6 @@
 package com.jbrunton.mymovies.ui.discover
 
 import android.os.Bundle
-import android.view.MenuItem
-import android.view.View
-import androidx.appcompat.widget.Toolbar
 import com.jakewharton.rxbinding2.view.clicks
 import com.jbrunton.inject.injectViewModel
 import com.jbrunton.inject.parametersOf
@@ -28,7 +25,6 @@ class GenreResultsActivity : BaseActivity<GenreResultsViewModel>() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_genre_results)
 
-        val toolbar = findViewById<View>(R.id.toolbar) as Toolbar
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
@@ -44,16 +40,6 @@ class GenreResultsActivity : BaseActivity<GenreResultsViewModel>() {
         error_try_again.clicks()
                 .bindToLifecycle(this)
                 .subscribe { viewModel.retry() }
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            android.R.id.home -> {
-                onBackPressed()
-                return true
-            }
-        }
-        return super.onOptionsItemSelected(item)
     }
 
     private fun genreId(): String = intent.extras["GENRE_ID"] as String

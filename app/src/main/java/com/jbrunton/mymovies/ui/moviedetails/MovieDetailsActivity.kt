@@ -1,9 +1,6 @@
 package com.jbrunton.mymovies.ui.moviedetails
 
 import android.os.Bundle
-import android.view.MenuItem
-import android.view.View
-import androidx.appcompat.widget.Toolbar
 import com.google.android.material.snackbar.Snackbar
 import com.jbrunton.inject.injectViewModel
 import com.jbrunton.inject.parametersOf
@@ -27,7 +24,6 @@ class MovieDetailsActivity : BaseActivity<MovieDetailsViewModel>() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_movie_details)
 
-        val toolbar = findViewById<View>(R.id.toolbar) as Toolbar
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
@@ -39,16 +35,6 @@ class MovieDetailsActivity : BaseActivity<MovieDetailsViewModel>() {
         viewModel.viewState.observe(this, this::updateView)
         viewModel.showRetrySnackbar.observe(this, this::showSnackbar)
         viewModel.start()
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            android.R.id.home -> {
-                onBackPressed()
-                return true
-            }
-        }
-        return super.onOptionsItemSelected(item)
     }
 
     private fun movieId(): String = intent.extras["MOVIE_ID"] as String

@@ -4,12 +4,10 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
-import androidx.appcompat.widget.Toolbar
 import com.jakewharton.rxbinding2.view.clicks
 import com.jbrunton.entities.models.Genre
 import com.jbrunton.inject.injectViewModel
@@ -32,7 +30,6 @@ class GenresActivity : BaseActivity<GenresViewModel>() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_genres)
 
-        val toolbar = findViewById<View>(R.id.toolbar) as Toolbar
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
@@ -47,16 +44,6 @@ class GenresActivity : BaseActivity<GenresViewModel>() {
         error_try_again.clicks()
                 .bindToLifecycle(this)
                 .subscribe { viewModel.retry() }
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            android.R.id.home -> {
-                onBackPressed()
-                return true
-            }
-        }
-        return super.onOptionsItemSelected(item)
     }
 
     private fun updateView(viewState: LoadingViewState<GenresViewState>) {
