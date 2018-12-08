@@ -7,12 +7,14 @@ import com.jbrunton.inject.HasContainer
 import com.jbrunton.inject.inject
 import com.jbrunton.mymovies.di.ActivityModule
 import com.jbrunton.mymovies.nav.Navigator
+import com.jbrunton.mymovies.nav.ResultRouter
 import io.reactivex.ObservableTransformer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 abstract class BaseActivity<T : BaseViewModel> : AppCompatActivity(), HasContainer {
     val navigator: Navigator by inject()
+    private val router: ResultRouter by inject()
 
     override val container by lazy {
         (applicationContext as HasContainer).container.createChildContainer().apply {
@@ -31,7 +33,7 @@ abstract class BaseActivity<T : BaseViewModel> : AppCompatActivity(), HasContain
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        navigator.onActivityResult(requestCode, resultCode, data)
+        router.onActivityResult(requestCode, resultCode, data)
     }
 
     protected fun <T> applySchedulers(): ObservableTransformer<T, T> {
