@@ -1,6 +1,5 @@
 package com.jbrunton.mymovies.ui.moviedetails
 
-import android.os.Bundle
 import com.google.android.material.snackbar.Snackbar
 import com.jbrunton.inject.injectViewModel
 import com.jbrunton.inject.parametersOf
@@ -16,12 +15,11 @@ import kotlinx.android.synthetic.main.content_movie_details.*
 import kotlinx.android.synthetic.main.layout_loading_state.*
 
 class MovieDetailsActivity : BaseActivity<MovieDetailsViewModel>() {
-    val viewModel: MovieDetailsViewModel by injectViewModel() { parametersOf(movieId()) }
+    override val viewModel: MovieDetailsViewModel by injectViewModel { parametersOf(movieId()) }
     lateinit var loadingLayoutManager: LoadingLayoutManager
     private val picassoHelper = PicassoHelper()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onCreateLayout() {
         setContentView(R.layout.activity_movie_details)
 
         setSupportActionBar(toolbar)
@@ -30,11 +28,15 @@ class MovieDetailsActivity : BaseActivity<MovieDetailsViewModel>() {
         loadingLayoutManager = LoadingLayoutManager.buildFor(this, content)
 
         title = ""
-        error_try_again.setOnClickListener { viewModel.retry() }
+    }
 
+    override fun onBindListeners() {
+        error_try_again.setOnClickListener { viewModel.retry() }
+    }
+
+    override fun onObserveData() {
         viewModel.viewState.observe(this, this::updateView)
         viewModel.showRetrySnackbar.observe(this, this::showSnackbar)
-        viewModel.start()
     }
 
     private fun movieId(): String = intent.extras["MOVIE_ID"] as String

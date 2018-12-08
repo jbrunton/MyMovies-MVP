@@ -20,7 +20,7 @@ class DiscoverFragment : BaseFragment<DiscoverViewModel>() {
     private lateinit var loadingLayoutManager: LoadingLayoutManager
     private lateinit var nowPlayingAdapter: SearchResultsAdapter
 
-    val viewModel: DiscoverViewModel by injectViewModel()
+    override val viewModel: DiscoverViewModel by injectViewModel()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_discover, container, false)
@@ -33,7 +33,9 @@ class DiscoverFragment : BaseFragment<DiscoverViewModel>() {
         nowPlayingAdapter = SearchResultsAdapter(activity!!, R.layout.item_movie_card_grid)
         now_playing.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(activity, androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL, false)
         now_playing.adapter = nowPlayingAdapter
+    }
 
+    override fun onBindListeners() {
         genres_link.setOnClickListener {
             val intent = Intent(activity, GenresActivity::class.java)
             startActivity(intent)
@@ -42,10 +44,8 @@ class DiscoverFragment : BaseFragment<DiscoverViewModel>() {
         error_try_again.setOnClickListener { viewModel.retry() }
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onObserveData() {
         viewModel.viewState.observe(viewLifecycleOwner, this::updateView)
-        viewModel.start()
     }
 
     private fun updateView(viewState: LoadingViewState<SearchViewState>) {

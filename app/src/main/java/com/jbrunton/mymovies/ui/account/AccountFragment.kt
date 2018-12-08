@@ -21,7 +21,7 @@ class AccountFragment : BaseFragment<AccountViewModel>() {
     private lateinit var loadingLayoutManager: LoadingLayoutManager
     private val picassoHelper = PicassoHelper()
 
-    val viewModel: AccountViewModel by injectViewModel()
+    override val viewModel: AccountViewModel by injectViewModel()
     val navigator: Navigator by inject()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -31,16 +31,16 @@ class AccountFragment : BaseFragment<AccountViewModel>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         loadingLayoutManager = LoadingLayoutManager.buildFor(this, account_details)
+    }
 
+    override fun onBindListeners() {
         error_try_again.setOnClickListener { viewModel.retry() }
         sign_in.setOnClickListener { viewModel.showLogin(navigator) }
         sign_out.setOnClickListener { viewModel.signOut() }
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onObserveData() {
         viewModel.viewState.observe(viewLifecycleOwner, this::updateView)
-        viewModel.start()
     }
 
     private fun updateView(viewState: LoadingViewState<AccountViewState>) {

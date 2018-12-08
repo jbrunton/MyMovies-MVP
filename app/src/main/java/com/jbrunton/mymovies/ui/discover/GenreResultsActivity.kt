@@ -1,6 +1,5 @@
 package com.jbrunton.mymovies.ui.discover
 
-import android.os.Bundle
 import com.jbrunton.inject.injectViewModel
 import com.jbrunton.inject.parametersOf
 import com.jbrunton.mymovies.R
@@ -17,10 +16,9 @@ class GenreResultsActivity : BaseActivity<GenreResultsViewModel>() {
     private lateinit var moviesAdapter: SearchResultsAdapter
     private lateinit var loadingLayoutManager: LoadingLayoutManager
 
-    val viewModel: GenreResultsViewModel by injectViewModel { parametersOf(genreId()) }
+    override val viewModel: GenreResultsViewModel by injectViewModel { parametersOf(genreId()) }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onCreateLayout() {
         setContentView(R.layout.activity_genre_results)
 
         setSupportActionBar(toolbar)
@@ -31,11 +29,14 @@ class GenreResultsActivity : BaseActivity<GenreResultsViewModel>() {
         moviesAdapter = SearchResultsAdapter(this, R.layout.item_movie_card_list)
         movies_list.adapter = moviesAdapter
         movies_list.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this)
+    }
 
-        viewModel.viewState.observe(this, this::updateView)
-        viewModel.start()
-
+    override fun onBindListeners() {
         error_try_again.setOnClickListener { viewModel.retry() }
+    }
+
+    override fun onObserveData() {
+        viewModel.viewState.observe(this, this::updateView)
     }
 
     private fun genreId(): String = intent.extras["GENRE_ID"] as String
