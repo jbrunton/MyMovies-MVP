@@ -25,6 +25,9 @@ class LoginActivity : BaseActivity<LoginViewModel>() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
+        setSupportActionBar(toolbar)
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+
         loadingLayoutManager = LoadingLayoutManager.buildFor(this, sign_in_details)
 
         viewModel.viewState.observe(this, this::updateView)

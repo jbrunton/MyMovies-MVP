@@ -1,6 +1,7 @@
 package com.jbrunton.mymovies.ui.shared
 
 import android.content.Intent
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.jbrunton.inject.HasContainer
 import com.jbrunton.inject.inject
@@ -17,6 +18,16 @@ abstract class BaseActivity<T : BaseViewModel> : AppCompatActivity(), HasContain
         (applicationContext as HasContainer).container.createChildContainer().apply {
             register(ActivityModule(this@BaseActivity))
         }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                onBackPressed()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

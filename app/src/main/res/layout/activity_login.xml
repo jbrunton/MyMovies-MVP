@@ -4,6 +4,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        app:title="Login"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:layout_collapseMode="pin"
+        android:background="?attr/colorPrimary"
+        app:navigationIcon="@drawable/ic_close_white_24dp"
+        android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar"
+        app:popupTheme="@style/AppTheme.PopupOverlay" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/sign_in_details"
         android:layout_width="match_parent"
