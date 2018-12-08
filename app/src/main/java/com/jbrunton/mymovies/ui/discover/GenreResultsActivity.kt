@@ -1,7 +1,6 @@
 package com.jbrunton.mymovies.ui.discover
 
 import android.os.Bundle
-import com.jakewharton.rxbinding2.view.clicks
 import com.jbrunton.inject.injectViewModel
 import com.jbrunton.inject.parametersOf
 import com.jbrunton.mymovies.R
@@ -11,7 +10,6 @@ import com.jbrunton.mymovies.ui.search.SearchViewState
 import com.jbrunton.mymovies.ui.shared.BaseActivity
 import com.jbrunton.mymovies.ui.shared.LoadingLayoutManager
 import com.jbrunton.mymovies.ui.shared.LoadingViewState
-import com.trello.rxlifecycle2.android.lifecycle.kotlin.bindToLifecycle
 import kotlinx.android.synthetic.main.activity_genre_results.*
 import kotlinx.android.synthetic.main.layout_loading_state.*
 
@@ -37,9 +35,7 @@ class GenreResultsActivity : BaseActivity<GenreResultsViewModel>() {
         viewModel.viewState.observe(this, this::updateView)
         viewModel.start()
 
-        error_try_again.clicks()
-                .bindToLifecycle(this)
-                .subscribe { viewModel.retry() }
+        error_try_again.setOnClickListener { viewModel.retry() }
     }
 
     private fun genreId(): String = intent.extras["GENRE_ID"] as String

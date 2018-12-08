@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.jakewharton.rxbinding2.view.clicks
 import com.jbrunton.inject.inject
 import com.jbrunton.inject.injectViewModel
 import com.jbrunton.mymovies.R
@@ -14,7 +13,6 @@ import com.jbrunton.mymovies.nav.Navigator
 import com.jbrunton.mymovies.ui.shared.BaseFragment
 import com.jbrunton.mymovies.ui.shared.LoadingLayoutManager
 import com.jbrunton.mymovies.ui.shared.LoadingViewState
-import com.trello.rxlifecycle2.android.lifecycle.kotlin.bindToLifecycle
 import kotlinx.android.synthetic.main.layout_account_details.*
 import kotlinx.android.synthetic.main.layout_loading_state.*
 
@@ -33,17 +31,10 @@ class AccountFragment : BaseFragment<AccountViewModel>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         loadingLayoutManager = LoadingLayoutManager.buildFor(this, account_details)
-        error_try_again.clicks()
-                .bindToLifecycle(this)
-                .subscribe { viewModel.retry() }
-        sign_in.clicks()
-                .bindToLifecycle(this)
-                .subscribe {
-                    viewModel.showLogin(navigator)
-                }
-        sign_out.clicks()
-                .bindToLifecycle(this)
-                .subscribe { viewModel.signOut() }
+
+        error_try_again.setOnClickListener { viewModel.retry() }
+        sign_in.setOnClickListener { viewModel.showLogin(navigator) }
+        sign_out.setOnClickListener { viewModel.signOut() }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
