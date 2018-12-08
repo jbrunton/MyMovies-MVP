@@ -3,7 +3,6 @@ package com.jbrunton.mymovies.ui.auth
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
-import com.jakewharton.rxbinding2.view.clicks
 import com.jbrunton.entities.models.AuthSession
 import com.jbrunton.inject.injectViewModel
 import com.jbrunton.mymovies.R
@@ -11,7 +10,6 @@ import com.jbrunton.mymovies.helpers.observe
 import com.jbrunton.mymovies.ui.shared.BaseActivity
 import com.jbrunton.mymovies.ui.shared.LoadingLayoutManager
 import com.jbrunton.mymovies.ui.shared.LoadingViewState
-import com.trello.rxlifecycle2.android.lifecycle.kotlin.bindToLifecycle
 import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : BaseActivity<LoginViewModel>() {
@@ -49,11 +47,9 @@ class LoginActivity : BaseActivity<LoginViewModel>() {
                     .setPositiveButton("OK", { _, _ -> })
                     .create().show()
         }
-        sign_in.clicks()
-                .bindToLifecycle(this)
-                .subscribe {
-                    viewModel.login(username_field.text.toString(), password_field.text.toString())
-                }
+        sign_in.setOnClickListener {
+            viewModel.login(username_field.text.toString(), password_field.text.toString())
+        }
     }
 
     fun updateView(viewState: LoadingViewState<LoginViewState>) {

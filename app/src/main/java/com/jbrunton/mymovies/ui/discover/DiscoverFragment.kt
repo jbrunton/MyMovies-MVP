@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.jakewharton.rxbinding2.view.clicks
 import com.jbrunton.inject.injectViewModel
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.helpers.observe
@@ -14,7 +13,6 @@ import com.jbrunton.mymovies.ui.search.SearchViewState
 import com.jbrunton.mymovies.ui.shared.BaseFragment
 import com.jbrunton.mymovies.ui.shared.LoadingLayoutManager
 import com.jbrunton.mymovies.ui.shared.LoadingViewState
-import com.trello.rxlifecycle2.android.lifecycle.kotlin.bindToLifecycle
 import kotlinx.android.synthetic.main.fragment_discover.*
 import kotlinx.android.synthetic.main.layout_loading_state.*
 
@@ -36,16 +34,12 @@ class DiscoverFragment : BaseFragment<DiscoverViewModel>() {
         now_playing.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(activity, androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL, false)
         now_playing.adapter = nowPlayingAdapter
 
-        genres_link.clicks()
-                .bindToLifecycle(this)
-                .subscribe {
-                    val intent = Intent(activity, GenresActivity::class.java)
-                    startActivity(intent)
-                }
+        genres_link.setOnClickListener {
+            val intent = Intent(activity, GenresActivity::class.java)
+            startActivity(intent)
+        }
 
-        error_try_again.clicks()
-                .bindToLifecycle(this)
-                .subscribe { viewModel.retry() }
+        error_try_again.setOnClickListener { viewModel.retry() }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

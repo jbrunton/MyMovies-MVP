@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import com.jakewharton.rxbinding2.view.clicks
 import com.jakewharton.rxbinding2.widget.textChanges
 import com.jbrunton.inject.inject
 import com.jbrunton.inject.injectViewModel
@@ -42,11 +41,9 @@ class SearchFragment : BaseFragment<SearchViewModel>() {
         search_query.textChanges()
                 .debounce(500, TimeUnit.MILLISECONDS, scheduler)
                 .bindToLifecycle(this)
-                .subscribe { this.performSearch() }
+                .subscribe { performSearch() }
 
-        error_try_again.clicks()
-                .bindToLifecycle(this)
-                .subscribe { this.performSearch() }
+        error_try_again.setOnClickListener { performSearch() }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
