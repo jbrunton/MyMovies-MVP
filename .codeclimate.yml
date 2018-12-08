@@ -48,3 +48,4 @@ plugins:
 exclude_patterns:
 - "**/test/"
 - "**/androidTest/"
+- "**/networking/services/MovieService.kt"
