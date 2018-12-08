@@ -10,7 +10,7 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
 
-    implementation 'com.github.jbrunton:async-result:0.1.1'
+    implementation 'com.github.jbrunton:async-result:0.4.0'
 
     compile 'joda-time:joda-time:2.9.9'
     compile 'com.google.guava:guava:23.5-android'

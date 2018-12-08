@@ -3,7 +3,6 @@ package com.jbrunton.mymovies.ui.shared
 import android.view.View
 import androidx.annotation.DrawableRes
 import com.jbrunton.async.*
-import com.jbrunton.async.AsyncResult.Companion.success
 
 data class LoadingViewState<T>(
         val contentVisibility: Int = View.GONE,
@@ -20,31 +19,34 @@ data class LoadingViewState<T>(
                 contentViewState = viewState
         )
 
-        fun <T> loading(defaultViewState: T) = LoadingViewState(
+        fun <T> loading(emptyViewState: T) = LoadingViewState(
                 loadingIndicatorVisibility = View.VISIBLE,
-                contentViewState = defaultViewState
+                contentViewState = emptyViewState
         )
 
-        fun <T> failure(error: LoadingViewStateError, defaultViewState: T) = LoadingViewState(
+        fun <T> failure(error: LoadingViewStateError, emptyViewState: T) = LoadingViewState(
                 errorCaseVisibility = View.VISIBLE,
                 errorText = error.message,
                 errorIcon = error.errorIcon,
                 allowRetryVisibility = if (error.allowRetry) { View.VISIBLE } else { View.GONE },
-                contentViewState = defaultViewState
+                contentViewState = emptyViewState
         )
+
+        fun <T> failure(result: AsyncResult.Failure<LoadingViewState<T>>, emptyViewState: T) =
+                failure(result.error as LoadingViewStateError, emptyViewState)
     }
 }
 
-fun <T> AsyncResult<T>.toLoadingViewState(defaultViewState: T): LoadingViewState<T> {
-    val loadingViewState = LoadingViewState.loading(defaultViewState)
-    val errorViewState = { error: LoadingViewStateError ->
-        LoadingViewState.failure(error, defaultViewState)
-    }
-    return this
-            .map { LoadingViewState.success(it) }
-            .onLoading { it.useCachedValue().or(success(loadingViewState)) }
-            .onFailure { it.useCachedValue() }
+fun <T> AsyncResult<T>.toLoadingViewState(emptyViewState: T): LoadingViewState<T> {
+    return this.map { LoadingViewState.success(it) }
+            .onLoading {
+                it.useCachedValue().or(LoadingViewState.loading(emptyViewState))
+            }
+            .onFailure {
+                it.useCachedValue()
+            }
             .onError(LoadingViewStateError::class) {
-                map { success(errorViewState(it.error as LoadingViewStateError)) }
-            }.get()
+                map { LoadingViewState.failure(it, emptyViewState) }
+            }
+            .get()
 }
