@@ -61,7 +61,7 @@ class Navigator(val activity: FragmentActivity) {
         val intent = Intent(activity, LoginActivity::class.java)
         resultHandlers.add(object : ResultHandler(LoginActivity.LOGIN_REQUEST){
             override fun onResult(resultCode: Int, data: Intent?) {
-                observable.onNext(AuthSession(""))
+                observable.onNext(LoginActivity.fromIntent(data!!))
             }
         })
         activity.startActivityForResult(intent, LoginActivity.LOGIN_REQUEST)

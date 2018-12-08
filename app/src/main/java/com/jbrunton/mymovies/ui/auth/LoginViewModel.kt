@@ -13,7 +13,7 @@ import retrofit2.HttpException
 
 class LoginViewModel(private val repository: AccountRepository) : BaseViewModel() {
     val viewState = MutableLiveData<LoadingViewState<LoginViewState>>()
-    val loginSuccessful = SingleLiveEvent<Unit>()
+    val loginSuccessful = SingleLiveEvent<AuthSession>()
     val loginFailure = SingleLiveEvent<String>()
 
     override fun start() {}
@@ -28,8 +28,8 @@ class LoginViewModel(private val repository: AccountRepository) : BaseViewModel(
 
     private fun onLoginResult(result: AsyncResult<AuthSession>) {
         val viewState: LoadingViewState<LoginViewState> = result
+                .doOnSuccess { loginSuccessful.postValue(it.value) }
                 .map { LoginViewState.Empty }
-                .doOnSuccess { loginSuccessful.call() }
                 .onNetworkErrorUse(this::handleNetworkError)
                 .onError(HttpException::class) {
                     use(this@LoginViewModel::handleAuthFailure) whenever { it.code() == 401 }
