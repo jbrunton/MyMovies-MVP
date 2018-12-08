@@ -52,7 +52,7 @@ class SearchFragment : BaseFragment<SearchViewModel>() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         (activity as AppCompatActivity).setSupportActionBar(my_toolbar)
-        viewModel.viewState.observe(this, this::updateView)
+        viewModel.viewState.observe(getViewLifecycleOwner(), this::updateView)
         viewModel.start()
     }
 
