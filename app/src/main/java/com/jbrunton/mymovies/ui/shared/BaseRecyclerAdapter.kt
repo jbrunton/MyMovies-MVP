@@ -1,9 +1,9 @@
 package com.jbrunton.mymovies.ui.shared
 
-import androidx.annotation.LayoutRes
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.LayoutRes
 
 abstract class BaseRecyclerAdapter<D, H : androidx.recyclerview.widget.RecyclerView.ViewHolder>(
         @field:LayoutRes private val layout: Int,
@@ -33,7 +33,7 @@ abstract class BaseRecyclerAdapter<D, H : androidx.recyclerview.widget.RecyclerV
     override fun onBindViewHolder(holder: H, position: Int) {
         val item = dataSource[position]
         holder.itemView.tag = item
-        viewHolderFactory.bindHolder(holder, item)
+        viewHolderFactory.bindHolder(holder, item, dataSource, position)
     }
 
     override fun getItemCount(): Int {
@@ -44,6 +44,6 @@ abstract class BaseRecyclerAdapter<D, H : androidx.recyclerview.widget.RecyclerV
 
     interface ViewHolderFactory<D, H : androidx.recyclerview.widget.RecyclerView.ViewHolder> {
         fun createViewHolder(view: View): H
-        fun bindHolder(holder: H, item: D)
+        fun bindHolder(holder: H, item: D, items: List<D>, position: Int)
     }
 }
