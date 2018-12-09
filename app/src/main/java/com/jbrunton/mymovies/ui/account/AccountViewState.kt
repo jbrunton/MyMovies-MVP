@@ -9,7 +9,7 @@ data class AccountViewState(
         val name: String,
         val avatarUrl: String,
         val signInVisibility: Int,
-        val signOutVisibility: Int
+        val linksVisibility: Int
 ) {
     constructor(account: Account) : this(
             id = account.id,
@@ -17,7 +17,7 @@ data class AccountViewState(
             name = account.name ?: "",
             avatarUrl = account.avatarUrl ?: "",
             signInVisibility = View.GONE,
-            signOutVisibility = View.VISIBLE)
+            linksVisibility = View.VISIBLE)
 
     companion object {
         val Empty = AccountViewState(
@@ -26,13 +26,14 @@ data class AccountViewState(
                 name = "",
                 avatarUrl = "",
                 signInVisibility = View.GONE,
-                signOutVisibility = View.GONE
+                linksVisibility = View.GONE
         )
 
         val SignedOut = Empty.copy(
                 avatarUrl = "https://www.gravatar.com/avatar/0?d=mp",
                 username = "Signed Out",
-                signInVisibility = View.VISIBLE
+                signInVisibility = View.VISIBLE,
+                linksVisibility = View.GONE
         )
     }
 }
