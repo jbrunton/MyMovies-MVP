@@ -7,6 +7,7 @@ import com.jbrunton.entities.repositories.ApplicationPreferences
 import com.jbrunton.entities.repositories.MoviesRepository
 import com.jbrunton.mymovies.ui.movies.MovieViewState
 import com.jbrunton.mymovies.ui.shared.BaseLoadingViewModel
+import com.jbrunton.mymovies.ui.shared.SnackbarMessage
 import com.jbrunton.mymovies.ui.shared.handleNetworkErrors
 import com.jbrunton.mymovies.ui.shared.toLoadingViewState
 
@@ -26,17 +27,13 @@ class MovieDetailsViewModel(
     fun favorite() {
         repository.favorite(movieId)
                 .compose(applySchedulers())
-                .subscribe {
-                    loadDetails()
-                }
+                .subscribe(this::onFavorite)
     }
 
     fun unfavorite() {
         repository.unfavorite(movieId)
                 .compose(applySchedulers())
-                .subscribe {
-                    loadDetails()
-                }
+                .subscribe(this::onUnfavorite)
     }
 
     private fun loadDetails() {
@@ -53,5 +50,25 @@ class MovieDetailsViewModel(
                 }
                 .handleNetworkErrors()
                 .toLoadingViewState(MovieViewState.Empty)
+    }
+
+    private fun onFavorite(any: Any) {
+        val message = SnackbarMessage(
+                "Added to favorites",
+                "Undo",
+                { unfavorite() }
+        )
+        snackbar.postValue(message)
+        loadDetails()
+    }
+
+    private fun onUnfavorite(any: Any) {
+        val message = SnackbarMessage(
+                "Removed from favorites",
+                "Undo",
+                { favorite() }
+        )
+        snackbar.postValue(message)
+        loadDetails()
     }
 }

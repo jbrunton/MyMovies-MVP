@@ -8,6 +8,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 abstract class BaseViewModel : ViewModel() {
+    val snackbar = SingleLiveEvent<SnackbarMessage>()
+
     protected fun <T> applySchedulers(): ObservableTransformer<T, T> {
         return ObservableTransformer {
             it.subscribeOn(Schedulers.io())

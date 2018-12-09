@@ -38,6 +38,7 @@ class MovieDetailsActivity : BaseActivity<MovieDetailsViewModel>() {
     }
 
     override fun onObserveData() {
+        super.onObserveData()
         viewModel.viewState.observe(this, this::updateView)
         viewModel.showRetrySnackbar.observe(this, this::showSnackbar)
     }
