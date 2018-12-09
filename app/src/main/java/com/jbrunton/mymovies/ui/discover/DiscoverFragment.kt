@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import com.jbrunton.inject.injectViewModel
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.helpers.observe
@@ -46,6 +47,11 @@ class DiscoverFragment : BaseFragment<DiscoverViewModel>() {
 
     override fun onObserveData() {
         viewModel.viewState.observe(viewLifecycleOwner, this::updateView)
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        (activity as AppCompatActivity).setSupportActionBar(toolbar)
     }
 
     private fun updateView(viewState: LoadingViewState<SearchViewState>) {

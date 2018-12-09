@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import com.jbrunton.inject.inject
 import com.jbrunton.inject.injectViewModel
 import com.jbrunton.mymovies.R
@@ -13,6 +14,7 @@ import com.jbrunton.mymovies.nav.Navigator
 import com.jbrunton.mymovies.ui.shared.BaseFragment
 import com.jbrunton.mymovies.ui.shared.LoadingLayoutManager
 import com.jbrunton.mymovies.ui.shared.LoadingViewState
+import kotlinx.android.synthetic.main.activity_genres.*
 import kotlinx.android.synthetic.main.layout_account_details.*
 import kotlinx.android.synthetic.main.layout_loading_state.*
 
@@ -41,6 +43,11 @@ class AccountFragment : BaseFragment<AccountViewModel>() {
 
     override fun onObserveData() {
         viewModel.viewState.observe(viewLifecycleOwner, this::updateView)
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        (activity as AppCompatActivity).setSupportActionBar(toolbar)
     }
 
     private fun updateView(viewState: LoadingViewState<AccountViewState>) {
