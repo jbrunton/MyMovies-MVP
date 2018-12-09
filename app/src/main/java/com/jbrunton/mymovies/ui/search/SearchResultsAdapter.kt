@@ -30,7 +30,7 @@ class SearchResultsAdapter(
 
         init {
             movieCardView = itemView.findViewById(R.id.movie_card_view)
-            titleView = itemView.findViewById(R.id.title)
+            titleView = itemView.findViewById(R.id.movie_title)
             releaseDateView = itemView.findViewById(R.id.release_date)
             ratingView = itemView.findViewById(R.id.rating)
             poster = itemView.findViewById(R.id.poster)
