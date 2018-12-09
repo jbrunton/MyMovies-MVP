@@ -26,7 +26,7 @@ class SearchResultsAdapter(
         val poster: ImageView
         val ratingView: TextView?
         val movieCardView: View
-        val divider: View
+        val divider: View?
 
         init {
             movieCardView = itemView.findViewById(R.id.movie_card_view)
@@ -34,7 +34,7 @@ class SearchResultsAdapter(
             releaseDateView = itemView.findViewById(R.id.release_date)
             ratingView = itemView.findViewById(R.id.rating)
             poster = itemView.findViewById(R.id.poster)
-            divider = itemView.findViewById(R.id.divider)
+            divider = itemView.findViewById<View?>(R.id.divider)
         }
     }
 
@@ -60,7 +60,13 @@ class SearchResultsAdapter(
                 intent.putExtra("MOVIE_ID", item.movieId)
                 context.startActivity(intent)
             }
-            holder.divider.visibility = if (position < items.size - 1) { View.VISIBLE } else { View.GONE }
+            if (holder.divider != null) {
+                holder.divider.visibility = if (position < items.size - 1) {
+                    View.VISIBLE
+                } else {
+                    View.GONE
+                }
+            }
         }
     }
 }
