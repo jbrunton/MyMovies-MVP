@@ -33,6 +33,7 @@ class HttpAccountRepository(
     override fun account(): DataStream<Account> {
         return service.account(session?.sessionId ?: "")
                 .map(AccountResponse::toAccount)
+                .doAfterNext { preferences.accountId = it.id }
                 .toDataStream()
     }
 

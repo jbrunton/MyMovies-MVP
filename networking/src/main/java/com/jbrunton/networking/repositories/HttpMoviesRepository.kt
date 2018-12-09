@@ -3,6 +3,7 @@ package com.jbrunton.networking.repositories
 import androidx.collection.LruCache
 import com.jbrunton.entities.models.Configuration
 import com.jbrunton.entities.models.Movie
+import com.jbrunton.entities.repositories.ApplicationPreferences
 import com.jbrunton.entities.repositories.DataStream
 import com.jbrunton.entities.repositories.MoviesRepository
 import com.jbrunton.entities.repositories.toDataStream
@@ -12,7 +13,10 @@ import com.jbrunton.networking.services.MovieService
 import io.reactivex.Observable
 import io.reactivex.rxkotlin.Observables
 
-class HttpMoviesRepository(private val service: MovieService): MoviesRepository {
+class HttpMoviesRepository(
+        private val service: MovieService,
+        private val preferences: ApplicationPreferences
+): MoviesRepository {
     private val cache = LruCache<String, Movie>(1024)
 
     override fun getMovie(movieId: String): DataStream<Movie> {
@@ -35,8 +39,8 @@ class HttpMoviesRepository(private val service: MovieService): MoviesRepository 
         return buildResponse(service.discoverByGenre(genreId))
     }
 
-    override fun favorites(accountId: String, sessionId: String): DataStream<List<Movie>> {
-        return buildResponse(service.favorites(accountId, sessionId))
+    override fun favorites(): DataStream<List<Movie>> {
+        return buildResponse(service.favorites(preferences.accountId!!, preferences.sessionId!!))
     }
 
     private fun buildResponse(apiSource: Observable<MoviesCollection>): DataStream<List<Movie>> {

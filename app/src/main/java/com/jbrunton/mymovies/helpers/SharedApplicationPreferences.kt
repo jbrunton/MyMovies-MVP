@@ -10,4 +10,7 @@ class SharedApplicationPreferences(val context: Context) : ApplicationPreference
         get() = preferences.getString("SESSION_ID", "")
         set(value) = preferences.edit().putString("SESSION_ID", value).apply()
 
+    override var accountId: String?
+        get() = preferences.getString("ACCOUNT_ID", "")
+        set(value) = preferences.edit().putString("ACCOUNT_ID", value).apply()
 }
