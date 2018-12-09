@@ -44,5 +44,5 @@ interface MovieService {
     fun discoverByGenre(@Query("with_genres") genreId: String): Observable<MoviesCollection>
 
     @GET("account/{account_id}/favorite/movies")
-    fun favorites(@Path("account_id") accountId: String): Observable<MoviesCollection>
+    fun favorites(@Path("account_id") accountId: String, @Query("session_id") sessionId: String): Observable<MoviesCollection>
 }

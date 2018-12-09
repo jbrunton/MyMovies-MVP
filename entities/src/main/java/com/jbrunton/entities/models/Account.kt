@@ -5,4 +5,8 @@ data class Account(
         val username: String?,
         val name: String?,
         val avatarUrl: String?
-)
+) {
+    companion object {
+        val Null = Account("", null, null, null)
+    }
+}

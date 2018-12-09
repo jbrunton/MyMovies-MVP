@@ -73,6 +73,7 @@
 
         <TextView
             style="@style/TextAppearance.AppCompat.Medium"
+            android:id="@+id/favorites"
             android:paddingTop="4dp"
             android:paddingBottom="4dp"
             android:layout_width="match_parent"

@@ -35,8 +35,8 @@ class HttpMoviesRepository(private val service: MovieService): MoviesRepository 
         return buildResponse(service.discoverByGenre(genreId))
     }
 
-    override fun favorites(accountId: String): DataStream<List<Movie>> {
-        return buildResponse(service.favorites(accountId))
+    override fun favorites(accountId: String, sessionId: String): DataStream<List<Movie>> {
+        return buildResponse(service.favorites(accountId, sessionId))
     }
 
     private fun buildResponse(apiSource: Observable<MoviesCollection>): DataStream<List<Movie>> {

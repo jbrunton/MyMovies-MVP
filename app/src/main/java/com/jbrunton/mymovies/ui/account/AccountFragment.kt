@@ -39,6 +39,7 @@ class AccountFragment : BaseFragment<AccountViewModel>() {
         error_try_again.setOnClickListener { viewModel.retry() }
         sign_in.setOnClickListener { viewModel.showLogin(navigator) }
         sign_out.setOnClickListener { viewModel.signOut() }
+        favorites.setOnClickListener { navigator.showFavorites() }
     }
 
     override fun onObserveData() {

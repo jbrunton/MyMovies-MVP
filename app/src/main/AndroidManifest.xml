@@ -25,6 +25,7 @@
         <activity android:name="com.jbrunton.mymovies.ui.discover.GenresActivity" />
         <activity android:name="com.jbrunton.mymovies.ui.discover.GenreResultsActivity" />
         <activity android:name="com.jbrunton.mymovies.ui.moviedetails.MovieDetailsActivity" />
+        <activity android:name="com.jbrunton.mymovies.ui.account.favorites.FavoritesActivity" />
         <activity android:name="com.jbrunton.mymovies.ui.auth.LoginActivity" />
         <meta-data
             android:name="io.fabric.ApiKey"

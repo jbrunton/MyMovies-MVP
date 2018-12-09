@@ -15,7 +15,7 @@ class HttpAccountRepository(
         private val service: MovieService,
         private val preferences: ApplicationPreferences
 ): AccountRepository {
-    var session: AuthSession? = null
+    override var session: AuthSession? = null
         get() {
             if (field == null) {
                 val sessionId = preferences.sessionId
