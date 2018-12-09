@@ -50,6 +50,25 @@
         app:layout_constraintLeft_toRightOf="@+id/poster"
         app:layout_constraintTop_toBottomOf="@id/release_date"/>
 
+    <ImageView
+        android:id="@+id/favorite"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:src="@drawable/ic_favorite_border_24dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:visibility="gone"
+    />
+
+    <ImageView
+        android:id="@+id/unfavorite"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:src="@drawable/ic_favorite_24dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:visibility="gone"
+        tools:visibility="visible"
+    />
+
     <View
         android:id="@+id/divider"
         style="@style/Divider"

@@ -26,10 +26,8 @@ class MovieDetailsViewModel(val movieId: String, val repository: MoviesRepositor
 
     private fun setMovieResponse(state: AsyncResult<Movie>) {
         viewState.value = state
-                .map { MovieViewState(it) }
+                .map { MovieViewState.from(it, false) }
                 .handleNetworkErrors()
-                .toLoadingViewState(defaultViewState)
+                .toLoadingViewState(MovieViewState.Empty)
     }
-
-    private val defaultViewState = MovieViewState(Movie.emptyMovie)
 }
