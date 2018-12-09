@@ -50,7 +50,6 @@ class AccountFragment : BaseFragment<AccountViewModel>() {
             account_username.text = it.username
             account_name.text = it.name
             sign_in.visibility = it.signInVisibility
-            sign_out.visibility = it.signOutVisibility
             account_links.visibility = it.linksVisibility
 
             picassoHelper.loadImage(context!!, avatar, it.avatarUrl)
