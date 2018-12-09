@@ -7,4 +7,5 @@ interface MoviesRepository {
     fun searchMovies(query: String): DataStream<List<Movie>>
     fun nowPlaying(): DataStream<List<Movie>>
     fun discoverByGenre(genreId: String): DataStream<List<Movie>>
+    fun favorites(accountId: String): DataStream<List<Movie>>
 }
