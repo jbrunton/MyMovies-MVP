@@ -5,14 +5,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.jbrunton.mymovies.ui.moviedetails.MovieDetailsActivity"
-    tools:showIn="@layout/activity_movie_details">
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    <TextView
-        android:id="@+id/overview"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin" />
+        android:orientation="vertical">
+
+        <include layout="@layout/item_movie_card_list" />
+
+        <TextView
+            android:id="@+id/overview"
+            tools:text="@tools:sample/lorem/random"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/text_margin" />
+    </LinearLayout>
 
 </androidx.core.widget.NestedScrollView>

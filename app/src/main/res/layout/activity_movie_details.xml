@@ -44,6 +44,6 @@
 
     <include layout="@layout/content_movie_details" />
 
-    <include layout="@layout/layout_loading_state" />
+    <include layout="@layout/layout_loading_state" android:visibility="gone" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

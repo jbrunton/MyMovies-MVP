@@ -26,13 +26,15 @@ class SearchResultsAdapter(
         val poster: ImageView
         val ratingView: TextView?
         val movieCardView: View
+        val divider: View?
 
         init {
             movieCardView = itemView.findViewById(R.id.movie_card_view)
-            titleView = itemView.findViewById<View>(R.id.title) as TextView
-            releaseDateView = itemView.findViewById<View>(R.id.release_date) as TextView?
-            ratingView = itemView.findViewById<View>(R.id.rating) as TextView?
-            poster = itemView.findViewById<View>(R.id.poster) as ImageView
+            titleView = itemView.findViewById(R.id.movie_title)
+            releaseDateView = itemView.findViewById(R.id.release_date)
+            ratingView = itemView.findViewById(R.id.rating)
+            poster = itemView.findViewById(R.id.poster)
+            divider = itemView.findViewById<View?>(R.id.divider)
         }
     }
 
@@ -44,7 +46,7 @@ class SearchResultsAdapter(
             return ViewHolder(view)
         }
 
-        override fun bindHolder(holder: ViewHolder, item: MovieSearchResultViewState) {
+        override fun bindHolder(holder: ViewHolder, item: MovieSearchResultViewState, items: List<MovieSearchResultViewState>, position: Int) {
             holder.titleView.text = item.title
             if (holder.releaseDateView != null) {
                 holder.releaseDateView.text = item.yearReleased
@@ -57,6 +59,13 @@ class SearchResultsAdapter(
                 val intent = Intent(context, MovieDetailsActivity::class.java)
                 intent.putExtra("MOVIE_ID", item.movieId)
                 context.startActivity(intent)
+            }
+            if (holder.divider != null) {
+                holder.divider.visibility = if (position < items.size - 1) {
+                    View.VISIBLE
+                } else {
+                    View.GONE
+                }
             }
         }
     }

@@ -16,13 +16,14 @@ class GenreResultsActivity : BaseActivity<GenreResultsViewModel>() {
     private lateinit var moviesAdapter: SearchResultsAdapter
     private lateinit var loadingLayoutManager: LoadingLayoutManager
 
-    override val viewModel: GenreResultsViewModel by injectViewModel { parametersOf(genreId()) }
+    override val viewModel: GenreResultsViewModel by injectViewModel { parametersOf(genreId(), genreName()) }
 
     override fun onCreateLayout() {
         setContentView(R.layout.activity_genre_results)
 
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        supportActionBar!!.setTitle(genreName())
 
         loadingLayoutManager = LoadingLayoutManager.buildFor(this, movies_list)
 
@@ -40,6 +41,7 @@ class GenreResultsActivity : BaseActivity<GenreResultsViewModel>() {
     }
 
     private fun genreId(): String = intent.extras["GENRE_ID"] as String
+    private fun genreName(): String = intent.extras["GENRE_NAME"] as String
 
     private fun updateView(viewState: LoadingViewState<SearchViewState>) {
         loadingLayoutManager.updateLayout(viewState, moviesAdapter::setDataSource)

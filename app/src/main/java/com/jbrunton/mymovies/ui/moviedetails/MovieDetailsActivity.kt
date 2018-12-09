@@ -1,5 +1,6 @@
 package com.jbrunton.mymovies.ui.moviedetails
 
+import android.text.Html
 import com.google.android.material.snackbar.Snackbar
 import com.jbrunton.inject.injectViewModel
 import com.jbrunton.inject.parametersOf
@@ -12,6 +13,7 @@ import com.jbrunton.mymovies.ui.shared.LoadingLayoutManager
 import com.jbrunton.mymovies.ui.shared.LoadingViewState
 import kotlinx.android.synthetic.main.activity_movie_details.*
 import kotlinx.android.synthetic.main.content_movie_details.*
+import kotlinx.android.synthetic.main.item_movie_card_list.*
 import kotlinx.android.synthetic.main.layout_loading_state.*
 
 class MovieDetailsActivity : BaseActivity<MovieDetailsViewModel>() {
@@ -24,10 +26,9 @@ class MovieDetailsActivity : BaseActivity<MovieDetailsViewModel>() {
 
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        title = ""
 
         loadingLayoutManager = LoadingLayoutManager.buildFor(this, content)
-
-        title = ""
     }
 
     override fun onBindListeners() {
@@ -43,9 +44,13 @@ class MovieDetailsActivity : BaseActivity<MovieDetailsViewModel>() {
 
     fun updateView(viewState: LoadingViewState<MovieViewState>) {
         loadingLayoutManager.updateLayout(viewState) {
-            title = it.title
-            overview.text = it.overview
+            //title = it.title
 
+            movie_title.text = it.title
+            rating.text = Html.fromHtml(it.rating)
+            overview.text = it.overview
+            release_date.text = it.yearReleased
+            picassoHelper.loadSearchResultImage(this, poster, it.posterUrl)
             picassoHelper.loadImage(this, backdrop, it.backdropUrl)
         }
     }

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import com.jbrunton.inject.injectViewModel
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.helpers.observe
@@ -26,11 +27,12 @@ class DiscoverFragment : BaseFragment<DiscoverViewModel>() {
         return inflater.inflate(R.layout.fragment_discover, container, false)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onCreateLayout() {
+        (activity as AppCompatActivity).setSupportActionBar(toolbar)
 
         loadingLayoutManager = LoadingLayoutManager.buildFor(this, discover_content)
         nowPlayingAdapter = SearchResultsAdapter(activity!!, R.layout.item_movie_card_grid)
+
         now_playing.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(activity, androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL, false)
         now_playing.adapter = nowPlayingAdapter
     }
