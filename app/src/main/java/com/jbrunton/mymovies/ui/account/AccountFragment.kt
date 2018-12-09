@@ -30,8 +30,8 @@ class AccountFragment : BaseFragment<AccountViewModel>() {
         return inflater.inflate(R.layout.fragment_account, container, false)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onCreateLayout() {
+        (activity as AppCompatActivity).setSupportActionBar(toolbar)
         loadingLayoutManager = LoadingLayoutManager.buildFor(this, account_details)
     }
 
@@ -43,11 +43,6 @@ class AccountFragment : BaseFragment<AccountViewModel>() {
 
     override fun onObserveData() {
         viewModel.viewState.observe(viewLifecycleOwner, this::updateView)
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        (activity as AppCompatActivity).setSupportActionBar(toolbar)
     }
 
     private fun updateView(viewState: LoadingViewState<AccountViewState>) {

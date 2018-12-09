@@ -27,11 +27,12 @@ class DiscoverFragment : BaseFragment<DiscoverViewModel>() {
         return inflater.inflate(R.layout.fragment_discover, container, false)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onCreateLayout() {
+        (activity as AppCompatActivity).setSupportActionBar(toolbar)
 
         loadingLayoutManager = LoadingLayoutManager.buildFor(this, discover_content)
         nowPlayingAdapter = SearchResultsAdapter(activity!!, R.layout.item_movie_card_grid)
+
         now_playing.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(activity, androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL, false)
         now_playing.adapter = nowPlayingAdapter
     }
@@ -47,11 +48,6 @@ class DiscoverFragment : BaseFragment<DiscoverViewModel>() {
 
     override fun onObserveData() {
         viewModel.viewState.observe(viewLifecycleOwner, this::updateView)
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        (activity as AppCompatActivity).setSupportActionBar(toolbar)
     }
 
     private fun updateView(viewState: LoadingViewState<SearchViewState>) {

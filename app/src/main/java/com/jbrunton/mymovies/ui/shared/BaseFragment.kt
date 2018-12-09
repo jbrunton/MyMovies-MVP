@@ -23,6 +23,7 @@ abstract class BaseFragment<T : BaseViewModel> : androidx.fragment.app.Fragment(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        onCreateLayout()
         onBindListeners()
     }
 
@@ -32,6 +33,7 @@ abstract class BaseFragment<T : BaseViewModel> : androidx.fragment.app.Fragment(
         viewModel.start()
     }
 
+    override fun onCreateLayout() {}
     override fun onBindListeners() {}
     override fun onObserveData() {}
 }

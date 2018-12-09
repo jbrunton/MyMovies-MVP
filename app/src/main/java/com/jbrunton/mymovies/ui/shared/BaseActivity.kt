@@ -14,7 +14,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 abstract class BaseActivity<T : BaseViewModel> : AppCompatActivity(), HasContainer,
-        ActivityViewModelLifecycle
+        ViewModelLifecycle
 {
     val navigator: Navigator by inject()
     abstract val viewModel: T
