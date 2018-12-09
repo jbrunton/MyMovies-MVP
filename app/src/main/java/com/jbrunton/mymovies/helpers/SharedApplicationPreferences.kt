@@ -13,4 +13,9 @@ class SharedApplicationPreferences(val context: Context) : ApplicationPreference
     override var accountId: String?
         get() = preferences.getString("ACCOUNT_ID", "")
         set(value) = preferences.edit().putString("ACCOUNT_ID", value).apply()
+
+    override var favorites: Set<String>?
+        get() = preferences.getStringSet("FAVORITES", null)
+        set(value) = preferences.edit().putStringSet("FAVORITES", value).apply()
+
 }

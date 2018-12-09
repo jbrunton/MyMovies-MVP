@@ -1,12 +1,14 @@
 package com.jbrunton.networking.repositories
 
 import androidx.collection.LruCache
+import com.jbrunton.async.doOnSuccess
 import com.jbrunton.entities.models.Configuration
 import com.jbrunton.entities.models.Movie
 import com.jbrunton.entities.repositories.ApplicationPreferences
 import com.jbrunton.entities.repositories.DataStream
 import com.jbrunton.entities.repositories.MoviesRepository
 import com.jbrunton.entities.repositories.toDataStream
+import com.jbrunton.networking.resources.account.FavoriteRequest
 import com.jbrunton.networking.resources.movies.MovieDetailsResponse
 import com.jbrunton.networking.resources.movies.MoviesCollection
 import com.jbrunton.networking.services.MovieService
@@ -41,6 +43,35 @@ class HttpMoviesRepository(
 
     override fun favorites(): DataStream<List<Movie>> {
         return buildResponse(service.favorites(preferences.accountId!!, preferences.sessionId!!))
+                .doOnNext {
+                    it.doOnSuccess {
+                        preferences.favorites = it.value.map { it.id }.toSet()
+                    }
+                }
+    }
+
+    override fun favorite(movieId: String): Observable<Any> {
+        return service.favorite(
+                preferences.accountId!!,
+                preferences.sessionId!!,
+                FavoriteRequest(mediaId = movieId, favorite = true)
+        ).doOnNext {
+            val favorites = (preferences.favorites ?: emptySet()).toMutableSet()
+            favorites.add(movieId)
+            preferences.favorites = favorites
+        }
+    }
+
+    override fun unfavorite(movieId: String): Observable<Any> {
+        return service.favorite(
+                preferences.accountId!!,
+                preferences.sessionId!!,
+                FavoriteRequest(mediaId = movieId, favorite = false)
+        ).doOnNext {
+            val favorites = (preferences.favorites ?: emptySet()).toMutableSet()
+            favorites.remove(movieId)
+            preferences.favorites = favorites
+        }
     }
 
     private fun buildResponse(apiSource: Observable<MoviesCollection>): DataStream<List<Movie>> {

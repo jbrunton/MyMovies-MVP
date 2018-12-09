@@ -33,6 +33,8 @@ class MovieDetailsActivity : BaseActivity<MovieDetailsViewModel>() {
 
     override fun onBindListeners() {
         error_try_again.setOnClickListener { viewModel.retry() }
+        favorite.setOnClickListener { viewModel.favorite() }
+        unfavorite.setOnClickListener { viewModel.unfavorite() }
     }
 
     override fun onObserveData() {

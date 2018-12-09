@@ -3,6 +3,7 @@ package com.jbrunton.networking.services
 import com.jbrunton.entities.models.AuthSession
 import com.jbrunton.entities.models.AuthToken
 import com.jbrunton.networking.resources.account.AccountResponse
+import com.jbrunton.networking.resources.account.FavoriteRequest
 import com.jbrunton.networking.resources.auth.AuthSessionRequest
 import com.jbrunton.networking.resources.auth.LoginRequest
 import com.jbrunton.networking.resources.configuration.ConfigurationResponse
@@ -44,5 +45,15 @@ interface MovieService {
     fun discoverByGenre(@Query("with_genres") genreId: String): Observable<MoviesCollection>
 
     @GET("account/{account_id}/favorite/movies")
-    fun favorites(@Path("account_id") accountId: String, @Query("session_id") sessionId: String): Observable<MoviesCollection>
+    fun favorites(
+            @Path("account_id") accountId: String,
+            @Query("session_id") sessionId: String
+    ): Observable<MoviesCollection>
+
+    @POST("account/{account_id}/favorite")
+    fun favorite(
+            @Path("account_id") accountId: String,
+            @Query("session_id") sessionId: String,
+            @Body request: FavoriteRequest
+    ): Observable<Any>
 }

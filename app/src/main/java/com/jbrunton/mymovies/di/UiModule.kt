@@ -19,6 +19,6 @@ val UiModule = module {
     factory { LoginViewModel(get()) }
     factory { AccountViewModel(get()) }
     factory { FavoritesViewModel(get()) }
-    factory { (movieId: String) -> MovieDetailsViewModel(movieId, get()) }
+    factory { (movieId: String) -> MovieDetailsViewModel(movieId, get(), get()) }
     factory { (genreId: String) -> GenreResultsViewModel(genreId, get()) }
 }
