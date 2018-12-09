@@ -18,13 +18,14 @@
 
     <TextView
         android:id="@+id/movie_title"
-        tools:text="Star Trek"
+        tools:text="Star Trek Star Trek Star Trek Star Trek"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
         android:maxLines="2"
         android:ellipsize="end"
         android:layout_height="wrap_content"
         android:layout_width="0dp"
         android:layout_marginLeft="8dp"
+        android:layout_marginRight="32dp"
         app:layout_constraintLeft_toRightOf="@+id/poster"
         app:layout_constraintRight_toRightOf="parent"/>
 
