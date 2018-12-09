@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -12,16 +13,17 @@
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
         android:elevation="4dp"
-        app:title="Genres"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        tools:title="Adventure"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/movies_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/toolbar"
         android:scrollbars="vertical" />
 
     <include layout="@layout/layout_loading_state" />
 
-</FrameLayout>
+</RelativeLayout>

@@ -64,6 +64,7 @@ class GenresActivity : BaseActivity<GenresViewModel>() {
             genreName.setOnClickListener { view ->
                 val intent = Intent(context, GenreResultsActivity::class.java)
                 intent.putExtra("GENRE_ID", genre!!.id)
+                intent.putExtra("GENRE_NAME", genre!!.name)
                 context.startActivity(intent)
             }
             genreName.text = genre!!.name
