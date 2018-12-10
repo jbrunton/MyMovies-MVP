@@ -3,6 +3,7 @@ package com.jbrunton.mymovies.ui.moviedetails
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.jbrunton.async.AsyncResult
 import com.jbrunton.entities.models.Movie
+import com.jbrunton.entities.repositories.ApplicationPreferences
 import com.jbrunton.entities.repositories.MoviesRepository
 import com.jbrunton.fixtures.MovieFactory
 import com.jbrunton.mymovies.fixtures.RepositoryFixtures.stubFind
@@ -27,12 +28,13 @@ class MovieDetailsViewModelTest {
     var schedulerRule = TestSchedulerRule()
 
     private lateinit var repository: MoviesRepository
+    private lateinit var preferences: ApplicationPreferences
     private val movieFactory = MovieFactory()
     private val MOVIE = movieFactory.create()
     private val NETWORK_ERROR = SocketTimeoutException()
 
-    private val SUCCESS_VIEW_STATE = LoadingViewState.success(MovieViewState(MOVIE))
-    private val NETWORK_FAILURE_VIEW_STATE = LoadingViewState.failure(networkError(), MovieViewState(Movie.emptyMovie))
+    private val SUCCESS_VIEW_STATE = LoadingViewState.success(MovieViewState.from(MOVIE, false))
+    private val NETWORK_FAILURE_VIEW_STATE = LoadingViewState.failure(networkError(), MovieViewState.Empty)
     private val LOADING_VIEW_STATE = AsyncResult.Loading<MovieViewState>()
 
     private lateinit var viewModel: MovieDetailsViewModel
@@ -40,7 +42,8 @@ class MovieDetailsViewModelTest {
     @Before
     fun setUp() {
         repository = mock(MoviesRepository::class.java)
-        viewModel = MovieDetailsViewModel("1", repository)
+        preferences = mock(ApplicationPreferences::class.java)
+        viewModel = MovieDetailsViewModel("1", repository, preferences)
         stubFind(repository, "1").toReturnDelayed(MOVIE, 1)
     }
 
