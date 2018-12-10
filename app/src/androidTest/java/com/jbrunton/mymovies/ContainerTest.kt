@@ -4,6 +4,7 @@ import androidx.test.rule.ActivityTestRule
 import androidx.test.runner.AndroidJUnit4
 import com.jbrunton.inject.DryRunParameters
 import com.jbrunton.inject.check
+import com.jbrunton.inject.inject
 import com.jbrunton.inject.parametersOf
 import com.jbrunton.mymovies.di.ActivityModule
 import com.jbrunton.mymovies.di.ApplicationComponent
@@ -25,12 +26,12 @@ class ContainerTest : BaseActivityTest<MainActivity>() {
 
     @Test
     fun checkAppModule() {
-        ApplicationComponent().check(parameters)
+        ApplicationComponent(application).check(parameters)
     }
 
     @Test
     fun checkTestAppModule() {
-        TestApplicationComponent().check(parameters)
+        TestApplicationComponent(application).check(parameters)
     }
 
     @Ignore @Test // ActivityModule is not a complete module - need to allow others to be passed in
@@ -41,4 +42,7 @@ class ContainerTest : BaseActivityTest<MainActivity>() {
     override fun createActivityTestRule(): ActivityTestRule<MainActivity> {
         return ActivityTestRule(MainActivity::class.java)
     }
+
+    private val application: MyMoviesApplication
+        get() = activity.application as MyMoviesApplication
 }

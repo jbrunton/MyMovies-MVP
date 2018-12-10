@@ -13,5 +13,5 @@ val TestHttpModule = module {
     single { ServiceFactory.createService() }
     single { TestMoviesRepository() as MoviesRepository }
     single { TestGenresRepository() as GenresRepository }
-    single { HttpAccountRepository(get()) as AccountRepository }
+    single { HttpAccountRepository(get(), get()) as AccountRepository }
 }

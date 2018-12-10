@@ -28,7 +28,7 @@ class MovieDetailsActivityTest : BaseActivityTest<MovieDetailsActivity>() {
     @Test
     fun loadsMovieDetails() {
         moviesRepository.stubWith(listOf(MOVIE1))
-        val expectedViewState = MovieViewState(MOVIE1)
+        val expectedViewState = MovieViewState.from(MOVIE1, false)
 
         val intent = Intent()
         intent.putExtra("MOVIE_ID", MOVIE1.id)
