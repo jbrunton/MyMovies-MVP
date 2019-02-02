@@ -1,5 +1,6 @@
 package com.jbrunton.mymovies.ui.moviedetails
 
+import androidx.annotation.MainThread
 import com.jbrunton.async.AsyncResult
 import com.jbrunton.async.map
 import com.jbrunton.entities.models.Movie
@@ -13,6 +14,7 @@ import com.jbrunton.mymovies.ui.shared.handleNetworkErrors
 import com.jbrunton.mymovies.ui.shared.toLoadingViewState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.channels.consumeEach
 import kotlinx.coroutines.launch
 
 class MovieDetailsViewModel(
@@ -52,12 +54,15 @@ class MovieDetailsViewModel(
     private fun loadDetails() {
         scope.launch {
             val channel = repository.getMovie(movieId)
-            for (result in channel) {
-                setMovieResponse(result)
+            scope.launch {
+                channel.consumeEach {
+                    setMovieResponse(it)
+                }
             }
         }
     }
 
+    @MainThread
     private fun setMovieResponse(state: AsyncResult<Movie>) {
         viewState.value = state
                 .map {

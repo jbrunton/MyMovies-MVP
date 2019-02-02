@@ -16,6 +16,8 @@ import com.jbrunton.networking.services.MovieService
 import io.reactivex.Observable
 import io.reactivex.rxkotlin.Observables
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.produce
+import kotlinx.coroutines.coroutineScope
 
 class HttpMoviesRepository(
         private val service: MovieService,
@@ -35,18 +37,18 @@ class HttpMoviesRepository(
         return channel
     }
 
-    override suspend fun getMovie(movieId: String): Channel<AsyncResult<Movie>> {
+    override suspend fun getMovie(movieId: String) = coroutineScope {
         val config = service.configuration()
         val movie = service.movie(movieId)
-        val channel = Channel<AsyncResult<Movie>>(2)
-        try {
-            channel.send(AsyncResult.loading(cache.get(movieId)))
-            val value = MovieDetailsResponse.toMovie(movie.await(), config.await().toModel())
-            channel.send(AsyncResult.success(value))
-        } catch (e: Throwable) {
-            channel.send(AsyncResult.failure(e, cache.get(movieId)))
+        produce(capacity = 2) {
+            try {
+                send(AsyncResult.loading(cache.get(movieId)))
+                val value = MovieDetailsResponse.toMovie(movie.await(), config.await().toModel())
+                send(AsyncResult.success(value))
+            } catch (e: Throwable) {
+                send(AsyncResult.failure(e, cache.get(movieId)))
+            }
         }
-        return channel
 //        return asChannel(cache.get(movieId)) {
 //            MovieDetailsResponse.toMovie(movie.await(), config.await().toModel())
 //        }
