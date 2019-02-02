@@ -5,19 +5,31 @@ import com.jbrunton.async.map
 import com.jbrunton.entities.models.Movie
 import com.jbrunton.entities.repositories.ApplicationPreferences
 import com.jbrunton.entities.repositories.MoviesRepository
+import com.jbrunton.mymovies.shared.CoroutineDispatchers
 import com.jbrunton.mymovies.ui.movies.MovieViewState
 import com.jbrunton.mymovies.ui.shared.BaseLoadingViewModel
 import com.jbrunton.mymovies.ui.shared.SnackbarMessage
 import com.jbrunton.mymovies.ui.shared.handleNetworkErrors
 import com.jbrunton.mymovies.ui.shared.toLoadingViewState
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
 
 class MovieDetailsViewModel(
         val movieId: String,
         val repository: MoviesRepository,
-        val preferences: ApplicationPreferences
+        val preferences: ApplicationPreferences,
+        dispatchers: CoroutineDispatchers
 ) : BaseLoadingViewModel<MovieViewState>() {
+    private val job = Job()
+    private val scope = CoroutineScope(dispatchers.Main + job)
+
     override fun start() {
         loadDetails()
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        job.cancel()
     }
 
     fun retry() {
