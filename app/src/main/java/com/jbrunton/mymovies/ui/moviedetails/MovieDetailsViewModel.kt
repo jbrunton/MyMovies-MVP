@@ -1,6 +1,5 @@
 package com.jbrunton.mymovies.ui.moviedetails
 
-import androidx.annotation.MainThread
 import com.jbrunton.async.AsyncResult
 import com.jbrunton.async.map
 import com.jbrunton.entities.models.Movie
@@ -62,7 +61,6 @@ class MovieDetailsViewModel(
         }
     }
 
-    @MainThread
     private fun setMovieResponse(state: AsyncResult<Movie>) {
         viewState.value = state
                 .map {

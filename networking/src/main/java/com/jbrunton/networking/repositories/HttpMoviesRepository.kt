@@ -42,11 +42,11 @@ class HttpMoviesRepository(
         val movie = service.movie(movieId)
         produce(capacity = 2) {
             try {
-                send(AsyncResult.loading(cache.get(movieId)))
+                send(AsyncResult.Loading(null))
                 val value = MovieDetailsResponse.toMovie(movie.await(), config.await().toModel())
-                send(AsyncResult.success(value))
+                send(AsyncResult.Success(value))
             } catch (e: Throwable) {
-                send(AsyncResult.failure(e, cache.get(movieId)))
+                send(AsyncResult.Failure(e, cache.get(movieId)))
             }
         }
 //        return asChannel(cache.get(movieId)) {
