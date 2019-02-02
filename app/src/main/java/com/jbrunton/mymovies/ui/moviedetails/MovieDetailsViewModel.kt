@@ -13,6 +13,7 @@ import com.jbrunton.mymovies.ui.shared.handleNetworkErrors
 import com.jbrunton.mymovies.ui.shared.toLoadingViewState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 class MovieDetailsViewModel(
         val movieId: String,
@@ -49,9 +50,10 @@ class MovieDetailsViewModel(
     }
 
     private fun loadDetails() {
-        load({
-            repository.getMovie(movieId)
-        }, this::setMovieResponse)
+        scope.launch {
+            val result = repository.getMovie(movieId)
+            setMovieResponse(result)
+        }
     }
 
     private fun setMovieResponse(state: AsyncResult<Movie>) {

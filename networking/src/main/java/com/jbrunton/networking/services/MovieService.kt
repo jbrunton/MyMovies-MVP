@@ -11,6 +11,7 @@ import com.jbrunton.networking.resources.genres.GenresResponse
 import com.jbrunton.networking.resources.movies.MovieDetailsResponse
 import com.jbrunton.networking.resources.movies.MoviesCollection
 import io.reactivex.Observable
+import kotlinx.coroutines.Deferred
 import retrofit2.http.*
 
 interface MovieService {
@@ -24,13 +25,19 @@ interface MovieService {
     fun newSession(@Body request: AuthSessionRequest): Observable<AuthSession>
 
     @GET("configuration")
-    fun configuration(): Observable<ConfigurationResponse>
+    fun configuration(): Deferred<ConfigurationResponse>
+
+    @GET("configuration")
+    fun configurationRx(): Observable<ConfigurationResponse>
 
     @GET("account")
     fun account(@Query("session_id") sessionId: String): Observable<AccountResponse>
 
     @GET("movie/{movie_id}")
-    fun movie(@Path("movie_id") movieId: String): Observable<MovieDetailsResponse>
+    fun movie(@Path("movie_id") movieId: String): Deferred<MovieDetailsResponse>
+
+    @GET("movie/{movie_id}")
+    fun movieRx(@Path("movie_id") movieId: String): Observable<MovieDetailsResponse>
 
     @GET("search/movie")
     fun search(@Query("query") query: String): Observable<MoviesCollection>

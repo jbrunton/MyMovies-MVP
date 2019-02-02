@@ -1,6 +1,7 @@
 package com.jbrunton.networking.repositories
 
 import androidx.collection.LruCache
+import com.jbrunton.async.AsyncResult
 import com.jbrunton.async.doOnSuccess
 import com.jbrunton.entities.models.Configuration
 import com.jbrunton.entities.models.Movie
@@ -14,6 +15,7 @@ import com.jbrunton.networking.resources.movies.MoviesCollection
 import com.jbrunton.networking.services.MovieService
 import io.reactivex.Observable
 import io.reactivex.rxkotlin.Observables
+import kotlinx.coroutines.channels.Channel
 
 class HttpMoviesRepository(
         private val service: MovieService,
@@ -21,8 +23,32 @@ class HttpMoviesRepository(
 ): MoviesRepository {
     private val cache = LruCache<String, Movie>(1024)
 
-    override fun getMovie(movieId: String): DataStream<Movie> {
-        return Observables.zip(service.movie(movieId), config()) {
+    private suspend fun <T> asChannel(cachedValue: T?, block: suspend () -> T): Channel<AsyncResult<T>> {
+        val channel = Channel<AsyncResult<T>>()
+        try {
+            channel.send(AsyncResult.loading(cachedValue))
+            channel.send(AsyncResult.success(block()))
+        } catch (e: Throwable) {
+            channel.send(AsyncResult.failure(e, cachedValue))
+        }
+        return channel
+    }
+
+    override suspend fun getMovie(movieId: String): AsyncResult<Movie> {
+        val config = service.configuration()
+        val movie = service.movie(movieId)
+        try {
+            return AsyncResult.success(MovieDetailsResponse.toMovie(movie.await(), config.await().toModel()))
+        } catch (e: Throwable) {
+            return AsyncResult.failure(e, cache.get(movieId))
+        }
+//        return asChannel(cache.get(movieId)) {
+//            MovieDetailsResponse.toMovie(movie.await(), config.await().toModel())
+//        }
+    }
+
+    override fun getMovieRx(movieId: String): DataStream<Movie> {
+        return Observables.zip(service.movieRx(movieId), config()) {
             response, config -> MovieDetailsResponse.toMovie(response, config)
         }.doOnNext {
             cache.put(it.id, it)
@@ -77,6 +103,6 @@ class HttpMoviesRepository(
     }
 
     private fun config(): Observable<Configuration> {
-        return service.configuration().map { it.toModel() }
+        return service.configurationRx().map { it.toModel() }
     }
 }

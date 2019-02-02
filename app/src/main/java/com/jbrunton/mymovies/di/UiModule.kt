@@ -2,6 +2,7 @@ package com.jbrunton.mymovies.di
 
 import com.jbrunton.inject.module
 import com.jbrunton.mymovies.nav.ResultRouter
+import com.jbrunton.mymovies.shared.CoroutineDispatchers
 import com.jbrunton.mymovies.ui.account.AccountViewModel
 import com.jbrunton.mymovies.ui.account.favorites.FavoritesViewModel
 import com.jbrunton.mymovies.ui.auth.LoginViewModel
@@ -19,6 +20,6 @@ val UiModule = module {
     factory { LoginViewModel(get()) }
     factory { AccountViewModel(get()) }
     factory { FavoritesViewModel(get()) }
-    factory { (movieId: String) -> MovieDetailsViewModel(movieId, get(), get()) }
+    factory { (movieId: String) -> MovieDetailsViewModel(movieId, get(), get(), CoroutineDispatchers()) }
     factory { (genreId: String) -> GenreResultsViewModel(genreId, get()) }
 }
