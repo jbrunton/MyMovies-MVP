@@ -15,23 +15,18 @@ class HttpAccountRepository(
         private val service: MovieService,
         private val preferences: ApplicationPreferences
 ): AccountRepository {
-    override var session: AuthSession? = null
+    override var session: AuthSession = AuthSession.EMPTY
         get() {
-            if (field == null) {
-                val sessionId = preferences.sessionId
-                if (sessionId != null) {
-                    field = AuthSession(sessionId)
-                }
-            }
+            field = AuthSession(preferences.sessionId)
             return field
         }
         private set(value) {
             field = value
-            preferences.sessionId = value?.sessionId
+            preferences.sessionId = value.sessionId
         }
 
     override fun account(): DataStream<Account> {
-        return service.account(session?.sessionId ?: "")
+        return service.account(session.sessionId)
                 .map(AccountResponse::toAccount)
                 .doAfterNext { preferences.accountId = it.id }
                 .toDataStream()
@@ -57,6 +52,6 @@ class HttpAccountRepository(
     }
 
     override fun signOut() {
-        session = null
+        session = AuthSession.EMPTY
     }
 }

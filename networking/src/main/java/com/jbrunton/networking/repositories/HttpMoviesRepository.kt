@@ -52,25 +52,21 @@ class HttpMoviesRepository(
 
     override fun favorite(movieId: String): Observable<Any> {
         return service.favorite(
-                preferences.accountId!!,
-                preferences.sessionId!!,
+                preferences.accountId,
+                preferences.sessionId,
                 FavoriteRequest(mediaId = movieId, favorite = true)
         ).doOnNext {
-            val favorites = (preferences.favorites ?: emptySet()).toMutableSet()
-            favorites.add(movieId)
-            preferences.favorites = favorites
+            preferences.addFavorite(movieId)
         }
     }
 
     override fun unfavorite(movieId: String): Observable<Any> {
         return service.favorite(
-                preferences.accountId!!,
-                preferences.sessionId!!,
+                preferences.accountId,
+                preferences.sessionId,
                 FavoriteRequest(mediaId = movieId, favorite = false)
         ).doOnNext {
-            val favorites = (preferences.favorites ?: emptySet()).toMutableSet()
-            favorites.remove(movieId)
-            preferences.favorites = favorites
+            preferences.removeFavorite(movieId)
         }
     }
 
