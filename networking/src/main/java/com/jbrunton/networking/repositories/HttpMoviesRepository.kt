@@ -27,21 +27,26 @@ class HttpMoviesRepository(
         val channel = Channel<AsyncResult<T>>()
         try {
             channel.send(AsyncResult.loading(cachedValue))
-            channel.send(AsyncResult.success(block()))
+            val value = block()
+            channel.send(AsyncResult.success(value))
         } catch (e: Throwable) {
             channel.send(AsyncResult.failure(e, cachedValue))
         }
         return channel
     }
 
-    override suspend fun getMovie(movieId: String): AsyncResult<Movie> {
+    override suspend fun getMovie(movieId: String): Channel<AsyncResult<Movie>> {
         val config = service.configuration()
         val movie = service.movie(movieId)
+        val channel = Channel<AsyncResult<Movie>>(2)
         try {
-            return AsyncResult.success(MovieDetailsResponse.toMovie(movie.await(), config.await().toModel()))
+            channel.send(AsyncResult.loading(cache.get(movieId)))
+            val value = MovieDetailsResponse.toMovie(movie.await(), config.await().toModel())
+            channel.send(AsyncResult.success(value))
         } catch (e: Throwable) {
-            return AsyncResult.failure(e, cache.get(movieId))
+            channel.send(AsyncResult.failure(e, cache.get(movieId)))
         }
+        return channel
 //        return asChannel(cache.get(movieId)) {
 //            MovieDetailsResponse.toMovie(movie.await(), config.await().toModel())
 //        }

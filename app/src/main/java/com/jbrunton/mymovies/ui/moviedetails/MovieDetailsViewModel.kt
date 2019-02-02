@@ -51,8 +51,10 @@ class MovieDetailsViewModel(
 
     private fun loadDetails() {
         scope.launch {
-            val result = repository.getMovie(movieId)
-            setMovieResponse(result)
+            val channel = repository.getMovie(movieId)
+            for (result in channel) {
+                setMovieResponse(result)
+            }
         }
     }
 
