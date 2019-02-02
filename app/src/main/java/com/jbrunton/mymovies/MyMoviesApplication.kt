@@ -3,7 +3,7 @@ package com.jbrunton.mymovies
 import android.app.Application
 import com.jbrunton.inject.Container
 import com.jbrunton.inject.HasContainer
-import com.jbrunton.mymovies.di.*
+import com.jbrunton.mymovies.di.ApplicationComponent
 
 open class MyMoviesApplication : Application(), HasContainer {
     override val container = Container()
@@ -16,6 +16,6 @@ open class MyMoviesApplication : Application(), HasContainer {
     }
 
     open fun configureContainer(container: Container) {
-        container.register(AppModule())
+        container.register(ApplicationComponent(this))
     }
 }

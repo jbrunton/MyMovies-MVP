@@ -5,6 +5,7 @@ import androidx.fragment.app.FragmentActivity
 import com.jbrunton.entities.models.AuthSession
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.ui.account.AccountFragment
+import com.jbrunton.mymovies.ui.account.favorites.FavoritesActivity
 import com.jbrunton.mymovies.ui.auth.LoginActivity
 import com.jbrunton.mymovies.ui.discover.DiscoverFragment
 import com.jbrunton.mymovies.ui.main.MainActivity
@@ -45,4 +46,8 @@ class Navigator(val activity: FragmentActivity, val router: ResultRouter) {
         return observable
     }
 
+    fun showFavorites() {
+        val intent = Intent(activity, FavoritesActivity::class.java)
+        activity.startActivity(intent)
+    }
 }

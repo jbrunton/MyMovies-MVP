@@ -9,6 +9,18 @@ import java.util.*
 import kotlin.collections.HashMap
 
 class TestMoviesRepository : MoviesRepository {
+    override fun favorites(): DataStream<List<Movie>> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun favorite(movieId: String): Observable<Any> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun unfavorite(movieId: String): Observable<Any> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     private val movies = LinkedList<Movie>()
     private val stubbedSearches = HashMap<String, List<Movie>>()
 

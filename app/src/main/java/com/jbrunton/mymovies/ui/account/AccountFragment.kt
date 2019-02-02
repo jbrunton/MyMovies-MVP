@@ -39,6 +39,7 @@ class AccountFragment : BaseFragment<AccountViewModel>() {
         error_try_again.setOnClickListener { viewModel.retry() }
         sign_in.setOnClickListener { viewModel.showLogin(navigator) }
         sign_out.setOnClickListener { viewModel.signOut() }
+        favorites.setOnClickListener { navigator.showFavorites() }
     }
 
     override fun onObserveData() {
@@ -50,7 +51,7 @@ class AccountFragment : BaseFragment<AccountViewModel>() {
             account_username.text = it.username
             account_name.text = it.name
             sign_in.visibility = it.signInVisibility
-            sign_out.visibility = it.signOutVisibility
+            account_links.visibility = it.linksVisibility
 
             picassoHelper.loadImage(context!!, avatar, it.avatarUrl)
         }

@@ -44,7 +44,7 @@ class MovieDetailsActivityLayoutTest : BaseActivityTest<MovieDetailsActivity>() 
     fun showsLoadingState() {
         onView(ViewMatchers.isAssignableFrom(ProgressBar::class.java)).perform(ProgressBarViewActions.replaceProgressBarDrawable())
 
-        setViewState(LOADING_STATE.toLoadingViewState(MovieViewState(Movie.emptyMovie)))
+        setViewState(LOADING_STATE.toLoadingViewState(MovieViewState.Empty))
 
         takeScreenshot("showsLoadingState")
         onView(ViewMatchers.withId(R.id.loading_indicator))
@@ -53,7 +53,7 @@ class MovieDetailsActivityLayoutTest : BaseActivityTest<MovieDetailsActivity>() 
 
     @Test
     fun showsErrorState() {
-        setViewState(AsyncResult.Failure<MovieViewState>(NETWORK_ERROR).toLoadingViewState(MovieViewState(Movie.emptyMovie)))
+        setViewState(AsyncResult.Failure<MovieViewState>(NETWORK_ERROR).toLoadingViewState(MovieViewState.Empty))
 
         takeScreenshot("showsErrorState")
         onView(withId(R.id.error_text))
@@ -64,8 +64,8 @@ class MovieDetailsActivityLayoutTest : BaseActivityTest<MovieDetailsActivity>() 
 
     @Test
     fun showsMovieDetails() {
-        val viewState = MovieViewState(movie1)
-        setViewState(AsyncResult.Success(viewState).toLoadingViewState(MovieViewState(Movie.emptyMovie)))
+        val viewState = MovieViewState.from(movie1, false)
+        setViewState(AsyncResult.Success(viewState).toLoadingViewState(MovieViewState.Empty))
 
         takeScreenshot()
 

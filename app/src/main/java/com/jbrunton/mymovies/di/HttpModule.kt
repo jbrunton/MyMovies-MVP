@@ -11,7 +11,7 @@ import com.jbrunton.networking.services.ServiceFactory
 
 val HttpModule = module {
     single { ServiceFactory.createService() }
-    single { HttpMoviesRepository(get()) as MoviesRepository }
+    single { HttpMoviesRepository(get(), get()) as MoviesRepository }
     single { HttpGenresRepository(get()) as GenresRepository }
-    single { HttpAccountRepository(get()) as AccountRepository }
+    single { HttpAccountRepository(get(), get()) as AccountRepository }
 }

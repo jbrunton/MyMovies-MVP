@@ -4,9 +4,11 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.snackbar.Snackbar
 import com.jbrunton.inject.HasContainer
 import com.jbrunton.inject.inject
 import com.jbrunton.mymovies.di.ActivityModule
+import com.jbrunton.mymovies.helpers.observe
 import com.jbrunton.mymovies.nav.Navigator
 import com.jbrunton.mymovies.nav.ResultRouter
 import io.reactivex.ObservableTransformer
@@ -50,7 +52,10 @@ abstract class BaseActivity<T : BaseViewModel> : AppCompatActivity(), HasContain
 
     override fun onCreateLayout() {}
     override fun onBindListeners() {}
-    override fun onObserveData() {}
+
+    override fun onObserveData() {
+        viewModel.snackbar.observe(this, this::showSnackbar)
+    }
 
     protected fun <T> applySchedulers(): ObservableTransformer<T, T> {
         return ObservableTransformer {
@@ -58,5 +63,13 @@ abstract class BaseActivity<T : BaseViewModel> : AppCompatActivity(), HasContain
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
         }
+    }
+
+    private fun showSnackbar(message: SnackbarMessage) {
+        val snackbar = Snackbar.make(findViewById(android.R.id.content), message.message, Snackbar.LENGTH_LONG)
+        if (message.action != null) {
+            snackbar.setAction(message.actionLabel!!, { message.action.invoke() })
+        }
+        snackbar.show()
     }
 }

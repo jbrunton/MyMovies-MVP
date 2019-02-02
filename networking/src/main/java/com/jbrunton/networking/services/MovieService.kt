@@ -3,14 +3,13 @@ package com.jbrunton.networking.services
 import com.jbrunton.entities.models.AuthSession
 import com.jbrunton.entities.models.AuthToken
 import com.jbrunton.networking.resources.account.AccountResponse
+import com.jbrunton.networking.resources.account.FavoriteRequest
 import com.jbrunton.networking.resources.auth.AuthSessionRequest
-import com.jbrunton.networking.resources.auth.AuthTokenResponse
 import com.jbrunton.networking.resources.auth.LoginRequest
 import com.jbrunton.networking.resources.configuration.ConfigurationResponse
 import com.jbrunton.networking.resources.genres.GenresResponse
 import com.jbrunton.networking.resources.movies.MovieDetailsResponse
 import com.jbrunton.networking.resources.movies.MoviesCollection
-
 import io.reactivex.Observable
 import retrofit2.http.*
 
@@ -44,4 +43,17 @@ interface MovieService {
 
     @GET("discover/movie")
     fun discoverByGenre(@Query("with_genres") genreId: String): Observable<MoviesCollection>
+
+    @GET("account/{account_id}/favorite/movies")
+    fun favorites(
+            @Path("account_id") accountId: String,
+            @Query("session_id") sessionId: String
+    ): Observable<MoviesCollection>
+
+    @POST("account/{account_id}/favorite")
+    fun favorite(
+            @Path("account_id") accountId: String,
+            @Query("session_id") sessionId: String,
+            @Body request: FavoriteRequest
+    ): Observable<Any>
 }

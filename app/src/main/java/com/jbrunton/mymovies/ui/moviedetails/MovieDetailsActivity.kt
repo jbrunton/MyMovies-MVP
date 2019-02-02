@@ -33,9 +33,12 @@ class MovieDetailsActivity : BaseActivity<MovieDetailsViewModel>() {
 
     override fun onBindListeners() {
         error_try_again.setOnClickListener { viewModel.retry() }
+        favorite.setOnClickListener { viewModel.favorite() }
+        unfavorite.setOnClickListener { viewModel.unfavorite() }
     }
 
     override fun onObserveData() {
+        super.onObserveData()
         viewModel.viewState.observe(this, this::updateView)
         viewModel.showRetrySnackbar.observe(this, this::showSnackbar)
     }
@@ -50,6 +53,8 @@ class MovieDetailsActivity : BaseActivity<MovieDetailsViewModel>() {
             rating.text = Html.fromHtml(it.rating)
             overview.text = it.overview
             release_date.text = it.yearReleased
+            favorite.visibility = it.favoriteVisibility
+            unfavorite.visibility = it.unfavoriteVisibility
             picassoHelper.loadSearchResultImage(this, poster, it.posterUrl)
             picassoHelper.loadImage(this, backdrop, it.backdropUrl)
         }

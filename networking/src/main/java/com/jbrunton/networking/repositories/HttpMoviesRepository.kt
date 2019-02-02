@@ -1,18 +1,24 @@
 package com.jbrunton.networking.repositories
 
 import androidx.collection.LruCache
+import com.jbrunton.async.doOnSuccess
 import com.jbrunton.entities.models.Configuration
 import com.jbrunton.entities.models.Movie
+import com.jbrunton.entities.repositories.ApplicationPreferences
 import com.jbrunton.entities.repositories.DataStream
 import com.jbrunton.entities.repositories.MoviesRepository
 import com.jbrunton.entities.repositories.toDataStream
+import com.jbrunton.networking.resources.account.FavoriteRequest
 import com.jbrunton.networking.resources.movies.MovieDetailsResponse
 import com.jbrunton.networking.resources.movies.MoviesCollection
 import com.jbrunton.networking.services.MovieService
 import io.reactivex.Observable
 import io.reactivex.rxkotlin.Observables
 
-class HttpMoviesRepository(private val service: MovieService): MoviesRepository {
+class HttpMoviesRepository(
+        private val service: MovieService,
+        private val preferences: ApplicationPreferences
+): MoviesRepository {
     private val cache = LruCache<String, Movie>(1024)
 
     override fun getMovie(movieId: String): DataStream<Movie> {
@@ -33,6 +39,35 @@ class HttpMoviesRepository(private val service: MovieService): MoviesRepository 
 
     override fun discoverByGenre(genreId: String): DataStream<List<Movie>> {
         return buildResponse(service.discoverByGenre(genreId))
+    }
+
+    override fun favorites(): DataStream<List<Movie>> {
+        return buildResponse(service.favorites(preferences.accountId!!, preferences.sessionId!!))
+                .doOnNext {
+                    it.doOnSuccess {
+                        preferences.favorites = it.value.map { it.id }.toSet()
+                    }
+                }
+    }
+
+    override fun favorite(movieId: String): Observable<Any> {
+        return service.favorite(
+                preferences.accountId,
+                preferences.sessionId,
+                FavoriteRequest(mediaId = movieId, favorite = true)
+        ).doOnNext {
+            preferences.addFavorite(movieId)
+        }
+    }
+
+    override fun unfavorite(movieId: String): Observable<Any> {
+        return service.favorite(
+                preferences.accountId,
+                preferences.sessionId,
+                FavoriteRequest(mediaId = movieId, favorite = false)
+        ).doOnNext {
+            preferences.removeFavorite(movieId)
+        }
     }
 
     private fun buildResponse(apiSource: Observable<MoviesCollection>): DataStream<List<Movie>> {

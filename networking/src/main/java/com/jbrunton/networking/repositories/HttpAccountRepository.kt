@@ -2,8 +2,8 @@ package com.jbrunton.networking.repositories
 
 import com.jbrunton.entities.models.Account
 import com.jbrunton.entities.models.AuthSession
-import com.jbrunton.entities.models.AuthToken
 import com.jbrunton.entities.repositories.AccountRepository
+import com.jbrunton.entities.repositories.ApplicationPreferences
 import com.jbrunton.entities.repositories.DataStream
 import com.jbrunton.entities.repositories.toDataStream
 import com.jbrunton.networking.resources.account.AccountResponse
@@ -11,13 +11,24 @@ import com.jbrunton.networking.resources.auth.AuthSessionRequest
 import com.jbrunton.networking.resources.auth.LoginRequest
 import com.jbrunton.networking.services.MovieService
 
-class HttpAccountRepository(private val service: MovieService): AccountRepository {
-    var session: AuthSession? = null
-        private set
+class HttpAccountRepository(
+        private val service: MovieService,
+        private val preferences: ApplicationPreferences
+): AccountRepository {
+    override var session: AuthSession = AuthSession.EMPTY
+        get() {
+            field = AuthSession(preferences.sessionId)
+            return field
+        }
+        private set(value) {
+            field = value
+            preferences.sessionId = value.sessionId
+        }
 
     override fun account(): DataStream<Account> {
-        return service.account(session?.sessionId ?: "")
+        return service.account(session.sessionId)
                 .map(AccountResponse::toAccount)
+                .doAfterNext { preferences.accountId = it.id }
                 .toDataStream()
     }
 
@@ -41,6 +52,6 @@ class HttpAccountRepository(private val service: MovieService): AccountRepositor
     }
 
     override fun signOut() {
-        session = null
+        session = AuthSession.EMPTY
     }
 }
