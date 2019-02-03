@@ -1,7 +1,6 @@
 package com.jbrunton.networking.repositories
 
 import androidx.collection.LruCache
-import com.jbrunton.async.doOnSuccess
 import com.jbrunton.entities.models.Configuration
 import com.jbrunton.entities.models.Movie
 import com.jbrunton.entities.repositories.ApplicationPreferences
@@ -20,6 +19,7 @@ class HttpMoviesRepository(
         private val preferences: ApplicationPreferences
 ): MoviesRepository {
     private val cache = LruCache<String, Movie>(1024)
+    private var favoritesCache: List<Movie>? = null
 
     override fun getMovie(movieId: String): DataStream<Movie> {
         return Observables.zip(service.movie(movieId), config()) {
@@ -42,12 +42,15 @@ class HttpMoviesRepository(
     }
 
     override fun favorites(): DataStream<List<Movie>> {
-        return buildResponse(service.favorites(preferences.accountId!!, preferences.sessionId!!))
-                .doOnNext {
-                    it.doOnSuccess {
-                        preferences.favorites = it.value.map { it.id }.toSet()
-                    }
-                }
+        return Observables.zip(
+                service.favorites(preferences.accountId, preferences.sessionId),
+                config()
+        ) {
+            response, config -> MoviesCollection.toCollection(response, config)
+        }.doOnNext {
+            favoritesCache = it
+            preferences.favorites = it.map { it.id }.toSet()
+        }.toDataStream(favoritesCache)
     }
 
     override fun favorite(movieId: String): Observable<Any> {
