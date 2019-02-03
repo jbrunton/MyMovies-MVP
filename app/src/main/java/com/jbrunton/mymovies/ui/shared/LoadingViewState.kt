@@ -7,6 +7,7 @@ import com.jbrunton.async.*
 data class LoadingViewState<T>(
         val contentVisibility: Int = View.GONE,
         val loadingIndicatorVisibility: Int = View.GONE,
+        val toolbarIndicatorVisibility: Int = View.GONE,
         val errorCaseVisibility: Int = View.GONE,
         val errorText: String = "",
         @DrawableRes val errorIcon: Int = 0,
@@ -40,7 +41,8 @@ data class LoadingViewState<T>(
 fun <T> AsyncResult<T>.toLoadingViewState(emptyViewState: T): LoadingViewState<T> {
     return this.map { LoadingViewState.success(it) }
             .onLoading {
-                it.useCachedValue().or(LoadingViewState.loading(emptyViewState))
+                it.useCachedValue().map { it.copy(toolbarIndicatorVisibility = View.VISIBLE) }
+                        .or(LoadingViewState.loading(emptyViewState))
             }
             .onFailure {
                 it.useCachedValue()

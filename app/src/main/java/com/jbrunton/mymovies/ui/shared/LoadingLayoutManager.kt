@@ -7,6 +7,7 @@ import com.jbrunton.mymovies.R
 
 class LoadingLayoutManager(root: View, val content: View) {
     val loadingIndicator = root.findViewById<View>(R.id.loading_indicator)
+    val toolbarIndicator = root.findViewById<View?>(R.id.toolbar_indicator)
     val errorCase = root.findViewById<View>(R.id.error_case)
     val errorText = root.findViewById<TextView>(R.id.error_text)
     val errorTryAgain = root.findViewById<View>(R.id.error_try_again)
@@ -25,6 +26,9 @@ class LoadingLayoutManager(root: View, val content: View) {
     fun <T>updateLayout(viewState: LoadingViewState<T>, updateContent: (T) -> Unit) {
         content.visibility = viewState.contentVisibility
         loadingIndicator.visibility = viewState.loadingIndicatorVisibility
+        toolbarIndicator?.let {
+            it.visibility = viewState.toolbarIndicatorVisibility
+        }
         errorCase.visibility = viewState.errorCaseVisibility
 
         errorText.text = viewState.errorText
