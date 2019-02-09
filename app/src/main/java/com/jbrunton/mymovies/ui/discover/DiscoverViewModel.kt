@@ -8,7 +8,6 @@ import com.jbrunton.entities.models.Movie
 import com.jbrunton.entities.repositories.GenresRepository
 import com.jbrunton.entities.repositories.MoviesRepository
 import com.jbrunton.mymovies.R
-import com.jbrunton.mymovies.helpers.AsyncResults
 import com.jbrunton.mymovies.ui.movies.MovieSearchResultViewState
 import com.jbrunton.mymovies.ui.search.SearchViewStateFactory
 import com.jbrunton.mymovies.ui.shared.BaseLoadingViewModel
@@ -33,7 +32,7 @@ class DiscoverViewModel internal constructor(
         val popularStream = moviesRepository.popular().map(this::handleErrors)
         val genresStream = genresRepository.genres().map(this::handleGenresResponse)
         val discoverStream = Observables.zip(nowPlayingStream, popularStream, genresStream) {
-            nowPlaying, popular, genres -> AsyncResults.zip(nowPlaying, popular, genres, ::DiscoverViewState)
+            nowPlaying, popular, genres -> AsyncResult.zip(nowPlaying, popular, genres, ::DiscoverViewState)
         }
         subscribe(discoverStream) {
             viewState.postValue(it.toLoadingViewState(DiscoverViewState.Empty))
