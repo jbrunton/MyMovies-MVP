@@ -6,11 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.jbrunton.inject.injectViewModel
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.helpers.observe
 import com.jbrunton.mymovies.ui.search.SearchResultsAdapter
-import com.jbrunton.mymovies.ui.search.SearchViewState
 import com.jbrunton.mymovies.ui.shared.BaseFragment
 import com.jbrunton.mymovies.ui.shared.LoadingLayoutManager
 import com.jbrunton.mymovies.ui.shared.LoadingViewState
@@ -20,6 +20,7 @@ import kotlinx.android.synthetic.main.layout_loading_state.*
 class DiscoverFragment : BaseFragment<DiscoverViewModel>() {
     private lateinit var loadingLayoutManager: LoadingLayoutManager
     private lateinit var nowPlayingAdapter: SearchResultsAdapter
+    private lateinit var popularAdapter: SearchResultsAdapter
 
     override val viewModel: DiscoverViewModel by injectViewModel()
 
@@ -32,9 +33,13 @@ class DiscoverFragment : BaseFragment<DiscoverViewModel>() {
 
         loadingLayoutManager = LoadingLayoutManager.buildFor(this, discover_content)
         nowPlayingAdapter = SearchResultsAdapter(activity!!, R.layout.item_movie_card_grid)
+        popularAdapter = SearchResultsAdapter(activity!!, R.layout.item_movie_card_grid)
 
-        now_playing.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(activity, androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL, false)
+        now_playing.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
         now_playing.adapter = nowPlayingAdapter
+
+        popular.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+        popular.adapter = popularAdapter
     }
 
     override fun onBindListeners() {
@@ -50,7 +55,10 @@ class DiscoverFragment : BaseFragment<DiscoverViewModel>() {
         viewModel.viewState.observe(viewLifecycleOwner, this::updateView)
     }
 
-    private fun updateView(viewState: LoadingViewState<SearchViewState>) {
-        loadingLayoutManager.updateLayout(viewState, nowPlayingAdapter::setDataSource)
+    private fun updateView(viewState: LoadingViewState<DiscoverViewState>) {
+        loadingLayoutManager.updateLayout(viewState) {
+            nowPlayingAdapter.setDataSource(it.nowPlayingViewState)
+            popularAdapter.setDataSource(it.popularViewState)
+        }
     }
 }

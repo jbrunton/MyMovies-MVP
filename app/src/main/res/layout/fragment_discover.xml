@@ -31,15 +31,6 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
-            android:layout_marginVertical="@dimen/activity_vertical_margin"
-            android:text="See All >"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/now_playing"
             android:layout_width="match_parent"
@@ -47,7 +38,27 @@
             android:scrollbars="vertical"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/now_playing_label"/>
+            app:layout_constraintTop_toBottomOf="@id/now_playing_label"/>
+
+        <TextView
+            android:id="@+id/popular_label"
+            style="@style/TextAppearance.MaterialComponents.Headline5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+            android:layout_marginVertical="@dimen/activity_vertical_margin"
+            android:text="Popular"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/now_playing" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/popular"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="vertical"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/popular_label"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -57,27 +68,7 @@
             android:orientation="vertical"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/now_playing">
-
-            <TextView
-                style="@style/TextAppearance.AppCompat.Medium"
-                android:paddingTop="4dp"
-                android:paddingBottom="4dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Now Playing" />
-
-            <View style="@style/Divider" />
-
-            <TextView
-                style="@style/TextAppearance.AppCompat.Medium"
-                android:paddingTop="4dp"
-                android:paddingBottom="4dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Popular" />
-
-            <View style="@style/Divider" />
+            app:layout_constraintTop_toBottomOf="@id/popular">
 
             <TextView
                 android:id="@+id/genres_link"

@@ -37,6 +37,10 @@ class HttpMoviesRepository(
         return buildResponse(service.nowPlaying())
     }
 
+    override fun popular(): DataStream<List<Movie>> {
+        return buildResponse(service.popular())
+    }
+
     override fun discoverByGenre(genreId: String): DataStream<List<Movie>> {
         return buildResponse(service.discoverByGenre(genreId))
     }
