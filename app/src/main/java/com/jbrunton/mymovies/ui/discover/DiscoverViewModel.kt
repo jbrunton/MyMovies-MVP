@@ -3,14 +3,13 @@ package com.jbrunton.mymovies.ui.discover
 import com.jbrunton.async.AsyncResult
 import com.jbrunton.async.map
 import com.jbrunton.async.onSuccess
-import com.jbrunton.async.zipWith
 import com.jbrunton.entities.models.Genre
 import com.jbrunton.entities.models.Movie
 import com.jbrunton.entities.repositories.GenresRepository
 import com.jbrunton.entities.repositories.MoviesRepository
 import com.jbrunton.mymovies.R
+import com.jbrunton.mymovies.helpers.AsyncResults
 import com.jbrunton.mymovies.ui.movies.MovieSearchResultViewState
-import com.jbrunton.mymovies.ui.search.SearchViewState
 import com.jbrunton.mymovies.ui.search.SearchViewStateFactory
 import com.jbrunton.mymovies.ui.shared.BaseLoadingViewModel
 import com.jbrunton.mymovies.ui.shared.handleNetworkErrors
@@ -34,16 +33,11 @@ class DiscoverViewModel internal constructor(
         val popularStream = moviesRepository.popular().map(this::handleErrors)
         val genresStream = genresRepository.genres().map(this::handleGenresResponse)
         val discoverStream = Observables.zip(nowPlayingStream, popularStream, genresStream) {
-            nowPlayingResult, popularResult, genresResult -> nowPlayingResult.zipWith(popularResult, this::partial).zipWith(genresResult) {
-                partial, genres -> partial(genres)
-            }
+            nowPlaying, popular, genres -> AsyncResults.zip(nowPlaying, popular, genres, ::DiscoverViewState)
         }
         discoverStream.compose(applySchedulers())
                 .subscribe(this::handleResponse)
     }
-
-    private fun partial(nowPlaying: SearchViewState, popular: SearchViewState): (GenresViewState) -> DiscoverViewState =
-            { genres: GenresViewState -> DiscoverViewState(nowPlaying, popular, genres) }
 
     private fun handleResponse(result: AsyncResult<DiscoverViewState>) {
         val viewState = result.toLoadingViewState(DiscoverViewState(emptyList(), emptyList(), emptyList()))
