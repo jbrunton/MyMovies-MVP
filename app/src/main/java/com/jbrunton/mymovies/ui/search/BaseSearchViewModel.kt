@@ -5,6 +5,7 @@ import com.jbrunton.async.map
 import com.jbrunton.async.onSuccess
 import com.jbrunton.entities.models.Movie
 import com.jbrunton.entities.repositories.DataStream
+import com.jbrunton.mymovies.ui.search.SearchViewState.Companion.toViewState
 import com.jbrunton.mymovies.ui.shared.BaseLoadingViewModel
 import com.jbrunton.mymovies.ui.shared.handleNetworkErrors
 import com.jbrunton.mymovies.ui.shared.toLoadingViewState
@@ -16,10 +17,10 @@ abstract class BaseSearchViewModel : BaseLoadingViewModel<SearchViewState>() {
 
     protected fun setMoviesResponse(movies: AsyncResult<List<Movie>>) {
         val viewState = movies
-                .map(SearchViewStateFactory.Companion::toViewState)
+                .map(SearchViewState.Companion::toViewState)
                 .handleNetworkErrors()
                 .onSuccess {
-                    SearchViewStateFactory.errorIfEmpty(it.value)
+                    SearchViewState.errorIfEmpty(it.value)
                 }
                 .toLoadingViewState(SearchViewState.Empty)
         this.viewState.postValue(viewState)
