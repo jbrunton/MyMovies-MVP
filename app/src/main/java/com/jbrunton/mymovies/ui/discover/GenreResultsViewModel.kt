@@ -2,7 +2,6 @@ package com.jbrunton.mymovies.ui.discover
 
 import com.jbrunton.entities.repositories.MoviesRepository
 import com.jbrunton.mymovies.ui.search.SearchViewState
-import com.jbrunton.mymovies.ui.search.SearchViewStateFactory
 import com.jbrunton.mymovies.ui.shared.BaseLoadingViewModel
 
 class GenreResultsViewModel(
@@ -20,7 +19,7 @@ class GenreResultsViewModel(
 
     private fun searchGenre() {
         subscribe(repository.discoverByGenre(genreId)) {
-            viewState.postValue(SearchViewStateFactory.from(it))
+            viewState.postValue(SearchViewState.Builder(it).asLoadingViewState())
         }
     }
 }

@@ -8,7 +8,6 @@ import com.jbrunton.mymovies.ui.movies.MovieSearchResultViewState
 import com.jbrunton.mymovies.ui.shared.LoadingViewState
 import com.jbrunton.mymovies.ui.shared.handleNetworkErrors
 import com.jbrunton.mymovies.ui.shared.toLoadingViewState
-import io.reactivex.rxkotlin.Observables
 
 class DiscoverViewStateFactory {
     companion object {
