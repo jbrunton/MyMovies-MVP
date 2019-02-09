@@ -1,12 +1,12 @@
 package com.jbrunton.mymovies.ui.discover
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.chip.Chip
 import com.jbrunton.inject.injectViewModel
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.helpers.observe
@@ -43,10 +43,10 @@ class DiscoverFragment : BaseFragment<DiscoverViewModel>() {
     }
 
     override fun onBindListeners() {
-        genres_link.setOnClickListener {
-            val intent = Intent(activity, GenresActivity::class.java)
-            startActivity(intent)
-        }
+//        genres_link.setOnClickListener {
+//            val intent = Intent(activity, GenresActivity::class.java)
+//            startActivity(intent)
+//        }
 
         error_try_again.setOnClickListener { viewModel.retry() }
     }
@@ -59,6 +59,12 @@ class DiscoverFragment : BaseFragment<DiscoverViewModel>() {
         loadingLayoutManager.updateLayout(viewState) {
             nowPlayingAdapter.setDataSource(it.nowPlayingViewState)
             popularAdapter.setDataSource(it.popularViewState)
+
+            it.genres.forEach {
+                val chip = Chip(genres.context)
+                chip.text = it.name
+                genres.addView(chip)
+            }
         }
     }
 }
