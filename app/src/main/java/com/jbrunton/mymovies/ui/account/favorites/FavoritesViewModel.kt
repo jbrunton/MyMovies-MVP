@@ -8,7 +8,7 @@ class FavoritesViewModel(val moviesRepository: MoviesRepository) : BaseSearchVie
         loadFavorites()
     }
 
-    fun retry() {
+    override fun retry() {
         loadFavorites()
     }
 

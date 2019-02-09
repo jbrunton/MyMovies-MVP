@@ -8,7 +8,7 @@ class GenreResultsViewModel(val genreId: String, val repository: MoviesRepositor
         searchGenre()
     }
 
-    fun retry() {
+    override fun retry() {
         searchGenre()
     }
 

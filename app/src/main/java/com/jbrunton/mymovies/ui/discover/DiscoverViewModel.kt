@@ -23,7 +23,7 @@ class DiscoverViewModel internal constructor(
         load()
     }
 
-    fun retry() {
+    override fun retry() {
         load()
     }
 

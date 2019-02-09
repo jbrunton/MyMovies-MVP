@@ -17,7 +17,7 @@ class AccountViewModel(private val repository: AccountRepository) : BaseLoadingV
         loadAccount()
     }
 
-    fun retry() {
+    override fun retry() {
         loadAccount()
     }
 
