@@ -12,6 +12,11 @@ class LoadingLayoutManager(root: View, val content: View) {
     val errorTryAgain = root.findViewById<View>(R.id.error_try_again)
     val errorImage = root.findViewById<ImageView>(R.id.error_image)
 
+    init {
+        content.visibility = View.GONE
+        loadingIndicator.visibility = View.VISIBLE
+    }
+
     companion object {
         fun buildFor(fragment: BaseFragment<*>, content: View): LoadingLayoutManager {
             return LoadingLayoutManager(fragment.view!!, content)

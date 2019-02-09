@@ -45,6 +45,10 @@ class TestMoviesRepository : MoviesRepository {
         return Observable.just(AsyncResult.Success(movies))
     }
 
+    override fun popular(): DataStream<List<Movie>> {
+        return Observable.just(AsyncResult.Success(movies))
+    }
+
     override fun discoverByGenre(genreId: String): DataStream<List<Movie>> {
         return Observable.just(AsyncResult.Success(movies))
     }

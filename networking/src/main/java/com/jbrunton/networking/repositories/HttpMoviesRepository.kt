@@ -37,12 +37,16 @@ class HttpMoviesRepository(
         return buildResponse(service.nowPlaying())
     }
 
+    override fun popular(): DataStream<List<Movie>> {
+        return buildResponse(service.popular())
+    }
+
     override fun discoverByGenre(genreId: String): DataStream<List<Movie>> {
         return buildResponse(service.discoverByGenre(genreId))
     }
 
     override fun favorites(): DataStream<List<Movie>> {
-        return buildResponse(service.favorites(preferences.accountId!!, preferences.sessionId!!))
+        return buildResponse(service.favorites(preferences.accountId, preferences.sessionId))
                 .doOnNext {
                     it.doOnSuccess {
                         preferences.favorites = it.value.map { it.id }.toSet()

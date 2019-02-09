@@ -3,11 +3,13 @@ package com.jbrunton.mymovies.nav
 import android.content.Intent
 import androidx.fragment.app.FragmentActivity
 import com.jbrunton.entities.models.AuthSession
+import com.jbrunton.entities.models.Genre
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.ui.account.AccountFragment
 import com.jbrunton.mymovies.ui.account.favorites.FavoritesActivity
 import com.jbrunton.mymovies.ui.auth.LoginActivity
 import com.jbrunton.mymovies.ui.discover.DiscoverFragment
+import com.jbrunton.mymovies.ui.discover.GenreResultsActivity
 import com.jbrunton.mymovies.ui.main.MainActivity
 import com.jbrunton.mymovies.ui.search.SearchFragment
 import io.reactivex.Observable
@@ -30,6 +32,13 @@ class Navigator(val activity: FragmentActivity, val router: ResultRouter) {
         (activity as MainActivity).supportFragmentManager.beginTransaction()
                 .replace(R.id.content, AccountFragment())
                 .commit()
+    }
+
+    fun startGenreActivity(genre: Genre) {
+        val intent = Intent(activity, GenreResultsActivity::class.java)
+        intent.putExtra("GENRE_ID", genre.id)
+        intent.putExtra("GENRE_NAME", genre.name)
+        activity.startActivity(intent)
     }
 
     fun login(): Observable<AuthSession?> {

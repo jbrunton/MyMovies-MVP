@@ -38,6 +38,9 @@ interface MovieService {
     @GET("movie/now_playing")
     fun nowPlaying(): Observable<MoviesCollection>
 
+    @GET("movie/popular")
+    fun popular(): Observable<MoviesCollection>
+
     @GET("genre/movie/list")
     fun genres(): Observable<GenresResponse>
 

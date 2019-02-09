@@ -14,7 +14,7 @@ import com.jbrunton.mymovies.ui.search.SearchViewModel
 val UiModule = module {
     single { ResultRouter() }
     factory { SearchViewModel(get()) }
-    factory { DiscoverViewModel(get()) }
+    factory { DiscoverViewModel(get(), get()) }
     factory { GenresViewModel(get()) }
     factory { LoginViewModel(get()) }
     factory { AccountViewModel(get()) }

@@ -14,7 +14,7 @@ import com.jbrunton.mymovies.nav.Navigator
 import com.jbrunton.mymovies.ui.shared.BaseFragment
 import com.jbrunton.mymovies.ui.shared.LoadingLayoutManager
 import com.jbrunton.mymovies.ui.shared.LoadingViewState
-import kotlinx.android.synthetic.main.activity_genres.*
+import kotlinx.android.synthetic.main.fragment_account.*
 import kotlinx.android.synthetic.main.layout_account_details.*
 import kotlinx.android.synthetic.main.layout_loading_state.*
 
