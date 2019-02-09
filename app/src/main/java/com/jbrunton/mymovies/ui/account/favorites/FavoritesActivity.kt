@@ -39,6 +39,8 @@ class FavoritesActivity : BaseActivity<FavoritesViewModel>() {
     }
 
     private fun updateView(viewState: LoadingViewState<SearchViewState>) {
-        loadingLayoutManager.updateLayout(viewState, moviesAdapter::setDataSource)
+        loadingLayoutManager.updateLayout(viewState) {
+            moviesAdapter.setDataSource(it.results)
+        }
     }
 }

@@ -21,7 +21,7 @@ abstract class BaseSearchViewModel : BaseLoadingViewModel<SearchViewState>() {
                 .onSuccess {
                     SearchViewStateFactory.errorIfEmpty(it.value)
                 }
-                .toLoadingViewState(emptyList())
+                .toLoadingViewState(SearchViewState.Empty)
         this.viewState.postValue(viewState)
     }
 }

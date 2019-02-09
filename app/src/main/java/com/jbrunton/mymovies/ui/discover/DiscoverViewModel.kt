@@ -9,7 +9,6 @@ import com.jbrunton.entities.repositories.GenresRepository
 import com.jbrunton.entities.repositories.MoviesRepository
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.ui.movies.MovieSearchResultViewState
-import com.jbrunton.mymovies.ui.search.SearchViewStateFactory
 import com.jbrunton.mymovies.ui.shared.BaseLoadingViewModel
 import com.jbrunton.mymovies.ui.shared.handleNetworkErrors
 import com.jbrunton.mymovies.ui.shared.toLoadingViewState
@@ -40,11 +39,8 @@ class DiscoverViewModel internal constructor(
     }
 
     private fun handleErrors(result: AsyncResult<List<Movie>>): AsyncResult<List<MovieSearchResultViewState>> {
-        return result.map(SearchViewStateFactory.Companion::toViewState)
+        return result.map({ movies -> movies.map { MovieSearchResultViewState(it) } })
                 .handleNetworkErrors()
-                .onSuccess {
-                    SearchViewStateFactory.errorIfEmpty(it.value)
-                }
     }
 
     private fun handleGenresResponse(state: AsyncResult<List<Genre>>): AsyncResult<GenresViewState> {

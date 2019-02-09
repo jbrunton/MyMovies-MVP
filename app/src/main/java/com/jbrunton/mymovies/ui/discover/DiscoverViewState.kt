@@ -1,10 +1,10 @@
 package com.jbrunton.mymovies.ui.discover
 
-import com.jbrunton.mymovies.ui.search.SearchViewState
+import com.jbrunton.mymovies.ui.movies.MovieSearchResultViewState
 
 data class DiscoverViewState(
-        val nowPlayingViewState: SearchViewState,
-        val popularViewState: SearchViewState,
+        val nowPlayingViewState: List<MovieSearchResultViewState>,
+        val popularViewState: List<MovieSearchResultViewState>,
         val genres: GenresViewState
 ) {
     companion object {

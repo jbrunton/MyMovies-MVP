@@ -11,12 +11,12 @@ class SearchViewStateFactory {
         val errorNoResults = buildEmptyState("No Results")
         val emptyState = buildEmptyState("Search")
 
-        fun toViewState(movies: List<Movie>): List<MovieSearchResultViewState> {
-            return movies.map { MovieSearchResultViewState(it) }
+        fun toViewState(movies: List<Movie>): SearchViewState {
+            return SearchViewState(movies.map { MovieSearchResultViewState(it) })
         }
 
         fun errorIfEmpty(movies: SearchViewState): AsyncResult<SearchViewState> {
-            return if (movies.isEmpty()) {
+            return if (movies.results.isEmpty()) {
                 SearchViewStateFactory.errorNoResults
             } else {
                 AsyncResult.Success(movies)
