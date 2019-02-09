@@ -9,7 +9,6 @@ import com.jbrunton.entities.repositories.GenresRepository
 import com.jbrunton.entities.repositories.MoviesRepository
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.helpers.AsyncResults
-import com.jbrunton.mymovies.nav.Navigator
 import com.jbrunton.mymovies.ui.movies.MovieSearchResultViewState
 import com.jbrunton.mymovies.ui.search.SearchViewStateFactory
 import com.jbrunton.mymovies.ui.shared.BaseLoadingViewModel

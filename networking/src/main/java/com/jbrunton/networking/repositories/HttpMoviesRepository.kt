@@ -46,7 +46,7 @@ class HttpMoviesRepository(
     }
 
     override fun favorites(): DataStream<List<Movie>> {
-        return buildResponse(service.favorites(preferences.accountId!!, preferences.sessionId!!))
+        return buildResponse(service.favorites(preferences.accountId, preferences.sessionId))
                 .doOnNext {
                     it.doOnSuccess {
                         preferences.favorites = it.value.map { it.id }.toSet()
