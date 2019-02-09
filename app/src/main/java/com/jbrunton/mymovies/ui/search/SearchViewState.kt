@@ -14,6 +14,10 @@ import com.jbrunton.mymovies.ui.shared.toLoadingViewState
 data class SearchViewState(val results: List<MovieSearchResultViewState>) {
     companion object {
         val Empty = SearchViewState(emptyList())
+
+        fun from(movies: List<Movie>): SearchViewState {
+            return SearchViewState(movies.map(::MovieSearchResultViewState))
+        }
     }
 
     class Builder(val result: AsyncResult<List<Movie>>) {
@@ -29,9 +33,7 @@ data class SearchViewState(val results: List<MovieSearchResultViewState>) {
 
         fun asResult(): AsyncResult<SearchViewState> {
             return result
-                    .map({ movies ->
-                        SearchViewState(movies.map(::MovieSearchResultViewState))
-                    })
+                    .map(SearchViewState.Companion::from)
                     .handleNetworkErrors()
                     .onSuccess {
                         errorIfEmpty(it.value)
