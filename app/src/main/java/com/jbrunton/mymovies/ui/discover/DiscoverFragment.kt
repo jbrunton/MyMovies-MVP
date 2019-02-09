@@ -60,6 +60,7 @@ class DiscoverFragment : BaseFragment<DiscoverViewModel>() {
             nowPlayingAdapter.setDataSource(it.nowPlayingViewState)
             popularAdapter.setDataSource(it.popularViewState)
 
+            genres.removeAllViewsInLayout()
             it.genres.forEach {
                 val chip = Chip(genres.context)
                 chip.text = it.name
