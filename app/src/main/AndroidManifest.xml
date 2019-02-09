@@ -22,7 +22,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.jbrunton.mymovies.ui.discover.GenresActivity" />
         <activity android:name="com.jbrunton.mymovies.ui.discover.GenreResultsActivity" />
         <activity android:name="com.jbrunton.mymovies.ui.moviedetails.MovieDetailsActivity" />
         <activity android:name="com.jbrunton.mymovies.ui.account.favorites.FavoritesActivity" />
