@@ -25,27 +25,21 @@ class MovieDetailsViewModel(
     }
 
     fun favorite() {
-        repository.favorite(movieId)
-                .compose(applySchedulers())
-                .subscribe(this::onFavorite)
+        subscribe(repository.favorite(movieId), this::onFavorite)
     }
 
     fun unfavorite() {
-        repository.unfavorite(movieId)
-                .compose(applySchedulers())
-                .subscribe(this::onUnfavorite)
+        subscribe(repository.unfavorite(movieId), this::onUnfavorite)
     }
 
     private fun loadDetails() {
-        load({
-            repository.getMovie(movieId)
-        }, this::setMovieResponse)
+        subscribe(repository.getMovie(movieId), this::setMovieResponse)
     }
 
     private fun setMovieResponse(state: AsyncResult<Movie>) {
         viewState.value = state
                 .map {
-                    val favorite = (preferences.favorites ?: emptySet()).contains(movieId)
+                    val favorite = preferences.favorites.contains(movieId)
                     MovieViewState.from(it, favorite)
                 }
                 .handleNetworkErrors()

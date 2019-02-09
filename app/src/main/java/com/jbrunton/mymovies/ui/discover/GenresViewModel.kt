@@ -19,7 +19,7 @@ class GenresViewModel(private val repository: GenresRepository) : BaseLoadingVie
     }
 
     private fun loadGenres() {
-        load(repository::genres, this::setGenresResponse)
+        subscribe(repository.genres(), this::setGenresResponse)
     }
 
     private fun setGenresResponse(state: AsyncResult<List<Genre>>) {

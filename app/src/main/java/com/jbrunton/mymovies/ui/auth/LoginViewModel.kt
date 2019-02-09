@@ -20,9 +20,7 @@ class LoginViewModel(private val repository: AccountRepository) : BaseViewModel(
 
     fun login(username: String, password: String) {
         if (validate(username, password)) {
-            repository.login(username, password)
-                    .compose(applySchedulers())
-                    .subscribe(this::onLoginResult)
+            subscribe(repository.login(username, password), this::onLoginResult)
         }
     }
 

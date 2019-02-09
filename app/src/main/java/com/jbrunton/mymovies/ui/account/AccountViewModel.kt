@@ -31,7 +31,7 @@ class AccountViewModel(private val repository: AccountRepository) : BaseLoadingV
     }
 
     private fun loadAccount() {
-        load(repository::account, this::setAccountResponse)
+        subscribe(repository.account(), this::setAccountResponse)
     }
 
     private fun setAccountResponse(result: AsyncResult<Account>) {
