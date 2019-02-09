@@ -35,13 +35,9 @@ class DiscoverViewModel internal constructor(
         val discoverStream = Observables.zip(nowPlayingStream, popularStream, genresStream) {
             nowPlaying, popular, genres -> AsyncResults.zip(nowPlaying, popular, genres, ::DiscoverViewState)
         }
-        discoverStream.compose(applySchedulers())
-                .subscribe(this::handleResponse)
-    }
-
-    private fun handleResponse(result: AsyncResult<DiscoverViewState>) {
-        val viewState = result.toLoadingViewState(DiscoverViewState(emptyList(), emptyList(), emptyList()))
-        this.viewState.postValue(viewState)
+        subscribe(discoverStream) {
+            viewState.postValue(it.toLoadingViewState(DiscoverViewState.Empty))
+        }
     }
 
     private fun handleErrors(result: AsyncResult<List<Movie>>): AsyncResult<List<MovieSearchResultViewState>> {
