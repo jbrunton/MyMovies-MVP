@@ -7,9 +7,12 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.chip.Chip
+import com.jbrunton.entities.models.Genre
+import com.jbrunton.inject.inject
 import com.jbrunton.inject.injectViewModel
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.helpers.observe
+import com.jbrunton.mymovies.nav.Navigator
 import com.jbrunton.mymovies.ui.search.SearchResultsAdapter
 import com.jbrunton.mymovies.ui.shared.BaseFragment
 import com.jbrunton.mymovies.ui.shared.LoadingLayoutManager
@@ -23,6 +26,7 @@ class DiscoverFragment : BaseFragment<DiscoverViewModel>() {
     private lateinit var popularAdapter: SearchResultsAdapter
 
     override val viewModel: DiscoverViewModel by injectViewModel()
+    val navigator: Navigator by inject()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_discover, container, false)
@@ -61,11 +65,19 @@ class DiscoverFragment : BaseFragment<DiscoverViewModel>() {
             popularAdapter.setDataSource(it.popularViewState)
 
             genres.removeAllViewsInLayout()
-            it.genres.forEach {
-                val chip = Chip(genres.context)
-                chip.text = it.name
+            it.genres.forEach { genre ->
+                val chip = buildGenreChip(genre)
                 genres.addView(chip)
             }
         }
+    }
+
+    private fun buildGenreChip(genre: Genre): Chip {
+        val chip = Chip(genres.context)
+        chip.text = genre.name
+        chip.setOnClickListener {
+            navigator.startGenreActivity(genre)
+        }
+        return chip
     }
 }
