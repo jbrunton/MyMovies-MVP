@@ -1,9 +1,11 @@
 package com.jbrunton.mymovies.ui.account.favorites
 
 import com.jbrunton.entities.repositories.MoviesRepository
-import com.jbrunton.mymovies.ui.search.BaseSearchViewModel
+import com.jbrunton.mymovies.ui.search.SearchViewState
+import com.jbrunton.mymovies.ui.search.SearchViewStateFactory
+import com.jbrunton.mymovies.ui.shared.BaseLoadingViewModel
 
-class FavoritesViewModel(val moviesRepository: MoviesRepository) : BaseSearchViewModel() {
+class FavoritesViewModel(val moviesRepository: MoviesRepository) : BaseLoadingViewModel<SearchViewState>() {
     override fun start() {
         loadFavorites()
     }
@@ -13,8 +15,8 @@ class FavoritesViewModel(val moviesRepository: MoviesRepository) : BaseSearchVie
     }
 
     private fun loadFavorites() {
-        search {
-            moviesRepository.favorites()
+        subscribe(moviesRepository.favorites()) {
+            viewState.postValue(SearchViewStateFactory.from(it))
         }
     }
 }
