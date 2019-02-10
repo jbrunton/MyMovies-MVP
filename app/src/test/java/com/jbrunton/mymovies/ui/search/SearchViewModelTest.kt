@@ -52,6 +52,12 @@ class SearchViewModelTest {
     }
 
     @Test
+    fun showsEmptyStateForEmptyQuery() {
+        viewModel.performSearch("")
+        assertThat(viewModel.viewState.value).isEqualTo(SearchViewStateFactory.EmptyState)
+    }
+
+    @Test
     fun searchesForQuery() {
         viewModel.performSearch("Star")
         schedulerRule.TEST_SCHEDULER.advanceTimeBy(1, TimeUnit.SECONDS)
