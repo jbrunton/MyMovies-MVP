@@ -9,10 +9,9 @@ import com.jbrunton.inject.injectViewModel
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.helpers.observe
 import com.jbrunton.mymovies.ui.shared.BaseFragment
-import com.jbrunton.mymovies.ui.shared.LoadingLayoutManager
+import com.jbrunton.mymovies.ui.shared.BaseLoadingLayoutManager
 import com.jbrunton.mymovies.ui.shared.LoadingViewState
 import com.jbrunton.mymovies.ui.shared.onTextChanged
-import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.android.synthetic.main.layout_loading_state.*
 
@@ -26,7 +25,7 @@ class SearchFragment : BaseFragment<SearchViewModel>() {
 
     override fun onCreateLayout() {
         (activity as AppCompatActivity).setSupportActionBar(toolbar)
-        layoutManager = LayoutManager(view)
+        layoutManager = LayoutManager(view!!)
     }
 
     override fun onBindListeners() {
@@ -46,23 +45,22 @@ class SearchFragment : BaseFragment<SearchViewModel>() {
         layoutManager.updateView(viewState)
     }
 
-    class LayoutManager(override val containerView: View?) : LayoutContainer {
-        private val loadingLayoutManager: LoadingLayoutManager
+    class LayoutManager(containerView: View):
+            BaseLoadingLayoutManager<SearchViewState>(containerView, containerView.findViewById(R.id.movies_list))
+    {
+        override val layout: Int = R.layout.fragment_search
         private val searchResultsAdapter: SearchResultsAdapter
 
         init {
-            val context = containerView!!.context
-            loadingLayoutManager = LoadingLayoutManager.buildFor(this, movies_list)
+            val context = containerView.context
             movies_list.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
 
             searchResultsAdapter = SearchResultsAdapter(context, R.layout.item_movie_card_list)
             movies_list.adapter = searchResultsAdapter
         }
 
-        fun updateView(viewState: LoadingViewState<SearchViewState>) {
-            loadingLayoutManager.updateLayout(viewState) {
-                searchResultsAdapter.setDataSource(it.results)
-            }
+        override fun updateContentView(viewState: SearchViewState) {
+            searchResultsAdapter.setDataSource(viewState.results)
         }
     }
 }

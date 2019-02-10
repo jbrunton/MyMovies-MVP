@@ -25,7 +25,7 @@ import org.junit.runner.RunWith
 
 
 @RunWith(AndroidJUnit4::class)
-class SearchFragmentLayoutTest : BaseFragmentTest<SearchFragmentLayoutTest.TestFragment>() {
+class SearchFragmentLayoutTest : BaseFragmentTest<SearchFragmentLayoutTest.TestLayoutFragment>() {
     val MOVIE_FACTORY = MovieFactory()
     val MOVIE1 = MOVIE_FACTORY.create()
     val MOVIE2 = MOVIE_FACTORY.create()
@@ -84,15 +84,15 @@ class SearchFragmentLayoutTest : BaseFragmentTest<SearchFragmentLayoutTest.TestF
                 .check(matches(hasDescendant(withText(MOVIE2.title))))
     }
 
-    override fun createFragmentTestRule(): FragmentTestRule<*, TestFragment> {
-        return FragmentTestRule.create(TestFragment::class.java)
+    override fun createFragmentTestRule(): FragmentTestRule<*, TestLayoutFragment> {
+        return FragmentTestRule.create(TestLayoutFragment::class.java)
     }
 
     private fun setViewState(viewState: LoadingViewState<SearchViewState>) {
         fragmentRule.runOnUiThread { fragment.updateView(viewState) }
     }
 
-    class TestFragment: Fragment() {
+    class TestLayoutFragment: Fragment() {
         lateinit var layoutManager: SearchFragment.LayoutManager
 
         override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
