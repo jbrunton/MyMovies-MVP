@@ -19,34 +19,34 @@ data class LoadingViewState<T>(
                 contentViewState = viewState
         )
 
-        fun <T> loading(emptyViewState: T) = LoadingViewState(
+        fun <T> loading(hiddenViewState: T) = LoadingViewState(
                 loadingIndicatorVisibility = View.VISIBLE,
-                contentViewState = emptyViewState
+                contentViewState = hiddenViewState
         )
 
-        fun <T> failure(error: LoadingViewStateError, emptyViewState: T) = LoadingViewState(
+        fun <T> failure(error: LoadingViewStateError, hiddenViewState: T) = LoadingViewState(
                 errorCaseVisibility = View.VISIBLE,
                 errorText = error.message,
                 errorIcon = error.errorIcon,
                 allowRetryVisibility = if (error.allowRetry) { View.VISIBLE } else { View.GONE },
-                contentViewState = emptyViewState
+                contentViewState = hiddenViewState
         )
 
-        fun <T> failure(result: AsyncResult.Failure<LoadingViewState<T>>, emptyViewState: T) =
-                failure(result.error as LoadingViewStateError, emptyViewState)
+        fun <T> failure(result: AsyncResult.Failure<LoadingViewState<T>>, hiddenViewState: T) =
+                failure(result.error as LoadingViewStateError, hiddenViewState)
     }
 }
 
-fun <T> AsyncResult<T>.toLoadingViewState(emptyViewState: T): LoadingViewState<T> {
+fun <T> AsyncResult<T>.toLoadingViewState(hiddenViewState: T): LoadingViewState<T> {
     return this.map { LoadingViewState.success(it) }
             .onLoading {
-                it.useCachedValue().or(LoadingViewState.loading(emptyViewState))
+                it.useCachedValue().or(LoadingViewState.loading(hiddenViewState))
             }
             .onFailure {
                 it.useCachedValue()
             }
             .onError(LoadingViewStateError::class) {
-                use { LoadingViewState.failure(it, emptyViewState) }
+                use { LoadingViewState.failure(it, hiddenViewState) }
             }
             .get()
 }

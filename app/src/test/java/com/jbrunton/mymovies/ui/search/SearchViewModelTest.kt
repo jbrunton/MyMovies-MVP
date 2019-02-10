@@ -48,13 +48,13 @@ class SearchViewModelTest {
     @Test
     fun startsWithEmptyState() {
         viewModel.start()
-        assertThat(viewModel.viewState.value).isEqualTo(SearchViewState.Builder.EmptyState)
+        assertThat(viewModel.viewState.value).isEqualTo(SearchViewState.EmptyState)
     }
 
     @Test
     fun showsEmptyStateWhenNoInput() {
         viewModel.performSearch("")
-        assertThat(viewModel.viewState.value).isEqualTo(SearchViewState.Builder.EmptyState)
+        assertThat(viewModel.viewState.value).isEqualTo(SearchViewState.EmptyState)
     }
 
     @Test

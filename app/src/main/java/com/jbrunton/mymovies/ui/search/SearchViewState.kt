@@ -13,44 +13,37 @@ import com.jbrunton.mymovies.ui.shared.toLoadingViewState
 
 data class SearchViewState(val results: List<MovieSearchResultViewState>) {
     companion object {
-        val Empty = SearchViewState(emptyList())
+        private val HiddenState = SearchViewState(emptyList())
+
+        val NoResultsError = buildError("No Results")
+        val EmptyStateError = buildError("Search")
+        val EmptyState = AsyncResult.Failure<SearchViewState>(EmptyStateError).toLoadingViewState(HiddenState)
 
         fun from(movies: List<Movie>): SearchViewState {
             return SearchViewState(movies.map(::MovieSearchResultViewState))
         }
-    }
 
-    class Builder(val result: AsyncResult<List<Movie>>) {
-        companion object {
-            val NoResults = buildEmptyState("No Results")
-            val EmptyState = buildEmptyState("Search")
-                    .toLoadingViewState(SearchViewState.Empty)
-
-            private fun buildEmptyState(errorMessage: String): AsyncResult.Failure<SearchViewState> {
-                return AsyncResult.Failure(LoadingViewStateError(errorMessage, R.drawable.ic_search_black_24dp, false))
-            }
-        }
-
-        fun asResult(): AsyncResult<SearchViewState> {
+        fun map(result: AsyncResult<List<Movie>>): AsyncResult<SearchViewState> {
             return result
                     .map(SearchViewState.Companion::from)
                     .handleNetworkErrors()
-                    .onSuccess {
-                        errorIfEmpty(it.value)
-                    }
+                    .onSuccess(this::errorIfEmpty)
         }
 
-        fun asLoadingViewState(): LoadingViewState<SearchViewState> {
-            return asResult().toLoadingViewState(Empty)
+        fun from(result: AsyncResult<List<Movie>>): LoadingViewState<SearchViewState> {
+            return map(result).toLoadingViewState(HiddenState)
         }
 
-        private fun errorIfEmpty(movies: SearchViewState): AsyncResult<SearchViewState> {
-            return if (movies.results.isEmpty()) {
-                NoResults
+        private fun errorIfEmpty(result: AsyncResult.Success<SearchViewState>): AsyncResult<SearchViewState> {
+            return if (result.value.results.isEmpty()) {
+                AsyncResult.failure(NoResultsError)
             } else {
-                AsyncResult.Success(movies)
+                result
             }
         }
 
+        private fun buildError(errorMessage: String): LoadingViewStateError {
+            return LoadingViewStateError(errorMessage, R.drawable.ic_search_black_24dp, false)
+        }
     }
 }

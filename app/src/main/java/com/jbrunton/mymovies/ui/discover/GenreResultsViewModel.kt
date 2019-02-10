@@ -19,7 +19,7 @@ class GenreResultsViewModel(
 
     private fun searchGenre() {
         subscribe(repository.discoverByGenre(genreId)) {
-            viewState.postValue(SearchViewState.Builder(it).asLoadingViewState())
+            viewState.postValue(SearchViewState.from(it))
         }
     }
 }

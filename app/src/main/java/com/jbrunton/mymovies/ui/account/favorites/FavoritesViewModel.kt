@@ -15,7 +15,7 @@ class FavoritesViewModel(val moviesRepository: MoviesRepository) : BaseLoadingVi
 
     private fun loadFavorites() {
         subscribe(moviesRepository.favorites()) {
-            viewState.postValue(SearchViewState.Builder(it).asLoadingViewState())
+            viewState.postValue(SearchViewState.from(it))
         }
     }
 }

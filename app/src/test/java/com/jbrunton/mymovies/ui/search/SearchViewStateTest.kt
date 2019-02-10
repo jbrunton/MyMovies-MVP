@@ -1,7 +1,7 @@
 package com.jbrunton.mymovies.ui.search
 
-import com.jbrunton.async.AsyncResult.Companion.failure
-import com.jbrunton.async.AsyncResult.Companion.success
+import com.jbrunton.async.AsyncResult
+import com.jbrunton.entities.models.Movie
 import com.jbrunton.fixtures.MovieFactory
 import com.jbrunton.mymovies.ui.shared.networkError
 import org.assertj.core.api.Assertions.assertThat
@@ -13,19 +13,31 @@ class SearchViewStateTest {
 
     @Test
     fun handlesSuccess() {
-        val result = SearchViewState.Builder(success(listOf(movie))).asResult()
-        assertThat(result).isEqualTo(success(SearchViewState.from(listOf(movie))))
+        val success = AsyncResult.success(listOf(movie))
+
+        val result = SearchViewState.map(success)
+
+        val expected = AsyncResult.success(SearchViewState.from(listOf(movie)))
+        assertThat(result).isEqualTo(expected)
     }
 
     @Test
     fun handlesEmptyList() {
-        val result = SearchViewState.Builder(success(emptyList())).asResult()
-        assertThat(result).isEqualTo(SearchViewState.Builder.NoResults)
+        val empty = AsyncResult.success(emptyList<Movie>())
+
+        val result = SearchViewState.map(empty)
+
+        val expected = AsyncResult.failure<SearchViewState>(SearchViewState.NoResultsError)
+        assertThat(result).isEqualTo(expected)
     }
 
     @Test
     fun handlesNetworkErrors() {
-        val result = SearchViewState.Builder(failure(IOException())).asResult()
-        assertThat(result).isEqualTo(failure<SearchViewState>(networkError()))
+        val failure = AsyncResult.failure<List<Movie>>(IOException())
+
+        val result = SearchViewState.map(failure)
+
+        val expected = AsyncResult.failure<SearchViewState>(networkError())
+        assertThat(result).isEqualTo(expected)
     }
 }
