@@ -1,8 +1,8 @@
 package com.jbrunton.mymovies.ui.discover
 
-import com.jbrunton.entities.models.Genre
 import com.jbrunton.async.AsyncResult
 import com.jbrunton.async.onSuccess
+import com.jbrunton.entities.models.Genre
 import com.jbrunton.entities.repositories.GenresRepository
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.ui.shared.BaseLoadingViewModel
@@ -14,12 +14,12 @@ class GenresViewModel(private val repository: GenresRepository) : BaseLoadingVie
         loadGenres()
     }
 
-    fun retry() {
+    override fun retry() {
         loadGenres()
     }
 
     private fun loadGenres() {
-        load(repository::genres, this::setGenresResponse)
+        subscribe(repository.genres(), this::setGenresResponse)
     }
 
     private fun setGenresResponse(state: AsyncResult<List<Genre>>) {

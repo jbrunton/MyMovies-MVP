@@ -1,18 +1,26 @@
 package com.jbrunton.mymovies.ui.discover
 
 import com.jbrunton.entities.repositories.MoviesRepository
-import com.jbrunton.mymovies.ui.search.BaseSearchViewModel
+import com.jbrunton.mymovies.ui.search.SearchViewState
+import com.jbrunton.mymovies.ui.search.SearchViewStateFactory
+import com.jbrunton.mymovies.ui.shared.BaseLoadingViewModel
 
-class GenreResultsViewModel(val genreId: String, val repository: MoviesRepository) : BaseSearchViewModel() {
+class GenreResultsViewModel(
+        val genreId: String,
+        val repository: MoviesRepository
+) : BaseLoadingViewModel<SearchViewState>() {
+
     override fun start() {
         searchGenre()
     }
 
-    fun retry() {
+    override fun retry() {
         searchGenre()
     }
 
     private fun searchGenre() {
-        search { repository.discoverByGenre(genreId) }
+        subscribe(repository.discoverByGenre(genreId)) {
+            viewState.postValue(SearchViewStateFactory.from(it))
+        }
     }
 }

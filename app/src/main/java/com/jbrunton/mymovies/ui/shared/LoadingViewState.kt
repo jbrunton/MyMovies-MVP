@@ -19,34 +19,34 @@ data class LoadingViewState<T>(
                 contentViewState = viewState
         )
 
-        fun <T> loading(emptyViewState: T) = LoadingViewState(
+        fun <T> loading(emptyState: T) = LoadingViewState(
                 loadingIndicatorVisibility = View.VISIBLE,
-                contentViewState = emptyViewState
+                contentViewState = emptyState
         )
 
-        fun <T> failure(error: LoadingViewStateError, emptyViewState: T) = LoadingViewState(
+        fun <T> failure(error: LoadingViewStateError, emptyState: T) = LoadingViewState(
                 errorCaseVisibility = View.VISIBLE,
                 errorText = error.message,
                 errorIcon = error.errorIcon,
                 allowRetryVisibility = if (error.allowRetry) { View.VISIBLE } else { View.GONE },
-                contentViewState = emptyViewState
+                contentViewState = emptyState
         )
 
-        fun <T> failure(result: AsyncResult.Failure<LoadingViewState<T>>, emptyViewState: T) =
-                failure(result.error as LoadingViewStateError, emptyViewState)
+        fun <T> failure(result: AsyncResult.Failure<LoadingViewState<T>>, emptyState: T) =
+                failure(result.error as LoadingViewStateError, emptyState)
     }
 }
 
-fun <T> AsyncResult<T>.toLoadingViewState(emptyViewState: T): LoadingViewState<T> {
+fun <T> AsyncResult<T>.toLoadingViewState(emptyState: T): LoadingViewState<T> {
     return this.map { LoadingViewState.success(it) }
             .onLoading {
-                it.useCachedValue().or(LoadingViewState.loading(emptyViewState))
+                it.useCachedValue().or(LoadingViewState.loading(emptyState))
             }
             .onFailure {
                 it.useCachedValue()
             }
             .onError(LoadingViewStateError::class) {
-                use { LoadingViewState.failure(it, emptyViewState) }
+                use { LoadingViewState.failure(it, emptyState) }
             }
             .get()
 }

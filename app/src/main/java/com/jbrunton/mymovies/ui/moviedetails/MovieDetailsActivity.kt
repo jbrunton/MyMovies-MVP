@@ -1,7 +1,6 @@
 package com.jbrunton.mymovies.ui.moviedetails
 
 import android.text.Html
-import com.google.android.material.snackbar.Snackbar
 import com.jbrunton.inject.injectViewModel
 import com.jbrunton.inject.parametersOf
 import com.jbrunton.mymovies.R
@@ -40,7 +39,6 @@ class MovieDetailsActivity : BaseActivity<MovieDetailsViewModel>() {
     override fun onObserveData() {
         super.onObserveData()
         viewModel.viewState.observe(this, this::updateView)
-        viewModel.showRetrySnackbar.observe(this, this::showSnackbar)
     }
 
     private fun movieId(): String = intent.extras["MOVIE_ID"] as String
@@ -58,13 +56,5 @@ class MovieDetailsActivity : BaseActivity<MovieDetailsViewModel>() {
             picassoHelper.loadSearchResultImage(this, poster, it.posterUrl)
             picassoHelper.loadImage(this, backdrop, it.backdropUrl)
         }
-    }
-
-    fun showSnackbar(unit: Unit) {
-        Snackbar.make(findViewById(android.R.id.content), "There was a problem reaching the server", Snackbar.LENGTH_INDEFINITE)
-                .setAction("Try Again") {
-                    viewModel.retry()
-                }
-                .show()
     }
 }

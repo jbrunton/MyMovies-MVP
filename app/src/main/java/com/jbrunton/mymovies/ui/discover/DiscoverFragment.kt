@@ -47,11 +47,6 @@ class DiscoverFragment : BaseFragment<DiscoverViewModel>() {
     }
 
     override fun onBindListeners() {
-//        genres_link.setOnClickListener {
-//            val intent = Intent(activity, GenresActivity::class.java)
-//            startActivity(intent)
-//        }
-
         error_try_again.setOnClickListener { viewModel.retry() }
     }
 

@@ -49,6 +49,8 @@ class SearchFragment : BaseFragment<SearchViewModel>() {
     }
 
     fun updateView(viewState: LoadingViewState<SearchViewState>) {
-        loadingLayoutManager.updateLayout(viewState, searchResultsAdapter::setDataSource)
+        loadingLayoutManager.updateLayout(viewState) {
+            searchResultsAdapter.setDataSource(it.results)
+        }
     }
 }
