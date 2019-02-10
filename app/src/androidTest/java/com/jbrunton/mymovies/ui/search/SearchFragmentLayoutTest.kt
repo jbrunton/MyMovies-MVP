@@ -20,13 +20,12 @@ import com.jbrunton.mymovies.fixtures.RecyclerViewUtils.withRecyclerView
 import com.jbrunton.mymovies.ui.shared.LoadingViewState
 import com.jbrunton.mymovies.ui.shared.LoadingViewStateError
 import com.jbrunton.mymovies.ui.shared.toLoadingViewState
-import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
 
 
 @RunWith(AndroidJUnit4::class)
-class SearchFragmentLayoutTests : BaseFragmentTest<SearchFragmentLayoutTests.TestFragment>() {
+class SearchFragmentLayoutTest : BaseFragmentTest<SearchFragmentLayoutTest.TestFragment>() {
     val MOVIE_FACTORY = MovieFactory()
     val MOVIE1 = MOVIE_FACTORY.create()
     val MOVIE2 = MOVIE_FACTORY.create()
