@@ -5,8 +5,6 @@ import com.jbrunton.entities.models.Genre
 import com.jbrunton.entities.models.Movie
 import com.jbrunton.fixtures.MovieFactory
 import com.jbrunton.mymovies.ui.movies.MovieSearchResultViewState
-import com.jbrunton.mymovies.ui.search.SearchViewState
-import com.jbrunton.mymovies.ui.search.SearchViewStateFactory
 import com.jbrunton.mymovies.ui.shared.networkError
 import org.assertj.core.api.Assertions
 import org.junit.Test
@@ -19,12 +17,13 @@ class DiscoverViewStateTest {
     val popularMovie = factory.create()
     val genre = Genre("1", "Action")
 
+    val nowShowingSuccess = AsyncResult.success(listOf(nowShowingMovie))
+    val popularSuccess = AsyncResult.success(listOf(popularMovie))
+    val genresSuccess = AsyncResult.success(listOf(genre))
+    val moviesFailure = AsyncResult.failure<List<Movie>>(IOException())
+
     @Test
     fun handlesSuccess() {
-        val nowShowingSuccess = AsyncResult.success(listOf(nowShowingMovie))
-        val popularSuccess = AsyncResult.success(listOf(popularMovie))
-        val genresSuccess = AsyncResult.success(listOf(genre))
-
         val result = DiscoverViewStateFactory.map(nowShowingSuccess, popularSuccess, genresSuccess)
 
         val expected = AsyncResult.success(
@@ -38,9 +37,21 @@ class DiscoverViewStateTest {
     }
 
     @Test
-    fun handlesNetworkErrors() {
-        val nowShowingSuccess = AsyncResult.success(listOf(nowShowingMovie))
-        val popularSuccess = AsyncResult.success(listOf(popularMovie))
+    fun handlesNowShowingNetworkErrors() {
+        val result = DiscoverViewStateFactory.map(moviesFailure, popularSuccess, genresSuccess)
+        val expected = AsyncResult.failure<DiscoverViewState>(networkError())
+        Assertions.assertThat(result).isEqualTo(expected)
+    }
+
+    @Test
+    fun handlesPopularNetworkErrors() {
+        val result = DiscoverViewStateFactory.map(nowShowingSuccess, moviesFailure, genresSuccess)
+        val expected = AsyncResult.failure<DiscoverViewState>(networkError())
+        Assertions.assertThat(result).isEqualTo(expected)
+    }
+
+    @Test
+    fun handlesGenresNetworkErrors() {
         val genresFailure = AsyncResult.failure<List<Genre>>(IOException())
 
         val result = DiscoverViewStateFactory.map(nowShowingSuccess, popularSuccess, genresFailure)
