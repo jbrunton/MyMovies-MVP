@@ -45,24 +45,27 @@ class SearchViewModelTest {
         preferences = Mockito.mock(ApplicationPreferences::class.java)
         viewModel = SearchViewModel(useCase)
         RepositoryFixtures.stubSearch(repository, "Star").toReturnDelayed(listOf(MOVIE), 1)
+
+        viewModel.start()
+        schedulerRule.TEST_SCHEDULER.triggerActions()
     }
 
     @Test
     fun startsWithEmptyState() {
-        viewModel.start()
         assertThat(viewModel.viewState.value).isEqualTo(SearchViewStateFactory.EmptyState)
     }
 
     @Test
     fun showsEmptyStateForEmptyQuery() {
         viewModel.performSearch("")
+        schedulerRule.TEST_SCHEDULER.triggerActions()
         assertThat(viewModel.viewState.value).isEqualTo(SearchViewStateFactory.EmptyState)
     }
 
     @Test
     fun searchesForQuery() {
         viewModel.performSearch("Star")
-        schedulerRule.TEST_SCHEDULER.advanceTimeBy(1, TimeUnit.SECONDS)
+        schedulerRule.TEST_SCHEDULER.advanceTimeBy(2, TimeUnit.SECONDS)
         assertThat(viewModel.viewState.value).isEqualTo(SUCCESS_VIEW_STATE)
     }
 }

@@ -19,7 +19,9 @@ class SearchUseCase(val repository: MoviesRepository) {
         }
 
         return repository.searchMovies(query)
-                .map { SearchViewStateFactory.from(it) }
+                .map {
+                    SearchViewStateFactory.from(it)
+                }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
     }
