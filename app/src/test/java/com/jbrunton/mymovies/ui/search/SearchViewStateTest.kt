@@ -15,7 +15,7 @@ class SearchViewStateTest {
     fun handlesSuccess() {
         val success = AsyncResult.success(listOf(movie))
 
-        val result = SearchViewState.map(success)
+        val result = SearchViewStateFactory.map(success)
 
         val expected = AsyncResult.success(SearchViewState.from(listOf(movie)))
         assertThat(result).isEqualTo(expected)
@@ -25,9 +25,9 @@ class SearchViewStateTest {
     fun handlesEmptyList() {
         val empty = AsyncResult.success(emptyList<Movie>())
 
-        val result = SearchViewState.map(empty)
+        val result = SearchViewStateFactory.map(empty)
 
-        val expected = AsyncResult.failure<SearchViewState>(SearchViewState.NoResultsError)
+        val expected = AsyncResult.failure<SearchViewState>(SearchViewStateFactory.NoResultsError)
         assertThat(result).isEqualTo(expected)
     }
 
@@ -35,7 +35,7 @@ class SearchViewStateTest {
     fun handlesNetworkErrors() {
         val failure = AsyncResult.failure<List<Movie>>(IOException())
 
-        val result = SearchViewState.map(failure)
+        val result = SearchViewStateFactory.map(failure)
 
         val expected = AsyncResult.failure<SearchViewState>(networkError())
         assertThat(result).isEqualTo(expected)
