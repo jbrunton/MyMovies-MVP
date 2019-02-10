@@ -4,6 +4,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import com.jbrunton.mymovies.R
+import kotlinx.android.extensions.LayoutContainer
 
 class LoadingLayoutManager(root: View, val content: View) {
     val loadingIndicator = root.findViewById<View>(R.id.loading_indicator)
@@ -24,6 +25,10 @@ class LoadingLayoutManager(root: View, val content: View) {
 
         fun buildFor(activity: BaseActivity<*>, content: View): LoadingLayoutManager {
             return LoadingLayoutManager(activity.findViewById(android.R.id.content), content)
+        }
+
+        fun buildFor(container: LayoutContainer, content: View): LoadingLayoutManager {
+            return LoadingLayoutManager(container.containerView!!, content)
         }
     }
 
