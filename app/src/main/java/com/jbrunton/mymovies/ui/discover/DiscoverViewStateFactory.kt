@@ -11,17 +11,26 @@ import com.jbrunton.mymovies.ui.shared.toLoadingViewState
 
 class DiscoverViewStateFactory {
     companion object {
-        fun from(
+        fun map(
                 nowPlaying: AsyncResult<List<Movie>>,
                 popular: AsyncResult<List<Movie>>,
                 genres: AsyncResult<List<Genre>>
-        ): LoadingViewState<DiscoverViewState> {
+        ): AsyncResult<DiscoverViewState> {
             return AsyncResult.zip(
                     convertList(nowPlaying),
                     convertList(popular),
                     genres.handleNetworkErrors(),
                     ::DiscoverViewState
-            ).toLoadingViewState(DiscoverViewState.Empty)
+            )
+        }
+
+        fun from(
+                nowPlaying: AsyncResult<List<Movie>>,
+                popular: AsyncResult<List<Movie>>,
+                genres: AsyncResult<List<Genre>>
+        ): LoadingViewState<DiscoverViewState> {
+            return map(nowPlaying, popular, genres)
+                    .toLoadingViewState(DiscoverViewState.Empty)
         }
 
         private fun convertList(result: AsyncResult<List<Movie>>) =
