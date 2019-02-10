@@ -26,6 +26,7 @@ class SearchViewModelTest {
     var schedulerRule = TestSchedulerRule()
 
     private lateinit var repository: MoviesRepository
+    private lateinit var useCase: SearchUseCase
     private lateinit var preferences: ApplicationPreferences
     private val movieFactory = MovieFactory()
     private val MOVIE = movieFactory.create()
@@ -40,8 +41,9 @@ class SearchViewModelTest {
     @Before
     fun setUp() {
         repository = Mockito.mock(MoviesRepository::class.java)
+        useCase = SearchUseCase(repository)
         preferences = Mockito.mock(ApplicationPreferences::class.java)
-        viewModel = SearchViewModel(repository)
+        viewModel = SearchViewModel(useCase)
         RepositoryFixtures.stubSearch(repository, "Star").toReturnDelayed(listOf(MOVIE), 1)
     }
 
