@@ -9,7 +9,6 @@ import com.jbrunton.inject.injectViewModel
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.helpers.observe
 import com.jbrunton.mymovies.ui.shared.BaseFragment
-import com.jbrunton.mymovies.ui.shared.LoadingViewState
 import com.jbrunton.mymovies.ui.shared.onTextChanged
 import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.android.synthetic.main.layout_loading_state.*
@@ -33,14 +32,10 @@ class SearchFragment : BaseFragment<SearchViewModel>() {
     }
 
     override fun onObserveData() {
-        viewModel.viewState.observe(viewLifecycleOwner, this::updateView)
+        viewModel.viewState.observe(viewLifecycleOwner, layoutManager::updateView)
     }
 
     private fun performSearch() {
         viewModel.performSearch(search_query.text.toString())
-    }
-
-    fun updateView(viewState: LoadingViewState<SearchViewState>) {
-        layoutManager.updateView(viewState)
     }
 }
