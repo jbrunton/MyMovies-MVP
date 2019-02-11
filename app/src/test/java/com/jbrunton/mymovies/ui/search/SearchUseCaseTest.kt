@@ -5,6 +5,7 @@ import com.jbrunton.entities.repositories.MoviesRepository
 import com.jbrunton.fixtures.MovieFactory
 import com.jbrunton.mymovies.fixtures.RepositoryFixtures
 import com.jbrunton.mymovies.fixtures.TestSchedulerRule
+import com.jbrunton.mymovies.ui.search.SearchViewStateFactory.Companion.EmptyState
 import com.jbrunton.mymovies.ui.shared.LoadingViewState
 import io.reactivex.observers.TestObserver
 import io.reactivex.subjects.PublishSubject
@@ -42,7 +43,7 @@ class SearchUseCaseTest {
     @Test
     fun startsWithEmptyState() {
         startUseCase()
-        observer.assertValue(SearchViewStateFactory.EmptyState)
+        observer.assertValue(EmptyState)
     }
 
     @Test
@@ -52,7 +53,7 @@ class SearchUseCaseTest {
         queries.onNext("")
 
         schedulerRule.TEST_SCHEDULER.triggerActions()
-        observer.assertValues(SearchViewStateFactory.EmptyState, SearchViewStateFactory.EmptyState)
+        observer.assertValues(EmptyState, EmptyState)
     }
 
     @Test
@@ -62,7 +63,7 @@ class SearchUseCaseTest {
         queries.onNext("Star")
 
         schedulerRule.TEST_SCHEDULER.advanceTimeBy(1, TimeUnit.SECONDS)
-        observer.assertValues(SearchViewStateFactory.EmptyState, SUCCESS_VIEW_STATE)
+        observer.assertValues(EmptyState, SUCCESS_VIEW_STATE)
     }
 
     private fun startUseCase() {
