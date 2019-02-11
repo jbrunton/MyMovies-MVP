@@ -1,6 +1,11 @@
 package com.jbrunton.mymovies.ui.search
 
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.ProgressBar
+import androidx.fragment.app.Fragment
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
@@ -20,7 +25,7 @@ import org.junit.runner.RunWith
 
 
 @RunWith(AndroidJUnit4::class)
-class SearchFragmentLayoutTests : BaseFragmentTest<SearchFragment>() {
+class SearchFragmentLayoutTest : BaseFragmentTest<SearchFragmentLayoutTest.TestFragment>() {
     val MOVIE_FACTORY = MovieFactory()
     val MOVIE1 = MOVIE_FACTORY.create()
     val MOVIE2 = MOVIE_FACTORY.create()
@@ -79,11 +84,28 @@ class SearchFragmentLayoutTests : BaseFragmentTest<SearchFragment>() {
                 .check(matches(hasDescendant(withText(MOVIE2.title))))
     }
 
-    override fun createFragmentTestRule(): FragmentTestRule<*, SearchFragment> {
-        return FragmentTestRule.create(SearchFragment::class.java)
+    override fun createFragmentTestRule(): FragmentTestRule<*, TestFragment> {
+        return FragmentTestRule.create(TestFragment::class.java)
     }
 
     private fun setViewState(viewState: LoadingViewState<SearchViewState>) {
         fragmentRule.runOnUiThread { fragment.updateView(viewState) }
+    }
+
+    class TestFragment: Fragment() {
+        lateinit var layoutManager: SearchFragment.LayoutManager
+
+        override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+            return inflater.inflate(R.layout.fragment_search, container, false)
+        }
+
+        override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+            super.onViewCreated(view, savedInstanceState)
+            layoutManager = SearchFragment.LayoutManager(view)
+        }
+
+        fun updateView(viewState: LoadingViewState<SearchViewState>) {
+            layoutManager.updateView(viewState)
+        }
     }
 }
