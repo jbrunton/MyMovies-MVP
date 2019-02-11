@@ -25,7 +25,7 @@ class SearchFragment : BaseFragment<SearchViewModel>() {
 
     override fun onCreateLayout() {
         (activity as AppCompatActivity).setSupportActionBar(toolbar)
-        layoutManager = LayoutManager(view!!)
+        layoutManager = LayoutManager()
     }
 
     override fun onBindListeners() {
@@ -45,13 +45,15 @@ class SearchFragment : BaseFragment<SearchViewModel>() {
         layoutManager.updateView(viewState)
     }
 
-    class LayoutManager(containerView: View):
-            BaseLoadingLayoutManager<SearchViewState>(containerView, containerView.findViewById(R.id.movies_list))
+    class LayoutManager: BaseLoadingLayoutManager<SearchViewState>()
     {
         override val layout: Int = R.layout.fragment_search
-        private val searchResultsAdapter: SearchResultsAdapter
+        override val contentView: View get() = movies_list
+        private lateinit var searchResultsAdapter: SearchResultsAdapter
 
-        init {
+        override fun bind(view: View) {
+            super.bind(view)
+
             val context = containerView.context
             movies_list.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
 

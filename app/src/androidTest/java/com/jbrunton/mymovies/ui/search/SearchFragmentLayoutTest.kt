@@ -1,6 +1,5 @@
 package com.jbrunton.mymovies.ui.search
 
-import android.view.View
 import android.widget.ProgressBar
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
@@ -90,6 +89,6 @@ class SearchFragmentLayoutTest : BaseFragmentTest<SearchFragmentLayoutTest.TestF
     }
 
     class TestFragment: LayoutTestFragment<LoadingViewState<SearchViewState>>() {
-        override fun createLayoutManager(view: View) = SearchFragment.LayoutManager(view)
+        override fun createLayoutManager() = SearchFragment.LayoutManager()
     }
 }
