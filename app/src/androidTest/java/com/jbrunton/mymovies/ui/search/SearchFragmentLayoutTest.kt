@@ -89,6 +89,6 @@ class SearchFragmentLayoutTest : BaseFragmentTest<SearchFragmentLayoutTest.TestF
     }
 
     class TestFragment: LayoutTestFragment<LoadingViewState<SearchViewState>>() {
-        override fun createLayoutManager() = SearchFragment.LayoutManager()
+        override fun createLayoutManager() = SearchLayoutManager()
     }
 }
