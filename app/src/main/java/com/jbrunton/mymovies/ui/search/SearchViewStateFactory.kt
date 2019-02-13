@@ -1,6 +1,7 @@
 package com.jbrunton.mymovies.ui.search
 
 import com.jbrunton.async.AsyncResult
+import com.jbrunton.async.AsyncResult.Companion.failure
 import com.jbrunton.async.map
 import com.jbrunton.async.onSuccess
 import com.jbrunton.entities.models.Movie
@@ -9,12 +10,15 @@ import com.jbrunton.mymovies.ui.shared.LoadingViewState
 import com.jbrunton.mymovies.ui.shared.LoadingViewStateError
 import com.jbrunton.mymovies.ui.shared.handleNetworkErrors
 import com.jbrunton.mymovies.ui.shared.toLoadingViewState
+import com.jbrunton.usecases.SearchState
 
 class SearchViewStateFactory {
     companion object {
         val NoResultsError = buildError("No Results")
         val EmptyStateError = buildError("Search")
         val EmptyState = AsyncResult.Failure<SearchViewState>(EmptyStateError)
+                .toLoadingViewState(SearchViewState.Empty)
+        val NoResultsState = AsyncResult.Failure<SearchViewState>(NoResultsError)
                 .toLoadingViewState(SearchViewState.Empty)
 
         fun map(result: AsyncResult<List<Movie>>): AsyncResult<SearchViewState> {
@@ -26,6 +30,20 @@ class SearchViewStateFactory {
 
         fun from(result: AsyncResult<List<Movie>>): LoadingViewState<SearchViewState> {
             return map(result).toLoadingViewState(SearchViewState.Empty)
+        }
+
+        fun fromState(result: AsyncResult<SearchState>): LoadingViewState<SearchViewState> {
+            return result
+                    .onSuccess {
+                        val state = it.value
+                        when (state) {
+                            is SearchState.EmptyQuery -> failure<SearchState>(EmptyStateError)
+                            is SearchState.NoResults -> failure<SearchState>(NoResultsError)
+                            is SearchState.Some -> it
+                        }
+                    }.map {
+                        SearchViewState.from((it as SearchState.Some).movies)
+                    }.toLoadingViewState(SearchViewState.Empty)
         }
 
         private fun errorIfEmpty(result: AsyncResult.Success<SearchViewState>): AsyncResult<SearchViewState> {
@@ -41,3 +59,4 @@ class SearchViewStateFactory {
         }
     }
 }
+
