@@ -4,10 +4,7 @@ import com.jbrunton.async.AsyncResult
 import com.jbrunton.async.onError
 import java.io.IOException
 
-data class LoadingViewStateError(
-        override val message: String,
-        val errorIcon: Int = 0,
-        val allowRetry: Boolean) : RuntimeException(message)
+data class NetworkError(val allowRetry: Boolean) : RuntimeException()
 
 fun<T> AsyncResult<T>.onNetworkError(errorHandler: (AsyncResult.Failure<T>) -> AsyncResult<T>): AsyncResult<T> {
     return this.onError(IOException::class) {
@@ -25,8 +22,4 @@ fun <T> AsyncResult<T>.handleNetworkErrors(allowRetry: Boolean = true): AsyncRes
     }
 }
 
-fun networkError(allowRetry: Boolean = true) = LoadingViewStateError(
-        message = "There was a problem with your connection.",
-        //errorIcon = R.drawable.ic_sentiment_dissatisfied_black_24dp,
-        allowRetry = allowRetry
-)
+fun networkError(allowRetry: Boolean = true) = NetworkError(allowRetry)

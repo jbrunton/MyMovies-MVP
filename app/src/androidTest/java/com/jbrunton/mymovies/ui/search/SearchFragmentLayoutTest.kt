@@ -14,7 +14,6 @@ import com.jbrunton.mymovies.fixtures.LayoutTestFragment
 import com.jbrunton.mymovies.fixtures.ProgressBarViewActions
 import com.jbrunton.mymovies.fixtures.RecyclerViewUtils.withRecyclerView
 import com.jbrunton.mymovies.ui.shared.LoadingViewState
-import com.jbrunton.mymovies.ui.shared.LoadingViewStateError
 import com.jbrunton.mymovies.ui.shared.toLoadingViewState
 import org.junit.Test
 import org.junit.runner.RunWith

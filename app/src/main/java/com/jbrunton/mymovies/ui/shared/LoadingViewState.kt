@@ -3,6 +3,7 @@ package com.jbrunton.mymovies.ui.shared
 import android.view.View
 import androidx.annotation.DrawableRes
 import com.jbrunton.async.*
+import com.jbrunton.usecases.NetworkError
 
 data class LoadingViewState<T>(
         val contentVisibility: Int = View.GONE,
@@ -32,14 +33,11 @@ data class LoadingViewState<T>(
                 contentViewState = emptyState
         )
 
-        fun <T> failure(result: AsyncResult.Failure<LoadingViewState<T>>, emptyState: T) =
-                failure(result.error as LoadingViewStateError, emptyState)
-
         fun <T> failure(error: Throwable, emptyState: T) =
-                if (error is LoadingViewStateError) {
-                    failure(error, emptyState)
-                } else {
-                    throw error
+                when (error) {
+                    is LoadingViewStateError -> failure(error, emptyState)
+                    is NetworkError -> failure(error.toLoadingViewStateError(), emptyState)
+                    else -> throw error
                 }
     }
 }
@@ -52,8 +50,12 @@ fun <T> AsyncResult<T>.toLoadingViewState(emptyState: T): LoadingViewState<T> {
             .onFailure {
                 it.useCachedValue()
             }
+            .onError(NetworkError::class) {
+                use { LoadingViewState.failure(it.error, emptyState) }
+            }
             .onError(LoadingViewStateError::class) {
-                use { LoadingViewState.failure(it, emptyState) }
+                use { LoadingViewState.failure(it.error, emptyState) }
             }
             .get()
 }
+
