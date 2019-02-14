@@ -34,6 +34,13 @@ data class LoadingViewState<T>(
 
         fun <T> failure(result: AsyncResult.Failure<LoadingViewState<T>>, emptyState: T) =
                 failure(result.error as LoadingViewStateError, emptyState)
+
+        fun <T> failure(error: Throwable, emptyState: T) =
+                if (error is LoadingViewStateError) {
+                    failure(error, emptyState)
+                } else {
+                    throw error
+                }
     }
 }
 

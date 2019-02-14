@@ -1,9 +1,9 @@
 package com.jbrunton.mymovies.ui.search
 
-import com.jbrunton.async.AsyncResult
+import com.jbrunton.async.*
 import com.jbrunton.async.AsyncResult.Companion.failure
-import com.jbrunton.async.map
-import com.jbrunton.async.onSuccess
+import com.jbrunton.async.AsyncResult.Companion.loading
+import com.jbrunton.async.AsyncResult.Companion.success
 import com.jbrunton.entities.models.Movie
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.ui.shared.LoadingViewState
@@ -21,36 +21,13 @@ class SearchViewStateFactory {
         val NoResultsState = AsyncResult.Failure<SearchViewState>(NoResultsError)
                 .toLoadingViewState(SearchViewState.Empty)
 
-        fun map(result: AsyncResult<List<Movie>>): AsyncResult<SearchViewState> {
-            return result
-                    .map(SearchViewState.Companion::from)
-                    .handleNetworkErrors()
-                    .onSuccess(this::errorIfEmpty)
-        }
-
-        fun from(result: AsyncResult<List<Movie>>): LoadingViewState<SearchViewState> {
-            return map(result).toLoadingViewState(SearchViewState.Empty)
-        }
-
-        fun fromState(result: AsyncResult<SearchState>): LoadingViewState<SearchViewState> {
-            return result
-                    .onSuccess {
-                        val state = it.value
-                        when (state) {
-                            is SearchState.EmptyQuery -> failure<SearchState>(EmptyStateError)
-                            is SearchState.NoResults -> failure<SearchState>(NoResultsError)
-                            is SearchState.Some -> it
-                        }
-                    }.map {
-                        SearchViewState.from((it as SearchState.Some).movies)
-                    }.toLoadingViewState(SearchViewState.Empty)
-        }
-
-        private fun errorIfEmpty(result: AsyncResult.Success<SearchViewState>): AsyncResult<SearchViewState> {
-            return if (result.value.results.isEmpty()) {
-                AsyncResult.failure(NoResultsError)
-            } else {
-                result
+        fun from(state: SearchState): LoadingViewState<SearchViewState> {
+            return when (state) {
+                is SearchState.Some -> LoadingViewState.success(SearchViewState.from(state.movies))
+                is SearchState.Loading -> LoadingViewState.loading(SearchViewState.Empty)
+                is SearchState.NoResults -> NoResultsState
+                is SearchState.EmptyQuery -> EmptyState
+                is SearchState.Failure -> LoadingViewState.failure(state.error, SearchViewState.Empty)
             }
         }
 
@@ -59,4 +36,3 @@ class SearchViewStateFactory {
         }
     }
 }
-

@@ -9,7 +9,7 @@ open class SearchViewModel(val useCase: Search) : BaseLoadingViewModel<SearchVie
 
     override fun start() {
         subscribe(useCase.reduce(searches)) {
-            viewState.postValue(SearchViewStateFactory.fromState(it))
+            viewState.postValue(SearchViewStateFactory.from(it))
         }
     }
 
