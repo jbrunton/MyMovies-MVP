@@ -10,13 +10,5 @@ data class SearchViewState(val results: List<MovieSearchResultViewState>) {
         fun from(movies: List<Movie>): SearchViewState {
             return SearchViewState(movies.map(::MovieSearchResultViewState))
         }
-
-//        fun from(state: SearchState): SearchViewState {
-//            return when (state) {
-//                is SearchState.EmptyQuery -> AsyncResult.failure(SearchViewStateFactory.EmptyStateError)
-//                is SearchState.NoResults -> AsyncResult.failure(SearchViewStateFactory.NoResultsError)
-//                is SearchState.Some -> AsyncResult.success(from(state.movies))
-//            }
-//        }
     }
 }
