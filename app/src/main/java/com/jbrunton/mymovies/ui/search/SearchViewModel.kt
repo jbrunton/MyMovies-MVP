@@ -1,7 +1,7 @@
 package com.jbrunton.mymovies.ui.search
 
 import com.jbrunton.mymovies.ui.shared.BaseLoadingViewModel
-import com.jbrunton.usecases.search.SearchUseCase
+import com.jbrunton.mymovies.usecases.search.SearchUseCase
 import io.reactivex.subjects.PublishSubject
 
 open class SearchViewModel(val useCase: SearchUseCase) : BaseLoadingViewModel<SearchViewState>() {

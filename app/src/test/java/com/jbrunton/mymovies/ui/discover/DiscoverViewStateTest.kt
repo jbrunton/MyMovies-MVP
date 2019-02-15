@@ -3,7 +3,7 @@ package com.jbrunton.mymovies.ui.discover
 import com.jbrunton.async.AsyncResult
 import com.jbrunton.entities.models.Genre
 import com.jbrunton.entities.models.Movie
-import com.jbrunton.fixtures.MovieFactory
+import com.jbrunton.mymovies.fixtures.MovieFactory
 import com.jbrunton.mymovies.ui.movies.MovieSearchResultViewState
 import com.jbrunton.mymovies.ui.shared.networkError
 import org.assertj.core.api.Assertions

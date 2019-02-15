@@ -1,7 +1,7 @@
 package com.jbrunton.mymovies.di
 
 import com.jbrunton.inject.module
-import com.jbrunton.usecases.SchedulerFactory
+import com.jbrunton.mymovies.usecases.SchedulerFactory
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.Dispatchers

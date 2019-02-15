@@ -6,7 +6,7 @@ import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.ui.shared.LoadingViewState
 import com.jbrunton.mymovies.ui.shared.LoadingViewStateError
 import com.jbrunton.mymovies.ui.shared.toLoadingViewState
-import com.jbrunton.usecases.search.SearchState
+import com.jbrunton.mymovies.usecases.search.SearchState
 
 class SearchViewStateFactory {
     companion object {

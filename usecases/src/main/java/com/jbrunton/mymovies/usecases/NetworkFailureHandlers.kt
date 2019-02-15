@@ -1,4 +1,4 @@
-package com.jbrunton.usecases
+package com.jbrunton.mymovies.usecases
 
 import com.jbrunton.async.AsyncResult
 import com.jbrunton.async.onError

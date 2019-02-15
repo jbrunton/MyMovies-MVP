@@ -10,7 +10,7 @@ import com.jbrunton.mymovies.ui.discover.GenreResultsViewModel
 import com.jbrunton.mymovies.ui.discover.GenresViewModel
 import com.jbrunton.mymovies.ui.moviedetails.MovieDetailsViewModel
 import com.jbrunton.mymovies.ui.search.SearchViewModel
-import com.jbrunton.usecases.search.SearchUseCase
+import com.jbrunton.mymovies.usecases.search.SearchUseCase
 
 val UiModule = module {
     single { ResultRouter() }

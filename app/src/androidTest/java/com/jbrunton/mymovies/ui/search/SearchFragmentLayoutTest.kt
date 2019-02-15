@@ -6,7 +6,7 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.runner.AndroidJUnit4
 import com.jbrunton.async.AsyncResult
-import com.jbrunton.fixtures.MovieFactory
+import com.jbrunton.mymovies.fixtures.MovieFactory
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.fixtures.BaseFragmentTest
 import com.jbrunton.mymovies.fixtures.FragmentTestRule

@@ -10,7 +10,7 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.rule.ActivityTestRule
 import com.jbrunton.async.AsyncResult
 import com.jbrunton.entities.repositories.MoviesRepository
-import com.jbrunton.fixtures.MovieFactory
+import com.jbrunton.mymovies.fixtures.MovieFactory
 import com.jbrunton.mymovies.R
 import com.jbrunton.inject.inject
 import com.jbrunton.mymovies.fixtures.*

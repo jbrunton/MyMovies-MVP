@@ -2,10 +2,9 @@ package com.jbrunton.mymovies.ui.moviedetails
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.jbrunton.async.AsyncResult
-import com.jbrunton.entities.models.Movie
 import com.jbrunton.entities.repositories.ApplicationPreferences
 import com.jbrunton.entities.repositories.MoviesRepository
-import com.jbrunton.fixtures.MovieFactory
+import com.jbrunton.mymovies.fixtures.MovieFactory
 import com.jbrunton.mymovies.fixtures.RepositoryFixtures.stubFind
 import com.jbrunton.mymovies.fixtures.TestSchedulerRule
 import com.jbrunton.mymovies.ui.movies.MovieViewState

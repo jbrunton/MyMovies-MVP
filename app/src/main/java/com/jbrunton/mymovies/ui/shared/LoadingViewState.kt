@@ -3,7 +3,7 @@ package com.jbrunton.mymovies.ui.shared
 import android.view.View
 import androidx.annotation.DrawableRes
 import com.jbrunton.async.*
-import com.jbrunton.usecases.NetworkError
+import com.jbrunton.mymovies.usecases.NetworkError
 
 data class LoadingViewState<T>(
         val contentVisibility: Int = View.GONE,

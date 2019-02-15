@@ -2,7 +2,7 @@ package com.jbrunton.mymovies.ui.search
 
 import com.jbrunton.async.AsyncResult
 import com.jbrunton.entities.models.Movie
-import com.jbrunton.fixtures.MovieFactory
+import com.jbrunton.mymovies.fixtures.MovieFactory
 import com.jbrunton.mymovies.ui.shared.networkError
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test

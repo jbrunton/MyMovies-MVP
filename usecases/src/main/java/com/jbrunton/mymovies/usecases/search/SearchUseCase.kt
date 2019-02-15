@@ -1,9 +1,9 @@
-package com.jbrunton.usecases.search
+package com.jbrunton.mymovies.usecases.search
 
 import com.jbrunton.async.AsyncResult
 import com.jbrunton.entities.repositories.DataStream
 import com.jbrunton.entities.repositories.MoviesRepository
-import com.jbrunton.usecases.SchedulerFactory
+import com.jbrunton.mymovies.usecases.SchedulerFactory
 import io.reactivex.Observable
 
 class SearchUseCase(

@@ -4,7 +4,7 @@ import com.jbrunton.entities.repositories.MoviesRepository
 import com.jbrunton.mymovies.ui.search.SearchViewState
 import com.jbrunton.mymovies.ui.search.SearchViewStateFactory
 import com.jbrunton.mymovies.ui.shared.BaseLoadingViewModel
-import com.jbrunton.usecases.search.SearchState
+import com.jbrunton.mymovies.usecases.search.SearchState
 
 class FavoritesViewModel(val moviesRepository: MoviesRepository) : BaseLoadingViewModel<SearchViewState>() {
     override fun start() {

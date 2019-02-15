@@ -1,9 +1,9 @@
-package com.jbrunton.usecases
+package com.jbrunton.mymovies.usecases
 
 import io.reactivex.ObservableTransformer
 import io.reactivex.Scheduler
 
-class SchedulerFactory(
+open class SchedulerFactory(
     val Main: Scheduler,
     val IO: Scheduler
 ) {

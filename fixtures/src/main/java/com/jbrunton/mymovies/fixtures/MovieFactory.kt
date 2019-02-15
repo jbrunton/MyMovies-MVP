@@ -1,4 +1,4 @@
-package com.jbrunton.fixtures
+package com.jbrunton.mymovies.fixtures
 
 import com.google.common.base.Optional
 import com.jbrunton.entities.models.Movie
