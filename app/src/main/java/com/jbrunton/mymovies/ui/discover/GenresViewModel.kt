@@ -6,8 +6,8 @@ import com.jbrunton.entities.models.Genre
 import com.jbrunton.entities.repositories.GenresRepository
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.ui.shared.BaseLoadingViewModel
-import com.jbrunton.mymovies.ui.shared.handleNetworkErrors
 import com.jbrunton.mymovies.ui.shared.toLoadingViewState
+import com.jbrunton.mymovies.usecases.handleNetworkErrors
 
 class GenresViewModel(private val repository: GenresRepository) : BaseLoadingViewModel<GenresViewState>() {
     override fun start() {

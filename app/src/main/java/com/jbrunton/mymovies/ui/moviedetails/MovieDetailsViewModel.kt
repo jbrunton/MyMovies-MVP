@@ -9,8 +9,8 @@ import com.jbrunton.entities.repositories.MoviesRepository
 import com.jbrunton.mymovies.ui.movies.MovieViewState
 import com.jbrunton.mymovies.ui.shared.BaseLoadingViewModel
 import com.jbrunton.mymovies.ui.shared.SnackbarMessage
-import com.jbrunton.mymovies.ui.shared.handleNetworkErrors
 import com.jbrunton.mymovies.ui.shared.toLoadingViewState
+import com.jbrunton.mymovies.usecases.handleNetworkErrors
 
 class MovieDetailsViewModel(
         val movieId: String,

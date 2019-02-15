@@ -8,8 +8,8 @@ import com.jbrunton.entities.repositories.AccountRepository
 import com.jbrunton.mymovies.nav.Navigator
 import com.jbrunton.mymovies.ui.shared.BaseLoadingViewModel
 import com.jbrunton.mymovies.ui.shared.LoadingViewState
-import com.jbrunton.mymovies.ui.shared.handleNetworkErrors
 import com.jbrunton.mymovies.ui.shared.toLoadingViewState
+import com.jbrunton.mymovies.usecases.handleNetworkErrors
 import retrofit2.HttpException
 
 class AccountViewModel(private val repository: AccountRepository) : BaseLoadingViewModel<AccountViewState>() {

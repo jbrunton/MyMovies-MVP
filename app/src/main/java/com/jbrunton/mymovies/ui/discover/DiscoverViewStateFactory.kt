@@ -6,8 +6,8 @@ import com.jbrunton.entities.models.Genre
 import com.jbrunton.entities.models.Movie
 import com.jbrunton.mymovies.ui.movies.MovieSearchResultViewState
 import com.jbrunton.mymovies.ui.shared.LoadingViewState
-import com.jbrunton.mymovies.ui.shared.handleNetworkErrors
 import com.jbrunton.mymovies.ui.shared.toLoadingViewState
+import com.jbrunton.mymovies.usecases.handleNetworkErrors
 
 class DiscoverViewStateFactory {
     companion object {
