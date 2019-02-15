@@ -2,4 +2,4 @@
 
 set -e
 
-./gradlew entities:test networking:test usecases:test testDebug
+./gradlew entities:test networking:test app-usecases:test testDebug
