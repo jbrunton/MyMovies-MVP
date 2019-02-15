@@ -5,7 +5,7 @@ import com.jbrunton.entities.models.Movie
 import com.jbrunton.entities.repositories.MoviesRepository
 import com.jbrunton.mymovies.fixtures.InstantSchedulerFactory
 import com.jbrunton.mymovies.fixtures.MovieFactory
-import com.nhaarman.mockito_kotlin.whenever
+import com.nhaarman.mockitokotlin2.whenever
 import io.reactivex.Observable
 import io.reactivex.observers.TestObserver
 import io.reactivex.subjects.PublishSubject

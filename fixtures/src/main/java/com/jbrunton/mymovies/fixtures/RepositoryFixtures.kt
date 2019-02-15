@@ -3,7 +3,7 @@ package com.jbrunton.mymovies.fixtures
 import com.jbrunton.async.AsyncResult
 import com.jbrunton.entities.models.Movie
 import com.jbrunton.entities.repositories.MoviesRepository
-import com.nhaarman.mockito_kotlin.whenever
+import com.nhaarman.mockitokotlin2.whenever
 import io.reactivex.Observable
 import java.util.concurrent.TimeUnit
 

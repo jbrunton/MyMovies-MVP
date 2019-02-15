@@ -9,7 +9,7 @@ import com.jbrunton.mymovies.fixtures.RepositoryFixtures.stubFind
 import com.jbrunton.mymovies.fixtures.TestSchedulerRule
 import com.jbrunton.mymovies.ui.movies.MovieViewState
 import com.jbrunton.mymovies.ui.shared.LoadingViewState
-import com.jbrunton.mymovies.ui.shared.networkError
+import com.jbrunton.mymovies.usecases.networkError
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Rule

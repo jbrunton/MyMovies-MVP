@@ -5,7 +5,7 @@ import com.jbrunton.entities.models.Genre
 import com.jbrunton.entities.models.Movie
 import com.jbrunton.mymovies.fixtures.MovieFactory
 import com.jbrunton.mymovies.ui.movies.MovieSearchResultViewState
-import com.jbrunton.mymovies.ui.shared.networkError
+import com.jbrunton.mymovies.usecases.networkError
 import org.assertj.core.api.Assertions
 import org.junit.Test
 import java.io.IOException
