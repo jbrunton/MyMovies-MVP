@@ -1,13 +1,11 @@
 package com.jbrunton.mymovies.ui.search
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.jbrunton.async.AsyncResult
 import com.jbrunton.entities.models.Movie
 import com.jbrunton.entities.repositories.MoviesRepository
 import com.jbrunton.fixtures.MovieFactory
 import com.jbrunton.mymovies.fixtures.InstantSchedulerRule
-import com.jbrunton.mymovies.ui.search.SearchViewStateFactory.Companion.EmptyState
-import com.jbrunton.mymovies.ui.shared.LoadingViewState
+import com.jbrunton.mymovies.usecases.search.SearchState
 import com.jbrunton.mymovies.usecases.search.SearchUseCase
 import com.nhaarman.mockito_kotlin.whenever
 import io.reactivex.Observable
@@ -19,15 +17,11 @@ import org.junit.Test
 import org.mockito.Mockito
 
 class SearchUseCaseTest {
-    @get:Rule
-    var instantExecutorRule = InstantTaskExecutorRule()
-
-    @get:Rule
-    var schedulerRule = InstantSchedulerRule()
+    @get:Rule var schedulerRule = InstantSchedulerRule()
 
     private lateinit var repository: MoviesRepository
     private lateinit var useCase: SearchUseCase
-    private lateinit var observer: TestObserver<LoadingViewState<SearchViewState>>
+    private lateinit var observer: TestObserver<AsyncResult<SearchState>>
     private lateinit var searches: PublishSubject<String>
 
     private val movieFactory = MovieFactory()
@@ -36,8 +30,9 @@ class SearchUseCaseTest {
     private val LOADING_RESULT = AsyncResult.loading<List<Movie>>(null)
     private val SUCCESS_RESULT = AsyncResult.success(listOf(MOVIE))
 
-    private val LOADING_VIEW_STATE = SearchViewStateFactory.from(LOADING_RESULT)
-    private val SUCCESS_VIEW_STATE = SearchViewStateFactory.from(SUCCESS_RESULT)
+    private val EMPTY_QUERY_STATE = AsyncResult.success(SearchState.EmptyQuery)
+    private val LOADING_STATE = AsyncResult.loading(null)
+    private val SUCCESS_STATE = AsyncResult.success(SearchState.Some(listOf(MOVIE)))
 
     @Before
     fun setUp() {
@@ -48,23 +43,23 @@ class SearchUseCaseTest {
                 .thenReturn(Observable.just(LOADING_RESULT, SUCCESS_RESULT))
 
         searches = PublishSubject.create()
-        observer = useCase.start(searches).test()
+        observer = useCase.reduce(searches).test()
     }
 
     @Test
     fun startsWithEmptyState() {
-        observer.assertValue(EmptyState)
+        observer.assertValue(EMPTY_QUERY_STATE)
     }
 
     @Test
     fun showsEmptyStateForEmptyQuery() {
         searches.onNext("")
-        observer.assertValues(EmptyState, EmptyState)
+        observer.assertValues(EMPTY_QUERY_STATE, EMPTY_QUERY_STATE)
     }
 
     @Test
     fun searchesForQuery() {
         searches.onNext("Star")
-        observer.assertValues(EmptyState, LOADING_VIEW_STATE, SUCCESS_VIEW_STATE)
+        observer.assertValues(EMPTY_QUERY_STATE, LOADING_STATE, SUCCESS_STATE)
     }
 }

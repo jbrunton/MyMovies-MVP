@@ -1,43 +1,45 @@
 package com.jbrunton.mymovies.ui.search
 
 import com.jbrunton.async.AsyncResult
-import com.jbrunton.entities.models.Movie
 import com.jbrunton.fixtures.MovieFactory
-import com.jbrunton.mymovies.ui.shared.networkError
+import com.jbrunton.mymovies.ui.shared.toLoadingViewState
+import com.jbrunton.mymovies.usecases.search.SearchState
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
-import java.io.IOException
 
 class SearchViewStateTest {
     val movie = MovieFactory().create()
 
     @Test
     fun handlesSuccess() {
-        val success = AsyncResult.success(listOf(movie))
+        val success = AsyncResult.success(SearchState.Some(listOf(movie)))
 
-        val result = SearchViewStateFactory.map(success)
+        val result = SearchViewStateFactory.from(success)
 
         val expected = AsyncResult.success(SearchViewState.from(listOf(movie)))
+                .toLoadingViewState(SearchViewState.Empty)
         assertThat(result).isEqualTo(expected)
     }
 
     @Test
-    fun handlesEmptyList() {
-        val empty = AsyncResult.success(emptyList<Movie>())
+    fun handlesNoResults() {
+        val failure = AsyncResult.success(SearchState.NoResults)
 
-        val result = SearchViewStateFactory.map(empty)
+        val result = SearchViewStateFactory.from(failure)
 
         val expected = AsyncResult.failure<SearchViewState>(SearchViewStateFactory.NoResultsError)
+                .toLoadingViewState(SearchViewState.Empty)
         assertThat(result).isEqualTo(expected)
     }
 
     @Test
-    fun handlesNetworkErrors() {
-        val failure = AsyncResult.failure<List<Movie>>(IOException())
+    fun handlesEmptyQuery() {
+        val failure = AsyncResult.success(SearchState.EmptyQuery)
 
-        val result = SearchViewStateFactory.map(failure)
+        val result = SearchViewStateFactory.from(failure)
 
-        val expected = AsyncResult.failure<SearchViewState>(networkError())
+        val expected = AsyncResult.failure<SearchViewState>(SearchViewStateFactory.EmptyStateError)
+                .toLoadingViewState(SearchViewState.Empty)
         assertThat(result).isEqualTo(expected)
     }
 }
