@@ -10,9 +10,9 @@ import com.jbrunton.fixtures.MovieFactory
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.fixtures.BaseFragmentTest
 import com.jbrunton.mymovies.fixtures.FragmentTestRule
-import com.jbrunton.mymovies.fixtures.ViewControllerTestFragment
 import com.jbrunton.mymovies.fixtures.ProgressBarViewActions
 import com.jbrunton.mymovies.fixtures.RecyclerViewUtils.withRecyclerView
+import com.jbrunton.mymovies.fixtures.ViewControllerTestFragment
 import com.jbrunton.mymovies.ui.shared.LoadingViewState
 import com.jbrunton.mymovies.ui.shared.LoadingViewStateError
 import com.jbrunton.mymovies.usecases.search.SearchState
@@ -21,7 +21,7 @@ import org.junit.runner.RunWith
 
 
 @RunWith(AndroidJUnit4::class)
-class SearchFragmentLayoutTest : BaseFragmentTest<SearchFragmentLayoutTest.TestFragment>() {
+class SearchViewControllerTest : BaseFragmentTest<SearchViewControllerTest.TestFragment>() {
     val MOVIE_FACTORY = MovieFactory()
     val MOVIE1 = MOVIE_FACTORY.create()
     val MOVIE2 = MOVIE_FACTORY.create()
