@@ -1,4 +1,4 @@
-package com.jbrunton.mymovies.ui.discover
+package com.jbrunton.mymovies.ui.movies
 
 import android.view.View
 import com.jbrunton.mymovies.R
@@ -7,8 +7,8 @@ import com.jbrunton.mymovies.ui.search.SearchViewState
 import com.jbrunton.mymovies.ui.shared.BaseLoadingViewController
 import kotlinx.android.synthetic.main.activity_genre_results.*
 
-class GenreResultsViewController : BaseLoadingViewController<SearchViewState>() {
-    override val layout = R.layout.activity_genre_results
+class MoviesListViewController : BaseLoadingViewController<SearchViewState>() {
+    override val layout = R.layout.activity_favorites
     override val contentView: View get() = movies_list
     private lateinit var moviesAdapter: SearchResultsAdapter
 

@@ -4,14 +4,13 @@ import com.jbrunton.inject.injectViewModel
 import com.jbrunton.inject.parametersOf
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.helpers.observe
-import com.jbrunton.mymovies.ui.search.SearchResultsAdapter
+import com.jbrunton.mymovies.ui.movies.MoviesListViewController
 import com.jbrunton.mymovies.ui.shared.BaseActivity
 import kotlinx.android.synthetic.main.activity_genre_results.*
 import kotlinx.android.synthetic.main.layout_loading_state.*
 
 class GenreResultsActivity : BaseActivity<GenreResultsViewModel>() {
-    private lateinit var moviesAdapter: SearchResultsAdapter
-    private val viewController = GenreResultsViewController()
+    private val viewController = MoviesListViewController()
 
     override val viewModel: GenreResultsViewModel by injectViewModel { parametersOf(genreId(), genreName()) }
 
