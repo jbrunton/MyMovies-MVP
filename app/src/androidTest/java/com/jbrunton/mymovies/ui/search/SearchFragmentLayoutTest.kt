@@ -10,7 +10,7 @@ import com.jbrunton.fixtures.MovieFactory
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.fixtures.BaseFragmentTest
 import com.jbrunton.mymovies.fixtures.FragmentTestRule
-import com.jbrunton.mymovies.fixtures.LayoutTestFragment
+import com.jbrunton.mymovies.fixtures.LayoutControllerTestFragment
 import com.jbrunton.mymovies.fixtures.ProgressBarViewActions
 import com.jbrunton.mymovies.fixtures.RecyclerViewUtils.withRecyclerView
 import com.jbrunton.mymovies.ui.shared.LoadingViewState
@@ -85,7 +85,7 @@ class SearchFragmentLayoutTest : BaseFragmentTest<SearchFragmentLayoutTest.TestF
         fragmentRule.runOnUiThread { fragment.updateView(viewState) }
     }
 
-    class TestFragment: LayoutTestFragment<LoadingViewState<SearchViewState>>() {
+    class TestFragment: LayoutControllerTestFragment<LoadingViewState<SearchViewState>>() {
         override fun createLayoutManager() = SearchLayoutController()
     }
 }

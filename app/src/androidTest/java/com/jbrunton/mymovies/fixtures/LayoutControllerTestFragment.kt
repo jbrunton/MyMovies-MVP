@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.jbrunton.mymovies.ui.shared.LayoutController
 
-abstract class LayoutTestFragment<T>: Fragment() {
+abstract class LayoutControllerTestFragment<T>: Fragment() {
     lateinit var layoutController: LayoutController<T>
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
