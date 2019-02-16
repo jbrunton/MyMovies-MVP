@@ -15,7 +15,7 @@ import com.jbrunton.mymovies.fixtures.ProgressBarViewActions
 import com.jbrunton.mymovies.fixtures.RecyclerViewUtils.withRecyclerView
 import com.jbrunton.mymovies.ui.shared.LoadingViewState
 import com.jbrunton.mymovies.ui.shared.LoadingViewStateError
-import com.jbrunton.mymovies.ui.shared.toLoadingViewState
+import com.jbrunton.mymovies.usecases.search.SearchState
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -26,16 +26,13 @@ class SearchFragmentLayoutTest : BaseFragmentTest<SearchFragmentLayoutTest.TestF
     val MOVIE1 = MOVIE_FACTORY.create()
     val MOVIE2 = MOVIE_FACTORY.create()
 
-    val EMPTY_STATE = SearchViewStateFactory.EmptyState
-    val LOADING_STATE = AsyncResult.Loading<SearchViewState>()
-            .toLoadingViewState(SearchViewState.Empty)
+    val EMPTY_STATE = SearchViewStateFactory.from(AsyncResult.success(SearchState.EmptyQuery))
+    val LOADING_STATE = SearchViewStateFactory.from(AsyncResult.loading(null))
 
     val NETWORK_ERROR = LoadingViewStateError("Network Error", R.drawable.ic_error_outline_black_24dp, true)
-    val NETWORK_ERROR_STATE = AsyncResult.Failure<SearchViewState>(NETWORK_ERROR)
-            .toLoadingViewState(SearchViewState.Empty)
+    val NETWORK_ERROR_STATE = SearchViewStateFactory.from(AsyncResult.failure(NETWORK_ERROR))
 
-    val SUCCESS_STATE = AsyncResult.Success(SearchViewState.from(listOf(MOVIE1, MOVIE2)))
-            .toLoadingViewState(SearchViewState.Empty)
+    val SUCCESS_STATE = SearchViewStateFactory.from(AsyncResult.success(SearchState.Some(listOf(MOVIE1, MOVIE2))))
 
     @Test
     fun showsEmptySearchState() {
