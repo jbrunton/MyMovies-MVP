@@ -16,8 +16,8 @@ import com.jbrunton.mymovies.usecases.search.SearchUseCase
 val UiModule = module {
     single { ResultRouter() }
 
-    factory { SearchUseCase(get()) }
-    factory { com.jbrunton.mymovies.usecases.discover.DiscoverUseCase(get(), get()) }
+    factory { SearchUseCase(get(), get()) }
+    factory { DiscoverUseCase(get(), get()) }
 
     factory { SearchViewModel(get()) }
     factory { DiscoverViewModel(get()) }

@@ -1,14 +1,14 @@
 package com.jbrunton.mymovies.usecases.search
 
 import com.jbrunton.async.AsyncResult
+import com.jbrunton.entities.SchedulerFactory
 import com.jbrunton.entities.repositories.DataStream
 import com.jbrunton.entities.repositories.MoviesRepository
 import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 
 class SearchUseCase(
-        val repository: MoviesRepository
+        val repository: MoviesRepository,
+        val schedulerFactory: SchedulerFactory
 ) {
     fun reduce(queries: Observable<String>): DataStream<SearchState> {
         return queries
@@ -23,7 +23,6 @@ class SearchUseCase(
 
         return repository.searchMovies(query)
                 .map { SearchState.from(it) }
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .compose(schedulerFactory.apply())
     }
 }

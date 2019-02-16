@@ -3,20 +3,17 @@ package com.jbrunton.mymovies.usecases.search
 import com.jbrunton.async.AsyncResult
 import com.jbrunton.entities.models.Movie
 import com.jbrunton.entities.repositories.MoviesRepository
+import com.jbrunton.fixtures.ImmediateSchedulerFactory
 import com.jbrunton.fixtures.MovieFactory
-import com.jbrunton.mymovies.fixtures.InstantSchedulerRule
 import com.nhaarman.mockito_kotlin.whenever
 import io.reactivex.Observable
 import io.reactivex.observers.TestObserver
 import io.reactivex.subjects.PublishSubject
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mockito
 
 class SearchUseCaseTest {
-    @get:Rule var schedulerRule = InstantSchedulerRule()
-
     private lateinit var repository: MoviesRepository
     private lateinit var useCase: SearchUseCase
     private lateinit var observer: TestObserver<AsyncResult<SearchState>>
@@ -35,7 +32,7 @@ class SearchUseCaseTest {
     @Before
     fun setUp() {
         repository = Mockito.mock(MoviesRepository::class.java)
-        useCase = SearchUseCase(repository)
+        useCase = SearchUseCase(repository, ImmediateSchedulerFactory())
 
         whenever(repository.searchMovies("Star"))
                 .thenReturn(Observable.just(LOADING_RESULT, SUCCESS_RESULT))
