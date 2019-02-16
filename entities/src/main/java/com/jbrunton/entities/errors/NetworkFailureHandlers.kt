@@ -1,8 +1,7 @@
-package com.jbrunton.mymovies.ui.shared
+package com.jbrunton.entities.errors
 
 import com.jbrunton.async.AsyncResult
 import com.jbrunton.async.onError
-import com.jbrunton.mymovies.R
 import java.io.IOException
 
 fun<T> AsyncResult<T>.onNetworkError(errorHandler: (AsyncResult.Failure<T>) -> AsyncResult<T>): AsyncResult<T> {
@@ -21,8 +20,4 @@ fun <T> AsyncResult<T>.handleNetworkErrors(allowRetry: Boolean = true): AsyncRes
     }
 }
 
-fun networkError(allowRetry: Boolean = true) = LoadingViewStateError(
-        message = "There was a problem with your connection.",
-        errorIcon = R.drawable.ic_sentiment_dissatisfied_black_24dp,
-        allowRetry = allowRetry
-)
+fun networkError(allowRetry: Boolean = true) = NetworkError(allowRetry)

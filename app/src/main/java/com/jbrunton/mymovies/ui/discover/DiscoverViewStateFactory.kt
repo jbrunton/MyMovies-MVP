@@ -2,11 +2,11 @@ package com.jbrunton.mymovies.ui.discover
 
 import com.jbrunton.async.AsyncResult
 import com.jbrunton.async.map
+import com.jbrunton.entities.errors.handleNetworkErrors
 import com.jbrunton.entities.models.Genre
 import com.jbrunton.entities.models.Movie
 import com.jbrunton.mymovies.ui.movies.MovieSearchResultViewState
 import com.jbrunton.mymovies.ui.shared.LoadingViewState
-import com.jbrunton.mymovies.ui.shared.handleNetworkErrors
 import com.jbrunton.mymovies.ui.shared.toLoadingViewState
 
 class DiscoverViewStateFactory {

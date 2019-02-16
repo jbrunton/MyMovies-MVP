@@ -3,12 +3,12 @@ package com.jbrunton.mymovies.ui.account
 import com.jbrunton.async.AsyncResult
 import com.jbrunton.async.map
 import com.jbrunton.async.onError
+import com.jbrunton.entities.errors.handleNetworkErrors
 import com.jbrunton.entities.models.Account
 import com.jbrunton.entities.repositories.AccountRepository
 import com.jbrunton.mymovies.nav.Navigator
 import com.jbrunton.mymovies.ui.shared.BaseLoadingViewModel
 import com.jbrunton.mymovies.ui.shared.LoadingViewState
-import com.jbrunton.mymovies.ui.shared.handleNetworkErrors
 import com.jbrunton.mymovies.ui.shared.toLoadingViewState
 import retrofit2.HttpException
 

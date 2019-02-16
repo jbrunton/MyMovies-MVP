@@ -2,8 +2,8 @@ package com.jbrunton.mymovies.usecases.search
 
 import com.jbrunton.async.AsyncResult
 import com.jbrunton.async.map
+import com.jbrunton.entities.errors.handleNetworkErrors
 import com.jbrunton.entities.models.Movie
-import com.jbrunton.mymovies.ui.shared.handleNetworkErrors
 
 sealed class SearchState {
     object EmptyQuery : SearchState()
