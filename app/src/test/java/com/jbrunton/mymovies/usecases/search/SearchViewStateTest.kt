@@ -1,9 +1,10 @@
-package com.jbrunton.mymovies.ui.search
+package com.jbrunton.mymovies.usecases.search
 
 import com.jbrunton.async.AsyncResult
 import com.jbrunton.fixtures.MovieFactory
+import com.jbrunton.mymovies.ui.search.SearchViewState
+import com.jbrunton.mymovies.ui.search.SearchViewStateFactory
 import com.jbrunton.mymovies.ui.shared.toLoadingViewState
-import com.jbrunton.mymovies.usecases.search.SearchState
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 
