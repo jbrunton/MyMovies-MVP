@@ -5,24 +5,24 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.jbrunton.mymovies.ui.shared.LayoutManager
+import com.jbrunton.mymovies.ui.shared.LayoutController
 
 abstract class LayoutTestFragment<T>: Fragment() {
-    lateinit var layoutManager: LayoutManager<T>
+    lateinit var layoutController: LayoutController<T>
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        layoutManager = createLayoutManager()
-        return inflater.inflate(layoutManager.layout, container, false)
+        layoutController = createLayoutManager()
+        return inflater.inflate(layoutController.layout, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        layoutManager.bind(view)
+        layoutController.bind(view)
     }
 
     fun updateView(viewState: T) {
-        layoutManager.updateView(viewState)
+        layoutController.updateView(viewState)
     }
 
-    protected abstract fun createLayoutManager(): LayoutManager<T>
+    protected abstract fun createLayoutManager(): LayoutController<T>
 }

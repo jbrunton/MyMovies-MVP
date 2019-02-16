@@ -2,7 +2,7 @@ package com.jbrunton.mymovies.ui.shared
 
 import android.view.View
 
-abstract class BaseLoadingLayoutManager<T>: LayoutManager<LoadingViewState<T>> {
+abstract class BaseLoadingLayoutController<T>: LayoutController<LoadingViewState<T>> {
     lateinit var loadingLayoutManager: LoadingLayoutManager
     lateinit override var containerView: View
     abstract val contentView: View
