@@ -17,7 +17,7 @@ val UiModule = module {
     single { ResultRouter() }
 
     factory { SearchUseCase(get()) }
-    factory { DiscoverUseCase(get(), get()) }
+    factory { com.jbrunton.mymovies.usecases.discover.DiscoverUseCase(get(), get()) }
 
     factory { SearchViewModel(get()) }
     factory { DiscoverViewModel(get()) }
