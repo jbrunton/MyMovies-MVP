@@ -28,6 +28,7 @@ class FavoritesActivity : BaseActivity<FavoritesViewModel>() {
     }
 
     override fun onObserveData() {
+        super.onObserveData()
         viewModel.viewState.observe(this, layoutController::updateView)
     }
 }
