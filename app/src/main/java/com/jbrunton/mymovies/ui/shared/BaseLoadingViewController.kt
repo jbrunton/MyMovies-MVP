@@ -4,7 +4,6 @@ import android.view.View
 import kotlinx.android.synthetic.main.layout_loading_state.*
 
 abstract class BaseLoadingViewController<T>: ViewController<LoadingViewState<T>> {
-    lateinit override var containerView: View
     abstract val contentView: View
 
     override fun updateView(viewState: LoadingViewState<T>) {
@@ -19,8 +18,8 @@ abstract class BaseLoadingViewController<T>: ViewController<LoadingViewState<T>>
         updateContentView(viewState.contentViewState)
     }
 
-    override fun bind(view: View) {
-        this.containerView = view
+    override fun bind(containerView: View) {
+        super.bind(containerView)
         contentView.visibility = View.GONE
         loading_indicator.visibility = View.VISIBLE
     }

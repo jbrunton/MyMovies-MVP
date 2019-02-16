@@ -10,7 +10,6 @@ import com.jbrunton.inject.injectViewModel
 import com.jbrunton.mymovies.helpers.observe
 import com.jbrunton.mymovies.nav.Navigator
 import com.jbrunton.mymovies.ui.shared.BaseFragment
-import com.jbrunton.mymovies.ui.shared.LoadingViewState
 import kotlinx.android.synthetic.main.fragment_account.*
 import kotlinx.android.synthetic.main.layout_account_details.*
 import kotlinx.android.synthetic.main.layout_loading_state.*
@@ -39,10 +38,6 @@ class AccountFragment : BaseFragment<AccountViewModel>() {
     }
 
     override fun onObserveData() {
-        viewModel.viewState.observe(viewLifecycleOwner, this::updateView)
-    }
-
-    private fun updateView(viewState: LoadingViewState<AccountViewState>) {
-        layoutController.updateView(viewState)
+        viewModel.viewState.observe(viewLifecycleOwner, layoutController::updateView)
     }
 }
