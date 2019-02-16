@@ -8,6 +8,7 @@ import com.jbrunton.mymovies.fixtures.RepositoryFixtures
 import com.jbrunton.mymovies.fixtures.TestSchedulerRule
 import com.jbrunton.mymovies.ui.search.SearchViewStateFactory.Companion.EmptyState
 import com.jbrunton.mymovies.ui.shared.LoadingViewState
+import com.jbrunton.mymovies.usecases.search.SearchUseCase
 import io.reactivex.observers.TestObserver
 import io.reactivex.subjects.PublishSubject
 import org.junit.Before

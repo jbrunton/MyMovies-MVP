@@ -1,39 +1,28 @@
 package com.jbrunton.mymovies.ui.search
 
 import com.jbrunton.async.AsyncResult
-import com.jbrunton.async.map
-import com.jbrunton.async.onSuccess
-import com.jbrunton.entities.models.Movie
+import com.jbrunton.async.flatMap
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.ui.shared.LoadingViewState
 import com.jbrunton.mymovies.ui.shared.LoadingViewStateError
-import com.jbrunton.mymovies.ui.shared.handleNetworkErrors
 import com.jbrunton.mymovies.ui.shared.toLoadingViewState
+import com.jbrunton.mymovies.usecases.search.SearchState
 
 class SearchViewStateFactory {
     companion object {
         val NoResultsError = buildError("No Results")
         val EmptyStateError = buildError("Search")
-        val EmptyState = AsyncResult.Failure<SearchViewState>(EmptyStateError)
-                .toLoadingViewState(SearchViewState.Empty)
 
-        fun map(result: AsyncResult<List<Movie>>): AsyncResult<SearchViewState> {
+        fun from(result: AsyncResult<SearchState>): LoadingViewState<SearchViewState> {
             return result
-                    .map(SearchViewState.Companion::from)
-                    .handleNetworkErrors()
-                    .onSuccess(this::errorIfEmpty)
+                    .flatMap(this::toViewState)
+                    .toLoadingViewState(SearchViewState.Empty)
         }
 
-        fun from(result: AsyncResult<List<Movie>>): LoadingViewState<SearchViewState> {
-            return map(result).toLoadingViewState(SearchViewState.Empty)
-        }
-
-        private fun errorIfEmpty(result: AsyncResult.Success<SearchViewState>): AsyncResult<SearchViewState> {
-            return if (result.value.results.isEmpty()) {
-                AsyncResult.failure(NoResultsError)
-            } else {
-                result
-            }
+        private fun toViewState(state: SearchState): AsyncResult<SearchViewState> = when (state) {
+            is SearchState.Some -> AsyncResult.success(SearchViewState.from(state.movies))
+            is SearchState.NoResults -> AsyncResult.failure(NoResultsError)
+            is SearchState.EmptyQuery -> AsyncResult.failure(EmptyStateError)
         }
 
         private fun buildError(errorMessage: String): LoadingViewStateError {

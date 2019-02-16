@@ -8,6 +8,7 @@ import com.jbrunton.fixtures.MovieFactory
 import com.jbrunton.mymovies.fixtures.InstantSchedulerRule
 import com.jbrunton.mymovies.ui.search.SearchViewStateFactory.Companion.EmptyState
 import com.jbrunton.mymovies.ui.shared.LoadingViewState
+import com.jbrunton.mymovies.usecases.search.SearchUseCase
 import com.nhaarman.mockito_kotlin.whenever
 import io.reactivex.Observable
 import io.reactivex.observers.TestObserver
