@@ -18,19 +18,19 @@ import io.reactivex.subjects.PublishSubject
 class Navigator(val activity: FragmentActivity, val router: ResultRouter) {
     fun showSearch() {
         (activity as MainActivity).supportFragmentManager.beginTransaction()
-                .replace(R.id.content, SearchFragment())
+                .replace(R.id.movie_details, SearchFragment())
                 .commit()
     }
 
     fun showDiscover() {
         (activity as MainActivity).supportFragmentManager.beginTransaction()
-                .replace(R.id.content, DiscoverFragment())
+                .replace(R.id.movie_details, DiscoverFragment())
                 .commit()
     }
 
     fun showAccount() {
         (activity as MainActivity).supportFragmentManager.beginTransaction()
-                .replace(R.id.content, AccountFragment())
+                .replace(R.id.movie_details, AccountFragment())
                 .commit()
     }
 

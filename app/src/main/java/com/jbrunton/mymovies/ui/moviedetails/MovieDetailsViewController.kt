@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.item_movie_card_list.*
 
 class MovieDetailsViewController : BaseLoadingViewController<MovieViewState>() {
     override val layout = R.layout.activity_movie_details
-    override val contentView: View get() = content
+    override val contentView: View get() = movie_details
     private val picassoHelper = PicassoHelper()
 
     override fun updateContentView(viewState: MovieViewState) {

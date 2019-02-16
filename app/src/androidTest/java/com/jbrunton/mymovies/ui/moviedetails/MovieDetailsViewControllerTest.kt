@@ -7,16 +7,16 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
 import com.jbrunton.async.AsyncResult
-import com.jbrunton.entities.repositories.MoviesRepository
 import com.jbrunton.fixtures.MovieFactory
-import com.jbrunton.inject.inject
 import com.jbrunton.mymovies.R
-import com.jbrunton.mymovies.fixtures.*
+import com.jbrunton.mymovies.fixtures.BaseFragmentTest
+import com.jbrunton.mymovies.fixtures.FragmentTestRule
+import com.jbrunton.mymovies.fixtures.ProgressBarViewActions
+import com.jbrunton.mymovies.fixtures.ViewControllerTestFragment
 import com.jbrunton.mymovies.ui.movies.MovieViewState
 import com.jbrunton.mymovies.ui.shared.LoadingViewState
 import com.jbrunton.mymovies.ui.shared.LoadingViewStateError
 import com.jbrunton.mymovies.ui.shared.toLoadingViewState
-import org.junit.Before
 import org.junit.Test
 
 class MovieDetailsViewControllerTest : BaseFragmentTest<MovieDetailsViewControllerTest.TestFragment>() {
@@ -24,14 +24,8 @@ class MovieDetailsViewControllerTest : BaseFragmentTest<MovieDetailsViewControll
 
     val movies = MovieFactory()
     val movie1 = movies.create()
-    val moviesRepository: MoviesRepository by inject()
 
     private val NETWORK_ERROR = LoadingViewStateError("Network Error", R.drawable.ic_error_outline_black_24dp, true)
-
-    @Before
-    fun setUp() {
-        moviesRepository.stubWith(listOf(movie1))
-    }
 
     @Test
     fun showsLoadingState() {
@@ -62,7 +56,7 @@ class MovieDetailsViewControllerTest : BaseFragmentTest<MovieDetailsViewControll
 
         takeScreenshot()
 
-        onView(withId(R.id.content)).check(matches(isDisplayed()))
+        onView(withId(R.id.movie_details)).check(matches(isDisplayed()))
         onView(withId(R.id.overview)).check(matches(withText(viewState.overview)))
     }
 

@@ -18,28 +18,5 @@ abstract class BaseLoadingViewController<T>: ViewController<LoadingViewState<T>>
         updateContentView(viewState.contentViewState)
     }
 
-    override fun bind(containerView: View) {
-        super.bind(containerView)
-        showLoadingIndicator()
-    }
-
-    protected fun showContent() {
-        contentView.visibility = View.VISIBLE
-        loading_indicator.visibility = View.GONE
-        error_case.visibility = View.GONE
-    }
-
-    protected fun showLoadingIndicator() {
-        contentView.visibility = View.GONE
-        loading_indicator.visibility = View.VISIBLE
-        error_case.visibility = View.GONE
-    }
-
-    protected fun showError() {
-        contentView.visibility = View.GONE
-        loading_indicator.visibility = View.GONE
-        error_case.visibility = View.VISIBLE
-    }
-
     protected abstract fun updateContentView(viewState: T)
 }
