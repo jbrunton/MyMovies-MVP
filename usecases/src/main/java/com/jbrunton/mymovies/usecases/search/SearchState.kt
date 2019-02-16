@@ -14,9 +14,9 @@ sealed class SearchState {
         fun from(result: AsyncResult<List<Movie>>): AsyncResult<SearchState> {
             return result.handleNetworkErrors().map {
                 if (it.isEmpty()) {
-                    SearchState.NoResults
+                    NoResults
                 } else {
-                    SearchState.Some(it)
+                    Some(it)
                 }
             }
         }

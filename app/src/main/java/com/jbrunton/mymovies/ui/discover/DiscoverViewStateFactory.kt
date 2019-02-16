@@ -7,7 +7,7 @@ import com.jbrunton.mymovies.usecases.discover.DiscoverState
 
 class DiscoverViewStateFactory {
     companion object {
-        fun from(result: AsyncResult<DiscoverState>): LoadingViewState<DiscoverViewState> {
+        fun from(result: AsyncResult<com.jbrunton.mymovies.usecases.discover.DiscoverState>): LoadingViewState<DiscoverViewState> {
             return LoadingViewState.build(DiscoverViewState.Empty).map(result) {
                 DiscoverViewState(
                         it.nowPlaying.map { MovieSearchResultViewState(it) },

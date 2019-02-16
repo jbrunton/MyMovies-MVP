@@ -3,6 +3,7 @@ package com.jbrunton.mymovies.usecases.search
 import com.jbrunton.async.AsyncResult
 import com.jbrunton.entities.repositories.MoviesRepository
 import com.jbrunton.fixtures.MovieFactory
+import com.jbrunton.fixtures.TestSchedulerFactory
 import com.jbrunton.mymovies.fixtures.RepositoryFixtures
 import com.jbrunton.mymovies.fixtures.TestSchedulerRule
 import io.reactivex.observers.TestObserver
@@ -34,7 +35,7 @@ class SearchUseCaseOrderingTest {
     @Before
     fun setUp() {
         repository = Mockito.mock(MoviesRepository::class.java)
-        useCase = SearchUseCase(repository)
+        useCase = SearchUseCase(repository, TestSchedulerFactory(schedulerRule.TEST_SCHEDULER))
         searches = PublishSubject.create()
         observer = useCase.reduce(searches).test()
 
