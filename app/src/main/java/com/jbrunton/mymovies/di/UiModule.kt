@@ -11,6 +11,7 @@ import com.jbrunton.mymovies.ui.discover.GenresViewModel
 import com.jbrunton.mymovies.ui.moviedetails.MovieDetailsViewModel
 import com.jbrunton.mymovies.ui.search.SearchViewModel
 import com.jbrunton.mymovies.usecases.discover.DiscoverUseCase
+import com.jbrunton.mymovies.usecases.favorites.FavoritesUseCase
 import com.jbrunton.mymovies.usecases.search.SearchUseCase
 
 val UiModule = module {
@@ -18,6 +19,7 @@ val UiModule = module {
 
     factory { SearchUseCase(get(), get()) }
     factory { DiscoverUseCase(get(), get()) }
+    factory { FavoritesUseCase(get()) }
 
     factory { SearchViewModel(get()) }
     factory { DiscoverViewModel(get()) }

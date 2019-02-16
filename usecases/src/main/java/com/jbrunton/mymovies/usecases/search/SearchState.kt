@@ -2,7 +2,6 @@ package com.jbrunton.mymovies.usecases.search
 
 import com.jbrunton.async.AsyncResult
 import com.jbrunton.async.map
-import com.jbrunton.entities.errors.handleNetworkErrors
 import com.jbrunton.entities.models.Movie
 
 sealed class SearchState {
@@ -12,7 +11,7 @@ sealed class SearchState {
 
     companion object {
         fun from(result: AsyncResult<List<Movie>>): AsyncResult<SearchState> {
-            return result.handleNetworkErrors().map {
+            return result.map {
                 if (it.isEmpty()) {
                     NoResults
                 } else {
