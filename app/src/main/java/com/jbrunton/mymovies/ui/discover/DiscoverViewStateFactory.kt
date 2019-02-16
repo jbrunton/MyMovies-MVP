@@ -1,40 +1,25 @@
 package com.jbrunton.mymovies.ui.discover
 
 import com.jbrunton.async.AsyncResult
-import com.jbrunton.async.map
-import com.jbrunton.entities.errors.handleNetworkErrors
-import com.jbrunton.entities.models.Genre
-import com.jbrunton.entities.models.Movie
+import com.jbrunton.async.flatMap
 import com.jbrunton.mymovies.ui.movies.MovieSearchResultViewState
 import com.jbrunton.mymovies.ui.shared.LoadingViewState
 import com.jbrunton.mymovies.ui.shared.toLoadingViewState
+import com.jbrunton.mymovies.usecases.discover.DiscoverState
 
 class DiscoverViewStateFactory {
     companion object {
-        fun map(
-                nowPlaying: AsyncResult<List<Movie>>,
-                popular: AsyncResult<List<Movie>>,
-                genres: AsyncResult<List<Genre>>
-        ): AsyncResult<DiscoverViewState> {
-            return AsyncResult.zip(
-                    convertList(nowPlaying),
-                    convertList(popular),
-                    genres.handleNetworkErrors(),
-                    ::DiscoverViewState
-            )
-        }
-
-        fun from(
-                nowPlaying: AsyncResult<List<Movie>>,
-                popular: AsyncResult<List<Movie>>,
-                genres: AsyncResult<List<Genre>>
-        ): LoadingViewState<DiscoverViewState> {
-            return map(nowPlaying, popular, genres)
+        fun from(result: AsyncResult<DiscoverState>): LoadingViewState<DiscoverViewState> {
+            return result
+                    .flatMap(this::toViewState)
                     .toLoadingViewState(DiscoverViewState.Empty)
         }
 
-        private fun convertList(result: AsyncResult<List<Movie>>) =
-            result.map({ movies -> movies.map { MovieSearchResultViewState(it) } })
-                    .handleNetworkErrors()
+        private fun toViewState(state: DiscoverState): AsyncResult<DiscoverViewState> =
+                AsyncResult.success(DiscoverViewState(
+                        state.nowPlaying.map { MovieSearchResultViewState(it) },
+                        state.nowPlaying.map { MovieSearchResultViewState(it) },
+                        state.genres
+                ))
     }
 }

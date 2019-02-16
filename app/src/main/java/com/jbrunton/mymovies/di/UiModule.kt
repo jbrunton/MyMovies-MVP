@@ -9,14 +9,18 @@ import com.jbrunton.mymovies.ui.discover.DiscoverViewModel
 import com.jbrunton.mymovies.ui.discover.GenreResultsViewModel
 import com.jbrunton.mymovies.ui.discover.GenresViewModel
 import com.jbrunton.mymovies.ui.moviedetails.MovieDetailsViewModel
-import com.jbrunton.mymovies.usecases.search.SearchUseCase
 import com.jbrunton.mymovies.ui.search.SearchViewModel
+import com.jbrunton.mymovies.usecases.discover.DiscoverUseCase
+import com.jbrunton.mymovies.usecases.search.SearchUseCase
 
 val UiModule = module {
     single { ResultRouter() }
+
     factory { SearchUseCase(get()) }
+    factory { DiscoverUseCase(get(), get()) }
+
     factory { SearchViewModel(get()) }
-    factory { DiscoverViewModel(get(), get()) }
+    factory { DiscoverViewModel(get()) }
     factory { GenresViewModel(get()) }
     factory { LoginViewModel(get()) }
     factory { AccountViewModel(get()) }
