@@ -1,4 +1,4 @@
-package com.jbrunton.mymovies.fixtures
+package com.jbrunton.fixtures
 
 import com.jbrunton.async.AsyncResult
 import com.jbrunton.entities.models.Movie

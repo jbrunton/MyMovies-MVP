@@ -1,10 +1,12 @@
-package com.jbrunton.mymovies.usecases.search
+package mymovies.usecases.search
 
 import com.jbrunton.async.AsyncResult
 import com.jbrunton.entities.models.Movie
 import com.jbrunton.entities.repositories.MoviesRepository
 import com.jbrunton.fixtures.ImmediateSchedulerFactory
 import com.jbrunton.fixtures.MovieFactory
+import com.jbrunton.mymovies.usecases.search.SearchState
+import com.jbrunton.mymovies.usecases.search.SearchUseCase
 import com.nhaarman.mockito_kotlin.whenever
 import io.reactivex.Observable
 import io.reactivex.observers.TestObserver
