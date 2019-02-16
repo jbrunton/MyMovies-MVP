@@ -3,17 +3,13 @@ package com.jbrunton.mymovies.ui.account.favorites
 import com.jbrunton.inject.injectViewModel
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.helpers.observe
-import com.jbrunton.mymovies.ui.search.SearchResultsAdapter
-import com.jbrunton.mymovies.ui.search.SearchViewState
+import com.jbrunton.mymovies.ui.movies.MoviesListViewController
 import com.jbrunton.mymovies.ui.shared.BaseActivity
-import com.jbrunton.mymovies.ui.shared.LoadingLayoutManager
-import com.jbrunton.mymovies.ui.shared.LoadingViewState
 import kotlinx.android.synthetic.main.activity_genre_results.*
 import kotlinx.android.synthetic.main.layout_loading_state.*
 
 class FavoritesActivity : BaseActivity<FavoritesViewModel>() {
-    private lateinit var moviesAdapter: SearchResultsAdapter
-    private lateinit var loadingLayoutManager: LoadingLayoutManager
+    private val layoutController = MoviesListViewController()
 
     override val viewModel: FavoritesViewModel by injectViewModel()
 
@@ -23,11 +19,7 @@ class FavoritesActivity : BaseActivity<FavoritesViewModel>() {
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
-        loadingLayoutManager = LoadingLayoutManager.buildFor(this, movies_list)
-
-        moviesAdapter = SearchResultsAdapter(this, R.layout.item_movie_card_list)
-        movies_list.adapter = moviesAdapter
-        movies_list.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this)
+        layoutController.bind(this)
     }
 
     override fun onBindListeners() {
@@ -35,12 +27,6 @@ class FavoritesActivity : BaseActivity<FavoritesViewModel>() {
     }
 
     override fun onObserveData() {
-        viewModel.viewState.observe(this, this::updateView)
-    }
-
-    private fun updateView(viewState: LoadingViewState<SearchViewState>) {
-        loadingLayoutManager.updateLayout(viewState) {
-            moviesAdapter.setDataSource(it.results)
-        }
+        viewModel.viewState.observe(this, layoutController::updateView)
     }
 }

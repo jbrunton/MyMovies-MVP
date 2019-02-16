@@ -35,7 +35,7 @@ class MovieDetailsActivityTest : BaseActivityTest<MovieDetailsActivity>() {
         activityRule.launchActivity(intent)
 
         takeScreenshot()
-        onView(withId(R.id.content)).check(matches(ViewMatchers.isDisplayed()))
+        onView(withId(R.id.movie_details)).check(matches(ViewMatchers.isDisplayed()))
         onView(withId(R.id.overview)).check(matches(withText(expectedViewState.overview)))
     }
 

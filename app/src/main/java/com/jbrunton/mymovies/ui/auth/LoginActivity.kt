@@ -7,13 +7,11 @@ import com.jbrunton.inject.injectViewModel
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.helpers.observe
 import com.jbrunton.mymovies.ui.shared.BaseActivity
-import com.jbrunton.mymovies.ui.shared.LoadingLayoutManager
-import com.jbrunton.mymovies.ui.shared.LoadingViewState
 import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : BaseActivity<LoginViewModel>() {
     override val viewModel: LoginViewModel by injectViewModel()
-    lateinit var loadingLayoutManager: LoadingLayoutManager
+    private val viewController = LoginViewController()
 
     companion object {
         val LOGIN_REQUEST = 1
@@ -32,7 +30,8 @@ class LoginActivity : BaseActivity<LoginViewModel>() {
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
-        loadingLayoutManager = LoadingLayoutManager.buildFor(this, sign_in_details)
+        viewController.bind(this)
+        viewController.showLoadingIndicator()
     }
 
     override fun onBindListeners() {
@@ -42,7 +41,7 @@ class LoginActivity : BaseActivity<LoginViewModel>() {
     }
 
     override fun onObserveData() {
-        viewModel.viewState.observe(this, this::updateView)
+        viewModel.viewState.observe(this, viewController::updateView)
         viewModel.loginSuccessful.observe(this) {
             setResult(LOGIN_SUCCESSFUL, toIntent(it))
             finish()
@@ -52,13 +51,6 @@ class LoginActivity : BaseActivity<LoginViewModel>() {
                     .setMessage(it)
                     .setPositiveButton("OK", { _, _ -> })
                     .create().show()
-        }
-    }
-
-    fun updateView(viewState: LoadingViewState<LoginViewState>) {
-        loadingLayoutManager.updateLayout(viewState) {
-            username_layout.error = it.usernameError
-            password_layout.error = it.passwordError
         }
     }
 }

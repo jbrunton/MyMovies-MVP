@@ -1,49 +1,35 @@
 package com.jbrunton.mymovies.ui.moviedetails
 
-import android.content.Intent
 import android.widget.ProgressBar
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
-import androidx.test.rule.ActivityTestRule
 import com.jbrunton.async.AsyncResult
-import com.jbrunton.entities.models.Movie
-import com.jbrunton.entities.repositories.MoviesRepository
 import com.jbrunton.fixtures.MovieFactory
 import com.jbrunton.mymovies.R
-import com.jbrunton.inject.inject
-import com.jbrunton.mymovies.fixtures.*
+import com.jbrunton.mymovies.fixtures.BaseFragmentTest
+import com.jbrunton.mymovies.fixtures.FragmentTestRule
+import com.jbrunton.mymovies.fixtures.ProgressBarViewActions
+import com.jbrunton.mymovies.fixtures.ViewControllerTestFragment
 import com.jbrunton.mymovies.ui.movies.MovieViewState
 import com.jbrunton.mymovies.ui.shared.LoadingViewState
 import com.jbrunton.mymovies.ui.shared.LoadingViewStateError
 import com.jbrunton.mymovies.ui.shared.toLoadingViewState
-import org.junit.Before
 import org.junit.Test
 
-class MovieDetailsActivityLayoutTest : BaseActivityTest<MovieDetailsActivity>() {
+class MovieDetailsViewControllerTest : BaseFragmentTest<MovieDetailsViewControllerTest.TestFragment>() {
     val LOADING_STATE = AsyncResult.Loading<MovieViewState>()
 
     val movies = MovieFactory()
     val movie1 = movies.create()
-    val moviesRepository: MoviesRepository by inject()
 
     private val NETWORK_ERROR = LoadingViewStateError("Network Error", R.drawable.ic_error_outline_black_24dp, true)
-
-
-    @Before
-    fun setUp() {
-        moviesRepository.stubWith(listOf(movie1))
-        val intent = Intent()
-        intent.putExtra("MOVIE_ID", movie1.id)
-        activityRule.launchActivity(intent)
-    }
 
     @Test
     fun showsLoadingState() {
         onView(ViewMatchers.isAssignableFrom(ProgressBar::class.java)).perform(ProgressBarViewActions.replaceProgressBarDrawable())
-
         setViewState(LOADING_STATE.toLoadingViewState(MovieViewState.Empty))
 
         takeScreenshot("showsLoadingState")
@@ -69,15 +55,19 @@ class MovieDetailsActivityLayoutTest : BaseActivityTest<MovieDetailsActivity>() 
 
         takeScreenshot()
 
-        onView(withId(R.id.content)).check(matches(isDisplayed()))
+        onView(withId(R.id.movie_details)).check(matches(isDisplayed()))
         onView(withId(R.id.overview)).check(matches(withText(viewState.overview)))
     }
 
-    override fun createActivityTestRule(): ActivityTestRule<MovieDetailsActivity> {
-        return ActivityTestRule(MovieDetailsActivity::class.java, false, false)
+    override fun createFragmentTestRule(): FragmentTestRule<*, MovieDetailsViewControllerTest.TestFragment> {
+        return FragmentTestRule.create(MovieDetailsViewControllerTest.TestFragment::class.java)
     }
 
     private fun setViewState(viewState: LoadingViewState<MovieViewState>) {
-        activityRule.runOnUiThread { activity.updateView(viewState) }
+        fragmentRule.runOnUiThread { fragment.updateView(viewState) }
+    }
+
+    class TestFragment: ViewControllerTestFragment<LoadingViewState<MovieViewState>>() {
+        override fun createViewController() = MovieDetailsViewController()
     }
 }
