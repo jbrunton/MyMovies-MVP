@@ -4,6 +4,7 @@ import android.view.View
 import androidx.annotation.DrawableRes
 import com.jbrunton.async.*
 import com.jbrunton.entities.errors.NetworkError
+import com.jbrunton.mymovies.usecases.shared.LoadingViewStateBuilder
 
 data class LoadingViewState<T>(
         val contentVisibility: Int = View.GONE,
@@ -38,6 +39,8 @@ data class LoadingViewState<T>(
             is NetworkError -> failure(error.toLoadingViewStateError(), emptyState)
             else -> throw error
         }
+
+        fun <V> build(emptyState: V) = LoadingViewStateBuilder(emptyState)
     }
 }
 

@@ -1,14 +1,9 @@
 package com.jbrunton.mymovies.ui.discover
 
-import com.jbrunton.entities.repositories.GenresRepository
-import com.jbrunton.entities.repositories.MoviesRepository
 import com.jbrunton.mymovies.ui.shared.BaseLoadingViewModel
-import io.reactivex.rxkotlin.Observables
+import com.jbrunton.mymovies.usecases.discover.DiscoverUseCase
 
-class DiscoverViewModel internal constructor(
-        private val moviesRepository: MoviesRepository,
-        private val genresRepository: GenresRepository
-) : BaseLoadingViewModel<DiscoverViewState>() {
+class DiscoverViewModel(val useCase: DiscoverUseCase) : BaseLoadingViewModel<DiscoverViewState>() {
     override fun start() {
         load()
     }
@@ -18,15 +13,8 @@ class DiscoverViewModel internal constructor(
     }
 
     private fun load() {
-        val discoverStream = Observables.zip(
-                moviesRepository.nowPlaying(),
-                moviesRepository.popular(),
-                genresRepository.genres()
-        ) {
-            nowPlaying, popular, genres -> DiscoverViewStateFactory.from(nowPlaying, popular, genres)
-        }
-        subscribe(discoverStream) {
-            viewState.postValue(it)
+        subscribe(useCase.reduce()) {
+            viewState.postValue(DiscoverViewStateFactory.from(it))
         }
     }
 }
