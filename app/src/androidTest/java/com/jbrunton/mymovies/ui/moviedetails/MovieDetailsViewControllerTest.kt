@@ -30,7 +30,6 @@ class MovieDetailsViewControllerTest : BaseFragmentTest<MovieDetailsViewControll
     @Test
     fun showsLoadingState() {
         onView(ViewMatchers.isAssignableFrom(ProgressBar::class.java)).perform(ProgressBarViewActions.replaceProgressBarDrawable())
-
         setViewState(LOADING_STATE.toLoadingViewState(MovieViewState.Empty))
 
         takeScreenshot("showsLoadingState")

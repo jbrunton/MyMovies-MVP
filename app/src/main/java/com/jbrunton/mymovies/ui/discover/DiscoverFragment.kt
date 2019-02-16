@@ -29,6 +29,7 @@ class DiscoverFragment : BaseFragment<DiscoverViewModel>() {
     override fun onCreateLayout() {
         (activity as AppCompatActivity).setSupportActionBar(toolbar)
         viewController.bind(this)
+        viewController.showLoadingIndicator()
     }
 
     override fun onBindListeners() {
