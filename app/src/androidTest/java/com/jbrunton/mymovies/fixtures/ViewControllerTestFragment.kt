@@ -11,7 +11,7 @@ abstract class ViewControllerTestFragment<T>: Fragment() {
     lateinit var viewController: ViewController<T>
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        viewController = createLayoutManager()
+        viewController = createViewController()
         return inflater.inflate(viewController.layout, container, false)
     }
 
@@ -24,5 +24,5 @@ abstract class ViewControllerTestFragment<T>: Fragment() {
         viewController.updateView(viewState)
     }
 
-    protected abstract fun createLayoutManager(): ViewController<T>
+    protected abstract fun createViewController(): ViewController<T>
 }
