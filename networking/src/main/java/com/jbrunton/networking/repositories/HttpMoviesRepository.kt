@@ -46,12 +46,16 @@ class HttpMoviesRepository(
     }
 
     override fun favorites(): DataStream<List<Movie>> {
-        return buildResponse(service.favorites(preferences.accountId, preferences.sessionId))
-                .doOnNext {
-                    it.doOnSuccess {
-                        preferences.favorites = it.value.map { it.id }.toSet()
-                    }
-                }
+        return buildResponse(
+                service.favorites(preferences.accountId, preferences.sessionId),
+                preferences.favorites?.map { cache.get(it) }?.filterNotNull()
+
+        ).doOnNext {
+            it.doOnSuccess {
+                it.value.forEach { cache.put(it.id, it) }
+                preferences.favorites = it.value.map { it.id }.toSet()
+            }
+        }
     }
 
     override fun favorite(movieId: String): Observable<Any> {
@@ -74,10 +78,13 @@ class HttpMoviesRepository(
         }
     }
 
-    private fun buildResponse(apiSource: Observable<MoviesCollection>): DataStream<List<Movie>> {
+    private fun buildResponse(
+            apiSource: Observable<MoviesCollection>,
+            cachedValue: List<Movie>? = null
+    ): DataStream<List<Movie>> {
         return Observables.zip(apiSource, config()) {
             response, config -> MoviesCollection.toCollection(response, config)
-        }.toDataStream()
+        }.toDataStream(cachedValue)
     }
 
     private fun config(): Observable<Configuration> {

@@ -15,7 +15,7 @@ class FavoritesViewModel(val useCase: FavoritesUseCase) : BaseLoadingViewModel<S
     }
 
     private fun loadFavorites() {
-        subscribe(useCase.reduce()) {
+        subscribe(useCase.start()) {
             viewState.postValue(SearchViewStateFactory.from(it))
         }
     }

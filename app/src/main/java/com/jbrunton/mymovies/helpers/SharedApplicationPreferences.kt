@@ -14,15 +14,15 @@ class SharedApplicationPreferences(val context: Context) : ApplicationPreference
         get() = preferences.getString("ACCOUNT_ID", "")
         set(value) = preferences.edit().putString("ACCOUNT_ID", value).apply()
 
-    override var favorites: Set<String>
-        get() = preferences.getStringSet("FAVORITES", emptySet())
+    override var favorites: Set<String>?
+        get() = preferences.getStringSet("FAVORITES", null)
         set(value) = preferences.edit().putStringSet("FAVORITES", value).apply()
 
     override fun addFavorite(movieId: String) {
-        favorites = favorites.toMutableSet().apply { add(movieId) }
+        favorites = (favorites ?: emptySet()).toMutableSet().apply { add(movieId) }
     }
 
     override fun removeFavorite(movieId: String) {
-        favorites = favorites.toMutableSet().apply { remove(movieId) }
+        favorites = (favorites ?: emptySet()).toMutableSet().apply { remove(movieId) }
     }
 }

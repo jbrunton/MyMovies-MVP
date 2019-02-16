@@ -8,7 +8,7 @@ import com.jbrunton.mymovies.usecases.search.SearchState
 class FavoritesUseCase(
         val movies: MoviesRepository
 ) {
-    fun reduce(): DataStream<SearchState> {
+    fun start(): DataStream<SearchState> {
         return movies.favorites().map {
             SearchState.from(it).handleNetworkErrors()
         }
