@@ -5,7 +5,7 @@ import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.ui.shared.LoadingViewState
 import com.jbrunton.mymovies.ui.shared.LoadingViewStateError
 import com.jbrunton.mymovies.usecases.search.SearchState
-import com.jbrunton.mymovies.usecases.shared.viewStatePipeline
+import com.jbrunton.mymovies.usecases.shared.ViewStateBuilder
 
 class SearchViewStateFactory {
     companion object {
@@ -13,7 +13,7 @@ class SearchViewStateFactory {
         val EmptyStateError = buildError("Search")
 
         fun from(result: AsyncResult<SearchState>): LoadingViewState<SearchViewState> {
-            return viewStatePipeline(result, SearchViewState.Empty, this::transform)
+            return ViewStateBuilder(SearchViewState.Empty).flatMap(result, this::transform)
         }
 
         private fun transform(state: SearchState): AsyncResult<SearchViewState> = when (state) {
