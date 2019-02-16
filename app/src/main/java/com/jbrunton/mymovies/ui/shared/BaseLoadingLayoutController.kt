@@ -1,21 +1,28 @@
 package com.jbrunton.mymovies.ui.shared
 
 import android.view.View
+import kotlinx.android.synthetic.main.layout_loading_state.*
 
 abstract class BaseLoadingLayoutController<T>: LayoutController<LoadingViewState<T>> {
-    lateinit var loadingLayoutManager: LoadingLayoutManager
     lateinit override var containerView: View
     abstract val contentView: View
 
     override fun updateView(viewState: LoadingViewState<T>) {
-        loadingLayoutManager.updateLayout(viewState) {
-            updateContentView(it)
-        }
+        contentView.visibility = viewState.contentVisibility
+        loading_indicator.visibility = viewState.loadingIndicatorVisibility
+        error_case.visibility = viewState.errorCaseVisibility
+
+        error_text.text = viewState.errorText
+        error_try_again.visibility = viewState.allowRetryVisibility
+        error_image.setImageResource(viewState.errorIcon)
+
+        updateContentView(viewState.contentViewState)
     }
 
     override fun bind(view: View) {
         this.containerView = view
-        loadingLayoutManager = LoadingLayoutManager.buildFor(this, contentView)
+        contentView.visibility = View.GONE
+        loading_indicator.visibility = View.VISIBLE
     }
 
     protected abstract fun updateContentView(viewState: T)
