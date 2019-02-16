@@ -5,9 +5,13 @@ import com.jbrunton.async.AsyncResult
 import com.jbrunton.async.doOnSuccess
 import com.jbrunton.async.map
 import com.jbrunton.async.onError
+import com.jbrunton.entities.errors.onNetworkErrorUse
 import com.jbrunton.entities.models.AuthSession
 import com.jbrunton.entities.repositories.AccountRepository
-import com.jbrunton.mymovies.ui.shared.*
+import com.jbrunton.mymovies.ui.shared.BaseViewModel
+import com.jbrunton.mymovies.ui.shared.LoadingViewState
+import com.jbrunton.mymovies.ui.shared.SingleLiveEvent
+import com.jbrunton.mymovies.ui.shared.toLoadingViewState
 import com.jbrunton.networking.parseStatusMessage
 import retrofit2.HttpException
 
