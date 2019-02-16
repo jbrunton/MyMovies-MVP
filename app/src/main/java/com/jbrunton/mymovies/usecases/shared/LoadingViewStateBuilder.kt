@@ -5,7 +5,7 @@ import com.jbrunton.async.flatMap
 import com.jbrunton.mymovies.ui.shared.LoadingViewState
 import com.jbrunton.mymovies.ui.shared.toLoadingViewState
 
-class ViewStateBuilder<V>(val emptyState: V) {
+class LoadingViewStateBuilder<V>(val emptyState: V) {
     fun <S> flatMap(result: AsyncResult<S>, transform: (S) -> AsyncResult<V>): LoadingViewState<V> =
             result.flatMap(transform).toLoadingViewState(emptyState)
 
