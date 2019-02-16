@@ -12,7 +12,7 @@ abstract class BaseLoadingViewModel<T> : BaseViewModel() {
     protected fun <S> showSnackbarIfCachedValue(result: AsyncResult.Failure<S>) {
         if (result.cachedValue != null) {
             val message = SnackbarMessage(
-                    message = "There was a problem reaching the server",
+                    message = "There was a problem with your connection",
                     duration = Snackbar.LENGTH_INDEFINITE,
                     actionLabel = "Retry",
                     action = this::retry

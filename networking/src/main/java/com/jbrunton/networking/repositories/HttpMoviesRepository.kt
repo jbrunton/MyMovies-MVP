@@ -20,6 +20,7 @@ class HttpMoviesRepository(
         private val preferences: ApplicationPreferences
 ): MoviesRepository {
     private val cache = LruCache<String, Movie>(1024)
+    private var favoritesCache: List<Movie>? = null
 
     override fun getMovie(movieId: String): DataStream<Movie> {
         return Observables.zip(service.movie(movieId), config()) {
@@ -48,12 +49,12 @@ class HttpMoviesRepository(
     override fun favorites(): DataStream<List<Movie>> {
         return buildResponse(
                 service.favorites(preferences.accountId, preferences.sessionId),
-                preferences.favorites?.map { cache.get(it) }?.filterNotNull()
+                favoritesCache
 
         ).doOnNext {
             it.doOnSuccess {
                 it.value.forEach { cache.put(it.id, it) }
-                preferences.favorites = it.value.map { it.id }.toSet()
+                favoritesCache = it.value
             }
         }
     }
