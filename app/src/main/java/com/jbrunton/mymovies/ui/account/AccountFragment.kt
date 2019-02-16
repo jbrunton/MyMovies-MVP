@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.layout_loading_state.*
 
 
 class AccountFragment : BaseFragment<AccountViewModel>() {
-    private val layoutController = AccountLayoutController()
+    private val layoutController = AccountViewController()
 
     override val viewModel: AccountViewModel by injectViewModel()
     val navigator: Navigator by inject()

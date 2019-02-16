@@ -2,10 +2,10 @@ package com.jbrunton.mymovies.ui.search
 
 import android.view.View
 import com.jbrunton.mymovies.R
-import com.jbrunton.mymovies.ui.shared.BaseLoadingLayoutController
+import com.jbrunton.mymovies.ui.shared.BaseLoadingViewController
 import kotlinx.android.synthetic.main.fragment_search.*
 
-class SearchLayoutController: BaseLoadingLayoutController<SearchViewState>()
+class SearchViewController: BaseLoadingViewController<SearchViewState>()
 {
     override val layout: Int = R.layout.fragment_search
     override val contentView: View get() = movies_list

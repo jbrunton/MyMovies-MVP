@@ -2,10 +2,10 @@ package com.jbrunton.mymovies.ui.account
 
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.helpers.PicassoHelper
-import com.jbrunton.mymovies.ui.shared.BaseLoadingLayoutController
+import com.jbrunton.mymovies.ui.shared.BaseLoadingViewController
 import kotlinx.android.synthetic.main.layout_account_details.*
 
-class AccountLayoutController : BaseLoadingLayoutController<AccountViewState>() {
+class AccountViewController : BaseLoadingViewController<AccountViewState>() {
     override val layout = R.layout.fragment_account
     override val contentView get() = account_details
     private val picassoHelper = PicassoHelper()

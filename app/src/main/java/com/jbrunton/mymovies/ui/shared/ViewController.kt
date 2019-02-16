@@ -4,7 +4,7 @@ import android.view.View
 import androidx.annotation.LayoutRes
 import kotlinx.android.extensions.LayoutContainer
 
-interface LayoutController<T>: LayoutContainer {
+interface ViewController<T>: LayoutContainer {
     @get:LayoutRes val layout: Int
     val context get() = containerView?.context
     fun bind(view: View)

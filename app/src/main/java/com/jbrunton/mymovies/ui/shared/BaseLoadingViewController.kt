@@ -3,7 +3,7 @@ package com.jbrunton.mymovies.ui.shared
 import android.view.View
 import kotlinx.android.synthetic.main.layout_loading_state.*
 
-abstract class BaseLoadingLayoutController<T>: LayoutController<LoadingViewState<T>> {
+abstract class BaseLoadingViewController<T>: ViewController<LoadingViewState<T>> {
     lateinit override var containerView: View
     abstract val contentView: View
 

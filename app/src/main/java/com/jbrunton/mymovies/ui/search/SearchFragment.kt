@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.layout_loading_state.*
 
 class SearchFragment : BaseFragment<SearchViewModel>() {
     override val viewModel: SearchViewModel by injectViewModel()
-    val layoutController = SearchLayoutController()
+    val layoutController = SearchViewController()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(layoutController.layout, container, false)
