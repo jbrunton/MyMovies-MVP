@@ -13,7 +13,7 @@ class FavoritesUseCase(
 ) {
     val retrySnackbar = PublishSubject.create<Unit>()
 
-    fun start(): DataStream<SearchState> {
+    fun movies(): DataStream<SearchState> {
         return movies.favorites().map {
             SearchState.from(it)
                     .handleNetworkErrors()

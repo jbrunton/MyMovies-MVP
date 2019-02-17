@@ -8,6 +8,9 @@ import com.jbrunton.mymovies.usecases.favorites.FavoritesUseCase
 class FavoritesViewModel(val useCase: FavoritesUseCase) : BaseLoadingViewModel<SearchViewState>() {
     override fun start() {
         loadFavorites()
+        subscribe(useCase.retrySnackbar) {
+            snackbar.postValue(RetrySnackbar)
+        }
     }
 
     override fun retry() {
@@ -15,10 +18,7 @@ class FavoritesViewModel(val useCase: FavoritesUseCase) : BaseLoadingViewModel<S
     }
 
     private fun loadFavorites() {
-        subscribe(useCase.retrySnackbar) {
-            snackbar.postValue(RetrySnackbar)
-        }
-        subscribe(useCase.start()) {
+        subscribe(useCase.movies()) {
             viewState.postValue(SearchViewStateFactory.from(it))
         }
     }
