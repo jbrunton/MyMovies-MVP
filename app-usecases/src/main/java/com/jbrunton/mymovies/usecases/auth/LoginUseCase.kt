@@ -16,8 +16,8 @@ import retrofit2.HttpException
 
 class LoginUseCase(val repository: AccountRepository) {
     val loginSuccessful = PublishSubject.create<AuthSession>()
-    val retrySnackbar = PublishSubject.create<Unit>()
     val loginFailure = PublishSubject.create<String>()
+    val retrySnackbar = PublishSubject.create<Unit>()
 
     fun login(username: String, password: String): DataStream<LoginState> {
         val loginState = validate(username, password)
