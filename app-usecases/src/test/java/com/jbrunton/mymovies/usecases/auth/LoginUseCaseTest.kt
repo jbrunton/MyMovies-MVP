@@ -13,6 +13,7 @@ import org.junit.Test
 import org.mockito.Mockito
 import retrofit2.HttpException
 import retrofit2.Response
+import java.io.IOException
 
 class LoginUseCaseTest {
     private lateinit var repository: AccountRepository
@@ -20,6 +21,7 @@ class LoginUseCaseTest {
     private lateinit var viewStateObserver: TestObserver<AsyncResult<LoginState>>
     private lateinit var successObserver: TestObserver<AuthSession>
     private lateinit var failureObserver: TestObserver<String>
+    private lateinit var retrySnackbarObserver: TestObserver<Unit>
 
     private val AUTH_SESSION = AuthSession("1234")
     private val FAILURE_MESSAGE = "Some Error"
@@ -27,6 +29,7 @@ class LoginUseCaseTest {
     private val SUCCESS_RESULT = AsyncResult.success(AUTH_SESSION)
     private val errorBody = ResponseBody.create(MediaType.parse("application/json"), "{ \"status_message\": \"Some Error\" }")
     private val FAILURE_RESULT = AsyncResult.failure<AuthSession>(HttpException(Response.error<Unit>(401, errorBody)))
+    private val NETWORK_ERROR_RESULT = AsyncResult.failure<AuthSession>(IOException())
 
     private val LOADING_STATE = AsyncResult.loading(null)
     private val SUCCESS_STATE = AsyncResult.success(LoginState.Valid)
@@ -40,10 +43,11 @@ class LoginUseCaseTest {
         useCase = LoginUseCase(repository)
         successObserver = useCase.loginSuccessful.test()
         failureObserver = useCase.loginFailure.test()
+        retrySnackbarObserver = useCase.retrySnackbar.test()
     }
 
     @Test
-    fun triggersSuccess() {
+    fun testSuccess() {
         whenever(repository.login(USERNAME, PASSWORD))
                 .thenReturn(Observable.just(LOADING_RESULT, SUCCESS_RESULT))
 
@@ -54,7 +58,7 @@ class LoginUseCaseTest {
     }
 
     @Test
-    fun notifiedAuthFailure() {
+    fun testAuthFailure() {
         whenever(repository.login(USERNAME, PASSWORD))
                 .thenReturn(Observable.just(LOADING_RESULT, FAILURE_RESULT))
 
@@ -62,5 +66,16 @@ class LoginUseCaseTest {
 
         viewStateObserver.assertValues(LOADING_STATE, SUCCESS_STATE)
         failureObserver.assertValue(FAILURE_MESSAGE)
+    }
+
+    @Test
+    fun testNetworkError() {
+        whenever(repository.login(USERNAME, PASSWORD))
+                .thenReturn(Observable.just(LOADING_RESULT, NETWORK_ERROR_RESULT))
+
+        viewStateObserver = useCase.login(USERNAME, PASSWORD).test()
+
+        viewStateObserver.assertValues(LOADING_STATE, SUCCESS_STATE)
+        retrySnackbarObserver.assertValue(Unit)
     }
 }
