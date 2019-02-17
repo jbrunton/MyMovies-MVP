@@ -39,10 +39,9 @@ class MovieDetailsViewModel(
     private fun setMovieResponse(state: AsyncResult<Movie>) {
         viewState.value = state
                 .map {
-                    val favorite = preferences.favorites?.contains(movieId) ?: false
+                    val favorite = preferences.favorites.contains(movieId)
                     MovieViewState.from(it, favorite)
                 }
-//                .doOnFailure(this::showSnackbarIfCachedValue)
                 .handleNetworkErrors()
                 .toLoadingViewState(MovieViewState.Empty)
     }
