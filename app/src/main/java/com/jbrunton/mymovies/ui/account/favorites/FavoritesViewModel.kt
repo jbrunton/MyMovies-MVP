@@ -1,6 +1,5 @@
 package com.jbrunton.mymovies.ui.account.favorites
 
-import com.jbrunton.async.doOnFailure
 import com.jbrunton.mymovies.ui.search.SearchViewState
 import com.jbrunton.mymovies.ui.search.SearchViewStateFactory
 import com.jbrunton.mymovies.ui.shared.BaseLoadingViewModel
@@ -16,8 +15,10 @@ class FavoritesViewModel(val useCase: FavoritesUseCase) : BaseLoadingViewModel<S
     }
 
     private fun loadFavorites() {
+        subscribe(useCase.retrySnackbar) {
+            snackbar.postValue(RetrySnackbar)
+        }
         subscribe(useCase.start()) {
-            it.doOnFailure(this::showSnackbarIfCachedValue)
             viewState.postValue(SearchViewStateFactory.from(it))
         }
     }

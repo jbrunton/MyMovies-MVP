@@ -1,7 +1,6 @@
 package com.jbrunton.mymovies.ui.moviedetails
 
 import com.jbrunton.async.AsyncResult
-import com.jbrunton.async.doOnFailure
 import com.jbrunton.async.map
 import com.jbrunton.entities.errors.handleNetworkErrors
 import com.jbrunton.entities.models.Movie
@@ -43,7 +42,7 @@ class MovieDetailsViewModel(
                     val favorite = preferences.favorites?.contains(movieId) ?: false
                     MovieViewState.from(it, favorite)
                 }
-                .doOnFailure(this::showSnackbarIfCachedValue)
+//                .doOnFailure(this::showSnackbarIfCachedValue)
                 .handleNetworkErrors()
                 .toLoadingViewState(MovieViewState.Empty)
     }
