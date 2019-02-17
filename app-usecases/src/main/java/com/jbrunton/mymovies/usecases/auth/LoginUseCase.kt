@@ -1,29 +1,39 @@
 package com.jbrunton.mymovies.usecases.auth
 
 import com.jbrunton.async.AsyncResult
-import com.jbrunton.async.doOnError
 import com.jbrunton.async.doOnSuccess
-import com.jbrunton.entities.SchedulerFactory
-import com.jbrunton.entities.errors.doOnNetworkError
+import com.jbrunton.async.map
+import com.jbrunton.async.onError
 import com.jbrunton.entities.errors.handleNetworkErrors
+import com.jbrunton.entities.errors.onNetworkErrorUse
 import com.jbrunton.entities.models.AuthSession
 import com.jbrunton.entities.repositories.AccountRepository
+import com.jbrunton.entities.repositories.DataStream
 import com.jbrunton.networking.parseStatusMessage
+import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 import retrofit2.HttpException
 
-class LoginUseCase(val repository: AccountRepository, val schedulerFactory: SchedulerFactory) {
-    val loginSuccessful = PublishSubject.create<Unit>()
-    val loginFailure = PublishSubject.create<Unit>()
+class LoginUseCase(val repository: AccountRepository) {
+    val loginSuccessful = PublishSubject.create<AuthSession>()
+    val retrySnackbar = PublishSubject.create<Unit>()
+    val loginFailure = PublishSubject.create<String>()
 
-    fun login(username: String, password: String): LoginState {
+    fun login(username: String, password: String): DataStream<LoginState> {
         val loginState = validate(username, password)
         if (loginState is LoginState.Valid) {
-            repository.login(username, password)
-                    .compose(schedulerFactory.apply())
-                    .subscribe(this::onLoginResult)
+            return repository.login(username, password).map {
+                it.doOnSuccess { loginSuccessful.onNext(it.value) }
+                        .map { LoginState.Valid }
+                        .handleNetworkErrors()
+                        .onNetworkErrorUse(this::showRetrySnackbar)
+                        .onError(HttpException::class) {
+                            use(this@LoginUseCase::handleAuthFailure) whenever { it.code() == 401 }
+                        }
+            }
+        } else {
+            return Observable.just(AsyncResult.success(loginState))
         }
-        return loginState
     }
 
     private fun validate(username: String, password: String): LoginState {
@@ -34,21 +44,14 @@ class LoginUseCase(val repository: AccountRepository, val schedulerFactory: Sche
         }
     }
 
-    private fun onLoginResult(result: AsyncResult<AuthSession>) {
-        result.doOnSuccess { loginSuccessful.onNext(it.value) }
-                .handleNetworkErrors()
-                .doOnNetworkError(this::handleNetworkError)
-                .doOnError(HttpException::class) {
-                    action(this@LoginUseCase::handleAuthFailure) whenever { it.code() == 401 }
-                }
-    }
-
-    private fun handleNetworkError(result: AsyncResult.Failure<AuthSession>) {
-        loginFailure.onNext("Could not connect to server - please check your connection.")
-    }
-
-    private fun handleAuthFailure(result: AsyncResult.Failure<AuthSession>) {
+    private fun handleAuthFailure(result: AsyncResult.Failure<LoginState>): LoginState {
         val message = (result.error as HttpException).parseStatusMessage()
         loginFailure.onNext(message)
+        return LoginState.Valid
+    }
+
+    private fun showRetrySnackbar(result: AsyncResult.Failure<LoginState>): LoginState {
+        retrySnackbar.onNext(Unit)
+        return LoginState.Valid
     }
 }
