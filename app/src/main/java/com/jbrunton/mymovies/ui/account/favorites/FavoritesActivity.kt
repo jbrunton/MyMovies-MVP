@@ -18,6 +18,7 @@ class FavoritesActivity : BaseActivity<FavoritesViewModel>() {
 
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        title = "Favorites"
 
         layoutController.bind(this)
     }
@@ -27,6 +28,7 @@ class FavoritesActivity : BaseActivity<FavoritesViewModel>() {
     }
 
     override fun onObserveData() {
+        super.onObserveData()
         viewModel.viewState.observe(this, layoutController::updateView)
     }
 }
