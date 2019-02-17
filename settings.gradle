@@ -1,1 +1,1 @@
-include ':app', ':entities', ':fixtures', ':networking', ':di', ':usecases'
+include ':app', ':entities', ':fixtures', ':networking', ':app-usecases'
