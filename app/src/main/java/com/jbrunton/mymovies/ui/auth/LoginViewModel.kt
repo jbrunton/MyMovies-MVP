@@ -12,7 +12,7 @@ class LoginViewModel(val useCase: LoginUseCase) : BaseLoadingViewModel<LoginView
     override fun start() {
         subscribe(useCase.loginSuccessful) { loginSuccessful.postValue(it) }
         subscribe(useCase.loginFailure) { loginFailure.postValue(it) }
-        subscribe(useCase.retrySnackbar) {
+        subscribe(useCase.networkErrorSnackbar) {
             snackbar.postValue(NetworkErrorSnackbar(retry = false))
         }
     }
