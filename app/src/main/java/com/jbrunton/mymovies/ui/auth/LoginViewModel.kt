@@ -12,10 +12,11 @@ import com.jbrunton.mymovies.ui.shared.BaseViewModel
 import com.jbrunton.mymovies.ui.shared.LoadingViewState
 import com.jbrunton.mymovies.ui.shared.SingleLiveEvent
 import com.jbrunton.mymovies.ui.shared.toLoadingViewState
+import com.jbrunton.mymovies.usecases.auth.LoginUseCase
 import com.jbrunton.networking.parseStatusMessage
 import retrofit2.HttpException
 
-class LoginViewModel(private val repository: AccountRepository) : BaseViewModel() {
+class LoginViewModel(val useCase: LoginUseCase) : BaseViewModel() {
     val viewState = MutableLiveData<LoadingViewState<LoginViewState>>()
     val loginSuccessful = SingleLiveEvent<AuthSession>()
     val loginFailure = SingleLiveEvent<String>()
@@ -23,9 +24,8 @@ class LoginViewModel(private val repository: AccountRepository) : BaseViewModel(
     override fun start() {}
 
     fun login(username: String, password: String) {
-        if (validate(username, password)) {
-            subscribe(repository.login(username, password), this::onLoginResult)
-        }
+        val viewState = LoginViewState.from(login(username, password))
+        viewState.postValue()
     }
 
     private fun onLoginResult(result: AsyncResult<AuthSession>) {
