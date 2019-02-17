@@ -13,12 +13,12 @@ import io.reactivex.subjects.PublishSubject
 import retrofit2.HttpException
 
 class LoginUseCase(val repository: AccountRepository, val schedulerFactory: SchedulerFactory) {
-    val loginSuccessful = PublishSubject.create<AuthSession>()
-    val loginFailure = PublishSubject.create<String>()
+    val loginSuccessful = PublishSubject.create<Unit>()
+    val loginFailure = PublishSubject.create<Unit>()
 
     fun login(username: String, password: String): LoginState {
         val loginState = validate(username, password)
-        if (loginState.isValid()) {
+        if (loginState is LoginState.Valid) {
             repository.login(username, password)
                     .compose(schedulerFactory.apply())
                     .subscribe(this::onLoginResult)
@@ -26,9 +26,13 @@ class LoginUseCase(val repository: AccountRepository, val schedulerFactory: Sche
         return loginState
     }
 
-    private fun validate(username: String, password: String) = LoginState(
-            usernamePresent = username.length > 0,
-            passwordPresent = password.length > 0)
+    private fun validate(username: String, password: String): LoginState {
+        if (username.isNotBlank() && password.isNotBlank()) {
+            return LoginState.Valid
+        } else {
+            return LoginState.Invalid(username.isBlank(), password.isBlank())
+        }
+    }
 
     private fun onLoginResult(result: AsyncResult<AuthSession>) {
         result.doOnSuccess { loginSuccessful.onNext(it.value) }

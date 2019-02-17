@@ -1,8 +1,10 @@
 package com.jbrunton.mymovies.usecases.auth
 
-data class LoginState(
-        val usernamePresent: Boolean,
-        val passwordPresent: Boolean
-) {
-    fun isValid() = usernamePresent && passwordPresent
+sealed class LoginState {
+    object Valid : LoginState()
+
+    data class Invalid(
+            val requiresUsername: Boolean,
+            val requiresPassword: Boolean
+    ) : LoginState()
 }
