@@ -9,7 +9,7 @@ class FavoritesViewModel(val useCase: FavoritesUseCase) : BaseLoadingViewModel<S
     override fun start() {
         loadFavorites()
         subscribe(useCase.retrySnackbar) {
-            snackbar.postValue(RetrySnackbar)
+            snackbar.postValue(NetworkErrorSnackbar(retry = true))
         }
     }
 

@@ -7,11 +7,11 @@ abstract class BaseLoadingViewModel<T> : BaseViewModel() {
     val viewState = MutableLiveData<LoadingViewState<T>>()
 
     open fun retry() {}
-
-    val RetrySnackbar = SnackbarMessage(
+    
+    fun NetworkErrorSnackbar(retry: Boolean) = SnackbarMessage(
             message = "There was a problem with your connection",
             duration = Snackbar.LENGTH_INDEFINITE,
-            actionLabel = "Retry",
-            action = this::retry
+            actionLabel = if (retry) { "Retry" } else { "OK" },
+            action = if (retry) { this::retry } else { null }
     )
 }

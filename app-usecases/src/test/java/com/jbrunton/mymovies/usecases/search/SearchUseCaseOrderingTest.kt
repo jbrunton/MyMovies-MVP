@@ -1,4 +1,4 @@
-package mymovies.usecases.search
+package com.jbrunton.mymovies.usecases.search
 
 import com.jbrunton.async.AsyncResult
 import com.jbrunton.entities.repositories.MoviesRepository
@@ -6,8 +6,6 @@ import com.jbrunton.fixtures.MovieFactory
 import com.jbrunton.fixtures.RepositoryFixtures
 import com.jbrunton.fixtures.TestSchedulerFactory
 import com.jbrunton.fixtures.TestSchedulerRule
-import com.jbrunton.mymovies.usecases.search.SearchState
-import com.jbrunton.mymovies.usecases.search.SearchUseCase
 import io.reactivex.observers.TestObserver
 import io.reactivex.subjects.PublishSubject
 import org.junit.Before
