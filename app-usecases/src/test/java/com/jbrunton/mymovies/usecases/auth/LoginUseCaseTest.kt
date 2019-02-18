@@ -30,6 +30,9 @@ class LoginUseCaseTest {
     private val LOADING_STATE = AsyncResult.loading(null)
     private val SUCCESS_STATE = AsyncResult.success(LoginState.Valid)
 
+    private val INVALID_USERNAME_STATE = AsyncResult.success(LoginState.Invalid(requiresUsername = true, requiresPassword = false))
+    private val INVALID_PASSWORD_STATE = AsyncResult.success(LoginState.Invalid(requiresUsername = false, requiresPassword = true))
+
     private val USERNAME = "myusername"
     private val PASSWORD = "mypassword"
 
@@ -70,6 +73,18 @@ class LoginUseCaseTest {
 
         viewStateObserver.assertValues(LOADING_STATE, SUCCESS_STATE)
         networkErrorSnackbarObserver.assertValue(Unit)
+    }
+
+    @Test
+    fun testInvalidUsername() {
+        viewStateObserver = useCase.login("", PASSWORD).test()
+        viewStateObserver.assertValues(INVALID_USERNAME_STATE)
+    }
+
+    @Test
+    fun testInvalidPassword() {
+        viewStateObserver = useCase.login(USERNAME, "").test()
+        viewStateObserver.assertValues(INVALID_PASSWORD_STATE)
     }
 
     private fun stubLoginToReturn(result: AsyncResult<AuthSession>) {
