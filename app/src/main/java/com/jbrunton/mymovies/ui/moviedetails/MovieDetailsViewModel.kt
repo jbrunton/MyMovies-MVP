@@ -16,6 +16,9 @@ class MovieDetailsViewModel(
 
     override fun start() {
         loadDetails()
+        subscribe(useCase.favoriteAddedSnackbar, this::showFavoriteAddedSnackbar)
+        subscribe(useCase.favoriteRemovedSnackbar, this::showFavoriteRemovedSnackbar)
+        subscribe(useCase.signedOutSnackbar, this::showSignedOutSnackbar)
     }
 
     override fun retry() {
@@ -23,11 +26,15 @@ class MovieDetailsViewModel(
     }
 
     fun favorite() {
-        subscribe(useCase.favorite(), this::onFavorite)
+        subscribe(useCase.favorite()) {
+            viewState.postValue(MovieDetailsViewStateFactory.from(it))
+        }
     }
 
     fun unfavorite() {
-        subscribe(useCase.unfavorite(), this::onUnfavorite)
+        subscribe(useCase.unfavorite()) {
+            viewState.postValue(MovieDetailsViewStateFactory.from(it))
+        }
     }
 
     private fun loadDetails() {
@@ -36,23 +43,29 @@ class MovieDetailsViewModel(
         }
     }
 
-    private fun onFavorite(unit: Unit) {
+    private fun showFavoriteAddedSnackbar(unit: Unit) {
         val message = SnackbarMessage(
                 "Added to favorites",
                 "Undo",
                 { unfavorite() }
         )
         snackbar.postValue(message)
-        loadDetails()
     }
 
-    private fun onUnfavorite(unit: Unit) {
+    private fun showFavoriteRemovedSnackbar(unit: Unit) {
         val message = SnackbarMessage(
                 "Removed from favorites",
                 "Undo",
                 { favorite() }
         )
         snackbar.postValue(message)
-        loadDetails()
+    }
+
+    private fun showSignedOutSnackbar(unit: Unit) {
+        val message = SnackbarMessage(
+                "Sign in to add favorites",
+                "OK"
+        )
+        snackbar.postValue(message)
     }
 }

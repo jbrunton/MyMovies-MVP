@@ -25,24 +25,24 @@ class MovieDetailsUseCase(
         return repository.getMovie(movieId).map(this::handleResult)
     }
 
-    fun favorite(): DataStream<Unit> {
+    fun favorite(): DataStream<MovieDetailsState> {
         return repository.favorite(movieId)
                 .map { result ->
                     result.doOnSuccess { favoriteAddedSnackbar.onNext(Unit) }
                     result.handleNetworkErrors().onError(HttpException::class) {
                         use(this@MovieDetailsUseCase::handleAuthFailure) whenever { it.code() == 401 }
                     }
-                }
+                }.flatMap { movie() }
     }
 
-    fun unfavorite(): DataStream<Unit> {
+    fun unfavorite(): DataStream<MovieDetailsState> {
         return repository.unfavorite(movieId)
                 .map { result ->
                     result.doOnSuccess { favoriteRemovedSnackbar.onNext(Unit) }
                     result.handleNetworkErrors().onError(HttpException::class) {
                         use(this@MovieDetailsUseCase::handleAuthFailure) whenever { it.code() == 401 }
                     }
-                }
+                }.flatMap { movie() }
     }
 
     private fun handleAuthFailure(result: AsyncResult.Failure<Unit>) {
