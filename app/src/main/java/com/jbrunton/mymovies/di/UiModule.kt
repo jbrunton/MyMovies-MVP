@@ -13,6 +13,7 @@ import com.jbrunton.mymovies.ui.search.SearchViewModel
 import com.jbrunton.mymovies.usecases.auth.LoginUseCase
 import com.jbrunton.mymovies.usecases.discover.DiscoverUseCase
 import com.jbrunton.mymovies.usecases.favorites.FavoritesUseCase
+import com.jbrunton.mymovies.usecases.moviedetails.MovieDetailsUseCase
 import com.jbrunton.mymovies.usecases.search.SearchUseCase
 
 val UiModule = module {
@@ -22,6 +23,7 @@ val UiModule = module {
     factory { DiscoverUseCase(get(), get()) }
     factory { FavoritesUseCase(get()) }
     factory { LoginUseCase(get()) }
+    factory { (movieId: String) -> MovieDetailsUseCase(movieId, get(), get()) }
 
     factory { SearchViewModel(get()) }
     factory { DiscoverViewModel(get()) }
@@ -29,6 +31,6 @@ val UiModule = module {
     factory { LoginViewModel(get()) }
     factory { AccountViewModel(get()) }
     factory { FavoritesViewModel(get()) }
-    factory { (movieId: String) -> MovieDetailsViewModel(movieId, get(), get()) }
+    factory { (movieId: String) -> MovieDetailsViewModel(movieId, get()) }
     factory { (genreId: String) -> GenreResultsViewModel(genreId, get()) }
 }
