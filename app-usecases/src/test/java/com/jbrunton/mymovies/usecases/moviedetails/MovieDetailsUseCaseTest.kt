@@ -43,11 +43,11 @@ class MovieDetailsUseCaseTest {
         favoriteAddedObserver = useCase.favoriteAddedSnackbar.test()
         favoriteRemovedObserver = useCase.favoriteRemovedSnackbar.test()
         signedOutObserver = useCase.signedOutSnackbar.test()
+        stubRepoToReturn(SUCCESS_RESULT)
     }
 
     @Test
     fun testSuccess() {
-        stubRepoToReturn(SUCCESS_RESULT)
         viewStateObserver = useCase.movie().test()
         viewStateObserver.assertValues(LOADING_STATE, SUCCESS_STATE)
     }
@@ -58,7 +58,7 @@ class MovieDetailsUseCaseTest {
 
         val observer = useCase.favorite().test()
 
-        observer.assertValue(AsyncResult.success(Unit))
+        observer.assertValues(LOADING_STATE, SUCCESS_STATE)
         favoriteAddedObserver.assertValue(Unit)
     }
 
@@ -68,7 +68,7 @@ class MovieDetailsUseCaseTest {
 
         val observer = useCase.unfavorite().test()
 
-        observer.assertValue(AsyncResult.success(Unit))
+        observer.assertValues(LOADING_STATE, SUCCESS_STATE)
         favoriteRemovedObserver.assertValue(Unit)
     }
 
@@ -78,7 +78,7 @@ class MovieDetailsUseCaseTest {
 
         val observer = useCase.favorite().test()
 
-        observer.assertValue(AsyncResult.success(Unit))
+        observer.assertValues(LOADING_STATE, SUCCESS_STATE)
         signedOutObserver.assertValue(Unit)
     }
 
