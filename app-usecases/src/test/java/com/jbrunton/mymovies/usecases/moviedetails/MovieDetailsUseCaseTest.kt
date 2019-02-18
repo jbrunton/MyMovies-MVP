@@ -1,13 +1,11 @@
 package com.jbrunton.mymovies.usecases.moviedetails
 
 import com.jbrunton.async.AsyncResult
-import com.jbrunton.entities.models.AuthSession
 import com.jbrunton.entities.models.Movie
 import com.jbrunton.entities.repositories.ApplicationPreferences
 import com.jbrunton.entities.repositories.MoviesRepository
 import com.jbrunton.fixtures.MovieFactory
 import com.jbrunton.fixtures.NetworkErrorFixtures
-import com.jbrunton.mymovies.usecases.auth.LoginState
 import com.nhaarman.mockito_kotlin.whenever
 import io.reactivex.Observable
 import io.reactivex.observers.TestObserver
@@ -22,24 +20,19 @@ class MovieDetailsUseCaseTest {
     private lateinit var viewStateObserver: TestObserver<AsyncResult<MovieDetailsState>>
     private lateinit var favoriteAddedObserver: TestObserver<Unit>
     private lateinit var favoriteRemovedObserver: TestObserver<Unit>
+    private lateinit var signedOutObserver: TestObserver<Unit>
 
     private val factory = MovieFactory()
     private val MOVIE = factory.create()
     private val MOVIE_ID = MOVIE.id
 
-    private val AUTH_SESSION = AuthSession("1234")
     private val LOADING_RESULT = AsyncResult.loading<Movie>(null)
     private val SUCCESS_RESULT = AsyncResult.success(MOVIE)
     private val AUTH_FAILURE_MESSAGE = "Some Error"
-    private val AUTH_FAILURE_RESULT = NetworkErrorFixtures.httpErrorResult<AuthSession>(401, AUTH_FAILURE_MESSAGE)
-    private val NETWORK_ERROR_RESULT = NetworkErrorFixtures.networkErrorResult<AuthSession>()
+    private val AUTH_FAILURE_RESULT = NetworkErrorFixtures.httpErrorResult<Unit>(401, AUTH_FAILURE_MESSAGE)
 
     private val LOADING_STATE = AsyncResult.loading(null)
     private val SUCCESS_STATE = AsyncResult.success(MovieDetailsState(MOVIE, true))
-
-    private val INVALID_USERNAME_STATE = AsyncResult.success(LoginState.Invalid(requiresUsername = true, requiresPassword = false))
-    private val INVALID_PASSWORD_STATE = AsyncResult.success(LoginState.Invalid(requiresUsername = false, requiresPassword = true))
-
 
     @Before
     fun setUp() {
@@ -49,6 +42,7 @@ class MovieDetailsUseCaseTest {
         useCase = MovieDetailsUseCase(MOVIE_ID, repository, preferences)
         favoriteAddedObserver = useCase.favoriteAddedSnackbar.test()
         favoriteRemovedObserver = useCase.favoriteRemovedSnackbar.test()
+        signedOutObserver = useCase.signedOutSnackbar.test()
     }
 
     @Test
@@ -60,22 +54,32 @@ class MovieDetailsUseCaseTest {
 
     @Test
     fun testFavorite() {
-        whenever(repository.favorite(MOVIE_ID)).thenReturn(Observable.just(Unit))
+        whenever(repository.favorite(MOVIE_ID)).thenReturn(Observable.just(AsyncResult.success(Unit)))
 
         val observer = useCase.favorite().test()
 
-        observer.assertValue(Unit)
+        observer.assertValue(AsyncResult.success(Unit))
         favoriteAddedObserver.assertValue(Unit)
     }
 
     @Test
     fun testUnfavorite() {
-        whenever(repository.unfavorite(MOVIE_ID)).thenReturn(Observable.just(Unit))
+        whenever(repository.unfavorite(MOVIE_ID)).thenReturn(Observable.just(AsyncResult.success(Unit)))
 
         val observer = useCase.unfavorite().test()
 
-        observer.assertValue(Unit)
+        observer.assertValue(AsyncResult.success(Unit))
         favoriteRemovedObserver.assertValue(Unit)
+    }
+
+    @Test
+    fun testSignedOut() {
+        whenever(repository.favorite(MOVIE_ID)).thenReturn(Observable.just(AUTH_FAILURE_RESULT))
+
+        val observer = useCase.favorite().test()
+
+        observer.assertValue(AsyncResult.success(Unit))
+        signedOutObserver.assertValue(Unit)
     }
 
     private fun stubRepoToReturn(result: AsyncResult<Movie>) {
