@@ -7,7 +7,7 @@ abstract class BaseLoadingViewController<T>: ViewController<LoadingViewState<T>>
     abstract val contentView: View
 
     fun showLoadingIndicator() {
-        containerView.visibility = View.GONE
+        contentView.visibility = View.GONE
         loading_indicator.visibility = View.VISIBLE
     }
 
