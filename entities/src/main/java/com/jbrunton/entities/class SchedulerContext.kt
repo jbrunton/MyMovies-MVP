@@ -16,6 +16,10 @@ class SchedulerContext(val factory: SchedulerFactory) {
         compositeDisposable.add(disposable)
     }
 
+    fun <T> subscribe(source: Observable<T>) {
+        subscribe(source, {})
+    }
+
     fun dispose() {
         compositeDisposable.clear()
     }
@@ -30,3 +34,14 @@ fun <T> HasSchedulers.subscribe(source: Observable<T>, onNext: (T) -> Unit) =
 
 fun <T> HasSchedulers.subscribe(source: Observable<T>) =
         schedulerContext.subscribe(source, {})
+
+fun <T> HasSchedulers.connect(block: (SchedulerContext) -> Observable<T>, onNext: (T) -> Unit) =
+        subscribe(block.invoke(schedulerContext), onNext)
+
+fun HasSchedulers.connect(block: (SchedulerContext) -> Unit) =
+        block.invoke(schedulerContext)
+
+//fun <T> HasSchedulers.withSchedulers(block: SchedulerContext.() -> T): T =
+//        block.invoke(schedulerContext)
+
+fun <T> schedulerContext(block: SchedulerContext.() -> T): (SchedulerContext) -> T = block

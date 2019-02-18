@@ -4,28 +4,25 @@ import com.jbrunton.async.AsyncResult
 import com.jbrunton.async.doOnSuccess
 import com.jbrunton.async.map
 import com.jbrunton.async.onError
-import com.jbrunton.entities.HasSchedulers
-import com.jbrunton.entities.SchedulerContext
 import com.jbrunton.entities.errors.handleNetworkErrors
 import com.jbrunton.entities.models.Movie
 import com.jbrunton.entities.repositories.ApplicationPreferences
 import com.jbrunton.entities.repositories.MoviesRepository
-import com.jbrunton.entities.subscribe
+import com.jbrunton.entities.schedulerContext
 import io.reactivex.subjects.PublishSubject
 import retrofit2.HttpException
 
 class MovieDetailsUseCase(
         val movieId: String,
         val repository: MoviesRepository,
-        val preferences: ApplicationPreferences,
-        override val schedulerContext: SchedulerContext
-) : HasSchedulers {
+        val preferences: ApplicationPreferences
+) {
     val favoriteAddedSnackbar = PublishSubject.create<Unit>()
     val favoriteRemovedSnackbar = PublishSubject.create<Unit>()
     val signedOutSnackbar = PublishSubject.create<Unit>()
     val movie = PublishSubject.create<AsyncResult<MovieDetailsState>>()
 
-    fun start() {
+    fun start() = schedulerContext {
         subscribe(loadDetails())
     }
 
@@ -37,7 +34,7 @@ class MovieDetailsUseCase(
                         use(this@MovieDetailsUseCase::handleAuthFailure) whenever { it.code() == 401 }
                     }
                 }.flatMap { loadDetails() }
-        subscribe(observable)
+        //subscribe(observable)
     }
 
     fun unfavorite() {
@@ -48,7 +45,7 @@ class MovieDetailsUseCase(
                         use(this@MovieDetailsUseCase::handleAuthFailure) whenever { it.code() == 401 }
                     }
                 }.flatMap { loadDetails() }
-        subscribe(observable)
+        //subscribe(observable)
     }
 
     private fun loadDetails() = repository.getMovie(movieId).map(this::handleResult)

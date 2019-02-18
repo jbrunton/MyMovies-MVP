@@ -9,7 +9,6 @@ import com.jbrunton.entities.SchedulerFactory
 import com.jbrunton.inject.Container
 import com.jbrunton.inject.HasContainer
 import com.jbrunton.inject.inject
-import io.reactivex.Observable
 
 abstract class BaseViewModel(override val container: Container) : ViewModel(), HasSchedulers, HasContainer {
     val schedulerFactory: SchedulerFactory by inject()
@@ -23,10 +22,6 @@ abstract class BaseViewModel(override val container: Container) : ViewModel(), H
                   allowRetry: Boolean = false
     ): AsyncResult<T> {
         return AsyncResult.Failure(LoadingViewStateError(errorMessage, errorIcon, allowRetry))
-    }
-
-    fun <T> subscribe(source: Observable<T>, onNext: (T) -> Unit) {
-        schedulerContext.subscribe(source, onNext)
     }
 
     override fun onCleared() {
