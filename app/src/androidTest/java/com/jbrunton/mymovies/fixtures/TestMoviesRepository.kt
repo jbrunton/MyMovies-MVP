@@ -13,11 +13,11 @@ class TestMoviesRepository : MoviesRepository {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun favorite(movieId: String): Observable<Any> {
+    override fun favorite(movieId: String): DataStream<Unit> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun unfavorite(movieId: String): Observable<Any> {
+    override fun unfavorite(movieId: String): DataStream<Unit> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

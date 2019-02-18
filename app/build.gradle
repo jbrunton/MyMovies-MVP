@@ -58,8 +58,8 @@ dependencies {
     implementation project(':app-usecases')
     implementation project(':networking')
 
-    implementation 'com.github.jbrunton:mini-container:0.1.0'
-    implementation 'com.github.jbrunton:mini-container-android:0.1.0'
+    implementation 'com.github.jbrunton:mini-container:0.2.0'
+    implementation 'com.github.jbrunton:mini-container-android:0.2.0'
 
     implementation 'com.google.android.material:material:1.0.0-rc02'
     implementation 'androidx.appcompat:appcompat:1.0.0-rc02'

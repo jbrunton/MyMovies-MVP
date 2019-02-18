@@ -1,23 +1,24 @@
 package com.jbrunton.mymovies.ui.moviedetails
 
-import com.jbrunton.async.AsyncResult
-import com.jbrunton.async.map
-import com.jbrunton.entities.errors.handleNetworkErrors
-import com.jbrunton.entities.models.Movie
-import com.jbrunton.entities.repositories.ApplicationPreferences
-import com.jbrunton.entities.repositories.MoviesRepository
-import com.jbrunton.mymovies.ui.movies.MovieViewState
+import com.jbrunton.inject.Container
+import com.jbrunton.inject.HasContainer
+import com.jbrunton.inject.inject
+import com.jbrunton.inject.parametersOf
 import com.jbrunton.mymovies.ui.shared.BaseLoadingViewModel
 import com.jbrunton.mymovies.ui.shared.SnackbarMessage
-import com.jbrunton.mymovies.ui.shared.toLoadingViewState
+import com.jbrunton.mymovies.usecases.moviedetails.MovieDetailsUseCase
 
 class MovieDetailsViewModel(
         val movieId: String,
-        val repository: MoviesRepository,
-        val preferences: ApplicationPreferences
-) : BaseLoadingViewModel<MovieViewState>() {
+        override val container: Container
+) : BaseLoadingViewModel<MovieDetailsViewState>(), HasContainer {
+    val useCase: MovieDetailsUseCase by inject { parametersOf(movieId) }
+
     override fun start() {
         loadDetails()
+        subscribe(useCase.favoriteAddedSnackbar, this::showFavoriteAddedSnackbar)
+        subscribe(useCase.favoriteRemovedSnackbar, this::showFavoriteRemovedSnackbar)
+        subscribe(useCase.signedOutSnackbar, this::showSignedOutSnackbar)
     }
 
     override fun retry() {
@@ -25,44 +26,46 @@ class MovieDetailsViewModel(
     }
 
     fun favorite() {
-        subscribe(repository.favorite(movieId), this::onFavorite)
+        subscribe(useCase.favorite()) {
+            viewState.postValue(MovieDetailsViewStateFactory.from(it))
+        }
     }
 
     fun unfavorite() {
-        subscribe(repository.unfavorite(movieId), this::onUnfavorite)
+        subscribe(useCase.unfavorite()) {
+            viewState.postValue(MovieDetailsViewStateFactory.from(it))
+        }
     }
 
     private fun loadDetails() {
-        subscribe(repository.getMovie(movieId), this::setMovieResponse)
+        subscribe(useCase.movie()) {
+            viewState.postValue(MovieDetailsViewStateFactory.from(it))
+        }
     }
 
-    private fun setMovieResponse(state: AsyncResult<Movie>) {
-        viewState.value = state
-                .map {
-                    val favorite = preferences.favorites.contains(movieId)
-                    MovieViewState.from(it, favorite)
-                }
-                .handleNetworkErrors()
-                .toLoadingViewState(MovieViewState.Empty)
-    }
-
-    private fun onFavorite(any: Any) {
+    private fun showFavoriteAddedSnackbar(unit: Unit) {
         val message = SnackbarMessage(
                 "Added to favorites",
                 "Undo",
                 { unfavorite() }
         )
         snackbar.postValue(message)
-        loadDetails()
     }
 
-    private fun onUnfavorite(any: Any) {
+    private fun showFavoriteRemovedSnackbar(unit: Unit) {
         val message = SnackbarMessage(
                 "Removed from favorites",
                 "Undo",
                 { favorite() }
         )
         snackbar.postValue(message)
-        loadDetails()
+    }
+
+    private fun showSignedOutSnackbar(unit: Unit) {
+        val message = SnackbarMessage(
+                "Sign in to add favorites",
+                "OK"
+        )
+        snackbar.postValue(message)
     }
 }

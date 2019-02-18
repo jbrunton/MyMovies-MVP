@@ -13,14 +13,13 @@ import com.jbrunton.mymovies.fixtures.BaseFragmentTest
 import com.jbrunton.mymovies.fixtures.FragmentTestRule
 import com.jbrunton.mymovies.fixtures.ProgressBarViewActions
 import com.jbrunton.mymovies.fixtures.ViewControllerTestFragment
-import com.jbrunton.mymovies.ui.movies.MovieViewState
 import com.jbrunton.mymovies.ui.shared.LoadingViewState
 import com.jbrunton.mymovies.ui.shared.LoadingViewStateError
 import com.jbrunton.mymovies.ui.shared.toLoadingViewState
 import org.junit.Test
 
 class MovieDetailsViewControllerTest : BaseFragmentTest<MovieDetailsViewControllerTest.TestFragment>() {
-    val LOADING_STATE = AsyncResult.Loading<MovieViewState>()
+    val LOADING_STATE = AsyncResult.Loading<MovieDetailsViewState>()
 
     val movies = MovieFactory()
     val movie1 = movies.create()
@@ -30,7 +29,7 @@ class MovieDetailsViewControllerTest : BaseFragmentTest<MovieDetailsViewControll
     @Test
     fun showsLoadingState() {
         onView(ViewMatchers.isAssignableFrom(ProgressBar::class.java)).perform(ProgressBarViewActions.replaceProgressBarDrawable())
-        setViewState(LOADING_STATE.toLoadingViewState(MovieViewState.Empty))
+        setViewState(LOADING_STATE.toLoadingViewState(MovieDetailsViewState.Empty))
 
         takeScreenshot("showsLoadingState")
         onView(ViewMatchers.withId(R.id.loading_indicator))
@@ -39,7 +38,7 @@ class MovieDetailsViewControllerTest : BaseFragmentTest<MovieDetailsViewControll
 
     @Test
     fun showsErrorState() {
-        setViewState(AsyncResult.Failure<MovieViewState>(NETWORK_ERROR).toLoadingViewState(MovieViewState.Empty))
+        setViewState(AsyncResult.Failure<MovieDetailsViewState>(NETWORK_ERROR).toLoadingViewState(MovieDetailsViewState.Empty))
 
         takeScreenshot("showsErrorState")
         onView(withId(R.id.error_text))
@@ -50,8 +49,8 @@ class MovieDetailsViewControllerTest : BaseFragmentTest<MovieDetailsViewControll
 
     @Test
     fun showsMovieDetails() {
-        val viewState = MovieViewState.from(movie1, false)
-        setViewState(AsyncResult.Success(viewState).toLoadingViewState(MovieViewState.Empty))
+        val viewState = MovieDetailsViewState.from(movie1, false)
+        setViewState(AsyncResult.Success(viewState).toLoadingViewState(MovieDetailsViewState.Empty))
 
         takeScreenshot()
 
@@ -63,11 +62,11 @@ class MovieDetailsViewControllerTest : BaseFragmentTest<MovieDetailsViewControll
         return FragmentTestRule.create(MovieDetailsViewControllerTest.TestFragment::class.java)
     }
 
-    private fun setViewState(viewState: LoadingViewState<MovieViewState>) {
+    private fun setViewState(viewState: LoadingViewState<MovieDetailsViewState>) {
         fragmentRule.runOnUiThread { fragment.updateView(viewState) }
     }
 
-    class TestFragment: ViewControllerTestFragment<LoadingViewState<MovieViewState>>() {
+    class TestFragment: ViewControllerTestFragment<LoadingViewState<MovieDetailsViewState>>() {
         override fun createViewController() = MovieDetailsViewController()
     }
 }

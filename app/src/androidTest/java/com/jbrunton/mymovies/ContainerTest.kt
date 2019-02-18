@@ -4,7 +4,6 @@ import androidx.test.rule.ActivityTestRule
 import androidx.test.runner.AndroidJUnit4
 import com.jbrunton.inject.DryRunParameters
 import com.jbrunton.inject.check
-import com.jbrunton.inject.inject
 import com.jbrunton.inject.parametersOf
 import com.jbrunton.mymovies.di.ActivityModule
 import com.jbrunton.mymovies.di.ApplicationComponent
@@ -13,6 +12,7 @@ import com.jbrunton.mymovies.fixtures.BaseActivityTest
 import com.jbrunton.mymovies.ui.discover.GenreResultsViewModel
 import com.jbrunton.mymovies.ui.main.MainActivity
 import com.jbrunton.mymovies.ui.moviedetails.MovieDetailsViewModel
+import com.jbrunton.mymovies.usecases.moviedetails.MovieDetailsUseCase
 import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -22,6 +22,7 @@ class ContainerTest : BaseActivityTest<MainActivity>() {
     val parameters = DryRunParameters().apply {
         paramsFor(MovieDetailsViewModel::class, parametersOf("1"))
         paramsFor(GenreResultsViewModel::class, parametersOf("1"))
+        paramsFor(MovieDetailsUseCase::class, parametersOf("1"))
     }
 
     @Test

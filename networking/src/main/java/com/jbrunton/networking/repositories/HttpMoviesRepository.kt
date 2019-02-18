@@ -59,24 +59,24 @@ class HttpMoviesRepository(
         }
     }
 
-    override fun favorite(movieId: String): Observable<Any> {
+    override fun favorite(movieId: String): DataStream<Unit> {
         return service.favorite(
                 preferences.accountId,
                 preferences.sessionId,
                 FavoriteRequest(mediaId = movieId, favorite = true)
-        ).doOnNext {
+        ).map { Unit }.doOnNext {
             preferences.addFavorite(movieId)
-        }
+        }.toDataStream()
     }
 
-    override fun unfavorite(movieId: String): Observable<Any> {
+    override fun unfavorite(movieId: String): DataStream<Unit> {
         return service.favorite(
                 preferences.accountId,
                 preferences.sessionId,
                 FavoriteRequest(mediaId = movieId, favorite = false)
-        ).doOnNext {
+        ).map { Unit }.doOnNext {
             preferences.removeFavorite(movieId)
-        }
+        }.toDataStream()
     }
 
     private fun buildResponse(
