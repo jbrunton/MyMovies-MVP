@@ -31,7 +31,9 @@ class MovieDetailsViewModel(
     }
 
     private fun loadDetails() {
-        subscribe(useCase.movie()) { MovieDetailsViewStateFactory.from(it) }
+        subscribe(useCase.movie()) {
+            viewState.postValue(MovieDetailsViewStateFactory.from(it))
+        }
     }
 
     private fun onFavorite(unit: Unit) {
