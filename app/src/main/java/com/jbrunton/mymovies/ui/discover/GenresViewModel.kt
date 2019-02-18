@@ -5,11 +5,15 @@ import com.jbrunton.async.onSuccess
 import com.jbrunton.entities.errors.handleNetworkErrors
 import com.jbrunton.entities.models.Genre
 import com.jbrunton.entities.repositories.GenresRepository
+import com.jbrunton.inject.Container
+import com.jbrunton.inject.inject
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.ui.shared.BaseLoadingViewModel
 import com.jbrunton.mymovies.ui.shared.toLoadingViewState
 
-class GenresViewModel(private val repository: GenresRepository) : BaseLoadingViewModel<GenresViewState>() {
+class GenresViewModel(container: Container) : BaseLoadingViewModel<GenresViewState>(container) {
+    val repository: GenresRepository by inject()
+
     override fun start() {
         loadGenres()
     }

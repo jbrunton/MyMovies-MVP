@@ -1,9 +1,13 @@
 package com.jbrunton.mymovies.ui.discover
 
+import com.jbrunton.inject.Container
+import com.jbrunton.inject.inject
 import com.jbrunton.mymovies.ui.shared.BaseLoadingViewModel
 import com.jbrunton.mymovies.usecases.discover.DiscoverUseCase
 
-class DiscoverViewModel(val useCase: com.jbrunton.mymovies.usecases.discover.DiscoverUseCase) : BaseLoadingViewModel<DiscoverViewState>() {
+class DiscoverViewModel(container: Container) : BaseLoadingViewModel<DiscoverViewState>(container) {
+    val useCase: DiscoverUseCase by inject()
+
     override fun start() {
         load()
     }

@@ -2,8 +2,9 @@ package com.jbrunton.mymovies.ui.shared
 
 import androidx.lifecycle.MutableLiveData
 import com.google.android.material.snackbar.Snackbar
+import com.jbrunton.inject.Container
 
-abstract class BaseLoadingViewModel<T> : BaseViewModel() {
+abstract class BaseLoadingViewModel<T>(container: Container) : BaseViewModel(container) {
     val viewState = MutableLiveData<LoadingViewState<T>>()
 
     open fun retry() {}

@@ -1,46 +1,37 @@
 package com.jbrunton.mymovies.ui.moviedetails
 
 import com.jbrunton.inject.Container
-import com.jbrunton.inject.HasContainer
 import com.jbrunton.inject.inject
 import com.jbrunton.inject.parametersOf
 import com.jbrunton.mymovies.ui.shared.BaseLoadingViewModel
 import com.jbrunton.mymovies.ui.shared.SnackbarMessage
 import com.jbrunton.mymovies.usecases.moviedetails.MovieDetailsUseCase
 
-class MovieDetailsViewModel(
-        val movieId: String,
-        override val container: Container
-) : BaseLoadingViewModel<MovieDetailsViewState>(), HasContainer {
-    val useCase: MovieDetailsUseCase by inject { parametersOf(movieId) }
+class MovieDetailsViewModel(val movieId: String, container: Container) :
+        BaseLoadingViewModel<MovieDetailsViewState>(container)
+{
+    val useCase: MovieDetailsUseCase by inject { parametersOf(movieId, schedulerContext) }
 
     override fun start() {
-        loadDetails()
+        subscribe(useCase.movie) {
+            viewState.postValue(MovieDetailsViewStateFactory.from(it))
+        }
         subscribe(useCase.favoriteAddedSnackbar, this::showFavoriteAddedSnackbar)
         subscribe(useCase.favoriteRemovedSnackbar, this::showFavoriteRemovedSnackbar)
         subscribe(useCase.signedOutSnackbar, this::showSignedOutSnackbar)
+        useCase.start()
     }
 
     override fun retry() {
-        loadDetails()
+        useCase.start()
     }
 
     fun favorite() {
-        subscribe(useCase.favorite()) {
-            viewState.postValue(MovieDetailsViewStateFactory.from(it))
-        }
+        useCase.favorite()
     }
 
     fun unfavorite() {
-        subscribe(useCase.unfavorite()) {
-            viewState.postValue(MovieDetailsViewStateFactory.from(it))
-        }
-    }
-
-    private fun loadDetails() {
-        subscribe(useCase.movie()) {
-            viewState.postValue(MovieDetailsViewStateFactory.from(it))
-        }
+        useCase.unfavorite()
     }
 
     private fun showFavoriteAddedSnackbar(unit: Unit) {
