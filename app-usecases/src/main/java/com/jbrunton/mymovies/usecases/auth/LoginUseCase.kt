@@ -21,18 +21,18 @@ class LoginUseCase(val repository: AccountRepository) {
 
     fun login(username: String, password: String): DataStream<LoginState> {
         val loginState = validate(username, password)
-        if (loginState is LoginState.Valid) {
-            return repository.login(username, password).map(this::handleLoginResult)
-        } else {
+        if (loginState is LoginState.Invalid) {
             return Observable.just(AsyncResult.success(loginState))
         }
+        return repository.login(username, password).map(this::handleLoginResult)
     }
 
     private fun handleLoginResult(result: AsyncResult<AuthSession>): AsyncResult<LoginState> {
-        return result.doOnSuccess { loginSuccessful.onNext(it.value) }
+        return result
+                .doOnSuccess { loginSuccessful.onNext(it.value) }
                 .map { LoginState.Valid }
                 .handleNetworkErrors()
-                .onNetworkErrorUse(this::showRetrySnackbar)
+                .onNetworkErrorUse(this::showNetworkErrorSnackbar)
                 .onError(HttpException::class) {
                     use(this@LoginUseCase::handleAuthFailure) whenever { it.code() == 401 }
                 }
@@ -52,7 +52,7 @@ class LoginUseCase(val repository: AccountRepository) {
         return LoginState.Valid
     }
 
-    private fun showRetrySnackbar(result: AsyncResult.Failure<LoginState>): LoginState {
+    private fun showNetworkErrorSnackbar(result: AsyncResult.Failure<LoginState>): LoginState {
         networkErrorSnackbar.onNext(Unit)
         return LoginState.Valid
     }
