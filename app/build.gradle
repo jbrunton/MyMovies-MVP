@@ -55,7 +55,7 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlinx_coroutines_version"
 
     implementation project(':entities')
-    implementation project(':usecases')
+    implementation project(':app-usecases')
     implementation project(':networking')
 
     implementation 'com.github.jbrunton:mini-container:0.1.0'

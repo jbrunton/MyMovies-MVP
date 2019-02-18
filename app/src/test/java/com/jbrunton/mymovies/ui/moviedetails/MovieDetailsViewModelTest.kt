@@ -6,7 +6,7 @@ import com.jbrunton.entities.errors.networkError
 import com.jbrunton.entities.repositories.ApplicationPreferences
 import com.jbrunton.entities.repositories.MoviesRepository
 import com.jbrunton.fixtures.MovieFactory
-import com.jbrunton.mymovies.fixtures.RepositoryFixtures.stubFind
+import com.jbrunton.fixtures.RepositoryFixtures.stubFind
 import com.jbrunton.mymovies.fixtures.TestSchedulerRule
 import com.jbrunton.mymovies.ui.movies.MovieViewState
 import com.jbrunton.mymovies.ui.shared.LoadingViewState

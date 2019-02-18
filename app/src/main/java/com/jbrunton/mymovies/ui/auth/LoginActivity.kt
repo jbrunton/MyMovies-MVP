@@ -31,7 +31,6 @@ class LoginActivity : BaseActivity<LoginViewModel>() {
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
         viewController.bind(this)
-        viewController.showLoadingIndicator()
     }
 
     override fun onBindListeners() {
@@ -41,6 +40,7 @@ class LoginActivity : BaseActivity<LoginViewModel>() {
     }
 
     override fun onObserveData() {
+        super.onObserveData()
         viewModel.viewState.observe(this, viewController::updateView)
         viewModel.loginSuccessful.observe(this) {
             setResult(LOGIN_SUCCESSFUL, toIntent(it))

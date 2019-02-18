@@ -1,14 +1,16 @@
 package com.jbrunton.mymovies.ui.account.favorites
 
-import com.jbrunton.entities.repositories.MoviesRepository
 import com.jbrunton.mymovies.ui.search.SearchViewState
 import com.jbrunton.mymovies.ui.search.SearchViewStateFactory
 import com.jbrunton.mymovies.ui.shared.BaseLoadingViewModel
-import com.jbrunton.mymovies.usecases.search.SearchState
+import com.jbrunton.mymovies.usecases.favorites.FavoritesUseCase
 
-class FavoritesViewModel(val moviesRepository: MoviesRepository) : BaseLoadingViewModel<SearchViewState>() {
+class FavoritesViewModel(val useCase: FavoritesUseCase) : BaseLoadingViewModel<SearchViewState>() {
     override fun start() {
         loadFavorites()
+        subscribe(useCase.retrySnackbar) {
+            snackbar.postValue(NetworkErrorSnackbar(retry = true))
+        }
     }
 
     override fun retry() {
@@ -16,8 +18,8 @@ class FavoritesViewModel(val moviesRepository: MoviesRepository) : BaseLoadingVi
     }
 
     private fun loadFavorites() {
-        subscribe(moviesRepository.favorites()) {
-            viewState.postValue(SearchViewStateFactory.from(SearchState.from(it)))
+        subscribe(useCase.movies()) {
+            viewState.postValue(SearchViewStateFactory.from(it))
         }
     }
 }
