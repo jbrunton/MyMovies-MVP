@@ -15,19 +15,19 @@ class MovieDetailsUseCase(
         val repository: MoviesRepository,
         val preferences: ApplicationPreferences
 ) {
-    val favoriteSuccessful = PublishSubject.create<Unit>()
-    val unfavoriteSuccessful = PublishSubject.create<Unit>()
+    val favoriteAddedSnackbar = PublishSubject.create<Unit>()
+    val favoriteRemovedSnackbar = PublishSubject.create<Unit>()
 
     fun movie(): DataStream<MovieDetailsState> {
         return repository.getMovie(movieId).map(this::handleResult)
     }
 
     fun favorite(): Observable<Unit> {
-        return repository.favorite(movieId).doOnNext { favoriteSuccessful.onNext(Unit) }
+        return repository.favorite(movieId).doOnNext { favoriteAddedSnackbar.onNext(Unit) }
     }
 
     fun unfavorite(): Observable<Unit> {
-        return repository.unfavorite(movieId).doOnNext { unfavoriteSuccessful.onNext(Unit) }
+        return repository.unfavorite(movieId).doOnNext { favoriteRemovedSnackbar.onNext(Unit) }
     }
 
     private fun handleResult(result: AsyncResult<Movie>): AsyncResult<MovieDetailsState> {
