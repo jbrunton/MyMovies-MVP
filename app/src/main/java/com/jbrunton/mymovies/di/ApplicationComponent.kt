@@ -6,6 +6,7 @@ import com.jbrunton.mymovies.MyMoviesApplication
 
 open class ApplicationComponent(val application: MyMoviesApplication) : Module {
     override fun registerTypes(container: Container) {
+        container.single { container }
         container.register(
                 appModule(),
                 schedulersModule(),

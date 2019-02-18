@@ -8,7 +8,6 @@ import com.jbrunton.entities.repositories.MoviesRepository
 import com.jbrunton.fixtures.MovieFactory
 import com.jbrunton.fixtures.RepositoryFixtures.stubFind
 import com.jbrunton.mymovies.fixtures.TestSchedulerRule
-import com.jbrunton.mymovies.ui.movies.MovieViewState
 import com.jbrunton.mymovies.ui.shared.LoadingViewState
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
@@ -32,9 +31,9 @@ class MovieDetailsViewModelTest {
     private val MOVIE = movieFactory.create()
     private val NETWORK_ERROR = SocketTimeoutException()
 
-    private val SUCCESS_VIEW_STATE = LoadingViewState.success(MovieViewState.from(MOVIE, false))
-    private val NETWORK_FAILURE_VIEW_STATE = LoadingViewState.failure(networkError(), MovieViewState.Empty)
-    private val LOADING_VIEW_STATE = AsyncResult.Loading<MovieViewState>()
+    private val SUCCESS_VIEW_STATE = LoadingViewState.success(MovieDetailsViewState.from(MOVIE, false))
+    private val NETWORK_FAILURE_VIEW_STATE = LoadingViewState.failure(networkError(), MovieDetailsViewState.Empty)
+    private val LOADING_VIEW_STATE = AsyncResult.Loading<MovieDetailsViewState>()
 
     private lateinit var viewModel: MovieDetailsViewModel
 

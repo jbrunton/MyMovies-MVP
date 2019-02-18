@@ -14,7 +14,6 @@ import com.jbrunton.mymovies.R
 import com.jbrunton.inject.inject
 import com.jbrunton.mymovies.fixtures.BaseActivityTest
 import com.jbrunton.mymovies.fixtures.stubWith
-import com.jbrunton.mymovies.ui.movies.MovieViewState
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -28,7 +27,7 @@ class MovieDetailsActivityTest : BaseActivityTest<MovieDetailsActivity>() {
     @Test
     fun loadsMovieDetails() {
         moviesRepository.stubWith(listOf(MOVIE1))
-        val expectedViewState = MovieViewState.from(MOVIE1, false)
+        val expectedViewState = MovieDetailsViewState.from(MOVIE1, false)
 
         val intent = Intent()
         intent.putExtra("MOVIE_ID", MOVIE1.id)

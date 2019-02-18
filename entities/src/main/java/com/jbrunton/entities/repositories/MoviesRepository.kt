@@ -10,6 +10,6 @@ interface MoviesRepository {
     fun popular(): DataStream<List<Movie>>
     fun discoverByGenre(genreId: String): DataStream<List<Movie>>
     fun favorites(): DataStream<List<Movie>>
-    fun favorite(movieId: String): Observable<Any>
-    fun unfavorite(movieId: String): Observable<Any>
+    fun favorite(movieId: String): Observable<Unit>
+    fun unfavorite(movieId: String): Observable<Unit>
 }
