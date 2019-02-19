@@ -3,7 +3,7 @@ package com.jbrunton.mymovies.usecases.moviedetails
 import com.jbrunton.async.AsyncResult
 import com.jbrunton.entities.HasSchedulers
 import com.jbrunton.entities.SchedulerContext
-import com.jbrunton.entities.connect
+import com.jbrunton.entities.applySchedulers
 import com.jbrunton.entities.models.Movie
 import com.jbrunton.entities.repositories.ApplicationPreferences
 import com.jbrunton.entities.repositories.MoviesRepository
@@ -55,40 +55,39 @@ class MovieDetailsUseCaseTest : HasSchedulers {
 
     @Test
     fun testSuccess() {
-        val block: (SchedulerContext) -> Unit = useCase.start()
-        connect(block)
+        applySchedulers { useCase.start() }
         viewStateObserver.assertValues(LOADING_STATE, SUCCESS_STATE)
     }
 
-//    @Test
-//    fun testFavorite() {
-//        whenever(repository.favorite(MOVIE_ID)).thenReturn(Observable.just(AsyncResult.success(Unit)))
-//
-//        val observer = useCase.favorite().test()
-//
-//        observer.assertValues(LOADING_STATE, SUCCESS_STATE)
-//        favoriteAddedObserver.assertValue(Unit)
-//    }
+    @Test
+    fun testFavorite() {
+        whenever(repository.favorite(MOVIE_ID)).thenReturn(Observable.just(AsyncResult.success(Unit)))
 
-//    @Test
-//    fun testUnfavorite() {
-//        whenever(repository.unfavorite(MOVIE_ID)).thenReturn(Observable.just(AsyncResult.success(Unit)))
-//
-//        val observer = useCase.unfavorite().test()
-//
-//        observer.assertValues(LOADING_STATE, SUCCESS_STATE)
-//        favoriteRemovedObserver.assertValue(Unit)
-//    }
-//
-//    @Test
-//    fun testSignedOut() {
-//        whenever(repository.favorite(MOVIE_ID)).thenReturn(Observable.just(AUTH_FAILURE_RESULT))
-//
-//        val observer = useCase.favorite().test()
-//
-//        observer.assertValues(LOADING_STATE, SUCCESS_STATE)
-//        signedOutObserver.assertValue(Unit)
-//    }
+        applySchedulers { useCase.favorite() }
+
+        viewStateObserver.assertValues(LOADING_STATE, SUCCESS_STATE)
+        favoriteAddedObserver.assertValue(Unit)
+    }
+
+    @Test
+    fun testUnfavorite() {
+        whenever(repository.unfavorite(MOVIE_ID)).thenReturn(Observable.just(AsyncResult.success(Unit)))
+
+        applySchedulers { useCase.unfavorite() }
+
+        viewStateObserver.assertValues(LOADING_STATE, SUCCESS_STATE)
+        favoriteRemovedObserver.assertValue(Unit)
+    }
+
+    @Test
+    fun testSignedOut() {
+        whenever(repository.favorite(MOVIE_ID)).thenReturn(Observable.just(AUTH_FAILURE_RESULT))
+
+        applySchedulers { useCase.favorite() }
+
+        viewStateObserver.assertValues(LOADING_STATE, SUCCESS_STATE)
+        signedOutObserver.assertValue(Unit)
+    }
 
     private fun stubRepoToReturn(result: AsyncResult<Movie>) {
         whenever(repository.getMovie(MOVIE_ID))

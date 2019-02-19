@@ -7,12 +7,12 @@ import io.reactivex.disposables.CompositeDisposable
 class SchedulerContext(val factory: SchedulerFactory) {
     private var compositeDisposable = CompositeDisposable()
 
-    fun <T> apply() = ObservableTransformer<T, T> {
+    fun <T> applySchedulers() = ObservableTransformer<T, T> {
         it.subscribeOn(factory.IO).observeOn(factory.Main)
     }
 
     fun <T> subscribe(source: Observable<T>, onNext: (T) -> Unit) {
-        val disposable = source.compose(apply()).subscribe(onNext)
+        val disposable = source.compose(applySchedulers()).subscribe(onNext)
         compositeDisposable.add(disposable)
     }
 
@@ -35,13 +35,10 @@ fun <T> HasSchedulers.subscribe(source: Observable<T>, onNext: (T) -> Unit) =
 fun <T> HasSchedulers.subscribe(source: Observable<T>) =
         schedulerContext.subscribe(source, {})
 
-fun <T> HasSchedulers.connect(block: (SchedulerContext) -> Observable<T>, onNext: (T) -> Unit) =
-        subscribe(block.invoke(schedulerContext), onNext)
-
-fun HasSchedulers.connect(block: (SchedulerContext) -> Unit) =
-        block.invoke(schedulerContext)
+fun HasSchedulers.applySchedulers(block: () -> (SchedulerContext) -> Unit) =
+        block().invoke(schedulerContext)
 
 //fun <T> HasSchedulers.withSchedulers(block: SchedulerContext.() -> T): T =
-//        block.invoke(schedulerContext)
+//        block.invoke(withSchedulers)
 
-fun <T> schedulerContext(block: SchedulerContext.() -> T): (SchedulerContext) -> T = block
+fun <T> withSchedulers(block: SchedulerContext.() -> T): (SchedulerContext) -> T = block

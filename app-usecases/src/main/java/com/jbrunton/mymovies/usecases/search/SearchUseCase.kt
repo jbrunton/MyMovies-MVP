@@ -24,6 +24,6 @@ class SearchUseCase(
 
         return repository.searchMovies(query)
                 .map { SearchState.from(it).handleNetworkErrors() }
-                .compose(schedulerContext.apply())
+                .compose(schedulerContext.applySchedulers())
     }
 }
