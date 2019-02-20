@@ -34,11 +34,3 @@ fun <T> HasSchedulers.subscribe(source: Observable<T>, onNext: (T) -> Unit) =
 
 fun <T> HasSchedulers.subscribe(source: Observable<T>) =
         schedulerContext.subscribe(source, {})
-
-fun HasSchedulers.applySchedulers(block: () -> (SchedulerContext) -> Unit) =
-        block().invoke(schedulerContext)
-
-//fun <T> HasSchedulers.withSchedulers(block: SchedulerContext.() -> T): T =
-//        block.invoke(withSchedulers)
-
-fun <T> withSchedulers(block: SchedulerContext.() -> T): (SchedulerContext) -> T = block
