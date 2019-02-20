@@ -1,9 +1,9 @@
 package com.jbrunton.mymovies.usecases.moviedetails
 
 import com.jbrunton.async.AsyncResult
+import com.jbrunton.async.doOnError
 import com.jbrunton.async.doOnSuccess
 import com.jbrunton.async.map
-import com.jbrunton.async.onError
 import com.jbrunton.entities.SchedulerContext
 import com.jbrunton.entities.errors.handleNetworkErrors
 import com.jbrunton.entities.models.Movie
@@ -33,37 +33,45 @@ class MovieDetailsUseCase(
 
     fun favorite() {
         val observable = repository.favorite(movieId)
-                .map { result ->
-                    result.doOnSuccess { snackbar.onNext(MovieDetailsSnackbar.FavoriteAdded) }
-                    result.handleNetworkErrors().onError(HttpException::class) {
-                        use(this@MovieDetailsUseCase::handleAuthFailure) whenever { it.code() == 401 }
-                    }
-                }.flatMap { fetchMovieDetails() }
+                .map(this::handleFavoriteAdded)
+                .map(this::handleAuthFailure)
+                .flatMap { fetchMovieDetails() }
         schedulerContext.subscribe(observable)
     }
 
     fun unfavorite() {
         val observable = repository.unfavorite(movieId)
-                .map { result ->
-                    result.doOnSuccess { snackbar.onNext(MovieDetailsSnackbar.FavoriteRemoved) }
-                    result.handleNetworkErrors().onError(HttpException::class) {
-                        use(this@MovieDetailsUseCase::handleAuthFailure) whenever { it.code() == 401 }
-                    }
-                }.flatMap { fetchMovieDetails() }
+                .map(this::handleFavoriteRemoved)
+                .map(this::handleAuthFailure)
+                .flatMap { fetchMovieDetails() }
         schedulerContext.subscribe(observable)
     }
 
-    private fun fetchMovieDetails() = repository.getMovie(movieId).map(this::updateMovieDetails)
+    private fun fetchMovieDetails() = repository.getMovie(movieId).map(this::handleMovieResult)
 
-    private fun handleAuthFailure(result: AsyncResult.Failure<Unit>) {
+    private fun showSignedOutSnackbar() {
         snackbar.onNext(MovieDetailsSnackbar.SignedOut)
     }
 
-    private fun updateMovieDetails(result: AsyncResult<Movie>) {
+    private fun handleMovieResult(result: AsyncResult<Movie>) {
         val state = result.handleNetworkErrors().map {
             val favorite = preferences.favorites.contains(movieId)
             MovieDetailsState(it, favorite)
         }
         movie.onNext(state)
+    }
+
+    private fun handleAuthFailure(result: AsyncResult<Unit>): AsyncResult<Unit> {
+        return result.doOnError(HttpException::class) {
+            action { showSignedOutSnackbar() } whenever { it.code() == 401 }
+        }
+    }
+
+    private fun handleFavoriteAdded(result: AsyncResult<Unit>): AsyncResult<Unit> {
+        return result.doOnSuccess { snackbar.onNext(MovieDetailsSnackbar.FavoriteAdded) }
+    }
+
+    private fun handleFavoriteRemoved(result: AsyncResult<Unit>): AsyncResult<Unit> {
+        return result.doOnSuccess { snackbar.onNext(MovieDetailsSnackbar.FavoriteRemoved) }
     }
 }

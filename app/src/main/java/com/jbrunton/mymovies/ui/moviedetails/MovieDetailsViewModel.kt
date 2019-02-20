@@ -44,7 +44,7 @@ class MovieDetailsViewModel(val movieId: String, container: Container) :
     private val FavoriteRemovedEvent = SnackbarEvent(
             "Added to favorites",
             "Undo",
-            { unfavorite() })
+            { favorite() })
 
     private val SignedOutEvent = SnackbarEvent(
             "Sign in to add favorites",
