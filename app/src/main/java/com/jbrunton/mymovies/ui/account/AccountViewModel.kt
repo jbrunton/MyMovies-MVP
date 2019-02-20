@@ -6,6 +6,7 @@ import com.jbrunton.async.onError
 import com.jbrunton.entities.errors.handleNetworkErrors
 import com.jbrunton.entities.models.Account
 import com.jbrunton.entities.repositories.AccountRepository
+import com.jbrunton.entities.subscribe
 import com.jbrunton.inject.Container
 import com.jbrunton.inject.inject
 import com.jbrunton.mymovies.nav.Navigator

@@ -5,6 +5,7 @@ import com.jbrunton.async.onSuccess
 import com.jbrunton.entities.errors.handleNetworkErrors
 import com.jbrunton.entities.models.Genre
 import com.jbrunton.entities.repositories.GenresRepository
+import com.jbrunton.entities.subscribe
 import com.jbrunton.inject.Container
 import com.jbrunton.inject.inject
 import com.jbrunton.mymovies.R

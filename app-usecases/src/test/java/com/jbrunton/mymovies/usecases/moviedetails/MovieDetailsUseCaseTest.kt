@@ -3,7 +3,6 @@ package com.jbrunton.mymovies.usecases.moviedetails
 import com.jbrunton.async.AsyncResult
 import com.jbrunton.entities.HasSchedulers
 import com.jbrunton.entities.SchedulerContext
-import com.jbrunton.entities.applySchedulers
 import com.jbrunton.entities.models.Movie
 import com.jbrunton.entities.repositories.ApplicationPreferences
 import com.jbrunton.entities.repositories.MoviesRepository
@@ -45,7 +44,7 @@ class MovieDetailsUseCaseTest : HasSchedulers {
         repository = Mockito.mock(MoviesRepository::class.java)
         preferences = Mockito.mock(ApplicationPreferences::class.java)
         whenever(preferences.favorites).thenReturn(setOf(MOVIE_ID))
-        useCase = MovieDetailsUseCase(MOVIE_ID, repository, preferences)
+        useCase = MovieDetailsUseCase(MOVIE_ID, repository, preferences, schedulerContext)
         favoriteAddedObserver = useCase.favoriteAddedSnackbar.test()
         favoriteRemovedObserver = useCase.favoriteRemovedSnackbar.test()
         signedOutObserver = useCase.signedOutSnackbar.test()
@@ -55,7 +54,7 @@ class MovieDetailsUseCaseTest : HasSchedulers {
 
     @Test
     fun testSuccess() {
-        applySchedulers { useCase.start() }
+        useCase.start()
         viewStateObserver.assertValues(LOADING_STATE, SUCCESS_STATE)
     }
 
@@ -63,7 +62,7 @@ class MovieDetailsUseCaseTest : HasSchedulers {
     fun testFavorite() {
         whenever(repository.favorite(MOVIE_ID)).thenReturn(Observable.just(AsyncResult.success(Unit)))
 
-        applySchedulers { useCase.favorite() }
+        useCase.favorite()
 
         viewStateObserver.assertValues(LOADING_STATE, SUCCESS_STATE)
         favoriteAddedObserver.assertValue(Unit)
@@ -73,7 +72,7 @@ class MovieDetailsUseCaseTest : HasSchedulers {
     fun testUnfavorite() {
         whenever(repository.unfavorite(MOVIE_ID)).thenReturn(Observable.just(AsyncResult.success(Unit)))
 
-        applySchedulers { useCase.unfavorite() }
+        useCase.unfavorite()
 
         viewStateObserver.assertValues(LOADING_STATE, SUCCESS_STATE)
         favoriteRemovedObserver.assertValue(Unit)
@@ -83,7 +82,7 @@ class MovieDetailsUseCaseTest : HasSchedulers {
     fun testSignedOut() {
         whenever(repository.favorite(MOVIE_ID)).thenReturn(Observable.just(AUTH_FAILURE_RESULT))
 
-        applySchedulers { useCase.favorite() }
+        useCase.favorite()
 
         viewStateObserver.assertValues(LOADING_STATE, SUCCESS_STATE)
         signedOutObserver.assertValue(Unit)

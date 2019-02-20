@@ -1,5 +1,6 @@
 package com.jbrunton.mymovies.ui.search
 
+import com.jbrunton.entities.subscribe
 import com.jbrunton.inject.Container
 import com.jbrunton.inject.inject
 import com.jbrunton.inject.parametersOf

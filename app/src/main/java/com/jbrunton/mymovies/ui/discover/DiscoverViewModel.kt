@@ -1,5 +1,6 @@
 package com.jbrunton.mymovies.ui.discover
 
+import com.jbrunton.entities.subscribe
 import com.jbrunton.inject.Container
 import com.jbrunton.inject.inject
 import com.jbrunton.mymovies.ui.shared.BaseLoadingViewModel

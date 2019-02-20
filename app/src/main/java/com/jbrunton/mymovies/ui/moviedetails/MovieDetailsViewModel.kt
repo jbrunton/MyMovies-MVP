@@ -1,5 +1,6 @@
 package com.jbrunton.mymovies.ui.moviedetails
 
+import com.jbrunton.entities.subscribe
 import com.jbrunton.inject.Container
 import com.jbrunton.inject.inject
 import com.jbrunton.inject.parametersOf
@@ -16,9 +17,11 @@ class MovieDetailsViewModel(val movieId: String, container: Container) :
         subscribe(useCase.movie) {
             viewState.postValue(MovieDetailsViewStateFactory.from(it))
         }
+
         subscribe(useCase.favoriteAddedSnackbar, this::showFavoriteAddedSnackbar)
         subscribe(useCase.favoriteRemovedSnackbar, this::showFavoriteRemovedSnackbar)
         subscribe(useCase.signedOutSnackbar, this::showSignedOutSnackbar)
+
         useCase.start()
     }
 

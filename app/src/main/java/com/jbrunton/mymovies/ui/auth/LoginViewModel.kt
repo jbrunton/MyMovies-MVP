@@ -1,6 +1,7 @@
 package com.jbrunton.mymovies.ui.auth
 
 import com.jbrunton.entities.models.AuthSession
+import com.jbrunton.entities.subscribe
 import com.jbrunton.inject.Container
 import com.jbrunton.inject.inject
 import com.jbrunton.mymovies.ui.shared.BaseLoadingViewModel
