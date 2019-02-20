@@ -22,9 +22,7 @@ class MovieDetailsUseCaseTest : HasSchedulers {
     private lateinit var useCase: MovieDetailsUseCase
     private lateinit var preferences: ApplicationPreferences
     private lateinit var viewStateObserver: TestObserver<AsyncResult<MovieDetailsState>>
-    private lateinit var favoriteAddedObserver: TestObserver<Unit>
-    private lateinit var favoriteRemovedObserver: TestObserver<Unit>
-    private lateinit var signedOutObserver: TestObserver<Unit>
+    private lateinit var snackbarObserver: TestObserver<MovieDetailsSnackbar>
 
     private val factory = MovieFactory()
     private val MOVIE = factory.create()
@@ -45,9 +43,7 @@ class MovieDetailsUseCaseTest : HasSchedulers {
         preferences = Mockito.mock(ApplicationPreferences::class.java)
         whenever(preferences.favorites).thenReturn(setOf(MOVIE_ID))
         useCase = MovieDetailsUseCase(MOVIE_ID, repository, preferences, schedulerContext)
-        favoriteAddedObserver = useCase.favoriteAddedSnackbar.test()
-        favoriteRemovedObserver = useCase.favoriteRemovedSnackbar.test()
-        signedOutObserver = useCase.signedOutSnackbar.test()
+        snackbarObserver = useCase.snackbar.test()
         stubRepoToReturn(SUCCESS_RESULT)
         viewStateObserver = useCase.movie.test()
     }
@@ -65,7 +61,7 @@ class MovieDetailsUseCaseTest : HasSchedulers {
         useCase.favorite()
 
         viewStateObserver.assertValues(LOADING_STATE, SUCCESS_STATE)
-        favoriteAddedObserver.assertValue(Unit)
+        snackbarObserver.assertValue(MovieDetailsSnackbar.FavoriteAdded)
     }
 
     @Test
@@ -75,7 +71,7 @@ class MovieDetailsUseCaseTest : HasSchedulers {
         useCase.unfavorite()
 
         viewStateObserver.assertValues(LOADING_STATE, SUCCESS_STATE)
-        favoriteRemovedObserver.assertValue(Unit)
+        snackbarObserver.assertValue(MovieDetailsSnackbar.FavoriteRemoved)
     }
 
     @Test
@@ -85,7 +81,7 @@ class MovieDetailsUseCaseTest : HasSchedulers {
         useCase.favorite()
 
         viewStateObserver.assertValues(LOADING_STATE, SUCCESS_STATE)
-        signedOutObserver.assertValue(Unit)
+        snackbarObserver.assertValue(MovieDetailsSnackbar.SignedOut)
     }
 
     private fun stubRepoToReturn(result: AsyncResult<Movie>) {

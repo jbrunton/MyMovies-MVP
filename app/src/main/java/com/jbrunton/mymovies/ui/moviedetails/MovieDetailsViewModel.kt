@@ -6,6 +6,7 @@ import com.jbrunton.inject.inject
 import com.jbrunton.inject.parametersOf
 import com.jbrunton.mymovies.ui.shared.BaseLoadingViewModel
 import com.jbrunton.mymovies.ui.shared.SnackbarMessage
+import com.jbrunton.mymovies.usecases.moviedetails.MovieDetailsSnackbar
 import com.jbrunton.mymovies.usecases.moviedetails.MovieDetailsUseCase
 
 class MovieDetailsViewModel(val movieId: String, container: Container) :
@@ -18,9 +19,7 @@ class MovieDetailsViewModel(val movieId: String, container: Container) :
             viewState.postValue(MovieDetailsViewStateFactory.from(it))
         }
 
-        subscribe(useCase.favoriteAddedSnackbar, this::showFavoriteAddedSnackbar)
-        subscribe(useCase.favoriteRemovedSnackbar, this::showFavoriteRemovedSnackbar)
-        subscribe(useCase.signedOutSnackbar, this::showSignedOutSnackbar)
+        subscribe(useCase.snackbar, this::showSnackbar)
 
         useCase.start()
     }
@@ -37,29 +36,27 @@ class MovieDetailsViewModel(val movieId: String, container: Container) :
         useCase.unfavorite()
     }
 
-    private fun showFavoriteAddedSnackbar(unit: Unit) {
-        val message = SnackbarMessage(
-                "Added to favorites",
-                "Undo",
-                { unfavorite() }
-        )
-        snackbar.postValue(message)
-    }
+    private val FavoriteAdded = SnackbarMessage(
+            "Added to favorites",
+            "Undo",
+            { unfavorite() })
 
-    private fun showFavoriteRemovedSnackbar(unit: Unit) {
-        val message = SnackbarMessage(
-                "Removed from favorites",
-                "Undo",
-                { favorite() }
-        )
-        snackbar.postValue(message)
-    }
+    private val FavoriteRemoved = SnackbarMessage(
+            "Added to favorites",
+            "Undo",
+            { unfavorite() })
 
-    private fun showSignedOutSnackbar(unit: Unit) {
-        val message = SnackbarMessage(
-                "Sign in to add favorites",
-                "OK"
-        )
+    private val SignedOut = SnackbarMessage(
+            "Sign in to add favorites",
+            "OK"
+    )
+
+    private fun showSnackbar(state: MovieDetailsSnackbar) {
+        val message = when (state) {
+            is MovieDetailsSnackbar.FavoriteAdded -> FavoriteAdded
+            is MovieDetailsSnackbar.FavoriteRemoved -> FavoriteRemoved
+            is MovieDetailsSnackbar.SignedOut -> SignedOut
+        }
         snackbar.postValue(message)
     }
 }
