@@ -24,7 +24,7 @@ val UiModule = module {
     factory { (schedulerContext: SchedulerContext) -> SearchUseCase(get(), schedulerContext) }
     factory { DiscoverUseCase(get(), get()) }
     factory { FavoritesUseCase(get()) }
-    factory { LoginUseCase(get()) }
+    factory { (schedulerContext: SchedulerContext) -> LoginUseCase(get(), schedulerContext) }
     factory { (movieId: String, schedulerContext: SchedulerContext) -> MovieDetailsUseCase(movieId, get(), get(), schedulerContext) }
 
     factory { MainViewModel(get()) }
