@@ -9,7 +9,7 @@ abstract class BaseLoadingViewModel<T>(container: Container) : BaseViewModel(con
 
     open fun retry() {}
     
-    fun NetworkErrorSnackbar(retry: Boolean) = SnackbarMessage(
+    fun NetworkErrorSnackbar(retry: Boolean) = SnackbarEvent(
             message = "There was a problem with your connection",
             duration = Snackbar.LENGTH_INDEFINITE,
             actionLabel = if (retry) { "Retry" } else { "OK" },

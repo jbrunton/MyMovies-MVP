@@ -5,7 +5,7 @@ import com.jbrunton.inject.Container
 import com.jbrunton.inject.inject
 import com.jbrunton.inject.parametersOf
 import com.jbrunton.mymovies.ui.shared.BaseLoadingViewModel
-import com.jbrunton.mymovies.ui.shared.SnackbarMessage
+import com.jbrunton.mymovies.ui.shared.SnackbarEvent
 import com.jbrunton.mymovies.usecases.moviedetails.MovieDetailsSnackbar
 import com.jbrunton.mymovies.usecases.moviedetails.MovieDetailsUseCase
 
@@ -36,26 +36,26 @@ class MovieDetailsViewModel(val movieId: String, container: Container) :
         useCase.unfavorite()
     }
 
-    private val FavoriteAdded = SnackbarMessage(
+    private val FavoriteAddedEvent = SnackbarEvent(
             "Added to favorites",
             "Undo",
             { unfavorite() })
 
-    private val FavoriteRemoved = SnackbarMessage(
+    private val FavoriteRemovedEvent = SnackbarEvent(
             "Added to favorites",
             "Undo",
             { unfavorite() })
 
-    private val SignedOut = SnackbarMessage(
+    private val SignedOutEvent = SnackbarEvent(
             "Sign in to add favorites",
             "OK"
     )
 
     private fun showSnackbar(state: MovieDetailsSnackbar) {
         val message = when (state) {
-            is MovieDetailsSnackbar.FavoriteAdded -> FavoriteAdded
-            is MovieDetailsSnackbar.FavoriteRemoved -> FavoriteRemoved
-            is MovieDetailsSnackbar.SignedOut -> SignedOut
+            is MovieDetailsSnackbar.FavoriteAdded -> FavoriteAddedEvent
+            is MovieDetailsSnackbar.FavoriteRemoved -> FavoriteRemovedEvent
+            is MovieDetailsSnackbar.SignedOut -> SignedOutEvent
         }
         snackbar.postValue(message)
     }

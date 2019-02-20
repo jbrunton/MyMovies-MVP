@@ -65,10 +65,10 @@ abstract class BaseActivity<T : BaseViewModel> : AppCompatActivity(), HasContain
         }
     }
 
-    private fun showSnackbar(message: SnackbarMessage) {
-        val snackbar = Snackbar.make(findViewById(android.R.id.content), message.message, message.duration)
-        if (message.actionLabel != null) {
-            snackbar.setAction(message.actionLabel, { message.action?.invoke() })
+    private fun showSnackbar(event: SnackbarEvent) {
+        val snackbar = Snackbar.make(findViewById(android.R.id.content), event.message, event.duration)
+        if (event.actionLabel != null) {
+            snackbar.setAction(event.actionLabel, { event.action?.invoke() })
         }
         snackbar.show()
     }

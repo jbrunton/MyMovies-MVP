@@ -13,7 +13,7 @@ import com.jbrunton.inject.inject
 abstract class BaseViewModel(override val container: Container) : ViewModel(), HasSchedulers, HasContainer {
     val schedulerFactory: SchedulerFactory by inject()
     override val schedulerContext = SchedulerContext(schedulerFactory)
-    val snackbar = SingleLiveEvent<SnackbarMessage>()
+    val snackbar = SingleLiveEvent<SnackbarEvent>()
 
     abstract fun start()
 
