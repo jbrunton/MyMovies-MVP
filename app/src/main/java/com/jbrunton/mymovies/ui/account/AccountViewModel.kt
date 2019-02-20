@@ -6,13 +6,18 @@ import com.jbrunton.async.onError
 import com.jbrunton.entities.errors.handleNetworkErrors
 import com.jbrunton.entities.models.Account
 import com.jbrunton.entities.repositories.AccountRepository
+import com.jbrunton.entities.subscribe
+import com.jbrunton.inject.Container
+import com.jbrunton.inject.inject
 import com.jbrunton.mymovies.nav.Navigator
 import com.jbrunton.mymovies.ui.shared.BaseLoadingViewModel
 import com.jbrunton.mymovies.ui.shared.LoadingViewState
 import com.jbrunton.mymovies.ui.shared.toLoadingViewState
 import retrofit2.HttpException
 
-class AccountViewModel(private val repository: AccountRepository) : BaseLoadingViewModel<AccountViewState>() {
+class AccountViewModel(container: Container) : BaseLoadingViewModel<AccountViewState>(container) {
+    val repository: AccountRepository by inject()
+
     override fun start() {
         loadAccount()
     }

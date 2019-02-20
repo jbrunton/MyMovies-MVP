@@ -1,9 +1,12 @@
 package com.jbrunton.mymovies.usecases.moviedetails
 
 import com.jbrunton.async.AsyncResult
+import com.jbrunton.entities.HasSchedulers
+import com.jbrunton.entities.SchedulerContext
 import com.jbrunton.entities.models.Movie
 import com.jbrunton.entities.repositories.ApplicationPreferences
 import com.jbrunton.entities.repositories.MoviesRepository
+import com.jbrunton.fixtures.ImmediateSchedulerFactory
 import com.jbrunton.fixtures.MovieFactory
 import com.jbrunton.fixtures.NetworkErrorFixtures
 import com.nhaarman.mockito_kotlin.whenever
@@ -13,14 +16,13 @@ import org.junit.Before
 import org.junit.Test
 import org.mockito.Mockito
 
-class MovieDetailsUseCaseTest {
+class MovieDetailsUseCaseTest : HasSchedulers {
+    override lateinit var schedulerContext: SchedulerContext
     private lateinit var repository: MoviesRepository
     private lateinit var useCase: MovieDetailsUseCase
     private lateinit var preferences: ApplicationPreferences
     private lateinit var viewStateObserver: TestObserver<AsyncResult<MovieDetailsState>>
-    private lateinit var favoriteAddedObserver: TestObserver<Unit>
-    private lateinit var favoriteRemovedObserver: TestObserver<Unit>
-    private lateinit var signedOutObserver: TestObserver<Unit>
+    private lateinit var snackbarObserver: TestObserver<MovieDetailsSnackbar>
 
     private val factory = MovieFactory()
     private val MOVIE = factory.create()
@@ -36,19 +38,19 @@ class MovieDetailsUseCaseTest {
 
     @Before
     fun setUp() {
+        schedulerContext = SchedulerContext(ImmediateSchedulerFactory())
         repository = Mockito.mock(MoviesRepository::class.java)
         preferences = Mockito.mock(ApplicationPreferences::class.java)
         whenever(preferences.favorites).thenReturn(setOf(MOVIE_ID))
-        useCase = MovieDetailsUseCase(MOVIE_ID, repository, preferences)
-        favoriteAddedObserver = useCase.favoriteAddedSnackbar.test()
-        favoriteRemovedObserver = useCase.favoriteRemovedSnackbar.test()
-        signedOutObserver = useCase.signedOutSnackbar.test()
+        useCase = MovieDetailsUseCase(MOVIE_ID, repository, preferences, schedulerContext)
+        snackbarObserver = useCase.snackbar.test()
         stubRepoToReturn(SUCCESS_RESULT)
+        viewStateObserver = useCase.movie.test()
     }
 
     @Test
     fun testSuccess() {
-        viewStateObserver = useCase.movie().test()
+        useCase.start()
         viewStateObserver.assertValues(LOADING_STATE, SUCCESS_STATE)
     }
 
@@ -56,30 +58,30 @@ class MovieDetailsUseCaseTest {
     fun testFavorite() {
         whenever(repository.favorite(MOVIE_ID)).thenReturn(Observable.just(AsyncResult.success(Unit)))
 
-        val observer = useCase.favorite().test()
+        useCase.favorite()
 
-        observer.assertValues(LOADING_STATE, SUCCESS_STATE)
-        favoriteAddedObserver.assertValue(Unit)
+        viewStateObserver.assertValues(LOADING_STATE, SUCCESS_STATE)
+        snackbarObserver.assertValue(MovieDetailsSnackbar.FavoriteAdded)
     }
 
     @Test
     fun testUnfavorite() {
         whenever(repository.unfavorite(MOVIE_ID)).thenReturn(Observable.just(AsyncResult.success(Unit)))
 
-        val observer = useCase.unfavorite().test()
+        useCase.unfavorite()
 
-        observer.assertValues(LOADING_STATE, SUCCESS_STATE)
-        favoriteRemovedObserver.assertValue(Unit)
+        viewStateObserver.assertValues(LOADING_STATE, SUCCESS_STATE)
+        snackbarObserver.assertValue(MovieDetailsSnackbar.FavoriteRemoved)
     }
 
     @Test
     fun testSignedOut() {
         whenever(repository.favorite(MOVIE_ID)).thenReturn(Observable.just(AUTH_FAILURE_RESULT))
 
-        val observer = useCase.favorite().test()
+        useCase.favorite()
 
-        observer.assertValues(LOADING_STATE, SUCCESS_STATE)
-        signedOutObserver.assertValue(Unit)
+        viewStateObserver.assertValues(LOADING_STATE, SUCCESS_STATE)
+        snackbarObserver.assertValue(MovieDetailsSnackbar.SignedOut)
     }
 
     private fun stubRepoToReturn(result: AsyncResult<Movie>) {

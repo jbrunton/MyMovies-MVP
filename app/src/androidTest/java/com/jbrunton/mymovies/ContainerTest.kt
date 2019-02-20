@@ -2,6 +2,8 @@ package com.jbrunton.mymovies
 
 import androidx.test.rule.ActivityTestRule
 import androidx.test.runner.AndroidJUnit4
+import com.jbrunton.entities.SchedulerContext
+import com.jbrunton.fixtures.ImmediateSchedulerFactory
 import com.jbrunton.inject.DryRunParameters
 import com.jbrunton.inject.check
 import com.jbrunton.inject.parametersOf
@@ -13,16 +15,20 @@ import com.jbrunton.mymovies.ui.discover.GenreResultsViewModel
 import com.jbrunton.mymovies.ui.main.MainActivity
 import com.jbrunton.mymovies.ui.moviedetails.MovieDetailsViewModel
 import com.jbrunton.mymovies.usecases.moviedetails.MovieDetailsUseCase
+import com.jbrunton.mymovies.usecases.search.SearchUseCase
 import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class ContainerTest : BaseActivityTest<MainActivity>() {
+    val schedulerContext = SchedulerContext(ImmediateSchedulerFactory())
+
     val parameters = DryRunParameters().apply {
         paramsFor(MovieDetailsViewModel::class, parametersOf("1"))
         paramsFor(GenreResultsViewModel::class, parametersOf("1"))
-        paramsFor(MovieDetailsUseCase::class, parametersOf("1"))
+        paramsFor(MovieDetailsUseCase::class, parametersOf("1", schedulerContext))
+        paramsFor(SearchUseCase::class, parametersOf(schedulerContext))
     }
 
     @Test

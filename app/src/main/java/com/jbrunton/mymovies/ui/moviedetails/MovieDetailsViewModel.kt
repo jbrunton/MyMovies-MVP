@@ -1,71 +1,62 @@
 package com.jbrunton.mymovies.ui.moviedetails
 
+import com.jbrunton.entities.subscribe
 import com.jbrunton.inject.Container
-import com.jbrunton.inject.HasContainer
 import com.jbrunton.inject.inject
 import com.jbrunton.inject.parametersOf
 import com.jbrunton.mymovies.ui.shared.BaseLoadingViewModel
-import com.jbrunton.mymovies.ui.shared.SnackbarMessage
+import com.jbrunton.mymovies.ui.shared.SnackbarEvent
+import com.jbrunton.mymovies.usecases.moviedetails.MovieDetailsSnackbar
 import com.jbrunton.mymovies.usecases.moviedetails.MovieDetailsUseCase
 
-class MovieDetailsViewModel(
-        val movieId: String,
-        override val container: Container
-) : BaseLoadingViewModel<MovieDetailsViewState>(), HasContainer {
-    val useCase: MovieDetailsUseCase by inject { parametersOf(movieId) }
+class MovieDetailsViewModel(val movieId: String, container: Container) :
+        BaseLoadingViewModel<MovieDetailsViewState>(container)
+{
+    val useCase: MovieDetailsUseCase by inject { parametersOf(movieId, schedulerContext) }
 
     override fun start() {
-        loadDetails()
-        subscribe(useCase.favoriteAddedSnackbar, this::showFavoriteAddedSnackbar)
-        subscribe(useCase.favoriteRemovedSnackbar, this::showFavoriteRemovedSnackbar)
-        subscribe(useCase.signedOutSnackbar, this::showSignedOutSnackbar)
+        subscribe(useCase.movie) {
+            viewState.postValue(MovieDetailsViewStateFactory.from(it))
+        }
+
+        subscribe(useCase.snackbar, this::showSnackbar)
+
+        useCase.start()
     }
 
     override fun retry() {
-        loadDetails()
+        useCase.start()
     }
 
     fun favorite() {
-        subscribe(useCase.favorite()) {
-            viewState.postValue(MovieDetailsViewStateFactory.from(it))
-        }
+        useCase.favorite()
     }
 
     fun unfavorite() {
-        subscribe(useCase.unfavorite()) {
-            viewState.postValue(MovieDetailsViewStateFactory.from(it))
+        useCase.unfavorite()
+    }
+
+    private val FavoriteAddedEvent = SnackbarEvent(
+            "Added to favorites",
+            "Undo",
+            { unfavorite() })
+
+    private val FavoriteRemovedEvent = SnackbarEvent(
+            "Added to favorites",
+            "Undo",
+            { favorite() })
+
+    private val SignedOutEvent = SnackbarEvent(
+            "Sign in to add favorites",
+            "OK"
+    )
+
+    private fun showSnackbar(state: MovieDetailsSnackbar) {
+        val message = when (state) {
+            is MovieDetailsSnackbar.FavoriteAdded -> FavoriteAddedEvent
+            is MovieDetailsSnackbar.FavoriteRemoved -> FavoriteRemovedEvent
+            is MovieDetailsSnackbar.SignedOut -> SignedOutEvent
         }
-    }
-
-    private fun loadDetails() {
-        subscribe(useCase.movie()) {
-            viewState.postValue(MovieDetailsViewStateFactory.from(it))
-        }
-    }
-
-    private fun showFavoriteAddedSnackbar(unit: Unit) {
-        val message = SnackbarMessage(
-                "Added to favorites",
-                "Undo",
-                { unfavorite() }
-        )
-        snackbar.postValue(message)
-    }
-
-    private fun showFavoriteRemovedSnackbar(unit: Unit) {
-        val message = SnackbarMessage(
-                "Removed from favorites",
-                "Undo",
-                { favorite() }
-        )
-        snackbar.postValue(message)
-    }
-
-    private fun showSignedOutSnackbar(unit: Unit) {
-        val message = SnackbarMessage(
-                "Sign in to add favorites",
-                "OK"
-        )
         snackbar.postValue(message)
     }
 }
