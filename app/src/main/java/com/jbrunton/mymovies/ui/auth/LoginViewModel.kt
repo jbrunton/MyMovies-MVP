@@ -4,16 +4,20 @@ import com.jbrunton.entities.models.AuthSession
 import com.jbrunton.entities.subscribe
 import com.jbrunton.inject.Container
 import com.jbrunton.inject.inject
+import com.jbrunton.inject.parametersOf
 import com.jbrunton.mymovies.ui.shared.BaseLoadingViewModel
 import com.jbrunton.mymovies.ui.shared.SingleLiveEvent
 import com.jbrunton.mymovies.usecases.auth.LoginUseCase
 
 class LoginViewModel(container: Container) : BaseLoadingViewModel<LoginViewState>(container) {
-    val useCase: LoginUseCase by inject()
+    val useCase: LoginUseCase by inject { parametersOf(schedulerContext) }
     val loginSuccessful = SingleLiveEvent<AuthSession>()
     val loginFailure = SingleLiveEvent<String>()
 
     override fun start() {
+        subscribe(useCase.state) {
+            viewState.postValue(LoginViewStateFactory.from(it))
+        }
         subscribe(useCase.loginSuccessful) { loginSuccessful.postValue(it) }
         subscribe(useCase.loginFailure) { loginFailure.postValue(it) }
         subscribe(useCase.networkErrorSnackbar) {
@@ -22,8 +26,6 @@ class LoginViewModel(container: Container) : BaseLoadingViewModel<LoginViewState
     }
 
     fun login(username: String, password: String) {
-        subscribe(useCase.login(username, password)) {
-            viewState.postValue(LoginViewStateFactory.from(it))
-        }
+        useCase.login(username, password)
     }
 }

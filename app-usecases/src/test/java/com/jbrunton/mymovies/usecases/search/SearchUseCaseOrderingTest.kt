@@ -38,8 +38,11 @@ class SearchUseCaseOrderingTest {
         repository = Mockito.mock(MoviesRepository::class.java)
         val factory = TestSchedulerFactory(schedulerRule.TEST_SCHEDULER)
         useCase = SearchUseCase(repository, SchedulerContext(factory))
+
         searches = PublishSubject.create()
-        observer = useCase.reduce(searches).test()
+        observer = useCase.results.test()
+        useCase.start(searches)
+        schedulerRule.TEST_SCHEDULER.triggerActions()
 
         // Note that movie 2 will take longer to arrive
         RepositoryFixtures.stubSearch(repository, "movie1").toReturnDelayed(listOf(MOVIE1), 1)
@@ -51,7 +54,7 @@ class SearchUseCaseOrderingTest {
     fun returnsResultsInOrder() {
         // first result arrives in order
         searches.onNext("movie1")
-        schedulerRule.TEST_SCHEDULER.advanceTimeBy(1, TimeUnit.SECONDS)
+        schedulerRule.TEST_SCHEDULER.advanceTimeBy(3, TimeUnit.SECONDS)
         observer.assertValues(EMPTY_QUERY_STATE, MOVIE1_STATE)
 
         // second result takes longer to respond, isn't shown yet

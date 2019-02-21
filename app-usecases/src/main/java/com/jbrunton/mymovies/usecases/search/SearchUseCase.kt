@@ -6,15 +6,19 @@ import com.jbrunton.entities.errors.handleNetworkErrors
 import com.jbrunton.entities.repositories.DataStream
 import com.jbrunton.entities.repositories.MoviesRepository
 import io.reactivex.Observable
+import io.reactivex.subjects.PublishSubject
 
 class SearchUseCase(
         val repository: MoviesRepository,
         val schedulerContext: SchedulerContext
 ) {
-    fun reduce(queries: Observable<String>): DataStream<SearchState> {
-        return queries
+    val results = PublishSubject.create<AsyncResult<SearchState>>()
+
+    fun start(queries: Observable<String>) {
+        val observable = queries
                 .switchMap(this::search)
                 .startWith(AsyncResult.success(SearchState.EmptyQuery))
+        schedulerContext.subscribe(observable, results::onNext)
     }
 
     private fun search(query: String): DataStream<SearchState> {

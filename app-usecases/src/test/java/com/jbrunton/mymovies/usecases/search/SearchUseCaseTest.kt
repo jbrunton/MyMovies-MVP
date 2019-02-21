@@ -39,22 +39,25 @@ class SearchUseCaseTest {
                 .thenReturn(Observable.just(LOADING_RESULT, SUCCESS_RESULT))
 
         searches = PublishSubject.create()
-        observer = useCase.reduce(searches).test()
+        observer = useCase.results.test()
     }
 
     @Test
     fun startsWithEmptyState() {
+        useCase.start(searches)
         observer.assertValue(EMPTY_QUERY_STATE)
     }
 
     @Test
     fun showsEmptyStateForEmptyQuery() {
+        useCase.start(searches)
         searches.onNext("")
         observer.assertValues(EMPTY_QUERY_STATE, EMPTY_QUERY_STATE)
     }
 
     @Test
     fun searchesForQuery() {
+        useCase.start(searches)
         searches.onNext("Star")
         observer.assertValues(EMPTY_QUERY_STATE, LOADING_STATE, SUCCESS_STATE)
     }

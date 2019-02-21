@@ -13,9 +13,10 @@ open class SearchViewModel(container: Container) : BaseLoadingViewModel<SearchVi
     private val searches = PublishSubject.create<String>()
 
     override fun start() {
-        subscribe(useCase.reduce(searches)) {
+        subscribe(useCase.results) {
             viewState.postValue(SearchViewStateFactory.from(it))
         }
+        useCase.start(searches)
     }
 
     open fun performSearch(query: String) {

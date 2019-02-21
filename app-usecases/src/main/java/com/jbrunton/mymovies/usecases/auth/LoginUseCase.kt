@@ -4,27 +4,30 @@ import com.jbrunton.async.AsyncResult
 import com.jbrunton.async.doOnSuccess
 import com.jbrunton.async.map
 import com.jbrunton.async.onError
+import com.jbrunton.entities.SchedulerContext
 import com.jbrunton.entities.errors.handleNetworkErrors
 import com.jbrunton.entities.errors.onNetworkErrorUse
 import com.jbrunton.entities.models.AuthSession
 import com.jbrunton.entities.repositories.AccountRepository
-import com.jbrunton.entities.repositories.DataStream
 import com.jbrunton.networking.parseStatusMessage
-import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 import retrofit2.HttpException
 
-class LoginUseCase(val repository: AccountRepository) {
+class LoginUseCase(val repository: AccountRepository, val schedulerContext: SchedulerContext) {
+    val state = PublishSubject.create<AsyncResult<LoginState>>()
     val loginSuccessful = PublishSubject.create<AuthSession>()
     val loginFailure = PublishSubject.create<String>()
     val networkErrorSnackbar = PublishSubject.create<Unit>()
 
-    fun login(username: String, password: String): DataStream<LoginState> {
+    fun login(username: String, password: String) {
         val loginState = validate(username, password)
         if (loginState is LoginState.Invalid) {
-            return Observable.just(AsyncResult.success(loginState))
+            state.onNext(AsyncResult.success(loginState))
+        } else {
+            schedulerContext.subscribe(
+                    repository.login(username, password).map(this::handleLoginResult),
+                    state::onNext)
         }
-        return repository.login(username, password).map(this::handleLoginResult)
     }
 
     private fun handleLoginResult(result: AsyncResult<AuthSession>): AsyncResult<LoginState> {

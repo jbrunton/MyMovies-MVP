@@ -14,6 +14,7 @@ import com.jbrunton.mymovies.fixtures.BaseActivityTest
 import com.jbrunton.mymovies.ui.discover.GenreResultsViewModel
 import com.jbrunton.mymovies.ui.main.MainActivity
 import com.jbrunton.mymovies.ui.moviedetails.MovieDetailsViewModel
+import com.jbrunton.mymovies.usecases.auth.LoginUseCase
 import com.jbrunton.mymovies.usecases.moviedetails.MovieDetailsUseCase
 import com.jbrunton.mymovies.usecases.search.SearchUseCase
 import org.junit.Ignore
@@ -29,6 +30,7 @@ class ContainerTest : BaseActivityTest<MainActivity>() {
         paramsFor(GenreResultsViewModel::class, parametersOf("1"))
         paramsFor(MovieDetailsUseCase::class, parametersOf("1", schedulerContext))
         paramsFor(SearchUseCase::class, parametersOf(schedulerContext))
+        paramsFor(LoginUseCase::class, parametersOf(schedulerContext))
     }
 
     @Test

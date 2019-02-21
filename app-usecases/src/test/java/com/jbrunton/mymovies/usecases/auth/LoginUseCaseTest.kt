@@ -1,8 +1,10 @@
 package com.jbrunton.mymovies.usecases.auth
 
 import com.jbrunton.async.AsyncResult
+import com.jbrunton.entities.SchedulerContext
 import com.jbrunton.entities.models.AuthSession
 import com.jbrunton.entities.repositories.AccountRepository
+import com.jbrunton.fixtures.ImmediateSchedulerFactory
 import com.jbrunton.fixtures.NetworkErrorFixtures.httpErrorResult
 import com.jbrunton.fixtures.NetworkErrorFixtures.networkErrorResult
 import com.nhaarman.mockito_kotlin.whenever
@@ -15,7 +17,7 @@ import org.mockito.Mockito
 class LoginUseCaseTest {
     private lateinit var repository: AccountRepository
     private lateinit var useCase: LoginUseCase
-    private lateinit var viewStateObserver: TestObserver<AsyncResult<LoginState>>
+    private lateinit var stateObserver: TestObserver<AsyncResult<LoginState>>
     private lateinit var successObserver: TestObserver<AuthSession>
     private lateinit var failureObserver: TestObserver<String>
     private lateinit var networkErrorSnackbarObserver: TestObserver<Unit>
@@ -39,19 +41,20 @@ class LoginUseCaseTest {
     @Before
     fun setUp() {
         repository = Mockito.mock(AccountRepository::class.java)
-        useCase = LoginUseCase(repository)
+        useCase = LoginUseCase(repository, SchedulerContext(ImmediateSchedulerFactory()))
         successObserver = useCase.loginSuccessful.test()
         failureObserver = useCase.loginFailure.test()
         networkErrorSnackbarObserver = useCase.networkErrorSnackbar.test()
+        stateObserver = useCase.state.test()
     }
 
     @Test
     fun testSuccess() {
         stubLoginToReturn(SUCCESS_RESULT)
 
-        viewStateObserver = useCase.login(USERNAME, PASSWORD).test()
+        useCase.login(USERNAME, PASSWORD)
 
-        viewStateObserver.assertValues(LOADING_STATE, SUCCESS_STATE)
+        stateObserver.assertValues(LOADING_STATE, SUCCESS_STATE)
         successObserver.assertValue(AUTH_SESSION)
     }
 
@@ -59,9 +62,9 @@ class LoginUseCaseTest {
     fun testAuthFailure() {
         stubLoginToReturn(AUTH_FAILURE_RESULT)
 
-        viewStateObserver = useCase.login(USERNAME, PASSWORD).test()
+        useCase.login(USERNAME, PASSWORD)
 
-        viewStateObserver.assertValues(LOADING_STATE, SUCCESS_STATE)
+        stateObserver.assertValues(LOADING_STATE, SUCCESS_STATE)
         failureObserver.assertValue(AUTH_FAILURE_MESSAGE)
     }
 
@@ -69,22 +72,22 @@ class LoginUseCaseTest {
     fun testNetworkError() {
         stubLoginToReturn(NETWORK_ERROR_RESULT)
 
-        viewStateObserver = useCase.login(USERNAME, PASSWORD).test()
+        useCase.login(USERNAME, PASSWORD)
 
-        viewStateObserver.assertValues(LOADING_STATE, SUCCESS_STATE)
+        stateObserver.assertValues(LOADING_STATE, SUCCESS_STATE)
         networkErrorSnackbarObserver.assertValue(Unit)
     }
 
     @Test
     fun testInvalidUsername() {
-        viewStateObserver = useCase.login("", PASSWORD).test()
-        viewStateObserver.assertValues(INVALID_USERNAME_STATE)
+        useCase.login("", PASSWORD)
+        stateObserver.assertValues(INVALID_USERNAME_STATE)
     }
 
     @Test
     fun testInvalidPassword() {
-        viewStateObserver = useCase.login(USERNAME, "").test()
-        viewStateObserver.assertValues(INVALID_PASSWORD_STATE)
+        useCase.login(USERNAME, "")
+        stateObserver.assertValues(INVALID_PASSWORD_STATE)
     }
 
     private fun stubLoginToReturn(result: AsyncResult<AuthSession>) {
