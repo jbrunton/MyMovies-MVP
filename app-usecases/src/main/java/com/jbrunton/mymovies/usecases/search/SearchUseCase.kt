@@ -18,9 +18,7 @@ class SearchUseCase(
         val observable = queries
                 .switchMap(this::search)
                 .startWith(AsyncResult.success(SearchState.EmptyQuery))
-        schedulerContext.subscribe(observable) {
-            results.onNext(it)
-        }
+        schedulerContext.subscribe(observable, results::onNext)
     }
 
     private fun search(query: String): DataStream<SearchState> {
