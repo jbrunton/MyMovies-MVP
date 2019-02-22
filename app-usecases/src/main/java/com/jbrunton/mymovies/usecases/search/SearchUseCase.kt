@@ -1,17 +1,16 @@
 package com.jbrunton.mymovies.usecases.search
 
 import com.jbrunton.async.AsyncResult
-import com.jbrunton.entities.SchedulerContext
 import com.jbrunton.entities.errors.handleNetworkErrors
 import com.jbrunton.entities.repositories.DataStream
 import com.jbrunton.entities.repositories.MoviesRepository
+import com.jbrunton.mymovies.usecases.BaseUseCase
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 
 class SearchUseCase(
-        val repository: MoviesRepository,
-        val schedulerContext: SchedulerContext
-) {
+        val repository: MoviesRepository
+): BaseUseCase() {
     val results = PublishSubject.create<AsyncResult<SearchState>>()
 
     fun start(queries: Observable<String>) {
