@@ -31,30 +31,28 @@ class SearchUseCaseTest {
     @Before
     fun setUp() {
         repository = Mockito.mock(MoviesRepository::class.java)
-        useCase = SearchUseCase(repository, SchedulerContext(ImmediateSchedulerFactory()))
+        useCase = SearchUseCase(repository)
 
         whenever(repository.searchMovies("Star"))
                 .thenReturn(Observable.just(LOADING_RESULT, SUCCESS_RESULT))
 
         observer = useCase.results.test()
+        useCase.start(SchedulerContext(ImmediateSchedulerFactory()))
     }
 
     @Test
     fun startsWithEmptyState() {
-        useCase.start()
         observer.assertValue(EMPTY_QUERY_STATE)
     }
 
     @Test
     fun showsEmptyStateForEmptyQuery() {
-        useCase.start()
         useCase.search("")
         observer.assertValues(EMPTY_QUERY_STATE, EMPTY_QUERY_STATE)
     }
 
     @Test
     fun searchesForQuery() {
-        useCase.start()
         useCase.search("Star")
         observer.assertValues(EMPTY_QUERY_STATE, LOADING_STATE, SUCCESS_STATE)
     }
