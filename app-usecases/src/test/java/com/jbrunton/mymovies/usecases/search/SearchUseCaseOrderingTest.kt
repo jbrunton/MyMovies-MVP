@@ -8,7 +8,6 @@ import com.jbrunton.fixtures.RepositoryFixtures
 import com.jbrunton.fixtures.TestSchedulerFactory
 import com.jbrunton.fixtures.TestSchedulerRule
 import io.reactivex.observers.TestObserver
-import io.reactivex.subjects.PublishSubject
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -21,7 +20,6 @@ class SearchUseCaseOrderingTest {
     private lateinit var repository: MoviesRepository
     private lateinit var useCase: SearchUseCase
     private lateinit var observer: TestObserver<AsyncResult<SearchState>>
-    private lateinit var searches: PublishSubject<String>
 
     private val movieFactory = MovieFactory()
 
@@ -39,9 +37,8 @@ class SearchUseCaseOrderingTest {
         val factory = TestSchedulerFactory(schedulerRule.TEST_SCHEDULER)
         useCase = SearchUseCase(repository, SchedulerContext(factory))
 
-        searches = PublishSubject.create()
         observer = useCase.results.test()
-        useCase.start(searches)
+        useCase.start()
         schedulerRule.TEST_SCHEDULER.triggerActions()
 
         // Note that movie 2 will take longer to arrive
@@ -53,17 +50,17 @@ class SearchUseCaseOrderingTest {
     @Test
     fun returnsResultsInOrder() {
         // first result arrives in order
-        searches.onNext("movie1")
+        useCase.search("movie1")
         schedulerRule.TEST_SCHEDULER.advanceTimeBy(3, TimeUnit.SECONDS)
         observer.assertValues(EMPTY_QUERY_STATE, MOVIE1_STATE)
 
         // second result takes longer to respond, isn't shown yet
-        searches.onNext("movie2")
+        useCase.search("movie2")
         schedulerRule.TEST_SCHEDULER.advanceTimeBy(1, TimeUnit.SECONDS)
         observer.assertValues(EMPTY_QUERY_STATE, MOVIE1_STATE)
 
         // third result arrives before second, so supersedes it
-        searches.onNext("movie3")
+        useCase.search("movie3")
         schedulerRule.TEST_SCHEDULER.advanceTimeBy(1, TimeUnit.SECONDS)
         observer.assertValues(EMPTY_QUERY_STATE, MOVIE1_STATE, MOVIE3_STATE)
     }

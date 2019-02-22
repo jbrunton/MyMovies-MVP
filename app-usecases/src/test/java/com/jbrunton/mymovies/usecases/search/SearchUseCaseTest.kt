@@ -9,7 +9,6 @@ import com.jbrunton.fixtures.MovieFactory
 import com.nhaarman.mockito_kotlin.whenever
 import io.reactivex.Observable
 import io.reactivex.observers.TestObserver
-import io.reactivex.subjects.PublishSubject
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mockito
@@ -18,7 +17,6 @@ class SearchUseCaseTest {
     private lateinit var repository: MoviesRepository
     private lateinit var useCase: SearchUseCase
     private lateinit var observer: TestObserver<AsyncResult<SearchState>>
-    private lateinit var searches: PublishSubject<String>
 
     private val movieFactory = MovieFactory()
 
@@ -38,27 +36,26 @@ class SearchUseCaseTest {
         whenever(repository.searchMovies("Star"))
                 .thenReturn(Observable.just(LOADING_RESULT, SUCCESS_RESULT))
 
-        searches = PublishSubject.create()
         observer = useCase.results.test()
     }
 
     @Test
     fun startsWithEmptyState() {
-        useCase.start(searches)
+        useCase.start()
         observer.assertValue(EMPTY_QUERY_STATE)
     }
 
     @Test
     fun showsEmptyStateForEmptyQuery() {
-        useCase.start(searches)
-        searches.onNext("")
+        useCase.start()
+        useCase.search("")
         observer.assertValues(EMPTY_QUERY_STATE, EMPTY_QUERY_STATE)
     }
 
     @Test
     fun searchesForQuery() {
-        useCase.start(searches)
-        searches.onNext("Star")
+        useCase.start()
+        useCase.search("Star")
         observer.assertValues(EMPTY_QUERY_STATE, LOADING_STATE, SUCCESS_STATE)
     }
 }

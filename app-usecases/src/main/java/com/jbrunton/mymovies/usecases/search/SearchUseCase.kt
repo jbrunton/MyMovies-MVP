@@ -12,15 +12,20 @@ class SearchUseCase(
         val repository: MoviesRepository
 ): BaseUseCase() {
     val results = PublishSubject.create<AsyncResult<SearchState>>()
+    private val searches = PublishSubject.create<String>()
 
-    fun start(queries: Observable<String>) {
-        val observable = queries
-                .switchMap(this::search)
-                .startWith(AsyncResult.success(SearchState.EmptyQuery))
-        schedulerContext.subscribe(observable, results::onNext)
+    fun start() {
+        schedulerContext.subscribe(searches
+                .switchMap(this::doSearch)
+                .startWith(AsyncResult.success(SearchState.EmptyQuery)),
+                results::onNext)
     }
 
-    private fun search(query: String): DataStream<SearchState> {
+    fun search(query: String) {
+        searches.onNext(query)
+    }
+
+    private fun doSearch(query: String): DataStream<SearchState> {
         if (query.isEmpty()) {
             return Observable.just(AsyncResult.success(SearchState.EmptyQuery))
         }
