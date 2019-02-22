@@ -5,7 +5,7 @@ import com.jbrunton.entities.SchedulerContext
 import com.jbrunton.entities.errors.doOnNetworkError
 import com.jbrunton.entities.errors.handleNetworkErrors
 import com.jbrunton.entities.repositories.MoviesRepository
-import com.jbrunton.entities.subscribe
+import com.jbrunton.entities.safelySubscribe
 import com.jbrunton.mymovies.usecases.BaseUseCase
 import com.jbrunton.mymovies.usecases.search.SearchState
 import io.reactivex.subjects.PublishSubject
@@ -26,12 +26,11 @@ class FavoritesUseCase(
     }
 
     private fun loadFavorites() {
-        val favorites = movies.favorites().map {
+        movies.favorites().map {
             SearchState.from(it)
                     .handleNetworkErrors()
                     .doOnNetworkError(this::showSnackbarIfCachedValue)
-        }
-        subscribe(favorites) { this.favorites.onNext(it) }
+        }.safelySubscribe(this, favorites::onNext)
     }
 
     private fun showSnackbarIfCachedValue(failure: AsyncResult.Failure<SearchState>) {

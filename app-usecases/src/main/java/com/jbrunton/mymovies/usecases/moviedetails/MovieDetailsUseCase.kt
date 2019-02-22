@@ -9,6 +9,7 @@ import com.jbrunton.entities.errors.handleNetworkErrors
 import com.jbrunton.entities.models.Movie
 import com.jbrunton.entities.repositories.ApplicationPreferences
 import com.jbrunton.entities.repositories.MoviesRepository
+import com.jbrunton.entities.safelySubscribe
 import com.jbrunton.mymovies.usecases.BaseUseCase
 import io.reactivex.subjects.PublishSubject
 import retrofit2.HttpException
@@ -35,22 +36,22 @@ class MovieDetailsUseCase(
     fun retry() = loadMovieDetails()
 
     fun favorite() {
-        val observable = repository.favorite(movieId)
+        repository.favorite(movieId)
                 .map(this::handleFavoriteAdded)
                 .map(this::handleAuthFailure)
                 .flatMap { fetchMovieDetails() }
-        schedulerContext.subscribe(observable)
+                .safelySubscribe(this)
     }
 
     fun unfavorite() {
-        val observable = repository.unfavorite(movieId)
+        repository.unfavorite(movieId)
                 .map(this::handleFavoriteRemoved)
                 .map(this::handleAuthFailure)
                 .flatMap { fetchMovieDetails() }
-        schedulerContext.subscribe(observable)
+                .safelySubscribe(this)
     }
 
-    private fun loadMovieDetails() = schedulerContext.subscribe(fetchMovieDetails())
+    private fun loadMovieDetails() = fetchMovieDetails().safelySubscribe(this)
 
     private fun fetchMovieDetails() = repository.getMovie(movieId).map(this::handleMovieResult)
 

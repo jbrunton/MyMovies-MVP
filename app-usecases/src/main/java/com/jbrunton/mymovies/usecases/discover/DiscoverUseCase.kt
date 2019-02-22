@@ -5,7 +5,7 @@ import com.jbrunton.entities.SchedulerContext
 import com.jbrunton.entities.errors.handleNetworkErrors
 import com.jbrunton.entities.repositories.GenresRepository
 import com.jbrunton.entities.repositories.MoviesRepository
-import com.jbrunton.entities.subscribe
+import com.jbrunton.entities.safelySubscribe
 import com.jbrunton.mymovies.usecases.BaseUseCase
 import io.reactivex.rxkotlin.Observables
 import io.reactivex.subjects.PublishSubject
@@ -26,14 +26,13 @@ class DiscoverUseCase(
     }
 
     private fun load() {
-        val stream = Observables.zip(
+        Observables.zip(
                 movies.nowPlaying(),
                 movies.popular(),
                 genres.genres()
         ) { nowPlaying, popular, genres ->
             AsyncResult.zip(nowPlaying, popular, genres, ::DiscoverState)
                     .handleNetworkErrors()
-        }
-        subscribe(stream, state::onNext)
+        }.safelySubscribe(this, state::onNext)
     }
 }

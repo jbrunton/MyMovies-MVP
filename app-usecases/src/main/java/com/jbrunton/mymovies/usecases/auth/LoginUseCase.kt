@@ -8,6 +8,7 @@ import com.jbrunton.entities.errors.handleNetworkErrors
 import com.jbrunton.entities.errors.onNetworkErrorUse
 import com.jbrunton.entities.models.AuthSession
 import com.jbrunton.entities.repositories.AccountRepository
+import com.jbrunton.entities.safelySubscribe
 import com.jbrunton.mymovies.usecases.BaseUseCase
 import com.jbrunton.networking.parseStatusMessage
 import io.reactivex.subjects.PublishSubject
@@ -24,9 +25,9 @@ class LoginUseCase(val repository: AccountRepository) : BaseUseCase() {
         if (loginState is LoginState.Invalid) {
             state.onNext(AsyncResult.success(loginState))
         } else {
-            schedulerContext.subscribe(
-                    repository.login(username, password).map(this::handleLoginResult),
-                    state::onNext)
+            repository.login(username, password)
+                    .map(this::handleLoginResult)
+                    .safelySubscribe(this, state::onNext)
         }
     }
 
