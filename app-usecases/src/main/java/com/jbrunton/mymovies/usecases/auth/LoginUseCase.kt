@@ -4,16 +4,16 @@ import com.jbrunton.async.AsyncResult
 import com.jbrunton.async.doOnSuccess
 import com.jbrunton.async.map
 import com.jbrunton.async.onError
-import com.jbrunton.entities.SchedulerContext
 import com.jbrunton.entities.errors.handleNetworkErrors
 import com.jbrunton.entities.errors.onNetworkErrorUse
 import com.jbrunton.entities.models.AuthSession
 import com.jbrunton.entities.repositories.AccountRepository
+import com.jbrunton.mymovies.usecases.BaseUseCase
 import com.jbrunton.networking.parseStatusMessage
 import io.reactivex.subjects.PublishSubject
 import retrofit2.HttpException
 
-class LoginUseCase(val repository: AccountRepository, val schedulerContext: SchedulerContext) {
+class LoginUseCase(val repository: AccountRepository) : BaseUseCase() {
     val state = PublishSubject.create<AsyncResult<LoginState>>()
     val loginSuccessful = PublishSubject.create<AuthSession>()
     val loginFailure = PublishSubject.create<String>()

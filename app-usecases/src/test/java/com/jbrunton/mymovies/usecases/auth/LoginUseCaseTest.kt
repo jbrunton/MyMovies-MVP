@@ -41,11 +41,14 @@ class LoginUseCaseTest {
     @Before
     fun setUp() {
         repository = Mockito.mock(AccountRepository::class.java)
-        useCase = LoginUseCase(repository, SchedulerContext(ImmediateSchedulerFactory()))
+        useCase = LoginUseCase(repository)
+
         successObserver = useCase.loginSuccessful.test()
         failureObserver = useCase.loginFailure.test()
         networkErrorSnackbarObserver = useCase.networkErrorSnackbar.test()
         stateObserver = useCase.state.test()
+
+        useCase.start(SchedulerContext(ImmediateSchedulerFactory()))
     }
 
     @Test

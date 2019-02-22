@@ -8,8 +8,8 @@ import com.jbrunton.mymovies.usecases.search.SearchState
 
 class SearchViewStateFactory {
     companion object {
-        val NoResultsError = buildError("No Results")
-        val EmptyStateError = buildError("Search")
+        val NoResultsError = searchError("No Results")
+        val EmptyStateError = searchError("Search")
 
         fun from(result: AsyncResult<SearchState>): LoadingViewState<SearchViewState> {
             return LoadingViewState.build(SearchViewState.Empty).flatMap(result, this::transform)
@@ -21,7 +21,7 @@ class SearchViewStateFactory {
             is SearchState.EmptyQuery -> AsyncResult.failure(EmptyStateError)
         }
 
-        private fun buildError(errorMessage: String): LoadingViewStateError {
+        private fun searchError(errorMessage: String): LoadingViewStateError {
             return LoadingViewStateError(errorMessage, R.drawable.ic_search_black_24dp, false)
         }
     }

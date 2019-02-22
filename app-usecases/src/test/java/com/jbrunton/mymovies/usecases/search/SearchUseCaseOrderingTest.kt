@@ -35,10 +35,10 @@ class SearchUseCaseOrderingTest {
     fun setUp() {
         repository = Mockito.mock(MoviesRepository::class.java)
         val factory = TestSchedulerFactory(schedulerRule.TEST_SCHEDULER)
-        useCase = SearchUseCase(repository, SchedulerContext(factory))
+        useCase = SearchUseCase(repository)
 
         observer = useCase.results.test()
-        useCase.start()
+        useCase.start(SchedulerContext(factory))
         schedulerRule.TEST_SCHEDULER.triggerActions()
 
         // Note that movie 2 will take longer to arrive

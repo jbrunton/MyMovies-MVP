@@ -5,20 +5,23 @@ import com.jbrunton.entities.SchedulerContext
 import com.jbrunton.entities.errors.handleNetworkErrors
 import com.jbrunton.entities.repositories.DataStream
 import com.jbrunton.entities.repositories.MoviesRepository
+import com.jbrunton.mymovies.usecases.BaseUseCase
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 
 class SearchUseCase(
-        val repository: MoviesRepository,
-        val schedulerContext: SchedulerContext
-) {
+        val repository: MoviesRepository
+) : BaseUseCase() {
     val results = PublishSubject.create<AsyncResult<SearchState>>()
     private val searches = PublishSubject.create<String>()
 
-    fun start() {
+    val EmptyQueryResult = AsyncResult.success(SearchState.EmptyQuery)
+
+    override fun start(schedulerContext: SchedulerContext) {
+        super.start(schedulerContext)
         schedulerContext.subscribe(searches
                 .switchMap(this::doSearch)
-                .startWith(AsyncResult.success(SearchState.EmptyQuery)),
+                .startWith(EmptyQueryResult),
                 results::onNext)
     }
 
@@ -28,7 +31,7 @@ class SearchUseCase(
 
     private fun doSearch(query: String): DataStream<SearchState> {
         if (query.isEmpty()) {
-            return Observable.just(AsyncResult.success(SearchState.EmptyQuery))
+            return Observable.just(EmptyQueryResult)
         }
 
         return repository.searchMovies(query)

@@ -42,15 +42,18 @@ class MovieDetailsUseCaseTest : HasSchedulers {
         repository = Mockito.mock(MoviesRepository::class.java)
         preferences = Mockito.mock(ApplicationPreferences::class.java)
         whenever(preferences.favorites).thenReturn(setOf(MOVIE_ID))
-        useCase = MovieDetailsUseCase(MOVIE_ID, repository, preferences, schedulerContext)
+        useCase = MovieDetailsUseCase(MOVIE_ID, repository, preferences)
+
         snackbarObserver = useCase.snackbar.test()
         stubRepoToReturn(SUCCESS_RESULT)
         viewStateObserver = useCase.movie.test()
+
+        useCase.start(SchedulerContext(ImmediateSchedulerFactory()))
+
     }
 
     @Test
     fun testSuccess() {
-        useCase.start()
         viewStateObserver.assertValues(LOADING_STATE, SUCCESS_STATE)
     }
 
@@ -60,7 +63,7 @@ class MovieDetailsUseCaseTest : HasSchedulers {
 
         useCase.favorite()
 
-        viewStateObserver.assertValues(LOADING_STATE, SUCCESS_STATE)
+        viewStateObserver.assertValues(LOADING_STATE, SUCCESS_STATE, LOADING_STATE, SUCCESS_STATE)
         snackbarObserver.assertValue(MovieDetailsSnackbar.FavoriteAdded)
     }
 
@@ -70,7 +73,7 @@ class MovieDetailsUseCaseTest : HasSchedulers {
 
         useCase.unfavorite()
 
-        viewStateObserver.assertValues(LOADING_STATE, SUCCESS_STATE)
+        viewStateObserver.assertValues(LOADING_STATE, SUCCESS_STATE, LOADING_STATE, SUCCESS_STATE)
         snackbarObserver.assertValue(MovieDetailsSnackbar.FavoriteRemoved)
     }
 
@@ -80,7 +83,7 @@ class MovieDetailsUseCaseTest : HasSchedulers {
 
         useCase.favorite()
 
-        viewStateObserver.assertValues(LOADING_STATE, SUCCESS_STATE)
+        viewStateObserver.assertValues(LOADING_STATE, SUCCESS_STATE, LOADING_STATE, SUCCESS_STATE)
         snackbarObserver.assertValue(MovieDetailsSnackbar.SignedOut)
     }
 
