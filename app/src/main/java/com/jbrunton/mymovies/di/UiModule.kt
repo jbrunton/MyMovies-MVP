@@ -11,6 +11,7 @@ import com.jbrunton.mymovies.ui.discover.GenreResultsViewModel
 import com.jbrunton.mymovies.ui.discover.GenresViewModel
 import com.jbrunton.mymovies.ui.main.MainViewModel
 import com.jbrunton.mymovies.ui.moviedetails.MovieDetailsViewModel
+import com.jbrunton.mymovies.ui.moviedetails.MovieDetailsViewStateFactory
 import com.jbrunton.mymovies.ui.search.SearchViewModel
 import com.jbrunton.mymovies.usecases.auth.LoginUseCase
 import com.jbrunton.mymovies.usecases.discover.DiscoverUseCase
@@ -35,5 +36,6 @@ val UiModule = module {
     factory { AccountViewModel(get()) }
     factory { FavoritesViewModel(get()) }
     factory { (movieId: String) -> MovieDetailsViewModel(movieId, get()) }
+    factory { MovieDetailsViewStateFactory(get()) }
     factory { (genreId: String) -> GenreResultsViewModel(genreId, get()) }
 }
