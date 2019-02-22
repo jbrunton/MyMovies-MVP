@@ -11,7 +11,7 @@ import com.jbrunton.mymovies.usecases.moviedetails.MovieDetailsUseCase
 class MovieDetailsViewModel(val movieId: String, container: Container) :
         BaseLoadingViewModel<MovieDetailsViewState>(container)
 {
-    val useCase: MovieDetailsUseCase by inject { parametersOf(movieId, schedulerContext) }
+    val useCase: MovieDetailsUseCase by inject { parametersOf(movieId) }
     val viewStateFactory: MovieDetailsViewStateFactory by inject()
 
     override fun start() {
@@ -21,11 +21,11 @@ class MovieDetailsViewModel(val movieId: String, container: Container) :
 
         subscribe(useCase.snackbar, this::showSnackbar)
 
-        useCase.start()
+        useCase.start(schedulerContext)
     }
 
     override fun retry() {
-        useCase.start()
+        useCase.retry()
     }
 
     fun favorite() {

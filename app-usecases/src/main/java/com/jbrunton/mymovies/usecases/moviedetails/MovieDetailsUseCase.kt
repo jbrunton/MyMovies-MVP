@@ -9,6 +9,7 @@ import com.jbrunton.entities.errors.handleNetworkErrors
 import com.jbrunton.entities.models.Movie
 import com.jbrunton.entities.repositories.ApplicationPreferences
 import com.jbrunton.entities.repositories.MoviesRepository
+import com.jbrunton.mymovies.usecases.BaseUseCase
 import io.reactivex.subjects.PublishSubject
 import retrofit2.HttpException
 
@@ -21,15 +22,17 @@ sealed class MovieDetailsSnackbar {
 class MovieDetailsUseCase(
         val movieId: String,
         val repository: MoviesRepository,
-        val preferences: ApplicationPreferences,
-        val schedulerContext: SchedulerContext
-) {
+        val preferences: ApplicationPreferences
+) : BaseUseCase() {
     val snackbar = PublishSubject.create<MovieDetailsSnackbar>()
     val movie = PublishSubject.create<AsyncResult<MovieDetailsState>>()
 
-    fun start() {
-        schedulerContext.subscribe(fetchMovieDetails())
+    override fun start(schedulerContext: SchedulerContext) {
+        super.start(schedulerContext)
+        loadMovieDetails()
     }
+
+    fun retry() = loadMovieDetails()
 
     fun favorite() {
         val observable = repository.favorite(movieId)
@@ -46,6 +49,8 @@ class MovieDetailsUseCase(
                 .flatMap { fetchMovieDetails() }
         schedulerContext.subscribe(observable)
     }
+
+    private fun loadMovieDetails() = schedulerContext.subscribe(fetchMovieDetails())
 
     private fun fetchMovieDetails() = repository.getMovie(movieId).map(this::handleMovieResult)
 

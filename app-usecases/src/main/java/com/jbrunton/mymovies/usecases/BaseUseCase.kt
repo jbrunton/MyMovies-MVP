@@ -6,7 +6,7 @@ import com.jbrunton.entities.SchedulerContext
 open class BaseUseCase : HasSchedulers {
     override lateinit var schedulerContext: SchedulerContext
 
-    fun start(schedulerContext: SchedulerContext) {
+    open fun start(schedulerContext: SchedulerContext) {
         this.schedulerContext = schedulerContext
     }
 }

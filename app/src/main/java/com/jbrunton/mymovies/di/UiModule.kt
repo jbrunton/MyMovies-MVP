@@ -1,6 +1,5 @@
 package com.jbrunton.mymovies.di
 
-import com.jbrunton.entities.SchedulerContext
 import com.jbrunton.inject.module
 import com.jbrunton.mymovies.nav.ResultRouter
 import com.jbrunton.mymovies.ui.account.AccountViewModel
@@ -22,11 +21,11 @@ import com.jbrunton.mymovies.usecases.search.SearchUseCase
 val UiModule = module {
     single { ResultRouter() }
 
-    factory { (schedulerContext: SchedulerContext) -> SearchUseCase(get(), schedulerContext) }
+    factory { SearchUseCase(get()) }
     factory { DiscoverUseCase(get(), get()) }
     factory { FavoritesUseCase(get()) }
-    factory { (schedulerContext: SchedulerContext) -> LoginUseCase(get(), schedulerContext) }
-    factory { (movieId: String, schedulerContext: SchedulerContext) -> MovieDetailsUseCase(movieId, get(), get(), schedulerContext) }
+    factory { LoginUseCase(get()) }
+    factory { (movieId: String) -> MovieDetailsUseCase(movieId, get(), get()) }
 
     factory { MainViewModel(get()) }
     factory { SearchViewModel(get()) }
