@@ -11,6 +11,7 @@ import com.jbrunton.entities.repositories.ApplicationPreferences
 import com.jbrunton.entities.repositories.MoviesRepository
 import com.jbrunton.entities.safelySubscribe
 import com.jbrunton.mymovies.usecases.BaseUseCase
+import io.reactivex.ObservableTransformer
 import io.reactivex.subjects.PublishSubject
 import retrofit2.HttpException
 
@@ -37,17 +38,13 @@ class MovieDetailsUseCase(
 
     fun favorite() {
         repository.favorite(movieId)
-                .map(this::handleFavoriteAdded)
-                .map(this::handleAuthFailure)
-                .flatMap { fetchMovieDetails() }
+                .compose(favoriteHandler(this::handleFavoriteAdded))
                 .safelySubscribe(this)
     }
 
     fun unfavorite() {
         repository.unfavorite(movieId)
-                .map(this::handleFavoriteRemoved)
-                .map(this::handleAuthFailure)
-                .flatMap { fetchMovieDetails() }
+                .compose(favoriteHandler(this::handleFavoriteRemoved))
                 .safelySubscribe(this)
     }
 
@@ -55,9 +52,11 @@ class MovieDetailsUseCase(
 
     private fun fetchMovieDetails() = repository.getMovie(movieId).map(this::handleMovieResult)
 
-    private fun showSignedOutSnackbar() {
-        snackbar.onNext(MovieDetailsSnackbar.SignedOut)
-    }
+    private fun favoriteHandler(handler: (AsyncResult<Unit>) -> AsyncResult<Unit>) =
+            ObservableTransformer<AsyncResult<Unit>, Unit> {
+                it.map(handler).map(this::handleAuthFailure)
+                        .flatMap { fetchMovieDetails() }
+            }
 
     private fun handleMovieResult(result: AsyncResult<Movie>) {
         val state = result.handleNetworkErrors().map {
@@ -69,7 +68,7 @@ class MovieDetailsUseCase(
 
     private fun handleAuthFailure(result: AsyncResult<Unit>): AsyncResult<Unit> {
         return result.doOnError(HttpException::class) {
-            action { showSignedOutSnackbar() } whenever { it.code() == 401 }
+            action { snackbar.onNext(MovieDetailsSnackbar.SignedOut) } whenever { it.code() == 401 }
         }
     }
 
