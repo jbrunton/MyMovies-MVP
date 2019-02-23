@@ -16,6 +16,7 @@ import com.jbrunton.mymovies.fixtures.ViewControllerTestFragment
 import com.jbrunton.mymovies.ui.shared.LoadingViewState
 import com.jbrunton.mymovies.ui.shared.LoadingViewStateError
 import com.jbrunton.mymovies.usecases.search.SearchState
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -26,13 +27,23 @@ class SearchViewControllerTest : BaseFragmentTest<SearchViewControllerTest.TestF
     val MOVIE1 = MOVIE_FACTORY.create()
     val MOVIE2 = MOVIE_FACTORY.create()
 
-    val EMPTY_STATE = SearchViewStateFactory.viewState(AsyncResult.success(SearchState.EmptyQuery))
-    val LOADING_STATE = SearchViewStateFactory.viewState(AsyncResult.loading(null))
+    lateinit var viewStateFactory: SearchViewStateFactory
+
+    lateinit var EMPTY_STATE: LoadingViewState<SearchViewState>
+    lateinit var LOADING_STATE: LoadingViewState<SearchViewState>
 
     val NETWORK_ERROR = LoadingViewStateError("Network Error", R.drawable.ic_error_outline_black_24dp, true)
-    val NETWORK_ERROR_STATE = SearchViewStateFactory.viewState(AsyncResult.failure(NETWORK_ERROR))
+    lateinit var NETWORK_ERROR_STATE: LoadingViewState<SearchViewState>
 
-    val SUCCESS_STATE = SearchViewStateFactory.viewState(AsyncResult.success(SearchState.Some(listOf(MOVIE1, MOVIE2))))
+    lateinit var SUCCESS_STATE: LoadingViewState<SearchViewState>
+
+    @Before fun setUp() {
+        viewStateFactory = SearchViewStateFactory(fragmentRule.activity)
+        EMPTY_STATE = viewStateFactory.viewState(AsyncResult.success(SearchState.EmptyQuery))
+        LOADING_STATE = viewStateFactory.viewState(AsyncResult.loading(null))
+        NETWORK_ERROR_STATE = viewStateFactory.viewState(AsyncResult.failure(NETWORK_ERROR))
+        SUCCESS_STATE = viewStateFactory.viewState(AsyncResult.success(SearchState.Some(listOf(MOVIE1, MOVIE2))))
+    }
 
     @Test
     fun showsEmptySearchState() {
