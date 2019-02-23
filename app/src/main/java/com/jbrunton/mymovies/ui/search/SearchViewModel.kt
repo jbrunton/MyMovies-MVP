@@ -8,10 +8,11 @@ import com.jbrunton.mymovies.usecases.search.SearchUseCase
 
 class SearchViewModel(container: Container) : BaseLoadingViewModel<SearchViewState>(container) {
     val useCase: SearchUseCase by inject()
+    val viewStateFactory: SearchViewStateFactory by inject()
 
     override fun start() {
         subscribe(useCase.results) {
-            viewState.postValue(SearchViewStateFactory.from(it))
+            viewState.postValue(viewStateFactory.viewState(it))
         }
         useCase.start(schedulerContext)
     }

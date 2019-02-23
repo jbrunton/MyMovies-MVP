@@ -34,3 +34,9 @@ fun <T> HasSchedulers.subscribe(source: Observable<T>, onNext: (T) -> Unit) =
 
 fun <T> HasSchedulers.subscribe(source: Observable<T>) =
         schedulerContext.subscribe(source, {})
+
+fun <T> Observable<T>.safelySubscribe(target: HasSchedulers, onNext: (T) -> Unit) =
+        target.subscribe(this, onNext)
+
+fun <T> Observable<T>.safelySubscribe(target: HasSchedulers) =
+        target.subscribe(this)

@@ -9,7 +9,7 @@ import com.jbrunton.mymovies.ui.account.AccountFragment
 import com.jbrunton.mymovies.ui.account.favorites.FavoritesActivity
 import com.jbrunton.mymovies.ui.auth.LoginActivity
 import com.jbrunton.mymovies.ui.discover.DiscoverFragment
-import com.jbrunton.mymovies.ui.discover.GenreResultsActivity
+import com.jbrunton.mymovies.ui.discover.genres.GenreResultsActivity
 import com.jbrunton.mymovies.ui.main.MainActivity
 import com.jbrunton.mymovies.ui.search.SearchFragment
 import io.reactivex.Observable

@@ -9,5 +9,6 @@ data class LoginViewState(
                 usernameError = null,
                 passwordError = null
         )
+        val Valid = Empty
     }
 }

@@ -10,16 +10,13 @@ class DiscoverViewModel(container: Container) : BaseLoadingViewModel<DiscoverVie
     val useCase: DiscoverUseCase by inject()
 
     override fun start() {
-        load()
+        subscribe(useCase.state) {
+            viewState.postValue(DiscoverViewStateFactory.viewState(it))
+        }
+        useCase.start(schedulerContext)
     }
 
     override fun retry() {
-        load()
-    }
-
-    private fun load() {
-        subscribe(useCase.reduce()) {
-            viewState.postValue(DiscoverViewStateFactory.from(it))
-        }
+        useCase.retry()
     }
 }

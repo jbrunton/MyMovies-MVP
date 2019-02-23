@@ -13,16 +13,18 @@ class LoginViewModel(container: Container) : BaseLoadingViewModel<LoginViewState
     val useCase: LoginUseCase by inject { parametersOf(schedulerContext) }
     val loginSuccessful = SingleLiveEvent<AuthSession>()
     val loginFailure = SingleLiveEvent<String>()
+    val viewStateFactory: LoginViewStateFactory by inject()
 
     override fun start() {
         subscribe(useCase.state) {
-            viewState.postValue(LoginViewStateFactory.from(it))
+            viewState.postValue(viewStateFactory.viewState(it))
         }
         subscribe(useCase.loginSuccessful) { loginSuccessful.postValue(it) }
         subscribe(useCase.loginFailure) { loginFailure.postValue(it) }
         subscribe(useCase.networkErrorSnackbar) {
             snackbar.postValue(NetworkErrorSnackbar(retry = false))
         }
+        useCase.start(schedulerContext)
     }
 
     fun login(username: String, password: String) {
