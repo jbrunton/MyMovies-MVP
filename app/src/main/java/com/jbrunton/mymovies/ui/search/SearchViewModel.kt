@@ -11,7 +11,7 @@ class SearchViewModel(container: Container) : BaseLoadingViewModel<SearchViewSta
 
     override fun start() {
         subscribe(useCase.results) {
-            viewState.postValue(SearchViewStateFactory.from(it))
+            viewState.postValue(SearchViewStateFactory.viewState(it))
         }
         useCase.start(schedulerContext)
     }

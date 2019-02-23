@@ -11,7 +11,7 @@ class SearchViewStateFactory {
         val NoResultsError = searchError("No Results")
         val EmptyStateError = searchError("Search")
 
-        fun from(result: AsyncResult<SearchState>): LoadingViewState<SearchViewState> {
+        fun viewState(result: AsyncResult<SearchState>): LoadingViewState<SearchViewState> {
             return LoadingViewState.build(SearchViewState.Empty).flatMap(result, this::transform)
         }
 

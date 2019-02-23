@@ -26,13 +26,13 @@ class SearchViewControllerTest : BaseFragmentTest<SearchViewControllerTest.TestF
     val MOVIE1 = MOVIE_FACTORY.create()
     val MOVIE2 = MOVIE_FACTORY.create()
 
-    val EMPTY_STATE = SearchViewStateFactory.from(AsyncResult.success(SearchState.EmptyQuery))
-    val LOADING_STATE = SearchViewStateFactory.from(AsyncResult.loading(null))
+    val EMPTY_STATE = SearchViewStateFactory.viewState(AsyncResult.success(SearchState.EmptyQuery))
+    val LOADING_STATE = SearchViewStateFactory.viewState(AsyncResult.loading(null))
 
     val NETWORK_ERROR = LoadingViewStateError("Network Error", R.drawable.ic_error_outline_black_24dp, true)
-    val NETWORK_ERROR_STATE = SearchViewStateFactory.from(AsyncResult.failure(NETWORK_ERROR))
+    val NETWORK_ERROR_STATE = SearchViewStateFactory.viewState(AsyncResult.failure(NETWORK_ERROR))
 
-    val SUCCESS_STATE = SearchViewStateFactory.from(AsyncResult.success(SearchState.Some(listOf(MOVIE1, MOVIE2))))
+    val SUCCESS_STATE = SearchViewStateFactory.viewState(AsyncResult.success(SearchState.Some(listOf(MOVIE1, MOVIE2))))
 
     @Test
     fun showsEmptySearchState() {

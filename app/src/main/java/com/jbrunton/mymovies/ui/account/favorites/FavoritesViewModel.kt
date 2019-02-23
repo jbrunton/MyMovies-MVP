@@ -16,7 +16,7 @@ class FavoritesViewModel(container: Container) : BaseLoadingViewModel<SearchView
             snackbar.postValue(NetworkErrorSnackbar(retry = true))
         }
         subscribe(useCase.favorites) {
-            viewState.postValue(SearchViewStateFactory.from(it))
+            viewState.postValue(SearchViewStateFactory.viewState(it))
         }
         useCase.start(schedulerContext)
     }

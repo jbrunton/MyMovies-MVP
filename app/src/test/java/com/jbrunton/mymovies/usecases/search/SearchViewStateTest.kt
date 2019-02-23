@@ -15,7 +15,7 @@ class SearchViewStateTest {
     fun handlesSuccess() {
         val success = AsyncResult.success(SearchState.Some(listOf(movie)))
 
-        val result = SearchViewStateFactory.from(success)
+        val result = SearchViewStateFactory.viewState(success)
 
         val expected = AsyncResult.success(SearchViewState.from(listOf(movie)))
                 .toLoadingViewState(SearchViewState.Empty)
@@ -26,7 +26,7 @@ class SearchViewStateTest {
     fun handlesNoResults() {
         val failure = AsyncResult.success(SearchState.NoResults)
 
-        val result = SearchViewStateFactory.from(failure)
+        val result = SearchViewStateFactory.viewState(failure)
 
         val expected = AsyncResult.failure<SearchViewState>(SearchViewStateFactory.NoResultsError)
                 .toLoadingViewState(SearchViewState.Empty)
@@ -37,7 +37,7 @@ class SearchViewStateTest {
     fun handlesEmptyQuery() {
         val failure = AsyncResult.success(SearchState.EmptyQuery)
 
-        val result = SearchViewStateFactory.from(failure)
+        val result = SearchViewStateFactory.viewState(failure)
 
         val expected = AsyncResult.failure<SearchViewState>(SearchViewStateFactory.EmptyStateError)
                 .toLoadingViewState(SearchViewState.Empty)
