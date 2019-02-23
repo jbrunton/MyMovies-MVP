@@ -102,4 +102,6 @@
 
     <string name="snackbar_ok">OK</string>
     <string name="snackbar_undo">Undo</string>
+    <string name="username_required">Username required</string>
+    <string name="password_required">Password required</string>
 </resources>
