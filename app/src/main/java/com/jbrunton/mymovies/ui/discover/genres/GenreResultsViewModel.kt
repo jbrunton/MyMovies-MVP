@@ -1,4 +1,4 @@
-package com.jbrunton.mymovies.ui.discover
+package com.jbrunton.mymovies.ui.discover.genres
 
 import com.jbrunton.entities.repositories.MoviesRepository
 import com.jbrunton.entities.subscribe

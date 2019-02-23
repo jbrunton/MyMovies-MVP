@@ -11,7 +11,7 @@ import com.jbrunton.mymovies.di.ActivityModule
 import com.jbrunton.mymovies.di.ApplicationComponent
 import com.jbrunton.mymovies.di.TestApplicationComponent
 import com.jbrunton.mymovies.fixtures.BaseActivityTest
-import com.jbrunton.mymovies.ui.discover.GenreResultsViewModel
+import com.jbrunton.mymovies.ui.discover.genres.GenreResultsViewModel
 import com.jbrunton.mymovies.ui.main.MainActivity
 import com.jbrunton.mymovies.ui.moviedetails.MovieDetailsViewModel
 import com.jbrunton.mymovies.usecases.moviedetails.MovieDetailsUseCase
