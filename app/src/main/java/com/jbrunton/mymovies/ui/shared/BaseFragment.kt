@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.View
 import com.jbrunton.inject.Container
 import com.jbrunton.inject.HasContainer
+import com.jbrunton.inject.inject
+import com.jbrunton.mymovies.nav.Navigator
 import kotlinx.coroutines.CoroutineScope
 import kotlin.coroutines.CoroutineContext
 
@@ -11,6 +13,7 @@ abstract class BaseFragment<T : BaseViewModel> : androidx.fragment.app.Fragment(
         HasContainer, CoroutineScope, ViewModelLifecycle
 {
     abstract val viewModel: T
+    val navigator: Navigator by inject()
 
     override val container: Container by lazy {
         (activity as? HasContainer)?.container

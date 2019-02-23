@@ -5,10 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import com.jbrunton.inject.inject
 import com.jbrunton.inject.injectViewModel
 import com.jbrunton.mymovies.helpers.observe
-import com.jbrunton.mymovies.nav.Navigator
 import com.jbrunton.mymovies.ui.shared.BaseFragment
 import kotlinx.android.synthetic.main.fragment_account.*
 import kotlinx.android.synthetic.main.layout_account_details.*
@@ -19,8 +17,7 @@ class AccountFragment : BaseFragment<AccountViewModel>() {
     private val layoutController = AccountViewController()
 
     override val viewModel: AccountViewModel by injectViewModel()
-    val navigator: Navigator by inject()
-
+    
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(layoutController.layout, container, false)
     }

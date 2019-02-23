@@ -11,7 +11,7 @@ class DiscoverViewModel(container: Container) : BaseLoadingViewModel<DiscoverVie
 
     override fun start() {
         subscribe(useCase.state) {
-            viewState.postValue(DiscoverViewStateFactory.from(it))
+            viewState.postValue(DiscoverViewStateFactory.viewState(it))
         }
         useCase.start(schedulerContext)
     }
