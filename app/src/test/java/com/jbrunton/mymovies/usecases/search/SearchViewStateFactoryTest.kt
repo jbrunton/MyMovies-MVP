@@ -12,7 +12,7 @@ import com.nhaarman.mockito_kotlin.mock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 
-class SearchViewStateTest {
+class SearchViewStateFactoryTest {
     val movie = MovieFactory().create()
     val context = mock<Context> {
         on { getString(R.string.search_no_results) } doReturn "No Results"
