@@ -24,9 +24,9 @@ class SearchUseCaseTest {
     private val LOADING_RESULT = AsyncResult.loading<List<Movie>>(null)
     private val SUCCESS_RESULT = AsyncResult.success(listOf(MOVIE))
 
-    private val EMPTY_QUERY_STATE = AsyncResult.success(SearchState.EmptyQuery)
-    private val LOADING_STATE = AsyncResult.loading(null)
-    private val SUCCESS_STATE = AsyncResult.success(SearchState.Some(listOf(MOVIE)))
+    private val EmptyQueryState = AsyncResult.success(SearchState.EmptyQuery)
+    private val LoadingState = AsyncResult.loading(null)
+    private val SuccessState = AsyncResult.success(SearchState.Some(listOf(MOVIE)))
 
     @Before
     fun setUp() {
@@ -42,18 +42,18 @@ class SearchUseCaseTest {
 
     @Test
     fun startsWithEmptyState() {
-        observer.assertValue(EMPTY_QUERY_STATE)
+        observer.assertValue(EmptyQueryState)
     }
 
     @Test
     fun showsEmptyStateForEmptyQuery() {
         useCase.search("")
-        observer.assertValues(EMPTY_QUERY_STATE, EMPTY_QUERY_STATE)
+        observer.assertValues(EmptyQueryState, EmptyQueryState)
     }
 
     @Test
     fun searchesForQuery() {
         useCase.search("Star")
-        observer.assertValues(EMPTY_QUERY_STATE, LOADING_STATE, SUCCESS_STATE)
+        observer.assertValues(EmptyQueryState, LoadingState, SuccessState)
     }
 }
