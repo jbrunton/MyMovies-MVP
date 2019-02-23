@@ -10,13 +10,14 @@ import com.jbrunton.mymovies.usecases.favorites.FavoritesUseCase
 
 class FavoritesViewModel(container: Container) : BaseLoadingViewModel<SearchViewState>(container) {
     val useCase: FavoritesUseCase by inject()
+    val viewStateFactory: SearchViewStateFactory by inject()
 
     override fun start() {
         subscribe(useCase.retrySnackbar) {
             snackbar.postValue(NetworkErrorSnackbar(retry = true))
         }
         subscribe(useCase.favorites) {
-            viewState.postValue(SearchViewStateFactory.viewState(it))
+            viewState.postValue(viewStateFactory.viewState(it))
         }
         useCase.start(schedulerContext)
     }

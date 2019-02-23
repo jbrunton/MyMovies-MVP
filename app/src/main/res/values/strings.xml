@@ -104,4 +104,6 @@
     <string name="snackbar_undo">Undo</string>
     <string name="username_required">Username required</string>
     <string name="password_required">Password required</string>
+    <string name="search_no_results">No Results</string>
+    <string name="search_empty">Search</string>
 </resources>

@@ -17,7 +17,7 @@ class AccountFragment : BaseFragment<AccountViewModel>() {
     private val layoutController = AccountViewController()
 
     override val viewModel: AccountViewModel by injectViewModel()
-    
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(layoutController.layout, container, false)
     }

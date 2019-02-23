@@ -24,6 +24,7 @@ class LoginViewModel(container: Container) : BaseLoadingViewModel<LoginViewState
         subscribe(useCase.networkErrorSnackbar) {
             snackbar.postValue(NetworkErrorSnackbar(retry = false))
         }
+        useCase.start(schedulerContext)
     }
 
     fun login(username: String, password: String) {

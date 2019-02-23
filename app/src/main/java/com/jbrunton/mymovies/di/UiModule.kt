@@ -5,6 +5,7 @@ import com.jbrunton.mymovies.nav.ResultRouter
 import com.jbrunton.mymovies.ui.account.AccountViewModel
 import com.jbrunton.mymovies.ui.account.favorites.FavoritesViewModel
 import com.jbrunton.mymovies.ui.auth.LoginViewModel
+import com.jbrunton.mymovies.ui.auth.LoginViewStateFactory
 import com.jbrunton.mymovies.ui.discover.DiscoverViewModel
 import com.jbrunton.mymovies.ui.discover.genres.GenreResultsViewModel
 import com.jbrunton.mymovies.ui.discover.genres.GenresViewModel
@@ -12,6 +13,7 @@ import com.jbrunton.mymovies.ui.main.MainViewModel
 import com.jbrunton.mymovies.ui.moviedetails.MovieDetailsViewModel
 import com.jbrunton.mymovies.ui.moviedetails.MovieDetailsViewStateFactory
 import com.jbrunton.mymovies.ui.search.SearchViewModel
+import com.jbrunton.mymovies.ui.search.SearchViewStateFactory
 import com.jbrunton.mymovies.usecases.auth.LoginUseCase
 import com.jbrunton.mymovies.usecases.discover.DiscoverUseCase
 import com.jbrunton.mymovies.usecases.favorites.FavoritesUseCase
@@ -21,20 +23,26 @@ import com.jbrunton.mymovies.usecases.search.SearchUseCase
 val UiModule = module {
     single { ResultRouter() }
 
-    factory { SearchUseCase(get()) }
-    factory { DiscoverUseCase(get(), get()) }
-    factory { FavoritesUseCase(get()) }
-    factory { LoginUseCase(get()) }
-    factory { (movieId: String) -> MovieDetailsUseCase(movieId, get(), get()) }
-
     factory { MainViewModel(get()) }
-    factory { SearchViewModel(get()) }
-    factory { DiscoverViewModel(get()) }
-    factory { GenresViewModel(get()) }
+
+    factory { LoginUseCase(get()) }
     factory { LoginViewModel(get()) }
-    factory { AccountViewModel(get()) }
-    factory { FavoritesViewModel(get()) }
+    factory { LoginViewStateFactory(get()) }
+
+    factory { SearchUseCase(get()) }
+    factory { SearchViewModel(get()) }
+    factory { SearchViewStateFactory(get()) }
+
+    factory { (movieId: String) -> MovieDetailsUseCase(movieId, get(), get()) }
     factory { (movieId: String) -> MovieDetailsViewModel(movieId, get()) }
     factory { MovieDetailsViewStateFactory(get()) }
+
+    factory { DiscoverUseCase(get(), get()) }
+    factory { DiscoverViewModel(get()) }
     factory { (genreId: String) -> GenreResultsViewModel(genreId, get()) }
+    factory { GenresViewModel(get()) }
+
+    factory { AccountViewModel(get()) }
+    factory { FavoritesViewModel(get()) }
+    factory { FavoritesUseCase(get()) }
 }

@@ -14,6 +14,7 @@ class GenreResultsViewModel(
         container: Container
 ) : BaseLoadingViewModel<SearchViewState>(container) {
     val repository: MoviesRepository by inject()
+    val viewStateFactory: SearchViewStateFactory by inject()
 
     override fun start() {
         searchGenre()
@@ -25,7 +26,7 @@ class GenreResultsViewModel(
 
     private fun searchGenre() {
         subscribe(repository.discoverByGenre(genreId)) {
-            viewState.postValue(SearchViewStateFactory.viewState(SearchState.from(it)))
+            viewState.postValue(viewStateFactory.viewState(SearchState.from(it)))
         }
     }
 }
