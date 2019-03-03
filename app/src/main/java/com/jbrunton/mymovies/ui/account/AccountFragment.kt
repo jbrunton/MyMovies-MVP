@@ -29,7 +29,7 @@ class AccountFragment : BaseFragment<AccountViewModel>() {
 
     override fun onBindListeners() {
         error_try_again.setOnClickListener { viewModel.retry() }
-        sign_in.setOnClickListener { viewModel.showLogin(navigator) }
+        sign_in.setOnClickListener { viewModel.signIn(navigator) }
         sign_out.setOnClickListener { viewModel.signOut() }
         favorites.setOnClickListener { navigator.showFavorites() }
     }
