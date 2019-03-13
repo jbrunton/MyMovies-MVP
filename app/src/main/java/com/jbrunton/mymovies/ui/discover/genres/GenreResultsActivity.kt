@@ -12,14 +12,16 @@ import kotlinx.android.synthetic.main.layout_loading_state.*
 class GenreResultsActivity : BaseActivity<GenreResultsViewModel>() {
     private val viewController = MoviesListViewController()
 
-    override val viewModel: GenreResultsViewModel by injectViewModel { parametersOf(genreId(), genreName()) }
+    override val viewModel: GenreResultsViewModel by injectViewModel { parametersOf(genreId, genreName) }
+    private val genreId by lazy { intent.extras["GENRE_ID"] as String }
+    private val genreName by lazy { intent.extras["GENRE_NAME"] as String }
 
     override fun onCreateLayout() {
         setContentView(R.layout.activity_genre_results)
 
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        supportActionBar!!.setTitle(genreName())
+        supportActionBar!!.setTitle(genreName)
 
         viewController.bind(this)
     }
@@ -31,7 +33,4 @@ class GenreResultsActivity : BaseActivity<GenreResultsViewModel>() {
     override fun onObserveData() {
         viewModel.viewState.observe(this, viewController::updateView)
     }
-
-    private fun genreId(): String = intent.extras["GENRE_ID"] as String
-    private fun genreName(): String = intent.extras["GENRE_NAME"] as String
 }
