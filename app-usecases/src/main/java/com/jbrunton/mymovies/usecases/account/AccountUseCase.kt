@@ -6,6 +6,7 @@ import com.jbrunton.async.onError
 import com.jbrunton.entities.SchedulerContext
 import com.jbrunton.entities.errors.doOnNetworkError
 import com.jbrunton.entities.errors.handleNetworkErrors
+import com.jbrunton.entities.models.Account
 import com.jbrunton.entities.models.AuthSession
 import com.jbrunton.entities.repositories.AccountRepository
 import com.jbrunton.entities.safelySubscribe
@@ -37,14 +38,18 @@ class AccountUseCase(val repository: AccountRepository): BaseUseCase() {
     }
 
     private fun load() {
-        repository.account().map {
-            it.map { AccountState.SignedIn(it) as AccountState }
-                    .onError(HttpException::class) {
-                        use { AccountState.SignedOut } whenever { it.code() == 401 }
-                    }
-                    .handleNetworkErrors()
-                    .doOnNetworkError(this::showSnackbarIfCachedValue)
-        }.safelySubscribe(this, state::onNext)
+        repository.account()
+                .map(this::toState)
+                .safelySubscribe(this, state::onNext)
+    }
+
+    private fun toState(result: AsyncResult<Account>): AsyncResult<AccountState> {
+        return result.map { AccountState.SignedIn(it) as AccountState }
+                .onError(HttpException::class) {
+                    use { AccountState.SignedOut } whenever { it.code() == 401 }
+                }
+                .handleNetworkErrors()
+                .doOnNetworkError(this::showSnackbarIfCachedValue)
     }
 
     private fun showSnackbarIfCachedValue(failure: AsyncResult.Failure<AccountState>) {
