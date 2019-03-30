@@ -45,11 +45,15 @@ class AccountUseCase(val repository: AccountRepository): BaseUseCase() {
 
     private fun toState(result: AsyncResult<Account>): AsyncResult<AccountState> {
         return result.map { AccountState.SignedIn(it) as AccountState }
-                .onError(HttpException::class) {
-                    use { AccountState.SignedOut } whenever { it.code() == 401 }
-                }
+                .let(this::handleSignedOut)
                 .handleNetworkErrors()
                 .doOnNetworkError(this::showSnackbarIfCachedValue)
+    }
+
+    private fun handleSignedOut(result: AsyncResult<AccountState>): AsyncResult<AccountState> {
+        return result.onError(HttpException::class) {
+            use { AccountState.SignedOut } whenever { it.code() == 401 }
+        }
     }
 
     private fun showSnackbarIfCachedValue(failure: AsyncResult.Failure<AccountState>) {
