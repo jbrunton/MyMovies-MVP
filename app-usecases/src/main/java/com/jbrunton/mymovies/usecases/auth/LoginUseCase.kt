@@ -26,20 +26,18 @@ class LoginUseCase(val repository: AccountRepository) : BaseUseCase() {
             state.onNext(AsyncResult.success(loginState))
         } else {
             repository.login(username, password)
-                    .map(this::handleLoginResult)
+                    .map(this::handleResult)
                     .safelySubscribe(this, state::onNext)
         }
     }
 
-    private fun handleLoginResult(result: AsyncResult<AuthSession>): AsyncResult<LoginState> {
+    private fun handleResult(result: AsyncResult<AuthSession>): AsyncResult<LoginState> {
         return result
                 .doOnSuccess { loginSuccessful.onNext(it.value) }
                 .map { LoginState.Valid }
-                .handleNetworkErrors()
-                .onNetworkErrorUse(this::showNetworkErrorSnackbar)
-                .onError(HttpException::class) {
-                    use(this@LoginUseCase::handleAuthFailure) whenever { it.code() == 401 }
-                }
+                .let(this::handleNetworkErrors)
+                .let(this::handleSignedOut)
+
     }
 
     private fun validate(username: String, password: String): LoginState {
@@ -47,6 +45,18 @@ class LoginUseCase(val repository: AccountRepository) : BaseUseCase() {
             return LoginState.Valid
         } else {
             return LoginState.Invalid(username.isBlank(), password.isBlank())
+        }
+    }
+
+    private fun handleNetworkErrors(result: AsyncResult<LoginState>): AsyncResult<LoginState> {
+        return result
+                .handleNetworkErrors()
+                .onNetworkErrorUse(this::showNetworkErrorSnackbar)
+    }
+
+    private fun handleSignedOut(result: AsyncResult<LoginState>): AsyncResult<LoginState> {
+        return result.onError(HttpException::class) {
+            use(this@LoginUseCase::handleAuthFailure) whenever { it.code() == 401 }
         }
     }
 

@@ -4,6 +4,7 @@ import com.jbrunton.async.AsyncResult
 import com.jbrunton.entities.SchedulerContext
 import com.jbrunton.entities.errors.doOnNetworkError
 import com.jbrunton.entities.errors.handleNetworkErrors
+import com.jbrunton.entities.models.Movie
 import com.jbrunton.entities.repositories.MoviesRepository
 import com.jbrunton.entities.safelySubscribe
 import com.jbrunton.mymovies.usecases.BaseUseCase
@@ -26,11 +27,15 @@ class FavoritesUseCase(
     }
 
     private fun loadFavorites() {
-        movies.favorites().map {
-            SearchState.from(it)
-                    .handleNetworkErrors()
-                    .doOnNetworkError(this::showSnackbarIfCachedValue)
-        }.safelySubscribe(this, favorites::onNext)
+        movies.favorites()
+                .map(this::handleResult)
+                .safelySubscribe(this, favorites::onNext)
+    }
+
+    private fun handleResult(result: AsyncResult<List<Movie>>): AsyncResult<SearchState> {
+        return SearchState.from(result)
+                .handleNetworkErrors()
+                .doOnNetworkError(this::showSnackbarIfCachedValue)
     }
 
     private fun showSnackbarIfCachedValue(failure: AsyncResult.Failure<SearchState>) {

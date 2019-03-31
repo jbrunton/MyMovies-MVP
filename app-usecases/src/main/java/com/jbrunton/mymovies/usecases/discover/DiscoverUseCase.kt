@@ -4,6 +4,7 @@ import com.jbrunton.async.AsyncResult
 import com.jbrunton.entities.SchedulerContext
 import com.jbrunton.entities.errors.handleNetworkErrors
 import com.jbrunton.entities.models.Genre
+import com.jbrunton.entities.models.Movie
 import com.jbrunton.entities.repositories.GenresRepository
 import com.jbrunton.entities.repositories.MoviesRepository
 import com.jbrunton.entities.safelySubscribe
@@ -35,10 +36,18 @@ class DiscoverUseCase(
         Observables.zip(
                 movies.nowPlaying(),
                 movies.popular(),
-                genres.genres()
-        ) { nowPlaying, popular, genres ->
-            AsyncResult.zip(nowPlaying, popular, genres, ::DiscoverState)
-                    .handleNetworkErrors()
-        }.safelySubscribe(this, state::onNext)
+                genres.genres(),
+                this::combineResults
+        ).safelySubscribe(this, state::onNext)
     }
+
+    private fun combineResults(
+            nowPlaying: AsyncResult<List<Movie>>,
+            popular: AsyncResult<List<Movie>>,
+            genres: AsyncResult<List<Genre>>
+    ): AsyncResult<DiscoverState> {
+        return AsyncResult.zip(nowPlaying, popular, genres, ::DiscoverState)
+                .handleNetworkErrors()
+    }
+
 }
