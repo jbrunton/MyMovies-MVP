@@ -42,7 +42,7 @@ class DiscoverViewController(val viewModel: DiscoverViewModel) : BaseLoadingView
         val chip = Chip(genres.context)
         chip.text = genre.name
         chip.setOnClickListener {
-            viewModel.showGenre(genre)
+            viewModel.onGenreClicked(genre)
         }
         return chip
     }

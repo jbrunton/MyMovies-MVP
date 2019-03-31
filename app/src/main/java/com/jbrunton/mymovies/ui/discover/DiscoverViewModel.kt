@@ -17,11 +17,11 @@ class DiscoverViewModel(container: Container) : BaseLoadingViewModel<DiscoverVie
         start(useCase)
     }
 
-    override fun retry() {
+    fun onRetryClicked() {
         useCase.retry()
     }
 
-    fun showGenre(genre: Genre) {
+    fun onGenreClicked(genre: Genre) {
         useCase.showGenre(genre)
     }
 }

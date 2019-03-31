@@ -35,6 +35,6 @@ class SearchFragment : BaseFragment<SearchViewModel>() {
     }
 
     private fun performSearch() {
-        viewModel.performSearch(search_query.text.toString())
+        viewModel.onSearchQueryChanged(search_query.text.toString())
     }
 }

@@ -24,9 +24,9 @@ class MovieDetailsActivity : BaseActivity<MovieDetailsViewModel>() {
     }
 
     override fun onBindListeners() {
-        error_try_again.setOnClickListener { viewModel.retry() }
-        favorite.setOnClickListener { viewModel.favorite() }
-        unfavorite.setOnClickListener { viewModel.unfavorite() }
+        error_try_again.setOnClickListener { viewModel.onRetryClicked() }
+        favorite.setOnClickListener { viewModel.onFavoriteClicked() }
+        unfavorite.setOnClickListener { viewModel.onUnfavoriteClicked() }
     }
 
     override fun onObserveData() {

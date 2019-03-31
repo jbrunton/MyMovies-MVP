@@ -25,15 +25,15 @@ class AccountViewModel(container: Container) : BaseLoadingViewModel<AccountViewS
         useCase.onNavigationResult(result)
     }
 
-    fun signOut() {
+    fun onSignOutClicked() {
         useCase.signOut()
     }
 
-    fun signIn() {
+    fun onSignInClicked() {
         useCase.signIn()
     }
 
-    fun favorites() {
-        useCase.favorites()
+    fun onFavoritesClicked() {
+        useCase.showFavorites()
     }
 }

@@ -24,20 +24,20 @@ class MovieDetailsViewModel(val movieId: String, container: Container) :
         useCase.start(schedulerContext)
     }
 
-    override fun retry() {
+    fun onRetryClicked() {
         useCase.retry()
     }
 
-    fun favorite() {
+    fun onFavoriteClicked() {
         useCase.favorite()
     }
 
-    fun unfavorite() {
+    fun onUnfavoriteClicked() {
         useCase.unfavorite()
     }
 
     private fun showSnackbar(state: MovieDetailsSnackbar) {
-        val message = viewStateFactory.snackbar(state, this::unfavorite, this::favorite)
+        val message = viewStateFactory.snackbar(state, this::onUnfavoriteClicked, this::onFavoriteClicked)
         snackbar.postValue(message)
     }
 }
