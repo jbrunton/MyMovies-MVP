@@ -68,20 +68,6 @@ class NavigationController(val activity: FragmentActivity, val navigator: Naviga
         activity.startActivityForResult(intent, LoginActivity.LOGIN_REQUEST)
     }
 
-//    fun login(): Observable<AuthSession> {
-//        val observable: PublishSubject<AuthSession> = PublishSubject.create()
-//        router.route(LoginActivity.LOGIN_REQUEST, { resultCode, data ->
-//            if (data != null) {
-//                observable.onNext(LoginActivity.fromIntent(data))
-//            } else {
-//                observable.onComplete()
-//            }
-//        })
-//        val intent = Intent(activity, LoginActivity::class.java)
-//        activity.startActivityForResult(intent, LoginActivity.LOGIN_REQUEST)
-//        return observable
-//    }
-
     private fun startFavoritesActivity() {
         val intent = Intent(activity, FavoritesActivity::class.java)
         activity.startActivity(intent)
