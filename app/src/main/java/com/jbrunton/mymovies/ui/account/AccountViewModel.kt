@@ -14,10 +14,7 @@ class AccountViewModel(container: Container) : BaseLoadingViewModel<AccountViewS
         subscribe(useCase.state) {
             viewState.postValue(AccountViewStateFactory.viewState(it))
         }
-        subscribe(useCase.navigationRequest) {
-            navigationRequest.postValue(it)
-        }
-        useCase.start(schedulerContext)
+        start(useCase)
     }
 
     override fun retry() {
@@ -34,5 +31,9 @@ class AccountViewModel(container: Container) : BaseLoadingViewModel<AccountViewS
 
     fun signIn() {
         useCase.signIn()
+    }
+
+    fun favorites() {
+        useCase.favorites()
     }
 }

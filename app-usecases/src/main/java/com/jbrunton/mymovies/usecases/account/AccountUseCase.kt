@@ -37,6 +37,10 @@ class AccountUseCase(val repository: AccountRepository): BaseUseCase() {
         navigate(NavigationRequest.LoginRequest)
     }
 
+    fun favorites() {
+        navigate(NavigationRequest.FavoritesRequest)
+    }
+
     override fun onNavigationResult(result: NavigationResult) {
         when (result) {
             is NavigationResult.LoginSuccess -> load()

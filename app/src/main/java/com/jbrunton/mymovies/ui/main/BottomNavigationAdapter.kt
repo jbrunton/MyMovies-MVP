@@ -4,24 +4,24 @@ import android.view.MenuItem
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.usecases.nav.NavigationRequest
-import com.jbrunton.mymovies.nav.Navigator
+import com.jbrunton.mymovies.nav.NavigationController
 
 class BottomNavigationAdapter(
-        val navigator: Navigator
+        val navigationController: NavigationController
 ) : BottomNavigationView.OnNavigationItemSelectedListener{
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.navigation_search -> {
-                navigator.navigate(NavigationRequest.SearchRequest)
+                navigationController.navigate(NavigationRequest.SearchRequest)
                 return true
             }
             R.id.navigation_discover -> {
-                navigator.navigate(NavigationRequest.DiscoverRequest)
+                navigationController.navigate(NavigationRequest.DiscoverRequest)
                 return true
             }
             R.id.navigation_account -> {
-                navigator.navigate(NavigationRequest.AccountRequest)
+                navigationController.navigate(NavigationRequest.AccountRequest)
                 return true
             }
         }

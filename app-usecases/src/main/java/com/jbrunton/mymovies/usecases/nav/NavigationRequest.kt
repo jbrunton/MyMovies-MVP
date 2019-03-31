@@ -17,3 +17,11 @@ sealed class NavigationRequest {
 sealed class NavigationResult {
     data class LoginSuccess(val session: AuthSession) : NavigationResult()
 }
+
+interface NavigationRequestListener {
+    fun onNavigationRequest(request: NavigationRequest)
+}
+
+interface NavigationResultListener {
+    fun onNavigationResult(result: NavigationResult)
+}

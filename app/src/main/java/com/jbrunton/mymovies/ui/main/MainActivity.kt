@@ -18,7 +18,7 @@ class MainActivity : BaseActivity<MainViewModel>() {
         Fabric.with(this, Crashlytics())
 
         if (savedInstanceState == null) {
-            navigator.navigate(NavigationRequest.SearchRequest)
+            navigationController.navigate(NavigationRequest.SearchRequest)
         }
     }
 
@@ -27,6 +27,6 @@ class MainActivity : BaseActivity<MainViewModel>() {
     }
 
     override fun onBindListeners() {
-        navigation.setOnNavigationItemSelectedListener(BottomNavigationAdapter(navigator))
+        navigation.setOnNavigationItemSelectedListener(BottomNavigationAdapter(navigationController))
     }
 }

@@ -9,20 +9,20 @@ import com.jbrunton.inject.HasContainer
 import com.jbrunton.inject.inject
 import com.jbrunton.mymovies.di.ActivityModule
 import com.jbrunton.mymovies.helpers.observe
-import com.jbrunton.mymovies.nav.NavigationContext
+import com.jbrunton.mymovies.nav.NavigationController
 import com.jbrunton.mymovies.nav.Navigator
-import com.jbrunton.mymovies.nav.ResultRouter
-import com.jbrunton.mymovies.usecases.nav.NavigationResult
+import com.jbrunton.mymovies.usecases.nav.NavigationRequest
+import com.jbrunton.mymovies.usecases.nav.NavigationRequestListener
 import io.reactivex.ObservableTransformer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 abstract class BaseActivity<T : BaseViewModel> : AppCompatActivity(), HasContainer,
-        ViewModelLifecycle, NavigationContext
+        ViewModelLifecycle, NavigationRequestListener
 {
     val navigator: Navigator by inject()
+    val navigationController: NavigationController by inject()
     abstract val viewModel: T
-    private val router: ResultRouter by inject()
 
     override val container by lazy {
         (applicationContext as HasContainer).container.createChildContainer().apply {
@@ -38,6 +38,16 @@ abstract class BaseActivity<T : BaseViewModel> : AppCompatActivity(), HasContain
         viewModel.start()
     }
 
+    override fun onResume() {
+        super.onResume()
+        navigator.register(this)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        navigator.unregister(this)
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
@@ -49,11 +59,11 @@ abstract class BaseActivity<T : BaseViewModel> : AppCompatActivity(), HasContain
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        navigator.onActivityResult(requestCode, resultCode, data, this)
+        navigationController.onActivityResult(requestCode, resultCode, data)
     }
 
-    override fun onNavigationResult(result: NavigationResult) {
-        viewModel.onNavigationResult(result)
+    override fun onNavigationRequest(request: NavigationRequest) {
+        navigationController.navigate(request)
     }
 
     override fun onCreateLayout() {}
@@ -61,7 +71,6 @@ abstract class BaseActivity<T : BaseViewModel> : AppCompatActivity(), HasContain
 
     override fun onObserveData() {
         viewModel.snackbar.observe(this, this::showSnackbar)
-        viewModel.navigationRequest.observe(this, navigator::navigate)
     }
 
     protected fun <T> applySchedulers(): ObservableTransformer<T, T> {

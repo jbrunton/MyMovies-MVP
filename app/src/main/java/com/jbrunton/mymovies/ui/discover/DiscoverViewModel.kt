@@ -1,5 +1,6 @@
 package com.jbrunton.mymovies.ui.discover
 
+import com.jbrunton.entities.models.Genre
 import com.jbrunton.entities.subscribe
 import com.jbrunton.inject.Container
 import com.jbrunton.inject.inject
@@ -13,10 +14,14 @@ class DiscoverViewModel(container: Container) : BaseLoadingViewModel<DiscoverVie
         subscribe(useCase.state) {
             viewState.postValue(DiscoverViewStateFactory.viewState(it))
         }
-        useCase.start(schedulerContext)
+        start(useCase)
     }
 
     override fun retry() {
         useCase.retry()
+    }
+
+    fun showGenre(genre: Genre) {
+        useCase.showGenre(genre)
     }
 }

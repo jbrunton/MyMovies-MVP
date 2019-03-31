@@ -4,9 +4,10 @@ import com.jbrunton.entities.HasSchedulers
 import com.jbrunton.entities.SchedulerContext
 import com.jbrunton.mymovies.usecases.nav.NavigationRequest
 import com.jbrunton.mymovies.usecases.nav.NavigationResult
+import com.jbrunton.mymovies.usecases.nav.NavigationResultListener
 import io.reactivex.subjects.PublishSubject
 
-open class BaseUseCase : HasSchedulers {
+open class BaseUseCase : HasSchedulers, NavigationResultListener {
     override lateinit var schedulerContext: SchedulerContext
 
     val navigationRequest = PublishSubject.create<NavigationRequest>()
@@ -19,5 +20,5 @@ open class BaseUseCase : HasSchedulers {
         this.schedulerContext = schedulerContext
     }
 
-    open fun onNavigationResult(result: NavigationResult) {}
+    override open fun onNavigationResult(result: NavigationResult) {}
 }

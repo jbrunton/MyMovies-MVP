@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.layout_loading_state.*
 
 class DiscoverFragment : BaseFragment<DiscoverViewModel>() {
     override val viewModel: DiscoverViewModel by injectViewModel()
-    private val viewController: DiscoverViewController by lazy { DiscoverViewController(navigator) }
+    private val viewController: DiscoverViewController by lazy { DiscoverViewController(viewModel) }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(viewController.layout, container, false)

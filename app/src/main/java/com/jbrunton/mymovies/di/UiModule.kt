@@ -1,7 +1,7 @@
 package com.jbrunton.mymovies.di
 
 import com.jbrunton.inject.module
-import com.jbrunton.mymovies.nav.ResultRouter
+import com.jbrunton.mymovies.nav.Navigator
 import com.jbrunton.mymovies.ui.account.AccountViewModel
 import com.jbrunton.mymovies.ui.account.favorites.FavoritesViewModel
 import com.jbrunton.mymovies.ui.auth.LoginViewModel
@@ -22,7 +22,7 @@ import com.jbrunton.mymovies.usecases.moviedetails.MovieDetailsUseCase
 import com.jbrunton.mymovies.usecases.search.SearchUseCase
 
 val UiModule = module {
-    single { ResultRouter() }
+    single { Navigator() }
 
     factory { MainViewModel(get()) }
 
