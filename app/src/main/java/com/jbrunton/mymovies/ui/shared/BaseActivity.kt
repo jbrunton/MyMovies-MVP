@@ -9,18 +9,20 @@ import com.jbrunton.inject.HasContainer
 import com.jbrunton.inject.inject
 import com.jbrunton.mymovies.di.ActivityModule
 import com.jbrunton.mymovies.helpers.observe
+import com.jbrunton.mymovies.nav.NavigationController
 import com.jbrunton.mymovies.nav.Navigator
-import com.jbrunton.mymovies.nav.ResultRouter
+import com.jbrunton.mymovies.usecases.nav.NavigationRequest
+import com.jbrunton.mymovies.usecases.nav.NavigationRequestListener
 import io.reactivex.ObservableTransformer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 abstract class BaseActivity<T : BaseViewModel> : AppCompatActivity(), HasContainer,
-        ViewModelLifecycle
+        ViewModelLifecycle, NavigationRequestListener
 {
     val navigator: Navigator by inject()
+    val navigationController: NavigationController by inject()
     abstract val viewModel: T
-    private val router: ResultRouter by inject()
 
     override val container by lazy {
         (applicationContext as HasContainer).container.createChildContainer().apply {
@@ -36,6 +38,16 @@ abstract class BaseActivity<T : BaseViewModel> : AppCompatActivity(), HasContain
         viewModel.start()
     }
 
+    override fun onResume() {
+        super.onResume()
+        navigator.register(this)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        navigator.unregister(this)
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
@@ -47,7 +59,11 @@ abstract class BaseActivity<T : BaseViewModel> : AppCompatActivity(), HasContain
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        router.onActivityResult(requestCode, resultCode, data)
+        navigationController.onActivityResult(requestCode, resultCode, data)
+    }
+
+    override fun onNavigationRequest(request: NavigationRequest) {
+        navigationController.navigate(request)
     }
 
     override fun onCreateLayout() {}

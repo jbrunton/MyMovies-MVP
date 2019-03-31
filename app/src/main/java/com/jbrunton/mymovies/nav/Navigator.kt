@@ -1,62 +1,44 @@
 package com.jbrunton.mymovies.nav
 
-import android.content.Intent
-import androidx.fragment.app.FragmentActivity
-import com.jbrunton.entities.models.AuthSession
-import com.jbrunton.entities.models.Genre
-import com.jbrunton.mymovies.R
-import com.jbrunton.mymovies.ui.account.AccountFragment
-import com.jbrunton.mymovies.ui.account.favorites.FavoritesActivity
-import com.jbrunton.mymovies.ui.auth.LoginActivity
-import com.jbrunton.mymovies.ui.discover.DiscoverFragment
-import com.jbrunton.mymovies.ui.discover.genres.GenreResultsActivity
-import com.jbrunton.mymovies.ui.main.MainActivity
-import com.jbrunton.mymovies.ui.search.SearchFragment
-import io.reactivex.Observable
-import io.reactivex.subjects.PublishSubject
+import androidx.appcompat.app.AppCompatActivity
+import com.jbrunton.mymovies.usecases.nav.NavigationRequest
+import com.jbrunton.mymovies.usecases.nav.NavigationRequestListener
+import com.jbrunton.mymovies.usecases.nav.NavigationResult
+import com.jbrunton.mymovies.usecases.nav.NavigationResultListener
+import java.lang.ref.WeakReference
+import java.util.*
 
-class Navigator(val activity: FragmentActivity, val router: ResultRouter) {
-    fun showSearch() {
-        (activity as MainActivity).supportFragmentManager.beginTransaction()
-                .replace(R.id.content, SearchFragment())
-                .commit()
+class Navigator {
+    private val requestListeners = LinkedList<NavigationRequestListener>()
+    private val resultListeners = LinkedList<WeakReference<NavigationResultListener>>()
+
+    fun <T> register(listener: T)
+            where T : NavigationRequestListener,
+                  T : AppCompatActivity
+    {
+        requestListeners.add(listener)
     }
 
-    fun showDiscover() {
-        (activity as MainActivity).supportFragmentManager.beginTransaction()
-                .replace(R.id.content, DiscoverFragment())
-                .commit()
+    fun <T> unregister(listener: T)
+            where T : NavigationRequestListener,
+                  T : AppCompatActivity
+    {
+        requestListeners.remove(listener)
     }
 
-    fun showAccount() {
-        (activity as MainActivity).supportFragmentManager.beginTransaction()
-                .replace(R.id.content, AccountFragment())
-                .commit()
+    fun register(listener: NavigationResultListener) {
+        resultListeners.add(WeakReference(listener))
     }
 
-    fun startGenreActivity(genre: Genre) {
-        val intent = Intent(activity, GenreResultsActivity::class.java)
-        intent.putExtra("GENRE_ID", genre.id)
-        intent.putExtra("GENRE_NAME", genre.name)
-        activity.startActivity(intent)
+    fun navigate(request: NavigationRequest) {
+        requestListeners.forEach {
+            it.onNavigationRequest(request)
+        }
     }
 
-    fun login(): Observable<AuthSession> {
-        val observable: PublishSubject<AuthSession> = PublishSubject.create()
-        router.route(LoginActivity.LOGIN_REQUEST, { resultCode, data ->
-            if (data != null) {
-                observable.onNext(LoginActivity.fromIntent(data))
-            } else {
-                observable.onComplete()
-            }
-        })
-        val intent = Intent(activity, LoginActivity::class.java)
-        activity.startActivityForResult(intent, LoginActivity.LOGIN_REQUEST)
-        return observable
-    }
-
-    fun showFavorites() {
-        val intent = Intent(activity, FavoritesActivity::class.java)
-        activity.startActivity(intent)
+    fun onNavigationResult(result: NavigationResult) {
+        resultListeners.forEach {
+            it.get()?.onNavigationResult(result)
+        }
     }
 }

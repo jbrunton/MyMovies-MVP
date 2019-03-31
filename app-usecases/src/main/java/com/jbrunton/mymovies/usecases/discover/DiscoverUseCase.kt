@@ -3,10 +3,12 @@ package com.jbrunton.mymovies.usecases.discover
 import com.jbrunton.async.AsyncResult
 import com.jbrunton.entities.SchedulerContext
 import com.jbrunton.entities.errors.handleNetworkErrors
+import com.jbrunton.entities.models.Genre
 import com.jbrunton.entities.repositories.GenresRepository
 import com.jbrunton.entities.repositories.MoviesRepository
 import com.jbrunton.entities.safelySubscribe
 import com.jbrunton.mymovies.usecases.BaseUseCase
+import com.jbrunton.mymovies.usecases.nav.NavigationRequest
 import io.reactivex.rxkotlin.Observables
 import io.reactivex.subjects.PublishSubject
 
@@ -23,6 +25,10 @@ class DiscoverUseCase(
 
     fun retry() {
         load()
+    }
+
+    fun showGenre(genre: Genre) {
+        navigate(NavigationRequest.GenreRequest(genre))
     }
 
     private fun load() {
