@@ -14,27 +14,28 @@ import kotlinx.android.synthetic.main.layout_loading_state.*
 
 
 class AccountFragment : BaseFragment<AccountViewModel>() {
-    private val layoutController = AccountViewController()
+    private val viewController = AccountViewController()
 
     override val viewModel: AccountViewModel by injectViewModel()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(layoutController.layout, container, false)
+        return inflater.inflate(viewController.layout, container, false)
     }
 
     override fun onCreateLayout() {
         (activity as AppCompatActivity).setSupportActionBar(toolbar)
-        layoutController.bind(this)
+        viewController.bind(this)
+        viewController.showLoadingIndicator()
     }
 
     override fun onBindListeners() {
         error_try_again.setOnClickListener { viewModel.retry() }
-        sign_in.setOnClickListener { viewModel.showLogin(navigator) }
+        sign_in.setOnClickListener { viewModel.signIn(navigator) }
         sign_out.setOnClickListener { viewModel.signOut() }
         favorites.setOnClickListener { navigator.showFavorites() }
     }
 
     override fun onObserveData() {
-        viewModel.viewState.observe(viewLifecycleOwner, layoutController::updateView)
+        viewModel.viewState.observe(viewLifecycleOwner, viewController::updateView)
     }
 }

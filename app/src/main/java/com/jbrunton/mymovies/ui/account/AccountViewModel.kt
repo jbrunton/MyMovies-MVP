@@ -1,52 +1,31 @@
 package com.jbrunton.mymovies.ui.account
 
-import com.jbrunton.async.AsyncResult
-import com.jbrunton.async.map
-import com.jbrunton.async.onError
-import com.jbrunton.entities.errors.handleNetworkErrors
-import com.jbrunton.entities.models.Account
-import com.jbrunton.entities.repositories.AccountRepository
 import com.jbrunton.entities.subscribe
 import com.jbrunton.inject.Container
 import com.jbrunton.inject.inject
 import com.jbrunton.mymovies.nav.Navigator
 import com.jbrunton.mymovies.ui.shared.BaseLoadingViewModel
-import com.jbrunton.mymovies.ui.shared.LoadingViewState
-import com.jbrunton.mymovies.ui.shared.toLoadingViewState
-import retrofit2.HttpException
+import com.jbrunton.mymovies.usecases.account.AccountUseCase
 
 class AccountViewModel(container: Container) : BaseLoadingViewModel<AccountViewState>(container) {
-    val repository: AccountRepository by inject()
+    val useCase: AccountUseCase by inject()
 
     override fun start() {
-        loadAccount()
+        subscribe(useCase.state) {
+            viewState.postValue(AccountViewStateFactory.viewState(it))
+        }
+        useCase.start(schedulerContext)
     }
 
     override fun retry() {
-        loadAccount()
+        useCase.retry()
     }
 
     fun signOut() {
-        repository.signOut()
-        this.viewState.postValue(LoadingViewState.success(AccountViewState.SignedOut))
+        useCase.signOut()
     }
 
-    fun showLogin(navigator: Navigator) {
-        navigator.login().subscribe { loadAccount() }
-    }
-
-    private fun loadAccount() {
-        subscribe(repository.account(), this::setAccountResponse)
-    }
-
-    private fun setAccountResponse(result: AsyncResult<Account>) {
-        val viewState: LoadingViewState<AccountViewState> = result
-                .map { AccountViewState(it) }
-                .onError(HttpException::class) {
-                    use { AccountViewState.SignedOut } whenever { it.code() == 401 }
-                }
-                .handleNetworkErrors()
-                .toLoadingViewState(AccountViewState.Empty)
-        this.viewState.postValue(viewState)
+    fun signIn(navigator: Navigator) {
+        useCase.signIn(navigator::login)
     }
 }
