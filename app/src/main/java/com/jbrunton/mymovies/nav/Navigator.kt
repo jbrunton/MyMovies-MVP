@@ -41,7 +41,7 @@ class Navigator(val activity: FragmentActivity, val router: ResultRouter) {
         activity.startActivity(intent)
     }
 
-    fun login(): Observable<AuthSession?> {
+    fun login(): Observable<AuthSession> {
         val observable: PublishSubject<AuthSession> = PublishSubject.create()
         router.route(LoginActivity.LOGIN_REQUEST, { resultCode, data ->
             if (data != null) {
