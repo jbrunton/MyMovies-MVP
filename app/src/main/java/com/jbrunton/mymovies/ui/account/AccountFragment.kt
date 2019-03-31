@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import com.jbrunton.inject.injectViewModel
 import com.jbrunton.mymovies.helpers.observe
+import com.jbrunton.mymovies.nav.NavigationRequest
 import com.jbrunton.mymovies.ui.shared.BaseFragment
 import kotlinx.android.synthetic.main.fragment_account.*
 import kotlinx.android.synthetic.main.layout_account_details.*
@@ -32,7 +33,7 @@ class AccountFragment : BaseFragment<AccountViewModel>() {
         error_try_again.setOnClickListener { viewModel.retry() }
         sign_in.setOnClickListener { viewModel.signIn(navigator) }
         sign_out.setOnClickListener { viewModel.signOut() }
-        favorites.setOnClickListener { navigator.showFavorites() }
+        favorites.setOnClickListener { navigator.navigate(NavigationRequest.FavoritesRequest) }
     }
 
     override fun onObserveData() {

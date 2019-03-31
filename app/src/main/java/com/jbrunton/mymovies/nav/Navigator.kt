@@ -16,25 +16,39 @@ import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 
 class Navigator(val activity: FragmentActivity, val router: ResultRouter) {
-    fun showSearch() {
+    fun navigate(request: NavigationRequest) {
+        when (request) {
+            is NavigationRequest.SearchRequest -> showSearch()
+            is NavigationRequest.DiscoverRequest -> showDiscover()
+            is NavigationRequest.AccountRequest -> showAccount()
+
+            is NavigationRequest.GenreRequest -> startGenreActivity(request.genre)
+
+            is NavigationRequest.FavoritesRequest -> showFavorites()
+
+            else -> throw IllegalArgumentException("Unexpected request: ${request.javaClass.canonicalName}")
+        }
+    }
+
+    private fun showSearch() {
         (activity as MainActivity).supportFragmentManager.beginTransaction()
                 .replace(R.id.content, SearchFragment())
                 .commit()
     }
 
-    fun showDiscover() {
+    private fun showDiscover() {
         (activity as MainActivity).supportFragmentManager.beginTransaction()
                 .replace(R.id.content, DiscoverFragment())
                 .commit()
     }
 
-    fun showAccount() {
+    private fun showAccount() {
         (activity as MainActivity).supportFragmentManager.beginTransaction()
                 .replace(R.id.content, AccountFragment())
                 .commit()
     }
 
-    fun startGenreActivity(genre: Genre) {
+    private fun startGenreActivity(genre: Genre) {
         val intent = Intent(activity, GenreResultsActivity::class.java)
         intent.putExtra("GENRE_ID", genre.id)
         intent.putExtra("GENRE_NAME", genre.name)
@@ -55,7 +69,7 @@ class Navigator(val activity: FragmentActivity, val router: ResultRouter) {
         return observable
     }
 
-    fun showFavorites() {
+    private fun showFavorites() {
         val intent = Intent(activity, FavoritesActivity::class.java)
         activity.startActivity(intent)
     }

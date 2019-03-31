@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.chip.Chip
 import com.jbrunton.entities.models.Genre
 import com.jbrunton.mymovies.R
+import com.jbrunton.mymovies.nav.NavigationRequest
 import com.jbrunton.mymovies.nav.Navigator
 import com.jbrunton.mymovies.ui.search.SearchResultsAdapter
 import com.jbrunton.mymovies.ui.shared.BaseLoadingViewController
@@ -43,7 +44,7 @@ class DiscoverViewController(val navigator: Navigator) : BaseLoadingViewControll
         val chip = Chip(genres.context)
         chip.text = genre.name
         chip.setOnClickListener {
-            navigator.startGenreActivity(genre)
+            navigator.navigate(NavigationRequest.GenreRequest(genre))
         }
         return chip
     }
