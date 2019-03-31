@@ -1,5 +1,6 @@
 package com.jbrunton.mymovies.nav
 
+import androidx.appcompat.app.AppCompatActivity
 import com.jbrunton.mymovies.usecases.nav.NavigationRequest
 import com.jbrunton.mymovies.usecases.nav.NavigationRequestListener
 import com.jbrunton.mymovies.usecases.nav.NavigationResult
@@ -11,11 +12,17 @@ class Navigator {
     private val requestListeners = LinkedList<NavigationRequestListener>()
     private val resultListeners = LinkedList<WeakReference<NavigationResultListener>>()
 
-    fun register(listener: NavigationRequestListener) {
+    fun <T> register(listener: T)
+            where T : NavigationRequestListener,
+                  T : AppCompatActivity
+    {
         requestListeners.add(listener)
     }
 
-    fun unregister(listener: NavigationRequestListener) {
+    fun <T> unregister(listener: T)
+            where T : NavigationRequestListener,
+                  T : AppCompatActivity
+    {
         requestListeners.remove(listener)
     }
 
