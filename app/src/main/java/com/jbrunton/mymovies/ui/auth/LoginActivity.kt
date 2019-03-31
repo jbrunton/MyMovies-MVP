@@ -35,7 +35,7 @@ class LoginActivity : BaseActivity<LoginViewModel>() {
 
     override fun onBindListeners() {
         sign_in.setOnClickListener {
-            viewModel.login(username_field.text.toString(), password_field.text.toString())
+            viewModel.onLoginClicked(username_field.text.toString(), password_field.text.toString())
         }
     }
 

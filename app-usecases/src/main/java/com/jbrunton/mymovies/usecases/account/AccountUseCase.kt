@@ -37,7 +37,7 @@ class AccountUseCase(val repository: AccountRepository): BaseUseCase() {
         navigate(NavigationRequest.LoginRequest)
     }
 
-    fun favorites() {
+    fun showFavorites() {
         navigate(NavigationRequest.FavoritesRequest)
     }
 

@@ -27,7 +27,7 @@ class LoginViewModel(container: Container) : BaseLoadingViewModel<LoginViewState
         useCase.start(schedulerContext)
     }
 
-    fun login(username: String, password: String) {
+    fun onLoginClicked(username: String, password: String) {
         useCase.login(username, password)
     }
 }

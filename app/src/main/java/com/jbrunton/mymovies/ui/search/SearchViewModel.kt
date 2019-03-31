@@ -17,7 +17,7 @@ class SearchViewModel(container: Container) : BaseLoadingViewModel<SearchViewSta
         useCase.start(schedulerContext)
     }
 
-    fun performSearch(query: String) {
+    fun onSearchQueryChanged(query: String) {
         useCase.search(query)
     }
 }
