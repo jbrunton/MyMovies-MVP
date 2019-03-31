@@ -3,7 +3,7 @@ package com.jbrunton.mymovies.ui.main
 import android.view.MenuItem
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.jbrunton.mymovies.R
-import com.jbrunton.mymovies.nav.NavigationRequest
+import com.jbrunton.mymovies.usecases.nav.NavigationRequest
 import com.jbrunton.mymovies.nav.Navigator
 
 class BottomNavigationAdapter(

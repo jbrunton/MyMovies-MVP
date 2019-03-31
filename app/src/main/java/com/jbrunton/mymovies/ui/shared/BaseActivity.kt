@@ -9,14 +9,16 @@ import com.jbrunton.inject.HasContainer
 import com.jbrunton.inject.inject
 import com.jbrunton.mymovies.di.ActivityModule
 import com.jbrunton.mymovies.helpers.observe
+import com.jbrunton.mymovies.nav.NavigationContext
 import com.jbrunton.mymovies.nav.Navigator
 import com.jbrunton.mymovies.nav.ResultRouter
+import com.jbrunton.mymovies.usecases.nav.NavigationResult
 import io.reactivex.ObservableTransformer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 abstract class BaseActivity<T : BaseViewModel> : AppCompatActivity(), HasContainer,
-        ViewModelLifecycle
+        ViewModelLifecycle, NavigationContext
 {
     val navigator: Navigator by inject()
     abstract val viewModel: T
@@ -47,7 +49,11 @@ abstract class BaseActivity<T : BaseViewModel> : AppCompatActivity(), HasContain
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        router.onActivityResult(requestCode, resultCode, data)
+        navigator.onActivityResult(requestCode, resultCode, data, this)
+    }
+
+    override fun onNavigationResult(result: NavigationResult) {
+        viewModel.onNavigationResult(result)
     }
 
     override fun onCreateLayout() {}
@@ -55,6 +61,7 @@ abstract class BaseActivity<T : BaseViewModel> : AppCompatActivity(), HasContain
 
     override fun onObserveData() {
         viewModel.snackbar.observe(this, this::showSnackbar)
+        viewModel.navigationRequest.observe(this, navigator::navigate)
     }
 
     protected fun <T> applySchedulers(): ObservableTransformer<T, T> {

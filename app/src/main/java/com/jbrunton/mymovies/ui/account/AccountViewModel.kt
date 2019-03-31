@@ -3,9 +3,9 @@ package com.jbrunton.mymovies.ui.account
 import com.jbrunton.entities.subscribe
 import com.jbrunton.inject.Container
 import com.jbrunton.inject.inject
-import com.jbrunton.mymovies.nav.Navigator
 import com.jbrunton.mymovies.ui.shared.BaseLoadingViewModel
 import com.jbrunton.mymovies.usecases.account.AccountUseCase
+import com.jbrunton.mymovies.usecases.nav.NavigationResult
 
 class AccountViewModel(container: Container) : BaseLoadingViewModel<AccountViewState>(container) {
     val useCase: AccountUseCase by inject()
@@ -14,6 +14,9 @@ class AccountViewModel(container: Container) : BaseLoadingViewModel<AccountViewS
         subscribe(useCase.state) {
             viewState.postValue(AccountViewStateFactory.viewState(it))
         }
+        subscribe(useCase.navigationRequest) {
+            navigationRequest.postValue(it)
+        }
         useCase.start(schedulerContext)
     }
 
@@ -21,11 +24,15 @@ class AccountViewModel(container: Container) : BaseLoadingViewModel<AccountViewS
         useCase.retry()
     }
 
+    override fun onNavigationResult(result: NavigationResult) {
+        useCase.onNavigationResult(result)
+    }
+
     fun signOut() {
         useCase.signOut()
     }
 
-    fun signIn(navigator: Navigator) {
-        useCase.signIn(navigator::login)
+    fun signIn() {
+        useCase.signIn()
     }
 }

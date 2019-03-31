@@ -7,11 +7,11 @@ import com.jbrunton.entities.SchedulerContext
 import com.jbrunton.entities.errors.doOnNetworkError
 import com.jbrunton.entities.errors.handleNetworkErrors
 import com.jbrunton.entities.models.Account
-import com.jbrunton.entities.models.AuthSession
 import com.jbrunton.entities.repositories.AccountRepository
 import com.jbrunton.entities.safelySubscribe
 import com.jbrunton.mymovies.usecases.BaseUseCase
-import io.reactivex.Observable
+import com.jbrunton.mymovies.usecases.nav.NavigationRequest
+import com.jbrunton.mymovies.usecases.nav.NavigationResult
 import io.reactivex.subjects.PublishSubject
 import retrofit2.HttpException
 
@@ -33,17 +33,23 @@ class AccountUseCase(val repository: AccountRepository): BaseUseCase() {
         state.onNext(AsyncResult.success(AccountState.SignedOut))
     }
 
-    fun signIn(login: () -> Observable<AuthSession>) {
-        login().safelySubscribe(this) { load() }
+    fun signIn() {
+        navigate(NavigationRequest.LoginRequest)
+    }
+
+    override fun onNavigationResult(result: NavigationResult) {
+        when (result) {
+            is NavigationResult.LoginSuccess -> load()
+        }
     }
 
     private fun load() {
         repository.account()
-                .map(this::toState)
+                .map(this::handleResult)
                 .safelySubscribe(this, state::onNext)
     }
 
-    private fun toState(result: AsyncResult<Account>): AsyncResult<AccountState> {
+    private fun handleResult(result: AsyncResult<Account>): AsyncResult<AccountState> {
         return result.map { AccountState.SignedIn(it) as AccountState }
                 .let(this::handleSignedOut)
                 .let(this::handleNetworkErrors)

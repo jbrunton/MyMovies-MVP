@@ -5,7 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.chip.Chip
 import com.jbrunton.entities.models.Genre
 import com.jbrunton.mymovies.R
-import com.jbrunton.mymovies.nav.NavigationRequest
+import com.jbrunton.mymovies.usecases.nav.NavigationRequest
 import com.jbrunton.mymovies.nav.Navigator
 import com.jbrunton.mymovies.ui.search.SearchResultsAdapter
 import com.jbrunton.mymovies.ui.shared.BaseLoadingViewController
