@@ -11,6 +11,7 @@ class AccountViewModel(container: Container) : BaseLoadingViewModel<AccountViewS
     val useCase: AccountUseCase by inject()
 
     override fun start() {
+        super.start()
         subscribe(useCase.state) {
             viewState.postValue(AccountViewStateFactory.viewState(it))
         }
@@ -22,7 +23,9 @@ class AccountViewModel(container: Container) : BaseLoadingViewModel<AccountViewS
     }
 
     override fun onNavigationResult(result: NavigationResult) {
-        useCase.onNavigationResult(result)
+        when (result) {
+            is NavigationResult.LoginSuccess -> useCase.onLoginSuccess()
+        }
     }
 
     fun onSignOutClicked() {

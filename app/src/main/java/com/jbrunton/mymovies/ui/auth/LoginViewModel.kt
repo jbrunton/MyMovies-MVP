@@ -16,6 +16,7 @@ class LoginViewModel(container: Container) : BaseLoadingViewModel<LoginViewState
     val viewStateFactory: LoginViewStateFactory by inject()
 
     override fun start() {
+        super.start()
         subscribe(useCase.state) {
             viewState.postValue(viewStateFactory.viewState(it))
         }

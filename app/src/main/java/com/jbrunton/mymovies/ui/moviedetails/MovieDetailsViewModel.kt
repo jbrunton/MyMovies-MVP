@@ -15,6 +15,7 @@ class MovieDetailsViewModel(val movieId: String, container: Container) :
     val viewStateFactory: MovieDetailsViewStateFactory by inject()
 
     override fun start() {
+        super.start()
         subscribe(useCase.movie) {
             viewState.postValue(viewStateFactory.viewState(it))
         }
