@@ -1,16 +1,16 @@
 package com.jbrunton.mymovies.nav
 
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModel
 import com.jbrunton.mymovies.usecases.nav.NavigationRequest
 import com.jbrunton.mymovies.usecases.nav.NavigationRequestListener
 import com.jbrunton.mymovies.usecases.nav.NavigationResult
 import com.jbrunton.mymovies.usecases.nav.NavigationResultListener
-import java.lang.ref.WeakReference
 import java.util.*
 
 class Navigator {
     private val requestListeners = LinkedList<NavigationRequestListener>()
-    private val resultListeners = LinkedList<WeakReference<NavigationResultListener>>()
+    private val resultListeners = LinkedList<NavigationResultListener>()
 
     fun <T> register(listener: T)
             where T : NavigationRequestListener,
@@ -26,8 +26,18 @@ class Navigator {
         requestListeners.remove(listener)
     }
 
-    fun register(listener: NavigationResultListener) {
-        resultListeners.add(WeakReference(listener))
+    fun <T> register(listener: T)
+            where T : NavigationResultListener,
+                  T : ViewModel
+    {
+        resultListeners.add(listener)
+    }
+
+    fun <T> unregister(listener: T)
+            where T : NavigationResultListener,
+                  T : ViewModel
+    {
+        resultListeners.remove(listener)
     }
 
     fun navigate(request: NavigationRequest) {
@@ -38,7 +48,7 @@ class Navigator {
 
     fun onNavigationResult(result: NavigationResult) {
         resultListeners.forEach {
-            it.get()?.onNavigationResult(result)
+            it.onNavigationResult(result)
         }
     }
 }

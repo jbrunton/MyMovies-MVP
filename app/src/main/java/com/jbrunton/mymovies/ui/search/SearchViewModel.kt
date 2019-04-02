@@ -11,6 +11,7 @@ class SearchViewModel(container: Container) : BaseLoadingViewModel<SearchViewSta
     val viewStateFactory: SearchViewStateFactory by inject()
 
     override fun start() {
+        super.start()
         subscribe(useCase.results) {
             viewState.postValue(viewStateFactory.viewState(it))
         }

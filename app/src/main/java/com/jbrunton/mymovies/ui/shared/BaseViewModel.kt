@@ -13,18 +13,22 @@ import com.jbrunton.inject.inject
 import com.jbrunton.mymovies.nav.Navigator
 import com.jbrunton.mymovies.usecases.BaseUseCase
 import com.jbrunton.mymovies.usecases.nav.NavigationResult
+import com.jbrunton.mymovies.usecases.nav.NavigationResultListener
 
-abstract class BaseViewModel(override val container: Container) : ViewModel(), HasSchedulers, HasContainer {
+abstract class BaseViewModel(override val container: Container) : ViewModel(),
+        HasSchedulers, HasContainer, NavigationResultListener
+{
     val schedulerFactory: SchedulerFactory by inject()
     val navigator: Navigator by inject()
     override val schedulerContext = SchedulerContext(schedulerFactory)
     val snackbar = SingleLiveEvent<SnackbarEvent>()
 
-    abstract fun start()
+    open fun start() {
+        navigator.register(this)
+    }
 
     fun start(useCase: BaseUseCase) {
         subscribe(useCase.navigationRequest, navigator::navigate)
-        navigator.register(useCase)
         useCase.start(schedulerContext)
     }
 
@@ -35,9 +39,10 @@ abstract class BaseViewModel(override val container: Container) : ViewModel(), H
         return AsyncResult.Failure(LoadingViewStateError(errorMessage, errorIcon, allowRetry))
     }
 
-    open fun onNavigationResult(result: NavigationResult) {}
+    override fun onNavigationResult(result: NavigationResult) {}
 
     override fun onCleared() {
+        navigator.unregister(this)
         schedulerContext.dispose()
         super.onCleared()
     }

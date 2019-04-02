@@ -11,6 +11,7 @@ class DiscoverViewModel(container: Container) : BaseLoadingViewModel<DiscoverVie
     val useCase: DiscoverUseCase by inject()
 
     override fun start() {
+        super.start()
         subscribe(useCase.state) {
             viewState.postValue(DiscoverViewStateFactory.viewState(it))
         }

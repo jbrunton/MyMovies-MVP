@@ -11,7 +11,6 @@ import com.jbrunton.entities.repositories.AccountRepository
 import com.jbrunton.entities.safelySubscribe
 import com.jbrunton.mymovies.usecases.BaseUseCase
 import com.jbrunton.mymovies.usecases.nav.NavigationRequest
-import com.jbrunton.mymovies.usecases.nav.NavigationResult
 import io.reactivex.subjects.PublishSubject
 import retrofit2.HttpException
 
@@ -41,10 +40,8 @@ class AccountUseCase(val repository: AccountRepository): BaseUseCase() {
         navigate(NavigationRequest.FavoritesRequest)
     }
 
-    override fun onNavigationResult(result: NavigationResult) {
-        when (result) {
-            is NavigationResult.LoginSuccess -> load()
-        }
+    fun onLoginSuccess() {
+        load()
     }
 
     private fun load() {
