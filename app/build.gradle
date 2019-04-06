@@ -64,7 +64,6 @@ dependencies {
 
     testImplementation libs.test.core
     testImplementation libs.test.android
-    //testImplementation libs.rx.android // TODO: is this required?
     androidTestImplementation libs.test.core
     androidTestImplementation libs.test.android
 
