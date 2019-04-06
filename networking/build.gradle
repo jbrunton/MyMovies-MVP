@@ -5,7 +5,7 @@ dependencies {
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation libs.kotlin.core
 
     implementation 'io.reactivex.rxjava2:rxkotlin:2.3.0'
     implementation 'com.squareup.retrofit2:retrofit:2.3.0'
