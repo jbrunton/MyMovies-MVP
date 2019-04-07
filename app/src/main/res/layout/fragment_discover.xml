@@ -62,6 +62,15 @@
                 android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
                 android:text="Genres"/>
 
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/genres"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+                android:layout_marginVertical="8dp">
+
+            </com.google.android.material.chip.ChipGroup>
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/genre_results"
                 android:layout_width="match_parent"
@@ -75,15 +84,6 @@
                 android:layout_height="144dp"
                 android:layout_gravity="center"
                 />
-
-            <com.google.android.material.chip.ChipGroup
-                android:id="@+id/genres"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
-                android:layout_marginVertical="8dp">
-
-            </com.google.android.material.chip.ChipGroup>
 
 
         </LinearLayout>

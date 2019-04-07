@@ -7,19 +7,19 @@ data class DiscoverViewState(
         val nowPlayingViewState: List<MovieSearchResultViewState>,
         val popularViewState: List<MovieSearchResultViewState>,
         val genres: GenresViewState,
-        val genresVisibility: Int,
         val genreResults: List<MovieSearchResultViewState>,
         val genreResultsVisibility: Int,
-        val genreResultsLoadingIndicatorVisibility: Int
+        val genreResultsLoadingIndicatorVisibility: Int,
+        val scrollToGenreResults: Boolean
 ) {
     companion object {
         val Empty = DiscoverViewState(
                 nowPlayingViewState = emptyList(),
                 popularViewState = emptyList(),
                 genres = emptyList(),
-                genresVisibility = View.GONE,
                 genreResults = emptyList(),
                 genreResultsVisibility = View.GONE,
-                genreResultsLoadingIndicatorVisibility = View.GONE)
+                genreResultsLoadingIndicatorVisibility = View.GONE,
+                scrollToGenreResults = false)
     }
 }

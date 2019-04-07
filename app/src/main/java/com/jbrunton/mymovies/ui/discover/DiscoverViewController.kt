@@ -37,7 +37,6 @@ class DiscoverViewController(val viewModel: DiscoverViewModel) : BaseLoadingView
         genreResultsAdapter.setDataSource(viewState.genreResults)
 
         genres.removeAllViewsInLayout()
-        genres.visibility = viewState.genresVisibility
         genre_results.visibility = viewState.genreResultsVisibility
 
         viewState.genres.forEach { genre ->
@@ -46,6 +45,10 @@ class DiscoverViewController(val viewModel: DiscoverViewModel) : BaseLoadingView
         }
 
         genre_results_loading_indicator.visibility = viewState.genreResultsLoadingIndicatorVisibility
+
+        if (viewState.scrollToGenreResults) {
+            discover_content.scrollTo(0, genres.bottom)
+        }
     }
 
     private fun buildGenreChip(viewState: GenreChipViewState): Chip {
