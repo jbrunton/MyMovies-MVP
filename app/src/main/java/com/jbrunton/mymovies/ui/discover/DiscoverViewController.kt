@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.chip.Chip
 import com.jbrunton.entities.models.Genre
 import com.jbrunton.mymovies.R
+import com.jbrunton.mymovies.ui.discover.genres.GenreChipViewState
 import com.jbrunton.mymovies.ui.search.SearchResultsAdapter
 import com.jbrunton.mymovies.ui.shared.BaseLoadingViewController
 import kotlinx.android.synthetic.main.fragment_discover.*
@@ -40,23 +41,19 @@ class DiscoverViewController(val viewModel: DiscoverViewModel) : BaseLoadingView
         genres.visibility = viewState.genresVisibility
         genre_results.visibility = viewState.genreResultsVisibility
 
-        genres.removeAllViewsInLayout()
         viewState.genres.forEach { genre ->
             val chip = buildGenreChip(genre)
             genres.addView(chip)
         }
-
-        selected_genre_group.visibility = viewState.selectedGenreVisibility
-        selected_genre.text = viewState.selectedGenre
-        selected_genre.isCloseIconVisible = true
-        selected_genre.isSelected = true
     }
 
-    private fun buildGenreChip(genre: Genre): Chip {
+    private fun buildGenreChip(viewState: GenreChipViewState): Chip {
         val chip = Chip(genres.context)
-        chip.text = genre.name
+        chip.text = viewState.genreName
+        chip.isCloseIconVisible = viewState.selected
+        chip.isSelected = viewState.selected
         chip.setOnClickListener {
-            viewModel.onGenreClicked(genre)
+            viewModel.onGenreClicked(Genre(viewState.genreId, viewState.genreName))
         }
         return chip
     }

@@ -10,9 +10,7 @@ data class DiscoverViewState(
         val genres: GenresViewState,
         val genresVisibility: Int,
         val genreResults: List<MovieSearchResultViewState>,
-        val genreResultsVisibility: Int,
-        val selectedGenre: String,
-        val selectedGenreVisibility: Int
+        val genreResultsVisibility: Int
 ) {
     companion object {
         val Empty = DiscoverViewState(
@@ -21,8 +19,6 @@ data class DiscoverViewState(
                 genres = emptyList(),
                 genresVisibility = View.GONE,
                 genreResults = emptyList(),
-                genreResultsVisibility = View.GONE,
-                selectedGenre = "",
-                selectedGenreVisibility = View.GONE)
+                genreResultsVisibility = View.GONE)
     }
 }
