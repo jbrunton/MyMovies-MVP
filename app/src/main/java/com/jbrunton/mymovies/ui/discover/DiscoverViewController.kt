@@ -36,6 +36,8 @@ class DiscoverViewController(val viewModel: DiscoverViewModel) : BaseLoadingView
         nowPlayingAdapter.setDataSource(viewState.nowPlayingViewState)
         popularAdapter.setDataSource(viewState.popularViewState)
         genreResultsAdapter.setDataSource(viewState.genreResults)
+
+        genres.visibility = viewState.genresVisibility
         genre_results.visibility = viewState.genreResultsVisibility
 
         genres.removeAllViewsInLayout()
@@ -43,6 +45,11 @@ class DiscoverViewController(val viewModel: DiscoverViewModel) : BaseLoadingView
             val chip = buildGenreChip(genre)
             genres.addView(chip)
         }
+
+        selected_genre_group.visibility = viewState.selectedGenreVisibility
+        selected_genre.text = viewState.selectedGenre
+        selected_genre.isCloseIconVisible = true
+        selected_genre.isSelected = true
     }
 
     private fun buildGenreChip(genre: Genre): Chip {

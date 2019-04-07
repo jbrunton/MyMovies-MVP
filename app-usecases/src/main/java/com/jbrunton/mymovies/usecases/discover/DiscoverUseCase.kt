@@ -18,6 +18,7 @@ import io.reactivex.subjects.PublishSubject
 
 sealed class DiscoverPartialStateChange {
     data class DiscoverStateChange(val discoverState: AsyncResult<DiscoverState>) : DiscoverPartialStateChange()
+    data class GenreSelectedStateChange(val selectedGenre: Genre) : DiscoverPartialStateChange()
     data class GenreResultsStateChange(val genreResults: AsyncResult<List<Movie>>) : DiscoverPartialStateChange()
 }
 
@@ -38,10 +39,11 @@ class DiscoverUseCase(
         }
 
         val searchGenre: Observable<DiscoverPartialStateChange> = genresIntent.flatMap {
-            movies.discoverByGenre(it.id).map(DiscoverPartialStateChange::GenreResultsStateChange)
+            val selectedChange: DiscoverPartialStateChange = DiscoverPartialStateChange.GenreSelectedStateChange(it)
+            movies.discoverByGenre(it.id).map(this::buildGenreResults)
                     .compose(schedulerContext.applySchedulers())
+                    .startWith(selectedChange)
         }
-
 
         val initialState: AsyncResult<DiscoverState> = AsyncResult.loading(null)
         Observable.merge(load, searchGenre)
@@ -60,9 +62,16 @@ class DiscoverUseCase(
         genresIntent.onNext(genre)
     }
 
+    private fun buildGenreResults(genreResults: AsyncResult<List<Movie>>): DiscoverPartialStateChange {
+        return DiscoverPartialStateChange.GenreResultsStateChange(genreResults)
+    }
+
     private fun reduce(previousState: AsyncResult<DiscoverState>, change: DiscoverPartialStateChange): AsyncResult<DiscoverState> {
         return when (change) {
             is DiscoverPartialStateChange.DiscoverStateChange -> change.discoverState
+            is DiscoverPartialStateChange.GenreSelectedStateChange -> previousState.map { state ->
+                state.copy(selectedGenre = change.selectedGenre)
+            }
             is DiscoverPartialStateChange.GenreResultsStateChange -> previousState.map { state ->
                 state.copy(genreResults = change.genreResults.getOr(emptyList()))
             }
