@@ -46,6 +46,8 @@ class DiscoverViewController(val viewModel: DiscoverViewModel) : BaseLoadingView
             val chip = buildGenreChip(genre)
             genres.addView(chip)
         }
+
+        genre_results_loading_indicator.visibility = viewState.genreResultsLoadingIndicatorVisibility
     }
 
     private fun buildGenreChip(viewState: GenreChipViewState): Chip {

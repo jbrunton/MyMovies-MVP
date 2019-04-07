@@ -54,7 +54,7 @@ class DiscoverUseCase(
         perform(DiscoverIntent.Load)
     }
 
-    public fun perform(intent: DiscoverIntent) = when (intent) {
+    fun perform(intent: DiscoverIntent) = when (intent) {
         is DiscoverIntent.Load -> loadIntent.onNext(intent)
         is DiscoverIntent.SelectGenre -> selectGenreIntent.onNext(intent)
         is DiscoverIntent.ClearSelectedGenre -> clearSelectedGenreIntent.onNext(intent)
@@ -69,8 +69,8 @@ class DiscoverUseCase(
     private fun selectGenre(intent: DiscoverIntent.SelectGenre): Observable<DiscoverStateChange> {
         val selectedChange: DiscoverStateChange = DiscoverStateChange.GenreSelected(intent.genre)
         return movies.discoverByGenre(intent.genre.id).map(this::buildGenreResults)
-                .compose(schedulerContext.applySchedulers())
                 .startWith(selectedChange)
+                .compose(schedulerContext.applySchedulers())
     }
 
     private fun clearSelectedGenre(intent: DiscoverIntent.ClearSelectedGenre): Observable<DiscoverStateChange> {

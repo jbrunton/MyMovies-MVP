@@ -16,7 +16,8 @@ object DiscoverViewStateFactory {
                     genres = it.genres.map { GenreChipViewState(it, it == selectedGenre) },
                     genresVisibility = View.VISIBLE,
                     genreResultsVisibility = if (it.genreResults.isEmpty()) { View.GONE } else { View.VISIBLE },
-                    genreResults = it.genreResults.map { MovieSearchResultViewState(it) }
+                    genreResults = it.genreResults.map { MovieSearchResultViewState(it) },
+                    genreResultsLoadingIndicatorVisibility = if (it.selectedGenre != null && it.genreResults.isEmpty()) { View.VISIBLE } else { View.GONE }
             )
         }
     }
