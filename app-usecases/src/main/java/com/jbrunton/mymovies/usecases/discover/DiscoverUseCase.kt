@@ -42,12 +42,12 @@ class DiscoverUseCase(
     override fun start(schedulerContext: SchedulerContext) {
         super.start(schedulerContext)
 
-        val initialState: AsyncResult<DiscoverState> = AsyncResult.loading(null)
         val allIntents = Observable.merge(
                 loadIntent.flatMap(this::load),
                 selectGenreIntent.flatMap(this::selectGenre),
                 clearSelectedGenreIntent.flatMap(this::clearSelectedGenre))
 
+        val initialState: AsyncResult<DiscoverState> = AsyncResult.loading(null)
         allIntents.scan(initialState, this::reduce)
                 .distinctUntilChanged()
                 .safelySubscribe(this, state::onNext)
