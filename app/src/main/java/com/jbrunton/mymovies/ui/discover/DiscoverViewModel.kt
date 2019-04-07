@@ -25,4 +25,8 @@ class DiscoverViewModel(container: Container) : BaseLoadingViewModel<DiscoverVie
     fun onGenreClicked(genre: Genre) {
         useCase.showGenre(genre)
     }
+
+    fun onClearGenreSelection() {
+        useCase.clearGenreSelection()
+    }
 }

@@ -20,6 +20,7 @@ sealed class DiscoverPartialStateChange {
     data class DiscoverStateChange(val discoverState: AsyncResult<DiscoverState>) : DiscoverPartialStateChange()
     data class GenreSelectedStateChange(val selectedGenre: Genre) : DiscoverPartialStateChange()
     data class GenreResultsStateChange(val genreResults: AsyncResult<List<Movie>>) : DiscoverPartialStateChange()
+    object ClearGenreSelectionChange : DiscoverPartialStateChange()
 }
 
 class DiscoverUseCase(
@@ -29,6 +30,7 @@ class DiscoverUseCase(
     val state = PublishSubject.create<AsyncResult<DiscoverState>>()
     private val loadIntent = PublishSubject.create<Unit>()
     private val genresIntent = PublishSubject.create<Genre>()
+    private val clearGenresIntent = PublishSubject.create<Unit>()
 
     override fun start(schedulerContext: SchedulerContext) {
         super.start(schedulerContext)
@@ -45,8 +47,12 @@ class DiscoverUseCase(
                     .startWith(selectedChange)
         }
 
+        val clearGenreSelection: Observable<DiscoverPartialStateChange> = clearGenresIntent.flatMap {
+            Observable.just(DiscoverPartialStateChange.ClearGenreSelectionChange)
+        }
+
         val initialState: AsyncResult<DiscoverState> = AsyncResult.loading(null)
-        Observable.merge(load, searchGenre)
+        Observable.merge(load, searchGenre, clearGenreSelection)
                 .scan(initialState, this::reduce)
                 .distinctUntilChanged()
                 .safelySubscribe(this, state::onNext)
@@ -62,6 +68,10 @@ class DiscoverUseCase(
         genresIntent.onNext(genre)
     }
 
+    fun clearGenreSelection() {
+        clearGenresIntent.onNext(Unit)
+    }
+
     private fun buildGenreResults(genreResults: AsyncResult<List<Movie>>): DiscoverPartialStateChange {
         return DiscoverPartialStateChange.GenreResultsStateChange(genreResults)
     }
@@ -69,11 +79,14 @@ class DiscoverUseCase(
     private fun reduce(previousState: AsyncResult<DiscoverState>, change: DiscoverPartialStateChange): AsyncResult<DiscoverState> {
         return when (change) {
             is DiscoverPartialStateChange.DiscoverStateChange -> change.discoverState
-            is DiscoverPartialStateChange.GenreSelectedStateChange -> previousState.map { state ->
-                state.copy(selectedGenre = change.selectedGenre)
+            is DiscoverPartialStateChange.GenreSelectedStateChange -> previousState.map {
+                it.copy(selectedGenre = change.selectedGenre)
             }
-            is DiscoverPartialStateChange.GenreResultsStateChange -> previousState.map { state ->
-                state.copy(genreResults = change.genreResults.getOr(emptyList()))
+            is DiscoverPartialStateChange.GenreResultsStateChange -> previousState.map {
+                it.copy(genreResults = change.genreResults.getOr(emptyList()))
+            }
+            is DiscoverPartialStateChange.ClearGenreSelectionChange -> previousState.map {
+                it.copy(genreResults = emptyList(), selectedGenre = null)
             }
         }
     }
