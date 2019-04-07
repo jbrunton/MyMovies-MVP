@@ -14,6 +14,7 @@ import com.jbrunton.entities.safelySubscribe
 import com.jbrunton.mymovies.usecases.BaseUseCase
 import io.reactivex.Observable
 import io.reactivex.rxkotlin.Observables
+import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 
 sealed class DiscoverIntent {
@@ -34,9 +35,9 @@ class DiscoverUseCase(
         val genres: GenresRepository
 ) : BaseUseCase() {
     val state = PublishSubject.create<AsyncResult<DiscoverState>>()
-    private val loadIntent = PublishSubject.create<DiscoverIntent.Load>()
-    private val selectGenreIntent = PublishSubject.create<DiscoverIntent.SelectGenre>()
-    private val clearSelectedGenreIntent = PublishSubject.create<DiscoverIntent.ClearSelectedGenre>()
+    private val loadIntent = BehaviorSubject.create<DiscoverIntent.Load>()
+    private val selectGenreIntent = BehaviorSubject.create<DiscoverIntent.SelectGenre>()
+    private val clearSelectedGenreIntent = BehaviorSubject.create<DiscoverIntent.ClearSelectedGenre>()
 
     override fun start(schedulerContext: SchedulerContext) {
         super.start(schedulerContext)

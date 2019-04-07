@@ -1,7 +1,6 @@
 package com.jbrunton.mymovies.ui.discover
 
 import android.view.View
-import com.jbrunton.mymovies.ui.discover.genres.GenresViewState
 import com.jbrunton.mymovies.ui.movies.MovieSearchResultViewState
 
 data class DiscoverViewState(

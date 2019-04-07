@@ -3,9 +3,7 @@ package com.jbrunton.mymovies.ui.discover
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.chip.Chip
-import com.jbrunton.entities.models.Genre
 import com.jbrunton.mymovies.R
-import com.jbrunton.mymovies.ui.discover.genres.GenreChipViewState
 import com.jbrunton.mymovies.ui.search.SearchResultsAdapter
 import com.jbrunton.mymovies.ui.shared.BaseLoadingViewController
 import kotlinx.android.synthetic.main.fragment_discover.*
@@ -52,10 +50,10 @@ class DiscoverViewController(val viewModel: DiscoverViewModel) : BaseLoadingView
 
     private fun buildGenreChip(viewState: GenreChipViewState): Chip {
         val chip = Chip(genres.context)
-        chip.text = viewState.genreName
+        chip.text = viewState.genre.name
 
         chip.setOnClickListener {
-            viewModel.onGenreClicked(Genre(viewState.genreId, viewState.genreName))
+            viewModel.onGenreClicked(viewState.genre)
         }
 
         if (viewState.selected) {

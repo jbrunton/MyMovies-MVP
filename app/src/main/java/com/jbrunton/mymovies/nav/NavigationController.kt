@@ -8,7 +8,6 @@ import com.jbrunton.mymovies.ui.account.AccountFragment
 import com.jbrunton.mymovies.ui.account.favorites.FavoritesActivity
 import com.jbrunton.mymovies.ui.auth.LoginActivity
 import com.jbrunton.mymovies.ui.discover.DiscoverFragment
-import com.jbrunton.mymovies.ui.discover.genres.GenreResultsActivity
 import com.jbrunton.mymovies.ui.main.MainActivity
 import com.jbrunton.mymovies.ui.search.SearchFragment
 import com.jbrunton.mymovies.usecases.nav.NavigationRequest
@@ -20,7 +19,6 @@ class NavigationController(val activity: FragmentActivity, val navigator: Naviga
         is NavigationRequest.DiscoverRequest -> showDiscover()
         is NavigationRequest.AccountRequest -> showAccount()
 
-        is NavigationRequest.GenreRequest -> startGenreActivity(request.genre)
         is NavigationRequest.FavoritesRequest -> startFavoritesActivity()
         is NavigationRequest.LoginRequest -> startLoginActivity()
     }
@@ -54,13 +52,6 @@ class NavigationController(val activity: FragmentActivity, val navigator: Naviga
         (activity as MainActivity).supportFragmentManager.beginTransaction()
                 .replace(R.id.content, AccountFragment())
                 .commit()
-    }
-
-    private fun startGenreActivity(genre: Genre) {
-        val intent = Intent(activity, GenreResultsActivity::class.java)
-        intent.putExtra("GENRE_ID", genre.id)
-        intent.putExtra("GENRE_NAME", genre.name)
-        activity.startActivity(intent)
     }
 
     private fun startLoginActivity() {

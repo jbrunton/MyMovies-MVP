@@ -2,7 +2,6 @@ package com.jbrunton.mymovies.ui.discover
 
 import android.view.View
 import com.jbrunton.async.AsyncResult
-import com.jbrunton.mymovies.ui.discover.genres.GenreChipViewState
 import com.jbrunton.mymovies.ui.movies.MovieSearchResultViewState
 import com.jbrunton.mymovies.ui.shared.LoadingViewState
 
