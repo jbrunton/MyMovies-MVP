@@ -14,22 +14,29 @@ class DiscoverViewController(val viewModel: DiscoverViewModel) : BaseLoadingView
     override val contentView: View get() = discover_content
     private lateinit var nowPlayingAdapter: SearchResultsAdapter
     private lateinit var popularAdapter: SearchResultsAdapter
+    private lateinit var genreResultsAdapter: SearchResultsAdapter
 
     override fun bind(containerView: View) {
         super.bind(containerView)
         nowPlayingAdapter = SearchResultsAdapter(context, R.layout.item_movie_card_grid)
         popularAdapter = SearchResultsAdapter(context, R.layout.item_movie_card_grid)
+        genreResultsAdapter = SearchResultsAdapter(context, R.layout.item_movie_card_grid)
 
         now_playing.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         now_playing.adapter = nowPlayingAdapter
 
         popular.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         popular.adapter = popularAdapter
+
+        genre_results.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        genre_results.adapter = genreResultsAdapter
     }
 
     override fun updateContentView(viewState: DiscoverViewState) {
         nowPlayingAdapter.setDataSource(viewState.nowPlayingViewState)
         popularAdapter.setDataSource(viewState.popularViewState)
+        genreResultsAdapter.setDataSource(viewState.genreResults)
+        genre_results.visibility = viewState.genreResultsVisibility
 
         genres.removeAllViewsInLayout()
         viewState.genres.forEach { genre ->

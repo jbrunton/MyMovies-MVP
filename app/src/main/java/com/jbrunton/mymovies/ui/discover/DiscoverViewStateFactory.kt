@@ -12,7 +12,7 @@ object DiscoverViewStateFactory {
                     nowPlayingViewState = it.nowPlaying.map { MovieSearchResultViewState(it) },
                     popularViewState = it.popular.map { MovieSearchResultViewState(it) },
                     genres = it.genres,
-                    genreResultsVisibility = View.GONE,
+                    genreResultsVisibility = if (it.genreResults.isEmpty()) { View.GONE } else { View.VISIBLE },
                     genreResults = it.genreResults.map { MovieSearchResultViewState(it) }
             )
         }

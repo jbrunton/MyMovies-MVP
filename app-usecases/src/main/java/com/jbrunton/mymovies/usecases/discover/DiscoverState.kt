@@ -9,4 +9,9 @@ data class DiscoverState(
         val genres: List<Genre>,
         val selectedGenre: Genre?,
         val genreResults: List<Movie>
-)
+) {
+    constructor(nowPlaying: List<Movie>,
+                popular: List<Movie>,
+                genres: List<Genre>
+    ) : this(nowPlaying, popular, genres, null, emptyList())
+}
