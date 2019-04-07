@@ -21,7 +21,7 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/toolbar">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -32,18 +32,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
-                android:text="Now Playing"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:text="Now Playing"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/now_playing"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:scrollbars="vertical"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/now_playing_label"/>
+                android:scrollbars="vertical"/>
 
             <TextView
                 android:id="@+id/popular_label"
@@ -51,18 +46,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
-                android:text="Popular"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/now_playing" />
+                android:text="Popular"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/popular"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:scrollbars="vertical"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/popular_label"/>
+                android:scrollbars="vertical"/>
 
             <TextView
                 android:id="@+id/genres_label"
@@ -70,23 +60,33 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
-                android:text="Genres"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/popular" />
+                android:text="Genres"/>
 
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/genres"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
-                android:layout_marginVertical="8dp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/genres_label">
+                android:layout_marginVertical="8dp">
 
             </com.google.android.material.chip.ChipGroup>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/genre_results"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="vertical"/>
+
+            <ProgressBar
+                android:visibility="gone"
+                android:id="@+id/genre_results_loading_indicator"
+                android:layout_width="wrap_content"
+                android:layout_height="144dp"
+                android:layout_gravity="center"
+                />
+
+
+        </LinearLayout>
 
     </ScrollView>
 

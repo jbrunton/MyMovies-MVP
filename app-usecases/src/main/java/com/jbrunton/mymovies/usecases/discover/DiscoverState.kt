@@ -6,5 +6,12 @@ import com.jbrunton.entities.models.Movie
 data class DiscoverState(
         val nowPlaying: List<Movie>,
         val popular: List<Movie>,
-        val genres: List<Genre>
-)
+        val genres: List<Genre>,
+        val selectedGenre: Genre?,
+        val genreResults: List<Movie>
+) {
+    constructor(nowPlaying: List<Movie>,
+                popular: List<Movie>,
+                genres: List<Genre>
+    ) : this(nowPlaying, popular, genres, null, emptyList())
+}

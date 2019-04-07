@@ -11,7 +11,6 @@ import com.jbrunton.mymovies.di.ActivityModule
 import com.jbrunton.mymovies.di.ApplicationComponent
 import com.jbrunton.mymovies.di.TestApplicationComponent
 import com.jbrunton.mymovies.fixtures.BaseActivityTest
-import com.jbrunton.mymovies.ui.discover.genres.GenreResultsViewModel
 import com.jbrunton.mymovies.ui.main.MainActivity
 import com.jbrunton.mymovies.ui.moviedetails.MovieDetailsViewModel
 import com.jbrunton.mymovies.usecases.moviedetails.MovieDetailsUseCase
@@ -25,7 +24,6 @@ class ContainerTest : BaseActivityTest<MainActivity>() {
 
     val parameters = DryRunParameters().apply {
         paramsFor(MovieDetailsViewModel::class, parametersOf("1"))
-        paramsFor(GenreResultsViewModel::class, parametersOf("1"))
         paramsFor(MovieDetailsUseCase::class, parametersOf("1"))
     }
 
