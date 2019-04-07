@@ -16,6 +16,12 @@ import io.reactivex.Observable
 import io.reactivex.rxkotlin.Observables
 import io.reactivex.subjects.PublishSubject
 
+sealed class DiscoverIntent {
+    object Load : DiscoverIntent()
+    data class SelectGenre(val genre: Genre) : DiscoverIntent()
+    object ClearSelectedGenre : DiscoverIntent()
+}
+
 sealed class DiscoverStateChange {
     data class DiscoverResultsAvailable(val discoverState: AsyncResult<DiscoverState>) : DiscoverStateChange()
     data class GenreSelected(val selectedGenre: Genre) : DiscoverStateChange()
@@ -28,48 +34,47 @@ class DiscoverUseCase(
         val genres: GenresRepository
 ) : BaseUseCase() {
     val state = PublishSubject.create<AsyncResult<DiscoverState>>()
-    private val loadIntent = PublishSubject.create<Unit>()
-    private val selectGenreIntent = PublishSubject.create<Genre>()
-    private val clearSelectedGenreIntent = PublishSubject.create<Unit>()
-    
-    private val load = loadIntent.flatMap {
-        browse().map(DiscoverStateChange::DiscoverResultsAvailable)
-                .compose(schedulerContext.applySchedulers())
-    }
-    
-    private val selectGenre = selectGenreIntent.flatMap {
-        val selectedChange: DiscoverStateChange = DiscoverStateChange.GenreSelected(it)
-        movies.discoverByGenre(it.id).map(this::buildGenreResults)
-                .compose(schedulerContext.applySchedulers())
-                .startWith(selectedChange)
-    }
-    
-    private val clearSelectedGenre = clearSelectedGenreIntent.flatMap {
-        Observable.just(DiscoverStateChange.SelectedGenreCleared)
-    }
+    private val loadIntent = PublishSubject.create<DiscoverIntent.Load>()
+    private val selectGenreIntent = PublishSubject.create<DiscoverIntent.SelectGenre>()
+    private val clearSelectedGenreIntent = PublishSubject.create<DiscoverIntent.ClearSelectedGenre>()
 
     override fun start(schedulerContext: SchedulerContext) {
         super.start(schedulerContext)
 
         val initialState: AsyncResult<DiscoverState> = AsyncResult.loading(null)
-        Observable.merge(load, selectGenre, clearSelectedGenre)
-                .scan(initialState, this::reduce)
+        val allIntents = Observable.merge(
+                loadIntent.flatMap(this::load),
+                selectGenreIntent.flatMap(this::selectGenre),
+                clearSelectedGenreIntent.flatMap(this::clearSelectedGenre))
+
+        allIntents.scan(initialState, this::reduce)
                 .distinctUntilChanged()
                 .safelySubscribe(this, state::onNext)
 
-        loadIntent.onNext(Unit)
+        perform(DiscoverIntent.Load)
     }
 
-    fun retry() {
-        loadIntent.onNext(Unit)
+    public fun perform(intent: DiscoverIntent) = when (intent) {
+        is DiscoverIntent.Load -> loadIntent.onNext(intent)
+        is DiscoverIntent.SelectGenre -> selectGenreIntent.onNext(intent)
+        is DiscoverIntent.ClearSelectedGenre -> clearSelectedGenreIntent.onNext(intent)
     }
 
-    fun selectedGenre(genre: Genre) {
-        selectGenreIntent.onNext(genre)
+    private fun load(intent: DiscoverIntent.Load): Observable<DiscoverStateChange> {
+        return browse()
+                .map(DiscoverStateChange::DiscoverResultsAvailable)
+                .compose(schedulerContext.applySchedulers())
     }
 
-    fun clearSelectedGenre() {
-        clearSelectedGenreIntent.onNext(Unit)
+    private fun selectGenre(intent: DiscoverIntent.SelectGenre): Observable<DiscoverStateChange> {
+        val selectedChange: DiscoverStateChange = DiscoverStateChange.GenreSelected(intent.genre)
+        return movies.discoverByGenre(intent.genre.id).map(this::buildGenreResults)
+                .compose(schedulerContext.applySchedulers())
+                .startWith(selectedChange)
+    }
+
+    private fun clearSelectedGenre(intent: DiscoverIntent.ClearSelectedGenre): Observable<DiscoverStateChange> {
+        return Observable.just(DiscoverStateChange.SelectedGenreCleared)
     }
 
     private fun buildGenreResults(genreResults: AsyncResult<List<Movie>>): DiscoverStateChange {
