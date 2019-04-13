@@ -10,15 +10,25 @@ import androidx.test.rule.ActivityTestRule
 import androidx.test.runner.AndroidJUnit4
 import com.jbrunton.entities.repositories.MoviesRepository
 import com.jbrunton.fixtures.MovieFactory
-import com.jbrunton.mymovies.R
+import com.jbrunton.inject.Container
+import com.jbrunton.inject.HasContainer
 import com.jbrunton.inject.inject
-import com.jbrunton.mymovies.fixtures.BaseActivityTest
-import com.jbrunton.mymovies.fixtures.stubWith
+import com.jbrunton.mymovies.R
+import com.jbrunton.mymovies.fixtures.rules.container
+import com.jbrunton.mymovies.fixtures.repositories.stubWith
+import com.jbrunton.mymovies.fixtures.rules.takeScreenshot
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class MovieDetailsActivityTest : BaseActivityTest<MovieDetailsActivity>() {
+class MovieDetailsActivityTest : HasContainer {
+    @get:Rule
+    val activityRule = ActivityTestRule(MovieDetailsActivity::class.java, false, false)
+
+    override val container: Container
+        get() = activityRule.container
+
     val MOVIE_FACTORY = MovieFactory()
     val MOVIE1 = MOVIE_FACTORY.create()
 
@@ -33,12 +43,8 @@ class MovieDetailsActivityTest : BaseActivityTest<MovieDetailsActivity>() {
         intent.putExtra("MOVIE_ID", MOVIE1.id)
         activityRule.launchActivity(intent)
 
-        takeScreenshot()
+        activityRule.takeScreenshot()
         onView(withId(R.id.movie_details)).check(matches(ViewMatchers.isDisplayed()))
         onView(withId(R.id.overview)).check(matches(withText(expectedViewState.overview)))
-    }
-
-    override fun createActivityTestRule(): ActivityTestRule<MovieDetailsActivity> {
-        return ActivityTestRule(MovieDetailsActivity::class.java, false, false)
     }
 }

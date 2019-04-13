@@ -1,10 +1,10 @@
-package com.jbrunton.mymovies.fixtures
+package com.jbrunton.mymovies.fixtures.rules
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.test.rule.ActivityTestRule
 
-class FragmentTestRule<A : AppCompatActivity, F : Fragment>(
+open class FragmentTestRule<A : AppCompatActivity, F : Fragment>(
         activityClass: Class<A>,
         private val fragmentClass: Class<F>,
         initialTouchMode: Boolean,
@@ -35,7 +35,7 @@ class FragmentTestRule<A : AppCompatActivity, F : Fragment>(
 
     }
 
-    protected fun createFragment(): F {
+    protected open fun createFragment(): F {
         try {
             return fragmentClass.newInstance()
         } catch (e: InstantiationException) {

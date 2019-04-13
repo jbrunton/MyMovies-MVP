@@ -1,4 +1,4 @@
-package com.jbrunton.mymovies.fixtures
+package com.jbrunton.mymovies.fixtures.repositories
 
 import com.jbrunton.entities.models.Movie
 import com.jbrunton.entities.repositories.MoviesRepository
