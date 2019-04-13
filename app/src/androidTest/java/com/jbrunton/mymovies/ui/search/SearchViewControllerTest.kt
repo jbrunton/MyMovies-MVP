@@ -8,21 +8,25 @@ import androidx.test.runner.AndroidJUnit4
 import com.jbrunton.async.AsyncResult
 import com.jbrunton.fixtures.MovieFactory
 import com.jbrunton.mymovies.R
-import com.jbrunton.mymovies.fixtures.BaseFragmentTest
 import com.jbrunton.mymovies.fixtures.FragmentTestRule
 import com.jbrunton.mymovies.fixtures.ProgressBarViewActions
 import com.jbrunton.mymovies.fixtures.RecyclerViewUtils.withRecyclerView
 import com.jbrunton.mymovies.fixtures.ViewControllerTestFragment
+import com.jbrunton.mymovies.fixtures.takeScreenshot
 import com.jbrunton.mymovies.ui.shared.LoadingViewState
 import com.jbrunton.mymovies.ui.shared.LoadingViewStateError
 import com.jbrunton.mymovies.usecases.search.SearchState
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
 
 @RunWith(AndroidJUnit4::class)
-class SearchViewControllerTest : BaseFragmentTest<SearchViewControllerTest.TestFragment>() {
+class SearchViewControllerTest {
+    @get:Rule
+    val fragmentRule = FragmentTestRule.create(TestFragment::class.java)
+
     val MOVIE_FACTORY = MovieFactory()
     val MOVIE1 = MOVIE_FACTORY.create()
     val MOVIE2 = MOVIE_FACTORY.create()
@@ -49,7 +53,7 @@ class SearchViewControllerTest : BaseFragmentTest<SearchViewControllerTest.TestF
     fun showsEmptySearchState() {
         setViewState(EMPTY_STATE)
 
-        takeScreenshot("showsEmptySearchState")
+        fragmentRule.takeScreenshot("showsEmptySearchState")
         onView(withId(R.id.error_text))
                 .check(matches(withText(EMPTY_STATE.errorText)))
     }
@@ -60,7 +64,7 @@ class SearchViewControllerTest : BaseFragmentTest<SearchViewControllerTest.TestF
 
         setViewState(LOADING_STATE)
 
-        takeScreenshot("showsLoadingState")
+        fragmentRule.takeScreenshot("showsLoadingState")
         onView(withId(R.id.loading_indicator))
                 .check(matches(isDisplayed()))
     }
@@ -69,7 +73,7 @@ class SearchViewControllerTest : BaseFragmentTest<SearchViewControllerTest.TestF
     fun showsErrorState() {
         setViewState(NETWORK_ERROR_STATE)
 
-        takeScreenshot("showsErrorState")
+        fragmentRule.takeScreenshot("showsErrorState")
         onView(withId(R.id.error_text))
                 .check(matches(withText(NETWORK_ERROR.message)))
         onView(withId(R.id.error_try_again))
@@ -80,7 +84,7 @@ class SearchViewControllerTest : BaseFragmentTest<SearchViewControllerTest.TestF
     fun showsResults() {
         setViewState(SUCCESS_STATE)
 
-        takeScreenshot()
+        fragmentRule.takeScreenshot()
 
         onView(withRecyclerView(R.id.movies_list).atPosition(0))
                 .check(matches(hasDescendant(withText(MOVIE1.title))))
@@ -88,12 +92,8 @@ class SearchViewControllerTest : BaseFragmentTest<SearchViewControllerTest.TestF
                 .check(matches(hasDescendant(withText(MOVIE2.title))))
     }
 
-    override fun createFragmentTestRule(): FragmentTestRule<*, TestFragment> {
-        return FragmentTestRule.create(TestFragment::class.java)
-    }
-
     private fun setViewState(viewState: LoadingViewState<SearchViewState>) {
-        fragmentRule.runOnUiThread { fragment.updateView(viewState) }
+        fragmentRule.runOnUiThread { fragmentRule.fragment.updateView(viewState) }
     }
 
     class TestFragment: ViewControllerTestFragment<LoadingViewState<SearchViewState>>() {
