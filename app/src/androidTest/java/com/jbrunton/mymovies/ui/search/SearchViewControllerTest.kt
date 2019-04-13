@@ -8,10 +8,9 @@ import androidx.test.runner.AndroidJUnit4
 import com.jbrunton.async.AsyncResult
 import com.jbrunton.fixtures.MovieFactory
 import com.jbrunton.mymovies.R
-import com.jbrunton.mymovies.fixtures.FragmentTestRule
 import com.jbrunton.mymovies.fixtures.ProgressBarViewActions
 import com.jbrunton.mymovies.fixtures.RecyclerViewUtils.withRecyclerView
-import com.jbrunton.mymovies.fixtures.ViewControllerTestFragment
+import com.jbrunton.mymovies.fixtures.ViewControllerTestRule
 import com.jbrunton.mymovies.fixtures.takeScreenshot
 import com.jbrunton.mymovies.ui.shared.LoadingViewState
 import com.jbrunton.mymovies.ui.shared.LoadingViewStateError
@@ -25,7 +24,7 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 class SearchViewControllerTest {
     @get:Rule
-    val fragmentRule = FragmentTestRule.create(TestFragment::class.java)
+    val controllerRule = ViewControllerTestRule.create(SearchViewController())
 
     val MOVIE_FACTORY = MovieFactory()
     val MOVIE1 = MOVIE_FACTORY.create()
@@ -42,7 +41,7 @@ class SearchViewControllerTest {
     lateinit var SUCCESS_STATE: LoadingViewState<SearchViewState>
 
     @Before fun setUp() {
-        viewStateFactory = SearchViewStateFactory(fragmentRule.activity)
+        viewStateFactory = SearchViewStateFactory(controllerRule.activity)
         EMPTY_STATE = viewStateFactory.viewState(AsyncResult.success(SearchState.EmptyQuery))
         LOADING_STATE = viewStateFactory.viewState(AsyncResult.loading(null))
         NETWORK_ERROR_STATE = viewStateFactory.viewState(AsyncResult.failure(NETWORK_ERROR))
@@ -51,9 +50,9 @@ class SearchViewControllerTest {
 
     @Test
     fun showsEmptySearchState() {
-        setViewState(EMPTY_STATE)
+        controllerRule.setViewState(EMPTY_STATE)
 
-        fragmentRule.takeScreenshot("showsEmptySearchState")
+        controllerRule.takeScreenshot("showsEmptySearchState")
         onView(withId(R.id.error_text))
                 .check(matches(withText(EMPTY_STATE.errorText)))
     }
@@ -62,18 +61,18 @@ class SearchViewControllerTest {
     fun showsLoadingState() {
         onView(isAssignableFrom(ProgressBar::class.java)).perform(ProgressBarViewActions.replaceProgressBarDrawable())
 
-        setViewState(LOADING_STATE)
+        controllerRule.setViewState(LOADING_STATE)
 
-        fragmentRule.takeScreenshot("showsLoadingState")
+        controllerRule.takeScreenshot("showsLoadingState")
         onView(withId(R.id.loading_indicator))
                 .check(matches(isDisplayed()))
     }
 
     @Test
     fun showsErrorState() {
-        setViewState(NETWORK_ERROR_STATE)
+        controllerRule.setViewState(NETWORK_ERROR_STATE)
 
-        fragmentRule.takeScreenshot("showsErrorState")
+        controllerRule.takeScreenshot("showsErrorState")
         onView(withId(R.id.error_text))
                 .check(matches(withText(NETWORK_ERROR.message)))
         onView(withId(R.id.error_try_again))
@@ -82,21 +81,13 @@ class SearchViewControllerTest {
 
     @Test
     fun showsResults() {
-        setViewState(SUCCESS_STATE)
+        controllerRule.setViewState(SUCCESS_STATE)
 
-        fragmentRule.takeScreenshot()
+        controllerRule.takeScreenshot()
 
         onView(withRecyclerView(R.id.movies_list).atPosition(0))
                 .check(matches(hasDescendant(withText(MOVIE1.title))))
         onView(withRecyclerView(R.id.movies_list).atPosition(1))
                 .check(matches(hasDescendant(withText(MOVIE2.title))))
-    }
-
-    private fun setViewState(viewState: LoadingViewState<SearchViewState>) {
-        fragmentRule.runOnUiThread { fragmentRule.fragment.updateView(viewState) }
-    }
-
-    class TestFragment: ViewControllerTestFragment<LoadingViewState<SearchViewState>>() {
-        override fun createViewController() = SearchViewController()
     }
 }

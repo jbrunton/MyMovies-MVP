@@ -7,11 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.jbrunton.mymovies.ui.shared.ViewController
 
-abstract class ViewControllerTestFragment<T>: Fragment() {
-    lateinit var viewController: ViewController<T>
-
+class ViewControllerTestFragment<T>(val viewController: ViewController<T>): Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        viewController = createViewController()
         return inflater.inflate(viewController.layout, container, false)
     }
 
@@ -19,10 +16,4 @@ abstract class ViewControllerTestFragment<T>: Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewController.bind(view)
     }
-
-    fun updateView(viewState: T) {
-        viewController.updateView(viewState)
-    }
-
-    protected abstract fun createViewController(): ViewController<T>
 }
