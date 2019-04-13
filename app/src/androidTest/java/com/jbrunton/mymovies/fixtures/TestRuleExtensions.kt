@@ -12,8 +12,11 @@ fun <T : Activity> ActivityTestRule<T>.takeScreenshot(tag: String = "_") {
 }
 
 val <T : Activity> ActivityTestRule<T>.application get() =
-    InstrumentationRegistry.getInstrumentation().getTargetContext().getApplicationContext() as MyMoviesApplication
+    (activity?.application ?: InstrumentationRegistry
+            .getInstrumentation()
+            .getTargetContext()
+            .getApplicationContext()) as MyMoviesApplication
 
 val <T : Activity> ActivityTestRule<T>.container get() =
-    (activity as? HasContainer)?.container ?: (application).container
+    (activity as? HasContainer)?.container ?: (application as HasContainer).container
 
