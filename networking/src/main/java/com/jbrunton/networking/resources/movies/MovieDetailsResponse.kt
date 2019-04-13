@@ -1,6 +1,5 @@
 package com.jbrunton.networking.resources.movies
 
-import com.google.common.base.Optional
 import com.jbrunton.entities.models.Configuration
 import com.jbrunton.entities.models.Movie
 import org.joda.time.LocalDate
@@ -22,9 +21,9 @@ data class MovieDetailsResponse(
                     title = response.originalTitle,
                     posterUrl = config.expandUrl(response.posterPath),
                     backdropUrl = config.expandUrl(response.backdropPath),
-                    releaseDate = Optional.fromNullable(response.releaseDate),
+                    releaseDate = response.releaseDate,
                     rating = response.voteAverage,
-                    overview = Optional.fromNullable(response.overview)
+                    overview = response.overview
             )
         }
     }

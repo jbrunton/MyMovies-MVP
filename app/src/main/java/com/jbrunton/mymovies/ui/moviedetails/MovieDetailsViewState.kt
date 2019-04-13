@@ -9,7 +9,7 @@ data class MovieDetailsViewState(
         val favoriteVisibility: Int,
         val unfavoriteVisibility: Int
 ) : BaseMovieViewState(movie) {
-    val overview = movie.overview.or("")
+    val overview = movie.overview ?: ""
 
     companion object {
         fun from(movie: Movie, favorite: Boolean) = MovieDetailsViewState(

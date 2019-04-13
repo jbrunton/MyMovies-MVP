@@ -1,6 +1,5 @@
 package com.jbrunton.fixtures
 
-import com.google.common.base.Optional
 import com.jbrunton.entities.models.Movie
 import org.joda.time.LocalDate
 
@@ -14,16 +13,16 @@ class MovieFactory {
         var title: String? = ""
             private set
 
-        var overview: Optional<String> = Optional.absent()
+        var overview: String? = null
             private set
 
-        var releaseDate: Optional<LocalDate> = Optional.absent()
+        var releaseDate: LocalDate? = null
             private set
 
-        var posterUrl: Optional<String> = Optional.absent()
+        var posterUrl: String? = null
             private set
 
-        var backdropUrl: Optional<String> = Optional.absent()
+        var backdropUrl: String? = null
             private set
 
         var rating: String? = ""
@@ -31,10 +30,10 @@ class MovieFactory {
 
         fun id(id: String) = apply { this.id = id }
         fun title(title: String) = apply { this.title = title }
-        fun overview(overview: Optional<String>) = apply { this.overview = overview }
-        fun releaseDate(releaseDate: Optional<LocalDate>) = apply { this.releaseDate = releaseDate }
-        fun posterUrl(posterUrl: Optional<String>) = apply { this.posterUrl = posterUrl }
-        fun backdropUrl(backdropUrl: Optional<String>) = apply { this.backdropUrl = backdropUrl }
+        fun overview(overview: String?) = apply { this.overview = overview }
+        fun releaseDate(releaseDate: LocalDate?) = apply { this.releaseDate = releaseDate }
+        fun posterUrl(posterUrl: String?) = apply { this.posterUrl = posterUrl }
+        fun backdropUrl(backdropUrl: String?) = apply { this.backdropUrl = backdropUrl }
         fun rating(rating: String) = apply { this.rating = rating }
 
         fun build() = Movie(
@@ -53,10 +52,9 @@ class MovieFactory {
         return Builder()
                 .id(id)
                 .title("Movie " + id)
-                .overview(Optional.of("Overview for Movie " + id))
-                .releaseDate(Optional.absent())
-                .posterUrl(Optional.of("https://image.tmdb.org/t/p/w300/bIuOWTtyFPjsFDevqvF3QrD1aun.jpg"))
-                .backdropUrl(Optional.of("https://image.tmdb.org/t/p/w300/LvmmDZxkTDqp0DX7mUo621ahdX.jpg"))
+                .overview("Overview for Movie " + id)
+                .posterUrl("https://image.tmdb.org/t/p/w300/bIuOWTtyFPjsFDevqvF3QrD1aun.jpg")
+                .backdropUrl("https://image.tmdb.org/t/p/w300/LvmmDZxkTDqp0DX7mUo621ahdX.jpg")
                 .rating("")
     }
 
