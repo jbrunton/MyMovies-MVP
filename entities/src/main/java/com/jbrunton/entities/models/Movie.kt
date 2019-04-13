@@ -1,25 +1,24 @@
 package com.jbrunton.entities.models
 
-import com.google.common.base.Optional
 import org.joda.time.LocalDate
 
 data class Movie(
     val id: String,
     val title: String,
-    val posterUrl: Optional<String>,
-    val backdropUrl: Optional<String>,
-    val releaseDate: Optional<LocalDate>,
+    val posterUrl: String?,
+    val backdropUrl: String?,
+    val releaseDate: LocalDate?,
     val rating: String,
-    val overview: Optional<String>) {
+    val overview: String?) {
     companion object {
         val emptyMovie = Movie(
                 id = "",
                 title = "",
-                posterUrl = Optional.absent(),
-                backdropUrl = Optional.absent(),
-                releaseDate = Optional.absent(),
+                posterUrl = null,
+                backdropUrl = null,
+                releaseDate = null,
                 rating = "",
-                overview = Optional.absent()
+                overview = null
         )
     }
 }

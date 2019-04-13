@@ -1,13 +1,9 @@
 package com.jbrunton.entities.models
 
-import com.google.common.base.Optional
-
 data class Configuration(val secureBaseUrl: String) {
-    fun expandUrl(relativePath: String?): Optional<String> {
-        if (relativePath == null) {
-            return Optional.absent()
+    fun expandUrl(relativePath: String?): String? {
+        return relativePath?.let {
+            "${secureBaseUrl}w300${it}"
         }
-        val expandedUrl = secureBaseUrl + "w300" + relativePath
-        return Optional.of(expandedUrl)
     }
 }
