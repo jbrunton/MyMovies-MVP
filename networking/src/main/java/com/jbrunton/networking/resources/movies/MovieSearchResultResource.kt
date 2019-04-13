@@ -1,6 +1,5 @@
 package com.jbrunton.networking.resources.movies
 
-import com.google.common.base.Optional
 import com.jbrunton.entities.models.Configuration
 import com.jbrunton.entities.models.Movie
 import org.joda.time.LocalDate
@@ -19,9 +18,9 @@ class MovieSearchResultResource(
                 title = originalTitle,
                 posterUrl = config.expandUrl(posterPath),
                 backdropUrl = config.expandUrl(backdropPath),
-                releaseDate = Optional.fromNullable(releaseDate),
+                releaseDate = releaseDate,
                 rating = voteAverage,
-                overview = Optional.absent()
+                overview = null
         )
     }
 }
