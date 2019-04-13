@@ -1,4 +1,4 @@
-package com.jbrunton.mymovies.fixtures
+package com.jbrunton.mymovies.fixtures.rules
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment

@@ -10,8 +10,8 @@ import com.jbrunton.fixtures.MovieFactory
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.fixtures.ProgressBarViewActions
 import com.jbrunton.mymovies.fixtures.RecyclerViewUtils.withRecyclerView
-import com.jbrunton.mymovies.fixtures.ViewControllerTestRule
-import com.jbrunton.mymovies.fixtures.takeScreenshot
+import com.jbrunton.mymovies.fixtures.rules.ViewControllerTestRule
+import com.jbrunton.mymovies.fixtures.rules.takeScreenshot
 import com.jbrunton.mymovies.ui.shared.LoadingViewState
 import com.jbrunton.mymovies.ui.shared.LoadingViewStateError
 import com.jbrunton.mymovies.usecases.search.SearchState

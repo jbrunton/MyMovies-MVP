@@ -14,9 +14,9 @@ import com.jbrunton.inject.Container
 import com.jbrunton.inject.HasContainer
 import com.jbrunton.inject.inject
 import com.jbrunton.mymovies.R
-import com.jbrunton.mymovies.fixtures.container
-import com.jbrunton.mymovies.fixtures.stubWith
-import com.jbrunton.mymovies.fixtures.takeScreenshot
+import com.jbrunton.mymovies.fixtures.rules.container
+import com.jbrunton.mymovies.fixtures.repositories.stubWith
+import com.jbrunton.mymovies.fixtures.rules.takeScreenshot
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith

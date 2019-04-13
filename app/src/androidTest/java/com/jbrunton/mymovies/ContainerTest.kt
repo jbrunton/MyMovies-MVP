@@ -6,8 +6,8 @@ import com.jbrunton.inject.*
 import com.jbrunton.mymovies.di.ActivityModule
 import com.jbrunton.mymovies.di.ApplicationComponent
 import com.jbrunton.mymovies.di.TestApplicationComponent
-import com.jbrunton.mymovies.fixtures.application
-import com.jbrunton.mymovies.fixtures.container
+import com.jbrunton.mymovies.fixtures.rules.application
+import com.jbrunton.mymovies.fixtures.rules.container
 import com.jbrunton.mymovies.ui.main.MainActivity
 import com.jbrunton.mymovies.ui.moviedetails.MovieDetailsViewModel
 import com.jbrunton.mymovies.usecases.moviedetails.MovieDetailsUseCase

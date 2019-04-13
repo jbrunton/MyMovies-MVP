@@ -11,11 +11,11 @@ import com.jbrunton.inject.Container
 import com.jbrunton.inject.HasContainer
 import com.jbrunton.inject.inject
 import com.jbrunton.mymovies.R
-import com.jbrunton.mymovies.fixtures.FragmentTestRule
+import com.jbrunton.mymovies.fixtures.rules.FragmentTestRule
 import com.jbrunton.mymovies.fixtures.RecyclerViewUtils.withRecyclerView
-import com.jbrunton.mymovies.fixtures.container
-import com.jbrunton.mymovies.fixtures.stubSearch
-import com.jbrunton.mymovies.fixtures.takeScreenshot
+import com.jbrunton.mymovies.fixtures.rules.container
+import com.jbrunton.mymovies.fixtures.repositories.stubSearch
+import com.jbrunton.mymovies.fixtures.rules.takeScreenshot
 import com.jbrunton.mymovies.ui.shared.DebounceTextWatcher
 import kotlinx.coroutines.test.TestCoroutineContext
 import org.junit.Rule
