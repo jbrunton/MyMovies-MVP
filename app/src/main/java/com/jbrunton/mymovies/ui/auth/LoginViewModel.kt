@@ -1,5 +1,9 @@
 package com.jbrunton.mymovies.ui.auth
 
+import com.jbrunton.async.AsyncResult
+import com.jbrunton.async.doOnSuccess
+import com.jbrunton.async.onError
+import com.jbrunton.entities.errors.onNetworkError
 import com.jbrunton.entities.models.AuthSession
 import com.jbrunton.entities.subscribe
 import com.jbrunton.inject.Container
@@ -7,7 +11,10 @@ import com.jbrunton.inject.inject
 import com.jbrunton.inject.parametersOf
 import com.jbrunton.mymovies.ui.shared.BaseLoadingViewModel
 import com.jbrunton.mymovies.ui.shared.SingleLiveEvent
+import com.jbrunton.mymovies.usecases.auth.LoginState
 import com.jbrunton.mymovies.usecases.auth.LoginUseCase
+import com.jbrunton.networking.parseStatusMessage
+import retrofit2.HttpException
 
 class LoginViewModel(container: Container) : BaseLoadingViewModel<LoginViewState>(container) {
     val useCase: LoginUseCase by inject { parametersOf(schedulerContext) }
@@ -15,20 +22,38 @@ class LoginViewModel(container: Container) : BaseLoadingViewModel<LoginViewState
     val loginFailure = SingleLiveEvent<String>()
     val viewStateFactory: LoginViewStateFactory by inject()
 
-    override fun start() {
-        super.start()
-        subscribe(useCase.state) {
-            viewState.postValue(viewStateFactory.viewState(it))
+    fun onLoginClicked(username: String, password: String) {
+        subscribe(useCase.login(username, password)) { result ->
+            result.doOnSuccess(this::notifySuccess)
+                    .let(this::handleNetworkErrors)
+                    .let(this::handleSignedOut)
+            viewState.postValue(viewStateFactory.viewState(result))
         }
-        subscribe(useCase.loginSuccessful) { loginSuccessful.postValue(it) }
-        subscribe(useCase.loginFailure) { loginFailure.postValue(it) }
-        subscribe(useCase.networkErrorSnackbar) {
-            snackbar.postValue(NetworkErrorSnackbar(retry = false))
-        }
-        useCase.start(schedulerContext)
     }
 
-    fun onLoginClicked(username: String, password: String) {
-        useCase.login(username, password)
+    private fun notifySuccess(result: AsyncResult.Success<LoginState>) {
+        val state = result.value
+        if (state is LoginState.SignedIn) {
+            loginSuccessful.postValue(state.session)
+        }
+    }
+
+    private fun handleNetworkErrors(result: AsyncResult<LoginState>): AsyncResult<LoginState> {
+        return result.onNetworkError {
+            snackbar.postValue(NetworkErrorSnackbar(retry = false))
+            AsyncResult.success(LoginState.Valid)
+        }
+    }
+
+    private fun handleSignedOut(result: AsyncResult<LoginState>): AsyncResult<LoginState> {
+        return result.onError(HttpException::class) {
+            use(this@LoginViewModel::handleAuthFailure) whenever { it.code() == 401 }
+        }
+    }
+
+    private fun handleAuthFailure(result: AsyncResult.Failure<LoginState>): LoginState {
+        val message = (result.error as HttpException).parseStatusMessage()
+        loginFailure.postValue(message)
+        return LoginState.Valid
     }
 }

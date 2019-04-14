@@ -13,6 +13,7 @@ class LoginViewStateFactory(private val context: Context) {
 
     private fun transform(state: LoginState): AsyncResult<LoginViewState> = when (state) {
         is LoginState.Valid -> AsyncResult.success(LoginViewState.Valid)
+        is LoginState.SignedIn -> AsyncResult.success(LoginViewState.Valid)
         is LoginState.Invalid -> AsyncResult.success(
                 LoginViewState(
                         usernameError = if (state.requiresUsername) {
