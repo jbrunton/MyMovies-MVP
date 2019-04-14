@@ -6,10 +6,9 @@ import com.jbrunton.entities.errors.handleNetworkErrors
 import com.jbrunton.entities.models.AuthSession
 import com.jbrunton.entities.repositories.AccountRepository
 import com.jbrunton.entities.repositories.DataStream
-import com.jbrunton.mymovies.usecases.BaseUseCase
 import io.reactivex.Observable
 
-class LoginUseCase(val repository: AccountRepository) : BaseUseCase() {
+class LoginUseCase(val repository: AccountRepository) {
     fun login(username: String, password: String): DataStream<LoginState> {
         val invalidState = validate(username, password)
         if (invalidState != null) {
