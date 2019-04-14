@@ -21,7 +21,7 @@ class MovieDetailsUseCaseTest : HasSchedulers {
     private lateinit var repository: MoviesRepository
     private lateinit var useCase: MovieDetailsUseCase
     private lateinit var preferences: ApplicationPreferences
-    private lateinit var viewStateObserver: TestObserver<AsyncResult<MovieDetailsState>>
+    private lateinit var viewStateObserver: TestObserver<AsyncResult<MovieDetails>>
     private lateinit var snackbarObserver: TestObserver<MovieDetailsSnackbar>
 
     private val factory = MovieFactory()
@@ -34,7 +34,7 @@ class MovieDetailsUseCaseTest : HasSchedulers {
     private val AUTH_FAILURE_RESULT = NetworkErrorFixtures.httpErrorResult<Unit>(401, AUTH_FAILURE_MESSAGE)
 
     private val LOADING_STATE = AsyncResult.loading(null)
-    private val SUCCESS_STATE = AsyncResult.success(MovieDetailsState(MOVIE, true))
+    private val SUCCESS_STATE = AsyncResult.success(MovieDetails(MOVIE, true))
 
     @Before
     fun setUp() {

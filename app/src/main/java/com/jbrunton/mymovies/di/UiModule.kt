@@ -32,7 +32,7 @@ val UiModule = module {
     factory { SearchViewModel(get()) }
     factory { SearchViewStateFactory(get()) }
 
-    factory { (movieId: String) -> MovieDetailsUseCase(movieId, get(), get()) }
+    factory { MovieDetailsUseCase(get(), get()) }
     factory { (movieId: String) -> MovieDetailsViewModel(movieId, get()) }
     factory { MovieDetailsViewStateFactory(get()) }
 
