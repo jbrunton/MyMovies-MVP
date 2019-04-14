@@ -1,7 +1,6 @@
 package com.jbrunton.mymovies.usecases.search
 
 import com.jbrunton.async.AsyncResult
-import com.jbrunton.entities.SchedulerContext
 import com.jbrunton.entities.repositories.MoviesRepository
 import com.jbrunton.fixtures.MovieFactory
 import com.jbrunton.fixtures.RepositoryFixtures
@@ -35,10 +34,9 @@ class SearchUseCaseOrderingTest {
     fun setUp() {
         repository = Mockito.mock(MoviesRepository::class.java)
         val factory = TestSchedulerFactory(schedulerRule.TEST_SCHEDULER)
-        useCase = SearchUseCase(repository)
+        useCase = SearchUseCase(repository, factory)
 
-        observer = useCase.results.test()
-        useCase.start(SchedulerContext(factory))
+        observer = useCase.results().test()
         schedulerRule.TEST_SCHEDULER.triggerActions()
 
         // Note that movie 2 will take longer to arrive
