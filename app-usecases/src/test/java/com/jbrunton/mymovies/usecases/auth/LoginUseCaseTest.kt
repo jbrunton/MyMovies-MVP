@@ -1,6 +1,7 @@
 package com.jbrunton.mymovies.usecases.auth
 
 import com.jbrunton.async.AsyncResult
+import com.jbrunton.entities.errors.networkError
 import com.jbrunton.entities.models.AuthSession
 import com.jbrunton.entities.repositories.AccountRepository
 import com.jbrunton.fixtures.NetworkErrorFixtures.httpErrorResult
@@ -24,7 +25,7 @@ class LoginUseCaseTest {
 
     private val LOADING_STATE = AsyncResult.loading(null)
     private val SUCCESS_STATE = AsyncResult.success(LoginState.SignedIn(AUTH_SESSION))
-    private val NETWORK_ERROR_STATE = AsyncResult.failure(NETWORK_ERROR_RESULT.error, null)
+    private val NETWORK_ERROR_STATE = AsyncResult.failure(networkError(), null)
     private val AUTH_FAILURE_STATE = AsyncResult.failure(AUTH_FAILURE_RESULT.error, null)
 
     private val INVALID_USERNAME_STATE = AsyncResult.success(LoginState.Invalid(requiresUsername = true, requiresPassword = false))
