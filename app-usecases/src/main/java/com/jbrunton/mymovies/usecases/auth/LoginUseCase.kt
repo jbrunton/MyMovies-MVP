@@ -33,15 +33,4 @@ class LoginUseCase(val repository: AccountRepository) : BaseUseCase() {
         }
         return null
     }
-
-//    private fun handleSignedOut(result: AsyncResult<LoginState>): AsyncResult<LoginState> {
-//        return result.onError(HttpException::class) {
-//            use(this@LoginUseCase::handleAuthFailure) whenever { it.code() == 401 }
-//        }
-//    }
-//
-//    private fun handleAuthFailure(result: AsyncResult.Failure<LoginState>): LoginState {
-//        val message = (result.error as HttpException).parseStatusMessage()
-//        return LoginState.AuthFailure(message)
-//    }
 }

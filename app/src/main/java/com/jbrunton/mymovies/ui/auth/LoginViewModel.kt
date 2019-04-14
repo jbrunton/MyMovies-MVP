@@ -23,12 +23,15 @@ class LoginViewModel(container: Container) : BaseLoadingViewModel<LoginViewState
     val viewStateFactory: LoginViewStateFactory by inject()
 
     fun onLoginClicked(username: String, password: String) {
-        subscribe(useCase.login(username, password)) { result ->
-            result.doOnSuccess(this::notifySuccess)
-                    .let(this::handleNetworkErrors)
-                    .let(this::handleSignedOut)
-            viewState.postValue(viewStateFactory.viewState(result))
+        subscribe(useCase.login(username, password)) {
+            viewState.postValue(viewStateFactory.viewState(handleResult(it)))
         }
+    }
+
+    private fun handleResult(result: AsyncResult<LoginState>): AsyncResult<LoginState> {
+        return result.doOnSuccess(this::notifySuccess)
+                .let(this::handleSignedOut)
+                .onNetworkError(this::handleNetworkErrors)
     }
 
     private fun notifySuccess(result: AsyncResult.Success<LoginState>) {
@@ -38,11 +41,9 @@ class LoginViewModel(container: Container) : BaseLoadingViewModel<LoginViewState
         }
     }
 
-    private fun handleNetworkErrors(result: AsyncResult<LoginState>): AsyncResult<LoginState> {
-        return result.onNetworkError {
-            snackbar.postValue(NetworkErrorSnackbar(retry = false))
-            AsyncResult.success(LoginState.Valid)
-        }
+    private fun handleNetworkErrors(result: AsyncResult.Failure<LoginState>): AsyncResult<LoginState> {
+        snackbar.postValue(NetworkErrorSnackbar(retry = false))
+        return AsyncResult.success(LoginState.Valid)
     }
 
     private fun handleSignedOut(result: AsyncResult<LoginState>): AsyncResult<LoginState> {
