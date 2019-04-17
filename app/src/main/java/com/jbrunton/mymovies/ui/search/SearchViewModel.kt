@@ -12,10 +12,9 @@ class SearchViewModel(container: Container) : BaseLoadingViewModel<SearchViewSta
 
     override fun start() {
         super.start()
-        subscribe(useCase.results) {
+        subscribe(useCase.results()) {
             viewState.postValue(viewStateFactory.viewState(it))
         }
-        useCase.start(schedulerContext)
     }
 
     fun onSearchQueryChanged(query: String) {

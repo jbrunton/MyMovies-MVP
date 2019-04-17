@@ -11,7 +11,6 @@ import com.jbrunton.fixtures.MovieFactory
 import com.jbrunton.fixtures.NetworkErrorFixtures
 import com.nhaarman.mockito_kotlin.whenever
 import io.reactivex.Observable
-import io.reactivex.observers.TestObserver
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mockito
@@ -21,8 +20,6 @@ class MovieDetailsUseCaseTest : HasSchedulers {
     private lateinit var repository: MoviesRepository
     private lateinit var useCase: MovieDetailsUseCase
     private lateinit var preferences: ApplicationPreferences
-    private lateinit var viewStateObserver: TestObserver<AsyncResult<MovieDetailsState>>
-    private lateinit var snackbarObserver: TestObserver<MovieDetailsSnackbar>
 
     private val factory = MovieFactory()
     private val MOVIE = factory.create()
@@ -34,7 +31,7 @@ class MovieDetailsUseCaseTest : HasSchedulers {
     private val AUTH_FAILURE_RESULT = NetworkErrorFixtures.httpErrorResult<Unit>(401, AUTH_FAILURE_MESSAGE)
 
     private val LOADING_STATE = AsyncResult.loading(null)
-    private val SUCCESS_STATE = AsyncResult.success(MovieDetailsState(MOVIE, true))
+    private val SUCCESS_STATE = AsyncResult.success(MovieDetails(MOVIE, true))
 
     @Before
     fun setUp() {
@@ -42,49 +39,38 @@ class MovieDetailsUseCaseTest : HasSchedulers {
         repository = Mockito.mock(MoviesRepository::class.java)
         preferences = Mockito.mock(ApplicationPreferences::class.java)
         whenever(preferences.favorites).thenReturn(setOf(MOVIE_ID))
-        useCase = MovieDetailsUseCase(MOVIE_ID, repository, preferences)
-
-        snackbarObserver = useCase.snackbar.test()
+        useCase = MovieDetailsUseCase(repository, preferences)
         stubRepoToReturn(SUCCESS_RESULT)
-        viewStateObserver = useCase.movie.test()
-
-        useCase.start(SchedulerContext(ImmediateSchedulerFactory()))
-
     }
 
     @Test
     fun testSuccess() {
-        viewStateObserver.assertValues(LOADING_STATE, SUCCESS_STATE)
+        useCase.details(MOVIE_ID).test()
+                .assertValues(LOADING_STATE, SUCCESS_STATE)
     }
 
     @Test
     fun testFavorite() {
         whenever(repository.favorite(MOVIE_ID)).thenReturn(Observable.just(AsyncResult.success(Unit)))
 
-        useCase.favorite()
-
-        viewStateObserver.assertValues(LOADING_STATE, SUCCESS_STATE, LOADING_STATE, SUCCESS_STATE)
-        snackbarObserver.assertValue(MovieDetailsSnackbar.FavoriteAdded)
+        useCase.favorite(MOVIE_ID).test()
+                .assertValues(AsyncResult.success(FavoriteResult.Success))
     }
 
     @Test
     fun testUnfavorite() {
         whenever(repository.unfavorite(MOVIE_ID)).thenReturn(Observable.just(AsyncResult.success(Unit)))
 
-        useCase.unfavorite()
-
-        viewStateObserver.assertValues(LOADING_STATE, SUCCESS_STATE, LOADING_STATE, SUCCESS_STATE)
-        snackbarObserver.assertValue(MovieDetailsSnackbar.FavoriteRemoved)
+        useCase.unfavorite(MOVIE_ID).test()
+                .assertValues(AsyncResult.success(FavoriteResult.Success))
     }
 
     @Test
     fun testSignedOut() {
         whenever(repository.favorite(MOVIE_ID)).thenReturn(Observable.just(AUTH_FAILURE_RESULT))
 
-        useCase.favorite()
-
-        viewStateObserver.assertValues(LOADING_STATE, SUCCESS_STATE, LOADING_STATE, SUCCESS_STATE)
-        snackbarObserver.assertValue(MovieDetailsSnackbar.SignedOut)
+        useCase.favorite(MOVIE_ID).test()
+                .assertValues(AsyncResult.success(FavoriteResult.SignedOut))
     }
 
     private fun stubRepoToReturn(result: AsyncResult<Movie>) {

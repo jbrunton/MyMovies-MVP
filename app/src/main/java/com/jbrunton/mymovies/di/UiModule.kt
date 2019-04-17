@@ -28,11 +28,11 @@ val UiModule = module {
     factory { LoginViewModel(get()) }
     factory { LoginViewStateFactory(get()) }
 
-    factory { SearchUseCase(get()) }
+    factory { SearchUseCase(get(), get()) }
     factory { SearchViewModel(get()) }
     factory { SearchViewStateFactory(get()) }
 
-    factory { (movieId: String) -> MovieDetailsUseCase(movieId, get(), get()) }
+    factory { MovieDetailsUseCase(get(), get()) }
     factory { (movieId: String) -> MovieDetailsViewModel(movieId, get()) }
     factory { MovieDetailsViewStateFactory(get()) }
 
