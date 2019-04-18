@@ -31,6 +31,11 @@ dependencies {
     implementation libs.rx.core
     implementation libs.rx.android
 
+    testImplementation libs.test.core
+    testImplementation libs.test.android
+    androidTestImplementation libs.test.core
+    androidTestImplementation libs.test.android
+
     implementation 'com.android.support:appcompat-v7:28.0.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
