@@ -85,3 +85,13 @@ detekt {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+task('allUnitTests') {
+    rootProject.subprojects {
+        def testTasks = it.getTasksByName("testDebugUnitTest", false)
+        if (testTasks.isEmpty()) {
+            testTasks = it.getTasksByName("test", false)
+        }
+        testTasks.each { dependsOn it }
+    }
+}
