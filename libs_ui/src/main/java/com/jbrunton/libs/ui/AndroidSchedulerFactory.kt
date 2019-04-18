@@ -1,4 +1,4 @@
-package com.jbrunton.mymovies.ui.shared
+package com.jbrunton.libs.ui
 
 import com.jbrunton.entities.SchedulerFactory
 import io.reactivex.android.schedulers.AndroidSchedulers

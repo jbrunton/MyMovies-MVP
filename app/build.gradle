@@ -50,6 +50,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation project(':entities')
+    implementation project(':libs_ui')
     implementation project(':app-usecases')
     implementation project(':networking')
 
