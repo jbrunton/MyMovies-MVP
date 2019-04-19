@@ -2,7 +2,7 @@ package com.jbrunton.mymovies.ui.search
 
 import android.view.View
 import com.jbrunton.mymovies.R
-import com.jbrunton.mymovies.ui.shared.BaseLoadingViewController
+import com.jbrunton.libs.ui.BaseLoadingViewController
 import kotlinx.android.synthetic.main.fragment_search.*
 
 class SearchViewController: BaseLoadingViewController<SearchViewState>()
