@@ -7,12 +7,12 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
 import com.jbrunton.inject.HasContainer
 import com.jbrunton.inject.inject
+import com.jbrunton.libs.ui.NavigationRequest
+import com.jbrunton.libs.ui.NavigationRequestListener
+import com.jbrunton.libs.ui.Navigator
 import com.jbrunton.mymovies.di.ActivityModule
 import com.jbrunton.mymovies.helpers.observe
 import com.jbrunton.mymovies.nav.NavigationController
-import com.jbrunton.mymovies.nav.Navigator
-import com.jbrunton.mymovies.usecases.nav.NavigationRequest
-import com.jbrunton.mymovies.usecases.nav.NavigationRequestListener
 import io.reactivex.ObservableTransformer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers

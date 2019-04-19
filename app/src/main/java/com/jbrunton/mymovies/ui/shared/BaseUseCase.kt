@@ -1,8 +1,8 @@
-package com.jbrunton.mymovies.usecases
+package com.jbrunton.mymovies.ui.shared
 
 import com.jbrunton.entities.HasSchedulers
 import com.jbrunton.entities.SchedulerContext
-import com.jbrunton.mymovies.usecases.nav.NavigationRequest
+import com.jbrunton.libs.ui.NavigationRequest
 import io.reactivex.subjects.PublishSubject
 
 open class BaseUseCase : HasSchedulers {

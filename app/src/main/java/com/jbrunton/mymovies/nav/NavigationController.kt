@@ -2,7 +2,8 @@ package com.jbrunton.mymovies.nav
 
 import android.content.Intent
 import androidx.fragment.app.FragmentActivity
-import com.jbrunton.entities.models.Genre
+import com.jbrunton.libs.ui.NavigationRequest
+import com.jbrunton.libs.ui.Navigator
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.ui.account.AccountFragment
 import com.jbrunton.mymovies.ui.account.favorites.FavoritesActivity
@@ -10,17 +11,16 @@ import com.jbrunton.mymovies.ui.auth.LoginActivity
 import com.jbrunton.mymovies.ui.discover.DiscoverFragment
 import com.jbrunton.mymovies.ui.main.MainActivity
 import com.jbrunton.mymovies.ui.search.SearchFragment
-import com.jbrunton.mymovies.usecases.nav.NavigationRequest
-import com.jbrunton.mymovies.usecases.nav.NavigationResult
 
 class NavigationController(val activity: FragmentActivity, val navigator: Navigator) {
     fun navigate(request: NavigationRequest) = when (request) {
-        is NavigationRequest.SearchRequest -> showSearch()
-        is NavigationRequest.DiscoverRequest -> showDiscover()
-        is NavigationRequest.AccountRequest -> showAccount()
+        is SearchRequest -> showSearch()
+        is DiscoverRequest -> showDiscover()
+        is AccountRequest -> showAccount()
 
-        is NavigationRequest.FavoritesRequest -> startFavoritesActivity()
-        is NavigationRequest.LoginRequest -> startLoginActivity()
+        is FavoritesRequest -> startFavoritesActivity()
+        is LoginRequest -> startLoginActivity()
+        else -> throw IllegalArgumentException("Unexpected navigation request: ${request}")
     }
 
     fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -28,7 +28,7 @@ class NavigationController(val activity: FragmentActivity, val navigator: Naviga
             LoginActivity.LOGIN_REQUEST -> {
                 if (resultCode == LoginActivity.LOGIN_SUCCESSFUL) {
                     val authSession = LoginActivity.fromIntent(data!!)
-                    val result = NavigationResult.LoginSuccess(authSession)
+                    val result = LoginSuccess(authSession)
                     navigator.onNavigationResult(result)
                 }
             }

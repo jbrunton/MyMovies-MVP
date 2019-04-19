@@ -1,12 +1,20 @@
-package com.jbrunton.mymovies.nav
+package com.jbrunton.libs.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
-import com.jbrunton.mymovies.usecases.nav.NavigationRequest
-import com.jbrunton.mymovies.usecases.nav.NavigationRequestListener
-import com.jbrunton.mymovies.usecases.nav.NavigationResult
-import com.jbrunton.mymovies.usecases.nav.NavigationResultListener
 import java.util.*
+
+interface NavigationRequest
+
+interface NavigationResult
+
+interface NavigationRequestListener {
+    fun onNavigationRequest(request: NavigationRequest)
+}
+
+interface NavigationResultListener {
+    fun onNavigationResult(result: NavigationResult)
+}
 
 class Navigator {
     private val requestListeners = LinkedList<NavigationRequestListener>()

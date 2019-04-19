@@ -10,10 +10,9 @@ import com.jbrunton.entities.subscribe
 import com.jbrunton.inject.Container
 import com.jbrunton.inject.HasContainer
 import com.jbrunton.inject.inject
-import com.jbrunton.mymovies.nav.Navigator
-import com.jbrunton.mymovies.usecases.BaseUseCase
-import com.jbrunton.mymovies.usecases.nav.NavigationResult
-import com.jbrunton.mymovies.usecases.nav.NavigationResultListener
+import com.jbrunton.libs.ui.NavigationResult
+import com.jbrunton.libs.ui.NavigationResultListener
+import com.jbrunton.libs.ui.Navigator
 
 abstract class BaseViewModel(override val container: Container) : ViewModel(),
         HasSchedulers, HasContainer, NavigationResultListener
