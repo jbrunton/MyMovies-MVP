@@ -4,7 +4,7 @@ import android.content.Context
 import com.jbrunton.async.AsyncResult
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.ui.shared.LoadingViewState
-import com.jbrunton.mymovies.ui.shared.SnackbarEvent
+import com.jbrunton.libs.ui.SnackbarEvent
 import com.jbrunton.mymovies.usecases.moviedetails.MovieDetails
 
 class MovieDetailsViewStateFactory(val context: Context) {
@@ -14,16 +14,18 @@ class MovieDetailsViewStateFactory(val context: Context) {
         }
     }
 
-    val FavoriteAddedEvent = { action: () -> Unit -> SnackbarEvent(
-            context.getString(R.string.added_to_favorites),
-            context.getString(R.string.snackbar_undo),
-            action)
+    val FavoriteAddedEvent = { action: () -> Unit ->
+        SnackbarEvent(
+                context.getString(R.string.added_to_favorites),
+                context.getString(R.string.snackbar_undo),
+                action)
     }
 
-    val FavoriteRemovedEvent = { action: () -> Unit -> SnackbarEvent(
-            context.getString(R.string.removed_from_favorites),
-            context.getString(R.string.snackbar_undo),
-            action)
+    val FavoriteRemovedEvent = { action: () -> Unit ->
+        SnackbarEvent(
+                context.getString(R.string.removed_from_favorites),
+                context.getString(R.string.snackbar_undo),
+                action)
     }
 
     val SignedOutEvent = SnackbarEvent(

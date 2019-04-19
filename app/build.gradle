@@ -61,20 +61,15 @@ dependencies {
     implementation libs.kotlin.android
     implementation libs.rx.core
     implementation libs.rx.android
+    implementation libs.inject.core
+    implementation libs.inject.android
 
     testImplementation libs.test.core
     testImplementation libs.test.android
     androidTestImplementation libs.test.core
     androidTestImplementation libs.test.android
 
-    implementation 'com.github.jbrunton:mini-container:0.2.0'
-    implementation 'com.github.jbrunton:mini-container-android:0.2.0'
-
-    implementation 'com.google.android.material:material:1.0.0-rc02'
-    implementation 'androidx.appcompat:appcompat:1.0.0-rc02'
-    implementation 'androidx.recyclerview:recyclerview:1.0.0-rc02'
-    implementation 'androidx.cardview:cardview:1.0.0-rc02'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha2'
+    implementation libs.android.material
 
     def lifecycle_version = "2.0.0"
 

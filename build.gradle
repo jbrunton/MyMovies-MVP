@@ -33,6 +33,20 @@ buildscript {
                                 "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinx_coroutines_version"
                         ],
                         android: "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlinx_coroutines_version"
+                ],
+                inject: [
+                        core: 'com.github.jbrunton:mini-container:0.2.0',
+                        android: 'com.github.jbrunton:mini-container-android:0.2.0'
+
+                ],
+                android: [
+                        material: [
+                                'com.google.android.material:material:1.0.0-rc02',
+                                'androidx.appcompat:appcompat:1.0.0-rc02',
+                                'androidx.recyclerview:recyclerview:1.0.0-rc02',
+                                'androidx.cardview:cardview:1.0.0-rc02',
+                                'androidx.constraintlayout:constraintlayout:2.0.0-alpha2'
+                        ]
                 ]
         ]
     }

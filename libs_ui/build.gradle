@@ -33,6 +33,10 @@ dependencies {
     implementation libs.kotlin.android
     implementation libs.rx.core
     implementation libs.rx.android
+    implementation libs.inject.core
+    implementation libs.inject.android
+
+    implementation libs.android.material
 
     testImplementation libs.test.core
     testImplementation libs.test.android

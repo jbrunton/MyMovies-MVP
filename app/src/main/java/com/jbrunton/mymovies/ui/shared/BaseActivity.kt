@@ -7,10 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
 import com.jbrunton.inject.HasContainer
 import com.jbrunton.inject.inject
-import com.jbrunton.libs.ui.NavigationRequest
-import com.jbrunton.libs.ui.NavigationRequestListener
-import com.jbrunton.libs.ui.Navigator
-import com.jbrunton.libs.ui.ViewModelLifecycle
+import com.jbrunton.libs.ui.*
 import com.jbrunton.mymovies.di.ActivityModule
 import com.jbrunton.mymovies.helpers.observe
 import com.jbrunton.mymovies.nav.NavigationController

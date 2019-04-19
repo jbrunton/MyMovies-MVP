@@ -1,4 +1,4 @@
-package com.jbrunton.mymovies.ui.shared
+package com.jbrunton.libs.ui
 
 import com.google.android.material.snackbar.Snackbar
 
