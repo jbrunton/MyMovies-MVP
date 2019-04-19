@@ -1,10 +1,9 @@
-package com.jbrunton.mymovies.ui.shared
+package com.jbrunton.libs.ui
 
 import androidx.annotation.MainThread
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import java.lang.IllegalStateException
 import java.util.concurrent.atomic.AtomicBoolean
 
 

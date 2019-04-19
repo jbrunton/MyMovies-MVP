@@ -10,9 +10,7 @@ import com.jbrunton.entities.subscribe
 import com.jbrunton.inject.Container
 import com.jbrunton.inject.HasContainer
 import com.jbrunton.inject.inject
-import com.jbrunton.libs.ui.NavigationResult
-import com.jbrunton.libs.ui.NavigationResultListener
-import com.jbrunton.libs.ui.Navigator
+import com.jbrunton.libs.ui.*
 
 abstract class BaseViewModel(override val container: Container) : ViewModel(),
         HasSchedulers, HasContainer, NavigationResultListener

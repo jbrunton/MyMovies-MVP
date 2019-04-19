@@ -10,7 +10,7 @@ import com.jbrunton.inject.Container
 import com.jbrunton.inject.inject
 import com.jbrunton.inject.parametersOf
 import com.jbrunton.mymovies.ui.shared.BaseLoadingViewModel
-import com.jbrunton.mymovies.ui.shared.SingleLiveEvent
+import com.jbrunton.libs.ui.SingleLiveEvent
 import com.jbrunton.mymovies.usecases.auth.LoginState
 import com.jbrunton.mymovies.usecases.auth.LoginUseCase
 import com.jbrunton.networking.parseStatusMessage

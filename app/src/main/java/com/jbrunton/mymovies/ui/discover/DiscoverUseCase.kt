@@ -11,7 +11,7 @@ import com.jbrunton.entities.repositories.DataStream
 import com.jbrunton.entities.repositories.GenresRepository
 import com.jbrunton.entities.repositories.MoviesRepository
 import com.jbrunton.entities.safelySubscribe
-import com.jbrunton.mymovies.ui.shared.BaseUseCase
+import com.jbrunton.libs.ui.BaseUseCase
 import com.jbrunton.mymovies.usecases.discover.DiscoverState
 import io.reactivex.Observable
 import io.reactivex.rxkotlin.Observables
