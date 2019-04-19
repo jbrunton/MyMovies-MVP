@@ -1,7 +1,7 @@
 package com.jbrunton.mymovies.ui.shared
 
 import android.view.View
-import kotlinx.android.synthetic.main.layout_loading_state.*
+import com.jbrunton.libs.ui.ViewController
 
 abstract class BaseLoadingViewController<T>: ViewController<LoadingViewState<T>>() {
     abstract val contentView: View

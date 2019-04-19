@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import com.jbrunton.inject.Container
 import com.jbrunton.inject.HasContainer
+import com.jbrunton.libs.ui.ViewModelLifecycle
 import kotlinx.coroutines.CoroutineScope
 import kotlin.coroutines.CoroutineContext
 
