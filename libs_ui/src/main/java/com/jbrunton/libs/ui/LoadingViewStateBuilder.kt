@@ -1,4 +1,4 @@
-package com.jbrunton.mymovies.ui.shared
+package com.jbrunton.libs.ui
 
 import com.jbrunton.async.AsyncResult
 import com.jbrunton.async.flatMap

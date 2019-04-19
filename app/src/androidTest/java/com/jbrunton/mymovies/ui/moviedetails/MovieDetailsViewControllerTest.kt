@@ -13,7 +13,7 @@ import com.jbrunton.mymovies.fixtures.ProgressBarViewActions
 import com.jbrunton.mymovies.fixtures.rules.ViewControllerTestRule
 import com.jbrunton.mymovies.fixtures.rules.takeScreenshot
 import com.jbrunton.mymovies.ui.shared.LoadingViewStateError
-import com.jbrunton.mymovies.ui.shared.toLoadingViewState
+import com.jbrunton.libs.ui.toLoadingViewState
 import org.junit.Rule
 import org.junit.Test
 

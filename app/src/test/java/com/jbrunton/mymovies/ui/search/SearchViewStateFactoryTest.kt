@@ -4,7 +4,7 @@ import android.content.Context
 import com.jbrunton.async.AsyncResult
 import com.jbrunton.fixtures.MovieFactory
 import com.jbrunton.mymovies.R
-import com.jbrunton.mymovies.ui.shared.toLoadingViewState
+import com.jbrunton.libs.ui.toLoadingViewState
 import com.jbrunton.mymovies.usecases.search.SearchState
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock

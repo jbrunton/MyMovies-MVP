@@ -3,7 +3,7 @@ package com.jbrunton.mymovies.ui.moviedetails
 import android.content.Context
 import com.jbrunton.async.AsyncResult
 import com.jbrunton.mymovies.R
-import com.jbrunton.mymovies.ui.shared.LoadingViewState
+import com.jbrunton.libs.ui.LoadingViewState
 import com.jbrunton.libs.ui.SnackbarEvent
 import com.jbrunton.mymovies.usecases.moviedetails.MovieDetails
 

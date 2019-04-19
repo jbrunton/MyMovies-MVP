@@ -1,4 +1,4 @@
-package com.jbrunton.mymovies.ui.shared
+package com.jbrunton.libs.ui
 
 import android.view.View
 import androidx.annotation.DrawableRes
@@ -29,13 +29,17 @@ data class LoadingViewState<T>(
                 errorCaseVisibility = View.VISIBLE,
                 errorText = error.message,
                 errorIcon = error.errorIcon,
-                allowRetryVisibility = if (error.allowRetry) { View.VISIBLE } else { View.GONE },
+                allowRetryVisibility = if (error.allowRetry) {
+                    View.VISIBLE
+                } else {
+                    View.GONE
+                },
                 contentViewState = emptyState
         )
 
         fun <T> failure(error: Throwable, emptyState: T) = when (error) {
-            is LoadingViewStateError -> failure(error, emptyState)
-            is NetworkError -> failure(error.toLoadingViewStateError(), emptyState)
+            is LoadingViewStateError -> Companion.failure(error, emptyState)
+            is NetworkError -> Companion.failure(error.toLoadingViewStateError(), emptyState)
             else -> throw error
         }
 
@@ -52,10 +56,10 @@ fun <T> AsyncResult<T>.toLoadingViewState(emptyState: T): LoadingViewState<T> {
                 it.useCachedValue()
             }
             .onError(NetworkError::class) {
-                use { LoadingViewState.failure(it.error, emptyState) }
+                use { LoadingViewState.Companion.failure(it.error, emptyState) }
             }
             .onError(LoadingViewStateError::class) {
-                use { LoadingViewState.failure(it.error, emptyState) }
+                use { LoadingViewState.Companion.failure(it.error, emptyState) }
             }
             .get()
 }

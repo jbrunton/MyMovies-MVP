@@ -1,8 +1,7 @@
-package com.jbrunton.mymovies.ui.shared
+package com.jbrunton.libs.ui
 
 import androidx.annotation.DrawableRes
 import com.jbrunton.entities.errors.NetworkError
-import com.jbrunton.mymovies.R
 
 data class LoadingViewStateError(
         override val message: String,

@@ -1,7 +1,7 @@
 package com.jbrunton.mymovies.ui.account
 
 import com.jbrunton.async.AsyncResult
-import com.jbrunton.mymovies.ui.shared.LoadingViewState
+import com.jbrunton.libs.ui.LoadingViewState
 import com.jbrunton.mymovies.usecases.account.AccountState
 
 object AccountViewStateFactory {

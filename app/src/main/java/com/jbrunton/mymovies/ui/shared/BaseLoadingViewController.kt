@@ -1,6 +1,7 @@
 package com.jbrunton.mymovies.ui.shared
 
 import android.view.View
+import com.jbrunton.libs.ui.LoadingViewState
 import com.jbrunton.libs.ui.ViewController
 import kotlinx.android.synthetic.main.layout_loading_state.*
 
