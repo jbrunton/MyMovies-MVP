@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.jbrunton.inject.injectViewModel
 import com.jbrunton.mymovies.helpers.observe
 import com.jbrunton.mymovies.ui.shared.BaseFragment
-import com.jbrunton.mymovies.ui.shared.onTextChanged
+import com.jbrunton.libs.ui.onTextChanged
 import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.android.synthetic.main.layout_loading_state.*
 

@@ -1,4 +1,4 @@
-package com.jbrunton.mymovies.ui.shared
+package com.jbrunton.libs.ui
 
 import android.view.LayoutInflater
 import android.view.View

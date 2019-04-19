@@ -8,7 +8,7 @@ import com.jbrunton.libs.ui.NavigationResult
 import com.jbrunton.mymovies.nav.FavoritesRequest
 import com.jbrunton.mymovies.nav.LoginRequest
 import com.jbrunton.mymovies.nav.LoginSuccess
-import com.jbrunton.mymovies.ui.shared.BaseLoadingViewModel
+import com.jbrunton.libs.ui.BaseLoadingViewModel
 import com.jbrunton.mymovies.usecases.account.AccountState
 import com.jbrunton.mymovies.usecases.account.AccountUseCase
 

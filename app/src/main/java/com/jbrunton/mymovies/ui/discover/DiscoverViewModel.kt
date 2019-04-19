@@ -4,7 +4,7 @@ import com.jbrunton.entities.models.Genre
 import com.jbrunton.entities.subscribe
 import com.jbrunton.inject.Container
 import com.jbrunton.inject.inject
-import com.jbrunton.mymovies.ui.shared.BaseLoadingViewModel
+import com.jbrunton.libs.ui.BaseLoadingViewModel
 
 class DiscoverViewModel(container: Container) : BaseLoadingViewModel<DiscoverViewState>(container) {
     val useCase: DiscoverUseCase by inject()

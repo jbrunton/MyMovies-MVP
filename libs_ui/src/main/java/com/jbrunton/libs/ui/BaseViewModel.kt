@@ -1,4 +1,4 @@
-package com.jbrunton.mymovies.ui.shared
+package com.jbrunton.libs.ui
 
 import androidx.annotation.DrawableRes
 import androidx.lifecycle.ViewModel
@@ -10,7 +10,6 @@ import com.jbrunton.entities.subscribe
 import com.jbrunton.inject.Container
 import com.jbrunton.inject.HasContainer
 import com.jbrunton.inject.inject
-import com.jbrunton.libs.ui.*
 
 abstract class BaseViewModel(override val container: Container) : ViewModel(),
         HasSchedulers, HasContainer, NavigationResultListener
