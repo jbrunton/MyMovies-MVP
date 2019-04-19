@@ -1,4 +1,4 @@
-package com.jbrunton.mymovies.ui.shared
+package com.jbrunton.libs.ui
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,10 +7,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
 import com.jbrunton.inject.HasContainer
 import com.jbrunton.inject.inject
-import com.jbrunton.libs.ui.*
-import com.jbrunton.mymovies.di.ActivityModule
-import com.jbrunton.mymovies.helpers.observe
-import com.jbrunton.mymovies.nav.NavigationController
 import io.reactivex.ObservableTransformer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -23,9 +19,7 @@ abstract class BaseActivity<T : BaseViewModel> : AppCompatActivity(), HasContain
     abstract val viewModel: T
 
     override val container by lazy {
-        (applicationContext as HasContainer).container.createChildContainer().apply {
-            register(ActivityModule(this@BaseActivity))
-        }
+        (applicationContext as ActivityContainerFactory).createActivityContainer(this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

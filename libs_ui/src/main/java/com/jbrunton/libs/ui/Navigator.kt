@@ -1,5 +1,6 @@
 package com.jbrunton.libs.ui
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import java.util.*
@@ -14,6 +15,11 @@ interface NavigationRequestListener {
 
 interface NavigationResultListener {
     fun onNavigationResult(result: NavigationResult)
+}
+
+interface NavigationController {
+    fun navigate(request: NavigationRequest)
+    fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?)
 }
 
 class Navigator {

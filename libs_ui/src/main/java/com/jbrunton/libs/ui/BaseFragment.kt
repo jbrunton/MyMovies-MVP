@@ -1,11 +1,9 @@
-package com.jbrunton.mymovies.ui.shared
+package com.jbrunton.libs.ui
 
 import android.os.Bundle
 import android.view.View
 import com.jbrunton.inject.Container
 import com.jbrunton.inject.HasContainer
-import com.jbrunton.libs.ui.BaseViewModel
-import com.jbrunton.libs.ui.ViewModelLifecycle
 import kotlinx.coroutines.CoroutineScope
 import kotlin.coroutines.CoroutineContext
 

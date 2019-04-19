@@ -2,6 +2,7 @@ package com.jbrunton.mymovies.nav
 
 import android.content.Intent
 import androidx.fragment.app.FragmentActivity
+import com.jbrunton.libs.ui.NavigationController
 import com.jbrunton.libs.ui.NavigationRequest
 import com.jbrunton.libs.ui.Navigator
 import com.jbrunton.mymovies.R
@@ -12,8 +13,8 @@ import com.jbrunton.mymovies.ui.discover.DiscoverFragment
 import com.jbrunton.mymovies.ui.main.MainActivity
 import com.jbrunton.mymovies.ui.search.SearchFragment
 
-class NavigationController(val activity: FragmentActivity, val navigator: Navigator) {
-    fun navigate(request: NavigationRequest) = when (request) {
+class AppNavigationController(val activity: FragmentActivity, val navigator: Navigator): NavigationController {
+    override fun navigate(request: NavigationRequest) = when (request) {
         is SearchRequest -> showSearch()
         is DiscoverRequest -> showDiscover()
         is AccountRequest -> showAccount()
@@ -23,7 +24,7 @@ class NavigationController(val activity: FragmentActivity, val navigator: Naviga
         else -> throw IllegalArgumentException("Unexpected navigation request: ${request}")
     }
 
-    fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         when (requestCode) {
             LoginActivity.LOGIN_REQUEST -> {
                 if (resultCode == LoginActivity.LOGIN_SUCCESSFUL) {

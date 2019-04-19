@@ -2,10 +2,10 @@ package com.jbrunton.mymovies.ui.main
 
 import android.view.MenuItem
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.jbrunton.libs.ui.NavigationController
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.nav.AccountRequest
 import com.jbrunton.mymovies.nav.DiscoverRequest
-import com.jbrunton.mymovies.nav.NavigationController
 import com.jbrunton.mymovies.nav.SearchRequest
 
 class BottomNavigationAdapter(
