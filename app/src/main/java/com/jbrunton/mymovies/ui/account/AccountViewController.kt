@@ -1,5 +1,6 @@
 package com.jbrunton.mymovies.ui.account
 
+import com.jbrunton.features.account.AccountViewState
 import com.jbrunton.libs.ui.BaseLoadingViewController
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.helpers.PicassoHelper

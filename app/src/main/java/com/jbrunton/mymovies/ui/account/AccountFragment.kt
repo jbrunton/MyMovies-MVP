@@ -35,6 +35,6 @@ class AccountFragment : BaseFragment<AccountViewModel>() {
     }
 
     override fun onObserveData() {
-        viewModel.viewState.observe(viewLifecycleOwner, viewController::updateView)
+        viewModel.viewState.observe(viewLifecycleOwner) { viewController.updateView(it) }
     }
 }

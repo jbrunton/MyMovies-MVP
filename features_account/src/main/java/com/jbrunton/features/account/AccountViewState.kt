@@ -1,4 +1,4 @@
-package com.jbrunton.mymovies.ui.account
+package com.jbrunton.features.account
 
 import android.view.View
 import com.jbrunton.entities.models.Account
