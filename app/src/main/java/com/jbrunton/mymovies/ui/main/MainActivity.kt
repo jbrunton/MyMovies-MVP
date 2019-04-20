@@ -4,8 +4,8 @@ import android.os.Bundle
 import com.crashlytics.android.Crashlytics
 import com.jbrunton.inject.injectViewModel
 import com.jbrunton.mymovies.R
-import com.jbrunton.mymovies.usecases.nav.NavigationRequest
-import com.jbrunton.mymovies.ui.shared.BaseActivity
+import com.jbrunton.mymovies.nav.SearchRequest
+import com.jbrunton.libs.ui.BaseActivity
 import io.fabric.sdk.android.Fabric
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -18,7 +18,7 @@ class MainActivity : BaseActivity<MainViewModel>() {
         Fabric.with(this, Crashlytics())
 
         if (savedInstanceState == null) {
-            navigationController.navigate(NavigationRequest.SearchRequest)
+            navigationController.navigate(SearchRequest)
         }
     }
 

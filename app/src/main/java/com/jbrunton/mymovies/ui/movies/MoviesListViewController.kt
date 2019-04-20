@@ -1,13 +1,14 @@
 package com.jbrunton.mymovies.ui.movies
 
 import android.view.View
+import com.jbrunton.libs.ui.BaseLoadingViewController
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.ui.search.SearchResultsAdapter
 import com.jbrunton.mymovies.ui.search.SearchViewState
-import com.jbrunton.mymovies.ui.shared.BaseLoadingViewController
+import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.activity_genre_results.*
 
-class MoviesListViewController : BaseLoadingViewController<SearchViewState>() {
+class MoviesListViewController : BaseLoadingViewController<SearchViewState>(), LayoutContainer {
     override val layout = R.layout.activity_favorites
     override val contentView: View get() = movies_list
     private lateinit var moviesAdapter: SearchResultsAdapter

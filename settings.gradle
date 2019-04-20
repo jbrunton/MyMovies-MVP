@@ -1,1 +1,1 @@
-include ':app', ':entities', ':fixtures', ':networking', ':app-usecases'
+include ':app', ':entities', ':fixtures', ':networking', ':app-usecases', ':libs_ui'

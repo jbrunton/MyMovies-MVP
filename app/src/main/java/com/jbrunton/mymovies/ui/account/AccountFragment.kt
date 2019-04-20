@@ -6,11 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import com.jbrunton.inject.injectViewModel
-import com.jbrunton.mymovies.helpers.observe
-import com.jbrunton.mymovies.ui.shared.BaseFragment
+import com.jbrunton.libs.ui.BaseFragment
+import com.jbrunton.libs.ui.observe
 import kotlinx.android.synthetic.main.fragment_account.*
 import kotlinx.android.synthetic.main.layout_account_details.*
-import kotlinx.android.synthetic.main.layout_loading_state.*
 
 
 class AccountFragment : BaseFragment<AccountViewModel>() {
@@ -29,7 +28,7 @@ class AccountFragment : BaseFragment<AccountViewModel>() {
     }
 
     override fun onBindListeners() {
-        error_try_again.setOnClickListener { viewModel.retry() }
+        viewController.error_try_again.setOnClickListener { viewModel.retry() }
         sign_in.setOnClickListener { viewModel.onSignInClicked() }
         sign_out.setOnClickListener { viewModel.onSignOutClicked() }
         favorites.setOnClickListener { viewModel.onFavoritesClicked() }

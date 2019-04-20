@@ -2,14 +2,15 @@ package com.jbrunton.mymovies.ui.moviedetails
 
 import android.text.Html
 import android.view.View
+import com.jbrunton.libs.ui.BaseLoadingViewController
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.helpers.PicassoHelper
-import com.jbrunton.mymovies.ui.shared.BaseLoadingViewController
+import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.activity_movie_details.*
 import kotlinx.android.synthetic.main.content_movie_details.*
 import kotlinx.android.synthetic.main.item_movie_card_list.*
 
-class MovieDetailsViewController : BaseLoadingViewController<MovieDetailsViewState>() {
+class MovieDetailsViewController : BaseLoadingViewController<MovieDetailsViewState>(), LayoutContainer {
     override val layout = R.layout.activity_movie_details
     override val contentView: View get() = movie_details
     private val picassoHelper = PicassoHelper()

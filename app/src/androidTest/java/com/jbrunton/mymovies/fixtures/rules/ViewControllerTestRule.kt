@@ -1,7 +1,7 @@
 package com.jbrunton.mymovies.fixtures.rules
 
 import androidx.appcompat.app.AppCompatActivity
-import com.jbrunton.mymovies.ui.shared.ViewController
+import com.jbrunton.libs.ui.ViewController
 
 class ViewControllerTestRule<T>(
         val viewController: ViewController<T>,

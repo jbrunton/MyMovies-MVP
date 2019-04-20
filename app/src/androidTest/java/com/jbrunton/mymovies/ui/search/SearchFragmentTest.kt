@@ -16,7 +16,7 @@ import com.jbrunton.mymovies.fixtures.RecyclerViewUtils.withRecyclerView
 import com.jbrunton.mymovies.fixtures.rules.container
 import com.jbrunton.mymovies.fixtures.repositories.stubSearch
 import com.jbrunton.mymovies.fixtures.rules.takeScreenshot
-import com.jbrunton.mymovies.ui.shared.DebounceTextWatcher
+import com.jbrunton.libs.ui.DebounceTextWatcher
 import kotlinx.coroutines.test.TestCoroutineContext
 import org.junit.Rule
 import org.junit.Test

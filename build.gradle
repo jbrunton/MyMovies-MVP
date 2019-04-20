@@ -5,6 +5,10 @@ buildscript {
         kotlin_version = '1.3.0'
         kotlinx_coroutines_version = '1.0.1'
 
+        android_min_sdk = 24
+        android_target_sdk = 27
+        android_compile_sdk = 28
+
         libs = [
                 rx: [
                         core: [
@@ -20,7 +24,11 @@ buildscript {
                                 'org.mockito:mockito-core:2.8.47',
                                 'com.nhaarman:mockito-kotlin:1.5.0',
                         ],
-                        android: 'org.mockito:mockito-android:2.13.0'
+                        android: [
+                                'org.mockito:mockito-android:2.13.0',
+                                'com.android.support.test:rules:1.0.2',
+                                'com.android.support.test:runner:1.0.2'
+                        ],
                 ],
                 kotlin: [
                         core: [
@@ -29,6 +37,20 @@ buildscript {
                                 "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinx_coroutines_version"
                         ],
                         android: "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlinx_coroutines_version"
+                ],
+                inject: [
+                        core: 'com.github.jbrunton:mini-container:0.2.0',
+                        android: 'com.github.jbrunton:mini-container-android:0.2.0'
+
+                ],
+                android: [
+                        material: [
+                                'com.google.android.material:material:1.0.0-rc02',
+                                'androidx.appcompat:appcompat:1.0.0-rc02',
+                                'androidx.recyclerview:recyclerview:1.0.0-rc02',
+                                'androidx.cardview:cardview:1.0.0-rc02',
+                                'androidx.constraintlayout:constraintlayout:2.0.0-alpha2'
+                        ]
                 ]
         ]
     }
@@ -84,4 +106,14 @@ detekt {
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+task('allUnitTests') {
+    rootProject.subprojects {
+        def testTasks = it.getTasksByName("testDebugUnitTest", false)
+        if (testTasks.isEmpty()) {
+            testTasks = it.getTasksByName("test", false)
+        }
+        testTasks.each { dependsOn it }
+    }
 }

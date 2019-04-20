@@ -18,11 +18,11 @@ apply plugin: 'kotlin-android'
 apply plugin: 'com.google.gms.google-services'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion android_compile_sdk
     defaultConfig {
         applicationId "com.jbrunton.mymovies"
-        minSdkVersion 24
-        targetSdkVersion 27
+        minSdkVersion android_min_sdk
+        targetSdkVersion android_target_sdk
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "com.jbrunton.mymovies.fixtures.TestRunner"
@@ -50,6 +50,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation project(':entities')
+    implementation project(':libs_ui')
     implementation project(':app-usecases')
     implementation project(':networking')
 
@@ -60,20 +61,15 @@ dependencies {
     implementation libs.kotlin.android
     implementation libs.rx.core
     implementation libs.rx.android
+    implementation libs.inject.core
+    implementation libs.inject.android
 
     testImplementation libs.test.core
     testImplementation libs.test.android
     androidTestImplementation libs.test.core
     androidTestImplementation libs.test.android
 
-    implementation 'com.github.jbrunton:mini-container:0.2.0'
-    implementation 'com.github.jbrunton:mini-container-android:0.2.0'
-
-    implementation 'com.google.android.material:material:1.0.0-rc02'
-    implementation 'androidx.appcompat:appcompat:1.0.0-rc02'
-    implementation 'androidx.recyclerview:recyclerview:1.0.0-rc02'
-    implementation 'androidx.cardview:cardview:1.0.0-rc02'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha2'
+    implementation libs.android.material
 
     def lifecycle_version = "2.0.0"
 
@@ -86,10 +82,7 @@ dependencies {
     })
     androidTestImplementation('androidx.test.espresso:espresso-contrib:3.1.0-alpha4')
     androidTestImplementation (name:'cloudtestingscreenshotter_lib', ext:'aar')
-
-    androidTestImplementation 'com.android.support.test:rules:1.0.2'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-
+    
     androidTestImplementation 'com.squareup.rx.idler:rx2-idler:0.9.0'
 
     implementation 'com.squareup.picasso:picasso:2.5.2'

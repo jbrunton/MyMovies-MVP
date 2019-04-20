@@ -4,11 +4,13 @@ import com.jbrunton.async.AsyncResult
 import com.jbrunton.entities.subscribe
 import com.jbrunton.inject.Container
 import com.jbrunton.inject.inject
-import com.jbrunton.mymovies.ui.shared.BaseLoadingViewModel
+import com.jbrunton.libs.ui.NavigationResult
+import com.jbrunton.mymovies.nav.FavoritesRequest
+import com.jbrunton.mymovies.nav.LoginRequest
+import com.jbrunton.mymovies.nav.LoginSuccess
+import com.jbrunton.libs.ui.BaseLoadingViewModel
 import com.jbrunton.mymovies.usecases.account.AccountState
 import com.jbrunton.mymovies.usecases.account.AccountUseCase
-import com.jbrunton.mymovies.usecases.nav.NavigationRequest
-import com.jbrunton.mymovies.usecases.nav.NavigationResult
 
 class AccountViewModel(container: Container) : BaseLoadingViewModel<AccountViewState>(container) {
     val useCase: AccountUseCase by inject()
@@ -25,7 +27,7 @@ class AccountViewModel(container: Container) : BaseLoadingViewModel<AccountViewS
 
     override fun onNavigationResult(result: NavigationResult) {
         when (result) {
-            is NavigationResult.LoginSuccess -> loadAccount()
+            is LoginSuccess -> loadAccount()
         }
     }
 
@@ -36,11 +38,11 @@ class AccountViewModel(container: Container) : BaseLoadingViewModel<AccountViewS
     }
 
     fun onSignInClicked() {
-        navigator.navigate(NavigationRequest.LoginRequest)
+        navigator.navigate(LoginRequest)
     }
 
     fun onFavoritesClicked() {
-        navigator.navigate(NavigationRequest.FavoritesRequest)
+        navigator.navigate(FavoritesRequest)
     }
 
     private fun loadAccount() {

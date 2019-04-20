@@ -7,13 +7,13 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.runner.AndroidJUnit4
 import com.jbrunton.async.AsyncResult
 import com.jbrunton.fixtures.MovieFactory
+import com.jbrunton.libs.ui.LoadingViewState
+import com.jbrunton.libs.ui.LoadingViewStateError
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.fixtures.ProgressBarViewActions
 import com.jbrunton.mymovies.fixtures.RecyclerViewUtils.withRecyclerView
 import com.jbrunton.mymovies.fixtures.rules.ViewControllerTestRule
 import com.jbrunton.mymovies.fixtures.rules.takeScreenshot
-import com.jbrunton.mymovies.ui.shared.LoadingViewState
-import com.jbrunton.mymovies.ui.shared.LoadingViewStateError
 import com.jbrunton.mymovies.usecases.search.SearchState
 import org.junit.Before
 import org.junit.Rule

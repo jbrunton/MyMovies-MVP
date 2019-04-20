@@ -5,8 +5,8 @@ import com.jbrunton.async.doOnSuccess
 import com.jbrunton.entities.subscribe
 import com.jbrunton.inject.Container
 import com.jbrunton.inject.inject
-import com.jbrunton.mymovies.ui.shared.BaseLoadingViewModel
-import com.jbrunton.mymovies.ui.shared.SnackbarEvent
+import com.jbrunton.libs.ui.BaseLoadingViewModel
+import com.jbrunton.libs.ui.SnackbarEvent
 import com.jbrunton.mymovies.usecases.moviedetails.FavoriteResult
 import com.jbrunton.mymovies.usecases.moviedetails.MovieDetailsUseCase
 

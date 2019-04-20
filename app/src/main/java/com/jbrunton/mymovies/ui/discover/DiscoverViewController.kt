@@ -3,12 +3,13 @@ package com.jbrunton.mymovies.ui.discover
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.chip.Chip
+import com.jbrunton.libs.ui.BaseLoadingViewController
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.ui.search.SearchResultsAdapter
-import com.jbrunton.mymovies.ui.shared.BaseLoadingViewController
+import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.fragment_discover.*
 
-class DiscoverViewController(val viewModel: DiscoverViewModel) : BaseLoadingViewController<DiscoverViewState>() {
+class DiscoverViewController(val viewModel: DiscoverViewModel) : BaseLoadingViewController<DiscoverViewState>(), LayoutContainer {
     override val layout = R.layout.fragment_discover
     override val contentView: View get() = discover_content
     private lateinit var nowPlayingAdapter: SearchResultsAdapter

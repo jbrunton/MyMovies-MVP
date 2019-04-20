@@ -3,7 +3,7 @@ package com.jbrunton.mymovies.ui.search
 import com.jbrunton.entities.subscribe
 import com.jbrunton.inject.Container
 import com.jbrunton.inject.inject
-import com.jbrunton.mymovies.ui.shared.BaseLoadingViewModel
+import com.jbrunton.libs.ui.BaseLoadingViewModel
 import com.jbrunton.mymovies.usecases.search.SearchUseCase
 
 class SearchViewModel(container: Container) : BaseLoadingViewModel<SearchViewState>(container) {
