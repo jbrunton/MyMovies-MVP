@@ -2,11 +2,9 @@ package com.jbrunton.mymovies.nav
 
 import android.content.Intent
 import androidx.fragment.app.FragmentActivity
-import com.jbrunton.libs.ui.NavigationController
-import com.jbrunton.libs.ui.NavigationRequest
-import com.jbrunton.libs.ui.Navigator
+import com.jbrunton.libs.ui.*
 import com.jbrunton.mymovies.R
-import com.jbrunton.mymovies.ui.account.AccountFragment
+import com.jbrunton.features.account.AccountFragment
 import com.jbrunton.mymovies.ui.account.favorites.FavoritesActivity
 import com.jbrunton.mymovies.ui.auth.LoginActivity
 import com.jbrunton.mymovies.ui.discover.DiscoverFragment

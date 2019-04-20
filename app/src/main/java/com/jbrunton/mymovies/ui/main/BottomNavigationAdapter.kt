@@ -4,9 +4,9 @@ import android.view.MenuItem
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.jbrunton.libs.ui.NavigationController
 import com.jbrunton.mymovies.R
-import com.jbrunton.mymovies.nav.AccountRequest
-import com.jbrunton.mymovies.nav.DiscoverRequest
-import com.jbrunton.mymovies.nav.SearchRequest
+import com.jbrunton.libs.ui.AccountRequest
+import com.jbrunton.libs.ui.DiscoverRequest
+import com.jbrunton.libs.ui.SearchRequest
 
 class BottomNavigationAdapter(
         val navigationController: NavigationController

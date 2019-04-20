@@ -1,16 +1,10 @@
-package com.jbrunton.mymovies.ui.account
+package com.jbrunton.features.account
 
 import com.jbrunton.async.AsyncResult
 import com.jbrunton.entities.subscribe
-import com.jbrunton.features.account.AccountViewState
-import com.jbrunton.features.account.AccountViewStateFactory
 import com.jbrunton.inject.Container
 import com.jbrunton.inject.inject
-import com.jbrunton.libs.ui.BaseLoadingViewModel
-import com.jbrunton.libs.ui.NavigationResult
-import com.jbrunton.mymovies.nav.FavoritesRequest
-import com.jbrunton.mymovies.nav.LoginRequest
-import com.jbrunton.mymovies.nav.LoginSuccess
+import com.jbrunton.libs.ui.*
 import com.jbrunton.mymovies.usecases.account.AccountState
 import com.jbrunton.mymovies.usecases.account.AccountUseCase
 

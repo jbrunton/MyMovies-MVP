@@ -1,8 +1,6 @@
-package com.jbrunton.mymovies.nav
+package com.jbrunton.libs.ui
 
 import com.jbrunton.entities.models.AuthSession
-import com.jbrunton.libs.ui.NavigationRequest
-import com.jbrunton.libs.ui.NavigationResult
 
 object SearchRequest : NavigationRequest
 object DiscoverRequest : NavigationRequest
