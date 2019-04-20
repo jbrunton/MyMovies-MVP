@@ -6,10 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import com.jbrunton.inject.injectViewModel
-import com.jbrunton.libs.ui.observe
 import com.jbrunton.libs.ui.BaseFragment
+import com.jbrunton.libs.ui.observe
 import kotlinx.android.synthetic.main.fragment_discover.*
-import kotlinx.android.synthetic.main.layout_loading_state.*
 
 class DiscoverFragment : BaseFragment<DiscoverViewModel>() {
     override val viewModel: DiscoverViewModel by injectViewModel()
@@ -26,7 +25,7 @@ class DiscoverFragment : BaseFragment<DiscoverViewModel>() {
     }
 
     override fun onBindListeners() {
-        error_try_again.setOnClickListener { viewModel.onRetryClicked() }
+        viewController.error_try_again.setOnClickListener { viewModel.onRetryClicked() }
     }
 
     override fun onObserveData() {

@@ -1,10 +1,17 @@
 package com.jbrunton.libs.ui
 
 import android.view.View
-import kotlinx.android.synthetic.main.layout_loading_state.*
+import android.widget.ImageView
+import android.widget.TextView
 
 abstract class BaseLoadingViewController<T>: ViewController<LoadingViewState<T>>() {
     abstract val contentView: View
+
+    val loading_indicator: View get() = containerView.findViewById(R.id.loading_indicator)
+    val error_case: View get() = containerView.findViewById(R.id.error_case)
+    val error_text: TextView get() = containerView.findViewById(R.id.error_text)
+    val error_try_again: View get() = containerView.findViewById(R.id.error_try_again)
+    val error_image: ImageView get() = containerView.findViewById(R.id.error_image)
 
     fun showLoadingIndicator() {
         contentView.visibility = View.GONE

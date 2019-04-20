@@ -4,12 +4,11 @@ import android.view.View
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import kotlinx.android.extensions.LayoutContainer
 
-abstract class ViewController<T>: LayoutContainer {
+abstract class ViewController<T> {
     abstract @get:LayoutRes val layout: Int
 
-    override lateinit var containerView: View
+    lateinit var containerView: View
     val context get() = containerView.context
 
     open fun bind(containerView: View) {
