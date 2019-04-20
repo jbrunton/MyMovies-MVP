@@ -7,7 +7,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import com.jbrunton.mymovies.R
-import com.jbrunton.mymovies.helpers.PicassoHelper
+import com.jbrunton.libs.ui.PicassoHelper
 import com.jbrunton.mymovies.ui.moviedetails.MovieDetailsActivity
 import com.jbrunton.mymovies.ui.movies.MovieSearchResultViewState
 import com.jbrunton.libs.ui.BaseRecyclerAdapter

@@ -1,4 +1,4 @@
-package com.jbrunton.mymovies.helpers
+package com.jbrunton.libs.ui
 
 import android.content.Context
 import android.widget.ImageView

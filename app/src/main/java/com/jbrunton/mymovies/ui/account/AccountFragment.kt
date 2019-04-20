@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import com.jbrunton.features.account.AccountViewController
 import com.jbrunton.inject.injectViewModel
 import com.jbrunton.libs.ui.BaseFragment
 import com.jbrunton.libs.ui.observe

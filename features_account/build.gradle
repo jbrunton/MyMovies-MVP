@@ -45,4 +45,6 @@ dependencies {
     testImplementation libs.test.android
     androidTestImplementation libs.test.core
     androidTestImplementation libs.test.android
+
+    implementation 'com.squareup.picasso:picasso:2.5.2'
 }

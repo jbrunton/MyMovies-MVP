@@ -4,7 +4,7 @@ import android.text.Html
 import android.view.View
 import com.jbrunton.libs.ui.BaseLoadingViewController
 import com.jbrunton.mymovies.R
-import com.jbrunton.mymovies.helpers.PicassoHelper
+import com.jbrunton.libs.ui.PicassoHelper
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.activity_movie_details.*
 import kotlinx.android.synthetic.main.content_movie_details.*
