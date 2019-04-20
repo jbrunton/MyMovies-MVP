@@ -3,6 +3,7 @@ package com.jbrunton.mymovies.ui.account
 import com.jbrunton.async.AsyncResult
 import com.jbrunton.entities.subscribe
 import com.jbrunton.features.account.AccountViewState
+import com.jbrunton.features.account.AccountViewStateFactory
 import com.jbrunton.inject.Container
 import com.jbrunton.inject.inject
 import com.jbrunton.libs.ui.BaseLoadingViewModel
