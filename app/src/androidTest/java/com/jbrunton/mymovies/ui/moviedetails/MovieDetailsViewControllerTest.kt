@@ -8,12 +8,12 @@ import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
 import com.jbrunton.async.AsyncResult
 import com.jbrunton.fixtures.MovieFactory
+import com.jbrunton.libs.ui.LoadingViewStateError
+import com.jbrunton.libs.ui.toLoadingViewState
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.fixtures.ProgressBarViewActions
 import com.jbrunton.mymovies.fixtures.rules.ViewControllerTestRule
 import com.jbrunton.mymovies.fixtures.rules.takeScreenshot
-import com.jbrunton.mymovies.ui.shared.LoadingViewStateError
-import com.jbrunton.libs.ui.toLoadingViewState
 import org.junit.Rule
 import org.junit.Test
 
