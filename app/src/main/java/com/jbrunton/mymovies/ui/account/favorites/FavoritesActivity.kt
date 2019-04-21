@@ -8,9 +8,11 @@ import com.jbrunton.mymovies.ui.movies.MoviesListViewController
 import kotlinx.android.synthetic.main.activity_genre_results.*
 
 class FavoritesActivity : BaseActivity<FavoritesViewModel>() {
-    private val layoutController = MoviesListViewController(R.layout.activity_favorites)
-
     override val viewModel: FavoritesViewModel by injectViewModel()
+
+    private val layoutController = MoviesListViewController(R.layout.activity_favorites) {
+        viewModel.onMovieSelected(it)
+    }
 
     override fun onCreateLayout() {
         setContentView(R.layout.activity_favorites)

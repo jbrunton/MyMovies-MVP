@@ -1,25 +1,27 @@
 package com.jbrunton.mymovies.ui.movies
 
 import android.content.Context
-import android.content.Intent
 import android.text.Html
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
+import com.jbrunton.entities.models.Movie
 import com.jbrunton.libs.ui.BaseRecyclerAdapter
 import com.jbrunton.libs.ui.PicassoHelper
 import com.jbrunton.mymovies.R
-import com.jbrunton.mymovies.ui.moviedetails.MovieDetailsActivity
+import com.jbrunton.mymovies.shared.ui.MovieSearchResultViewState
 
 class MoviesListAdapter(
         context: Context,
-        layoutId: Int
-) : BaseRecyclerAdapter<com.jbrunton.mymovies.shared.ui.MovieSearchResultViewState, MoviesListAdapter.ViewHolder>(
+        layoutId: Int,
+        onMovieSelected: (Movie) -> Unit
+) : BaseRecyclerAdapter<MovieSearchResultViewState, MoviesListAdapter.ViewHolder>(
         layoutId,
-        ViewHolderFactory(context)
+        ViewHolderFactory(context, onMovieSelected)
 ) {
 
-    class ViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val titleView: TextView
         val releaseDateView: TextView?
         val poster: ImageView
@@ -37,7 +39,10 @@ class MoviesListAdapter(
         }
     }
 
-    class ViewHolderFactory(private val context: Context) : BaseRecyclerAdapter.ViewHolderFactory<com.jbrunton.mymovies.shared.ui.MovieSearchResultViewState, ViewHolder> {
+    class ViewHolderFactory(
+            private val context: Context,
+            private val onMovieSelected: (Movie) -> Unit
+    ) : BaseRecyclerAdapter.ViewHolderFactory<MovieSearchResultViewState, ViewHolder> {
 
         private val picassoHelper = PicassoHelper()
 
@@ -45,7 +50,7 @@ class MoviesListAdapter(
             return ViewHolder(view)
         }
 
-        override fun bindHolder(holder: ViewHolder, item: com.jbrunton.mymovies.shared.ui.MovieSearchResultViewState, items: List<com.jbrunton.mymovies.shared.ui.MovieSearchResultViewState>, position: Int) {
+        override fun bindHolder(holder: ViewHolder, item: MovieSearchResultViewState, items: List<com.jbrunton.mymovies.shared.ui.MovieSearchResultViewState>, position: Int) {
             holder.titleView.text = item.title
             if (holder.releaseDateView != null) {
                 holder.releaseDateView.text = item.yearReleased
@@ -55,9 +60,7 @@ class MoviesListAdapter(
             }
             picassoHelper.loadSearchResultImage(context, holder.poster, item.posterUrl)
             holder.movieCardView.setOnClickListener {
-                val intent = Intent(context, MovieDetailsActivity::class.java)
-                intent.putExtra("MOVIE_ID", item.movieId)
-                context.startActivity(intent)
+                onMovieSelected(item.movie)
             }
             if (holder.divider != null) {
                 holder.divider.visibility = if (position < items.size - 1) {

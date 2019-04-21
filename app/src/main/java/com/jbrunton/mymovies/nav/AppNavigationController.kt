@@ -2,13 +2,14 @@ package com.jbrunton.mymovies.nav
 
 import android.content.Intent
 import androidx.fragment.app.FragmentActivity
+import com.jbrunton.features.account.AccountFragment
 import com.jbrunton.libs.ui.*
 import com.jbrunton.mymovies.R
-import com.jbrunton.features.account.AccountFragment
 import com.jbrunton.mymovies.ui.account.favorites.FavoritesActivity
 import com.jbrunton.mymovies.ui.auth.LoginActivity
 import com.jbrunton.mymovies.ui.discover.DiscoverFragment
 import com.jbrunton.mymovies.ui.main.MainActivity
+import com.jbrunton.mymovies.ui.moviedetails.MovieDetailsActivity
 import com.jbrunton.mymovies.ui.search.SearchFragment
 
 class AppNavigationController(val activity: FragmentActivity, val navigator: Navigator): NavigationController {
@@ -19,6 +20,7 @@ class AppNavigationController(val activity: FragmentActivity, val navigator: Nav
 
         is FavoritesRequest -> startFavoritesActivity()
         is LoginRequest -> startLoginActivity()
+        is MovieDetailsRequest -> showMovieDetailsActivity(request)
         else -> throw IllegalArgumentException("Unexpected navigation request: ${request}")
     }
 
@@ -60,6 +62,12 @@ class AppNavigationController(val activity: FragmentActivity, val navigator: Nav
 
     private fun startFavoritesActivity() {
         val intent = Intent(activity, FavoritesActivity::class.java)
+        activity.startActivity(intent)
+    }
+
+    private fun showMovieDetailsActivity(request: MovieDetailsRequest) {
+        val intent = Intent(activity, MovieDetailsActivity::class.java)
+        intent.putExtra("MOVIE_ID", request.movieId)
         activity.startActivity(intent)
     }
 }

@@ -15,7 +15,10 @@ import kotlinx.android.synthetic.main.fragment_search.*
 
 class SearchFragment : BaseFragment<SearchViewModel>() {
     override val viewModel: SearchViewModel by injectViewModel()
-    val layoutController = MoviesListViewController(R.layout.fragment_search)
+
+    val layoutController = MoviesListViewController(R.layout.fragment_search) {
+        viewModel.onMovieSelected(it)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(layoutController.layout, container, false)

@@ -18,9 +18,9 @@ class DiscoverViewController(val viewModel: DiscoverViewModel) : BaseLoadingView
 
     override fun bind(containerView: View) {
         super.bind(containerView)
-        nowPlayingAdapter = MoviesListAdapter(context, R.layout.item_movie_card_grid)
-        popularAdapter = MoviesListAdapter(context, R.layout.item_movie_card_grid)
-        genreResultsAdapter = MoviesListAdapter(context, R.layout.item_movie_card_grid)
+        nowPlayingAdapter = MoviesListAdapter(context, R.layout.item_movie_card_grid, viewModel::onMovieSelected)
+        popularAdapter = MoviesListAdapter(context, R.layout.item_movie_card_grid, viewModel::onMovieSelected)
+        genreResultsAdapter = MoviesListAdapter(context, R.layout.item_movie_card_grid, viewModel::onMovieSelected)
 
         now_playing.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         now_playing.adapter = nowPlayingAdapter

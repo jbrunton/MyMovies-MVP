@@ -1,10 +1,12 @@
 package com.jbrunton.mymovies.ui.discover
 
 import com.jbrunton.entities.models.Genre
+import com.jbrunton.entities.models.Movie
 import com.jbrunton.entities.subscribe
 import com.jbrunton.inject.Container
 import com.jbrunton.inject.inject
 import com.jbrunton.libs.ui.BaseLoadingViewModel
+import com.jbrunton.libs.ui.MovieDetailsRequest
 
 class DiscoverViewModel(container: Container) : BaseLoadingViewModel<DiscoverViewState>(container) {
     val useCase: DiscoverUseCase by inject()
@@ -27,5 +29,9 @@ class DiscoverViewModel(container: Container) : BaseLoadingViewModel<DiscoverVie
 
     fun onClearGenreSelection() {
         useCase.perform(DiscoverIntent.ClearSelectedGenre)
+    }
+
+    fun onMovieSelected(movie: Movie) {
+        navigator.navigate(MovieDetailsRequest(movie.id))
     }
 }
