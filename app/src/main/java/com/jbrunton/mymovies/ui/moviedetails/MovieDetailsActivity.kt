@@ -1,14 +1,18 @@
 package com.jbrunton.mymovies.ui.moviedetails
 
+import android.view.View
+import androidx.appcompat.widget.Toolbar
 import com.jbrunton.inject.injectViewModel
 import com.jbrunton.inject.parametersOf
 import com.jbrunton.libs.ui.BaseActivity
 import com.jbrunton.libs.ui.observe
 import com.jbrunton.mymovies.R
-import kotlinx.android.synthetic.main.activity_movie_details.*
-import kotlinx.android.synthetic.main.item_movie_card_list.*
 
 class MovieDetailsActivity : BaseActivity<MovieDetailsViewModel>() {
+    val toolbar: Toolbar get() = findViewById(R.id.toolbar)
+    val favorite: View get() = findViewById(R.id.favorite)
+    val unfavorite: View get() = findViewById(R.id.unfavorite)
+
     override val viewModel: MovieDetailsViewModel by injectViewModel { parametersOf(movieId()) }
     private val viewController = MovieDetailsViewController()
 
