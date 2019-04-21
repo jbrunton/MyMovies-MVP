@@ -1,4 +1,4 @@
-package com.jbrunton.mymovies.ui.search
+package com.jbrunton.mymovies.ui.movies
 
 import android.content.Context
 import android.content.Intent
@@ -6,16 +6,15 @@ import android.text.Html
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import com.jbrunton.mymovies.R
-import com.jbrunton.libs.ui.PicassoHelper
-import com.jbrunton.mymovies.ui.moviedetails.MovieDetailsActivity
-import com.jbrunton.mymovies.ui.movies.MovieSearchResultViewState
 import com.jbrunton.libs.ui.BaseRecyclerAdapter
+import com.jbrunton.libs.ui.PicassoHelper
+import com.jbrunton.mymovies.R
+import com.jbrunton.mymovies.ui.moviedetails.MovieDetailsActivity
 
-class SearchResultsAdapter(
+class MoviesListAdapter(
         context: Context,
         layoutId: Int
-) : BaseRecyclerAdapter<MovieSearchResultViewState, SearchResultsAdapter.ViewHolder>(
+) : BaseRecyclerAdapter<MovieSearchResultViewState, MoviesListAdapter.ViewHolder>(
         layoutId,
         ViewHolderFactory(context)
 ) {
