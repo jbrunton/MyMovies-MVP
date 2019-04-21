@@ -8,8 +8,7 @@ import com.jbrunton.mymovies.ui.search.SearchViewState
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.activity_genre_results.*
 
-class MoviesListViewController : BaseLoadingViewController<SearchViewState>(), LayoutContainer {
-    override val layout = R.layout.activity_favorites
+class MoviesListViewController(override val layout: Int) : BaseLoadingViewController<SearchViewState>(), LayoutContainer {
     override val contentView: View get() = movies_list
     private lateinit var moviesAdapter: SearchResultsAdapter
 
