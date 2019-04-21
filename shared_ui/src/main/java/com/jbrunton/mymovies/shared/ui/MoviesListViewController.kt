@@ -5,17 +5,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.jbrunton.entities.models.Movie
 import com.jbrunton.libs.ui.BaseLoadingViewController
 
-class MoviesListViewController(
-        override val layout: Int,
-        val contentViewId: Int,
-        val onMovieSelected: (Movie) -> Unit
+abstract class MoviesListViewController(
+        override val layout: Int
 ) : BaseLoadingViewController<SearchViewState>() {
-    override val contentView: RecyclerView get() = containerView.findViewById(contentViewId)
+    abstract override val contentView: RecyclerView
     private lateinit var moviesAdapter: MoviesListAdapter
 
     override fun bind(containerView: View) {
         super.bind(containerView)
-        moviesAdapter = MoviesListAdapter(context, R.layout.item_movie_card_list, onMovieSelected)
+        moviesAdapter = MoviesListAdapter(context, R.layout.item_movie_card_list, this::onMovieSelected)
         contentView.adapter = moviesAdapter
         contentView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
     }
@@ -23,4 +21,6 @@ class MoviesListViewController(
     override fun updateContentView(viewState: SearchViewState) {
         moviesAdapter.setDataSource(viewState.results)
     }
+
+    abstract fun onMovieSelected(movie: Movie)
 }
