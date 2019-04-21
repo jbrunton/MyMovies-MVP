@@ -4,6 +4,7 @@ import android.view.View
 import com.jbrunton.entities.models.Movie
 import com.jbrunton.libs.ui.BaseLoadingViewController
 import com.jbrunton.mymovies.R
+import com.jbrunton.mymovies.shared.ui.MoviesListAdapter
 import com.jbrunton.mymovies.ui.search.SearchViewState
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.activity_genre_results.*
