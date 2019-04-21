@@ -51,6 +51,7 @@ dependencies {
 
     implementation project(':entities')
     implementation project(':libs_ui')
+    implementation project(':shared_ui')
     implementation project(':app-usecases')
     implementation project(':features_account')
     implementation project(':networking')

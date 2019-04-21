@@ -1,4 +1,4 @@
-package com.jbrunton.mymovies.ui.movies
+package com.jbrunton.mymovies.shared.ui
 
 import com.jbrunton.entities.models.Movie
 

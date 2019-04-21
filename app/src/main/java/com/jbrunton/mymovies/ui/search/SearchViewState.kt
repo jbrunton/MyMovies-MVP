@@ -1,9 +1,9 @@
 package com.jbrunton.mymovies.ui.search
 
 import com.jbrunton.entities.models.Movie
-import com.jbrunton.mymovies.ui.movies.MovieSearchResultViewState
+import com.jbrunton.mymovies.shared.ui.MovieSearchResultViewState
 
-data class SearchViewState(val results: List<MovieSearchResultViewState>) {
+data class SearchViewState(val results: List<com.jbrunton.mymovies.shared.ui.MovieSearchResultViewState>) {
     companion object {
         val Empty = SearchViewState(emptyList())
 

@@ -14,7 +14,7 @@ import com.jbrunton.mymovies.ui.moviedetails.MovieDetailsActivity
 class MoviesListAdapter(
         context: Context,
         layoutId: Int
-) : BaseRecyclerAdapter<MovieSearchResultViewState, MoviesListAdapter.ViewHolder>(
+) : BaseRecyclerAdapter<com.jbrunton.mymovies.shared.ui.MovieSearchResultViewState, MoviesListAdapter.ViewHolder>(
         layoutId,
         ViewHolderFactory(context)
 ) {
@@ -37,7 +37,7 @@ class MoviesListAdapter(
         }
     }
 
-    class ViewHolderFactory(private val context: Context) : BaseRecyclerAdapter.ViewHolderFactory<MovieSearchResultViewState, ViewHolder> {
+    class ViewHolderFactory(private val context: Context) : BaseRecyclerAdapter.ViewHolderFactory<com.jbrunton.mymovies.shared.ui.MovieSearchResultViewState, ViewHolder> {
 
         private val picassoHelper = PicassoHelper()
 
@@ -45,7 +45,7 @@ class MoviesListAdapter(
             return ViewHolder(view)
         }
 
-        override fun bindHolder(holder: ViewHolder, item: MovieSearchResultViewState, items: List<MovieSearchResultViewState>, position: Int) {
+        override fun bindHolder(holder: ViewHolder, item: com.jbrunton.mymovies.shared.ui.MovieSearchResultViewState, items: List<com.jbrunton.mymovies.shared.ui.MovieSearchResultViewState>, position: Int) {
             holder.titleView.text = item.title
             if (holder.releaseDateView != null) {
                 holder.releaseDateView.text = item.yearReleased
