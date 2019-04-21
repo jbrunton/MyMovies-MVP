@@ -8,7 +8,7 @@ import com.jbrunton.inject.Container
 import com.jbrunton.inject.inject
 import com.jbrunton.libs.ui.BaseLoadingViewModel
 import com.jbrunton.libs.ui.MovieDetailsRequest
-import com.jbrunton.mymovies.ui.search.SearchViewState
+import com.jbrunton.mymovies.shared.ui.SearchViewState
 import com.jbrunton.mymovies.ui.search.SearchViewStateFactory
 import com.jbrunton.mymovies.usecases.favorites.FavoritesUseCase
 import com.jbrunton.mymovies.usecases.search.SearchState

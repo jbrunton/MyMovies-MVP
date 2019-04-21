@@ -6,6 +6,7 @@ import com.jbrunton.inject.Container
 import com.jbrunton.inject.inject
 import com.jbrunton.libs.ui.BaseLoadingViewModel
 import com.jbrunton.libs.ui.MovieDetailsRequest
+import com.jbrunton.mymovies.shared.ui.SearchViewState
 import com.jbrunton.mymovies.usecases.search.SearchUseCase
 
 class SearchViewModel(container: Container) : BaseLoadingViewModel<SearchViewState>(container) {

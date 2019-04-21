@@ -10,13 +10,13 @@ import com.jbrunton.libs.ui.BaseFragment
 import com.jbrunton.libs.ui.observe
 import com.jbrunton.libs.ui.onTextChanged
 import com.jbrunton.mymovies.R
-import com.jbrunton.mymovies.ui.movies.MoviesListViewController
+import com.jbrunton.mymovies.shared.ui.MoviesListViewController
 import kotlinx.android.synthetic.main.fragment_search.*
 
 class SearchFragment : BaseFragment<SearchViewModel>() {
     override val viewModel: SearchViewModel by injectViewModel()
 
-    val layoutController = MoviesListViewController(R.layout.fragment_search) {
+    val layoutController = MoviesListViewController(R.layout.fragment_search, R.id.movies_list) {
         viewModel.onMovieSelected(it)
     }
 

@@ -1,7 +1,6 @@
-package com.jbrunton.mymovies.ui.search
+package com.jbrunton.mymovies.shared.ui
 
 import com.jbrunton.entities.models.Movie
-import com.jbrunton.mymovies.shared.ui.MovieSearchResultViewState
 
 data class SearchViewState(val results: List<com.jbrunton.mymovies.shared.ui.MovieSearchResultViewState>) {
     companion object {

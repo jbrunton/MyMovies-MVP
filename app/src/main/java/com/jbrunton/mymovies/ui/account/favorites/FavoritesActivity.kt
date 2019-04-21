@@ -4,13 +4,13 @@ import com.jbrunton.inject.injectViewModel
 import com.jbrunton.libs.ui.BaseActivity
 import com.jbrunton.libs.ui.observe
 import com.jbrunton.mymovies.R
-import com.jbrunton.mymovies.ui.movies.MoviesListViewController
+import com.jbrunton.mymovies.shared.ui.MoviesListViewController
 import kotlinx.android.synthetic.main.activity_genre_results.*
 
 class FavoritesActivity : BaseActivity<FavoritesViewModel>() {
     override val viewModel: FavoritesViewModel by injectViewModel()
 
-    private val layoutController = MoviesListViewController(R.layout.activity_favorites) {
+    private val layoutController = MoviesListViewController(R.layout.activity_favorites, R.id.movies_list) {
         viewModel.onMovieSelected(it)
     }
 

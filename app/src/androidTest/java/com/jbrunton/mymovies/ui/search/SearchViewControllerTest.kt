@@ -13,7 +13,7 @@ import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.fixtures.ProgressBarViewActions
 import com.jbrunton.mymovies.fixtures.RecyclerViewUtils.withRecyclerView
 import com.jbrunton.mymovies.fixtures.rules.ViewControllerTestRule
-import com.jbrunton.mymovies.fixtures.rules.takeScreenshot
+import com.jbrunton.mymovies.shared.ui.SearchViewState
 import com.jbrunton.mymovies.usecases.search.SearchState
 import org.junit.Before
 import org.junit.Rule
