@@ -1,11 +1,13 @@
 package com.jbrunton.mymovies.ui.search
 
 import android.widget.ProgressBar
+import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.runner.AndroidJUnit4
 import com.jbrunton.async.AsyncResult
+import com.jbrunton.entities.models.Movie
 import com.jbrunton.fixtures.MovieFactory
 import com.jbrunton.libs.ui.LoadingViewState
 import com.jbrunton.libs.ui.LoadingViewStateError
@@ -13,6 +15,8 @@ import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.fixtures.ProgressBarViewActions
 import com.jbrunton.mymovies.fixtures.RecyclerViewUtils.withRecyclerView
 import com.jbrunton.mymovies.fixtures.rules.ViewControllerTestRule
+import com.jbrunton.mymovies.fixtures.rules.takeScreenshot
+import com.jbrunton.mymovies.shared.ui.MoviesListViewController
 import com.jbrunton.mymovies.shared.ui.SearchViewState
 import com.jbrunton.mymovies.usecases.search.SearchState
 import org.junit.Before
@@ -24,7 +28,10 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 class SearchViewControllerTest {
     @get:Rule
-    val controllerRule = ViewControllerTestRule.create(SearchViewController())
+    val controllerRule = ViewControllerTestRule.create(object : MoviesListViewController(R.layout.fragment_search) {
+        override val contentView: RecyclerView get() = containerView.findViewById(R.id.movies_list)
+        override fun onMovieSelected(movie: Movie) {}
+    })
 
     val MOVIE_FACTORY = MovieFactory()
     val MOVIE1 = MOVIE_FACTORY.create()
