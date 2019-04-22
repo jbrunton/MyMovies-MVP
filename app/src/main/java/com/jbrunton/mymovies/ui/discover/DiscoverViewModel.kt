@@ -38,7 +38,6 @@ class DiscoverViewModel(container: Container) : BaseLoadingViewModel<DiscoverVie
     private val selectGenreIntent = BehaviorSubject.create<DiscoverIntent.SelectGenre>()
     private val clearSelectedGenreIntent = BehaviorSubject.create<DiscoverIntent.ClearSelectedGenre>()
 
-
     override fun start() {
         super.start()
         subscribe(state) {
@@ -74,7 +73,7 @@ class DiscoverViewModel(container: Container) : BaseLoadingViewModel<DiscoverVie
         navigator.navigate(MovieDetailsRequest(movie.id))
     }
 
-    fun perform(intent: DiscoverIntent) = when (intent) {
+    private fun perform(intent: DiscoverIntent) = when (intent) {
         is DiscoverIntent.Load -> loadIntent.onNext(intent)
         is DiscoverIntent.SelectGenre -> selectGenreIntent.onNext(intent)
         is DiscoverIntent.ClearSelectedGenre -> clearSelectedGenreIntent.onNext(intent)
