@@ -1,9 +1,9 @@
 package com.jbrunton.mymovies.fixtures.repositories
 
 import com.jbrunton.async.AsyncResult
-import com.jbrunton.entities.models.Movie
-import com.jbrunton.entities.repositories.DataStream
-import com.jbrunton.entities.repositories.MoviesRepository
+import com.jbrunton.mymovies.entities.models.Movie
+import com.jbrunton.mymovies.entities.repositories.DataStream
+import com.jbrunton.mymovies.entities.repositories.MoviesRepository
 import io.reactivex.Observable
 import java.util.*
 import kotlin.collections.HashMap

@@ -7,10 +7,10 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.runner.AndroidJUnit4
 import com.jbrunton.async.AsyncResult
-import com.jbrunton.entities.models.Movie
-import com.jbrunton.fixtures.MovieFactory
-import com.jbrunton.libs.ui.LoadingViewState
-import com.jbrunton.libs.ui.LoadingViewStateError
+import com.jbrunton.mymovies.entities.models.Movie
+import com.jbrunton.mymovies.fixtures.MovieFactory
+import com.jbrunton.mymovies.libs.ui.LoadingViewState
+import com.jbrunton.mymovies.libs.ui.LoadingViewStateError
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.fixtures.ProgressBarViewActions
 import com.jbrunton.mymovies.fixtures.RecyclerViewUtils.withRecyclerView

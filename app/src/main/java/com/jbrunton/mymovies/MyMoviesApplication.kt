@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.appcompat.app.AppCompatActivity
 import com.jbrunton.inject.Container
 import com.jbrunton.inject.HasContainer
-import com.jbrunton.libs.ui.ActivityContainerFactory
+import com.jbrunton.mymovies.libs.ui.ActivityContainerFactory
 import com.jbrunton.mymovies.di.ActivityModule
 import com.jbrunton.mymovies.di.ApplicationComponent
 

@@ -4,8 +4,8 @@ import android.text.Html
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import com.jbrunton.libs.ui.BaseLoadingViewController
-import com.jbrunton.libs.ui.PicassoHelper
+import com.jbrunton.mymovies.libs.ui.BaseLoadingViewController
+import com.jbrunton.mymovies.libs.ui.PicassoHelper
 import com.jbrunton.mymovies.R
 
 class MovieDetailsViewController : BaseLoadingViewController<MovieDetailsViewState>() {

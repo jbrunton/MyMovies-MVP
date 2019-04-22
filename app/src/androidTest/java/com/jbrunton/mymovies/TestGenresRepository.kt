@@ -1,8 +1,8 @@
 package com.jbrunton.mymovies
 
-import com.jbrunton.entities.models.Genre
-import com.jbrunton.entities.repositories.DataStream
-import com.jbrunton.entities.repositories.GenresRepository
+import com.jbrunton.mymovies.entities.models.Genre
+import com.jbrunton.mymovies.entities.repositories.DataStream
+import com.jbrunton.mymovies.entities.repositories.GenresRepository
 
 class TestGenresRepository : GenresRepository {
     override fun genres(): DataStream<List<Genre>> {

@@ -8,8 +8,8 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.rule.ActivityTestRule
 import androidx.test.runner.AndroidJUnit4
-import com.jbrunton.entities.repositories.MoviesRepository
-import com.jbrunton.fixtures.MovieFactory
+import com.jbrunton.mymovies.entities.repositories.MoviesRepository
+import com.jbrunton.mymovies.fixtures.MovieFactory
 import com.jbrunton.inject.Container
 import com.jbrunton.inject.HasContainer
 import com.jbrunton.inject.inject

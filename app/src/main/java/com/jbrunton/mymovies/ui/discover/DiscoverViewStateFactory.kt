@@ -2,8 +2,7 @@ package com.jbrunton.mymovies.ui.discover
 
 import android.view.View
 import com.jbrunton.async.AsyncResult
-import com.jbrunton.mymovies.shared.ui.MovieSearchResultViewState
-import com.jbrunton.libs.ui.LoadingViewState
+import com.jbrunton.mymovies.libs.ui.LoadingViewState
 
 object DiscoverViewStateFactory {
     fun viewState(result: AsyncResult<com.jbrunton.mymovies.usecases.discover.DiscoverState>): LoadingViewState<DiscoverViewState> {

@@ -3,7 +3,7 @@ package com.jbrunton.mymovies.ui.auth
 import android.content.Context
 import com.jbrunton.async.AsyncResult
 import com.jbrunton.mymovies.R
-import com.jbrunton.libs.ui.LoadingViewState
+import com.jbrunton.mymovies.libs.ui.LoadingViewState
 import com.jbrunton.mymovies.usecases.auth.LoginState
 
 class LoginViewStateFactory(private val context: Context) {

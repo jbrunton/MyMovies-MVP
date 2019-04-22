@@ -2,11 +2,11 @@ package com.jbrunton.mymovies.ui.main
 
 import android.view.MenuItem
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.jbrunton.libs.ui.NavigationController
+import com.jbrunton.mymovies.libs.ui.NavigationController
 import com.jbrunton.mymovies.R
-import com.jbrunton.libs.ui.AccountRequest
-import com.jbrunton.libs.ui.DiscoverRequest
-import com.jbrunton.libs.ui.SearchRequest
+import com.jbrunton.mymovies.libs.ui.AccountRequest
+import com.jbrunton.mymovies.libs.ui.DiscoverRequest
+import com.jbrunton.mymovies.libs.ui.SearchRequest
 
 class BottomNavigationAdapter(
         val navigationController: NavigationController

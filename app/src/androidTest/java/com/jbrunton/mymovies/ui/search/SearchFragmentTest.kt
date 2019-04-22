@@ -5,8 +5,8 @@ import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.runner.AndroidJUnit4
-import com.jbrunton.entities.repositories.MoviesRepository
-import com.jbrunton.fixtures.MovieFactory
+import com.jbrunton.mymovies.entities.repositories.MoviesRepository
+import com.jbrunton.mymovies.fixtures.MovieFactory
 import com.jbrunton.inject.Container
 import com.jbrunton.inject.HasContainer
 import com.jbrunton.inject.inject
@@ -16,7 +16,7 @@ import com.jbrunton.mymovies.fixtures.RecyclerViewUtils.withRecyclerView
 import com.jbrunton.mymovies.fixtures.rules.container
 import com.jbrunton.mymovies.fixtures.repositories.stubSearch
 import com.jbrunton.mymovies.fixtures.rules.takeScreenshot
-import com.jbrunton.libs.ui.DebounceTextWatcher
+import com.jbrunton.mymovies.libs.ui.DebounceTextWatcher
 import kotlinx.coroutines.test.TestCoroutineContext
 import org.junit.Rule
 import org.junit.Test

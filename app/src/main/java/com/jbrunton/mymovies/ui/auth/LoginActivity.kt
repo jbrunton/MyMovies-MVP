@@ -2,11 +2,11 @@ package com.jbrunton.mymovies.ui.auth
 
 import android.content.Intent
 import androidx.appcompat.app.AlertDialog
-import com.jbrunton.entities.models.AuthSession
+import com.jbrunton.mymovies.entities.models.AuthSession
 import com.jbrunton.inject.injectViewModel
 import com.jbrunton.mymovies.R
-import com.jbrunton.libs.ui.observe
-import com.jbrunton.libs.ui.BaseActivity
+import com.jbrunton.mymovies.libs.ui.observe
+import com.jbrunton.mymovies.libs.ui.BaseActivity
 import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : BaseActivity<LoginViewModel>() {

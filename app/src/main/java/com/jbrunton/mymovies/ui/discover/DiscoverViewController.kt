@@ -3,7 +3,7 @@ package com.jbrunton.mymovies.ui.discover
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.chip.Chip
-import com.jbrunton.libs.ui.BaseLoadingViewController
+import com.jbrunton.mymovies.libs.ui.BaseLoadingViewController
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.shared.ui.MoviesListAdapter
 import kotlinx.android.extensions.LayoutContainer
