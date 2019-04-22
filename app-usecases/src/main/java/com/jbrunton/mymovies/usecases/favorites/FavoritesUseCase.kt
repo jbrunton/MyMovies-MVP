@@ -5,16 +5,14 @@ import com.jbrunton.entities.errors.handleNetworkErrors
 import com.jbrunton.entities.models.Movie
 import com.jbrunton.entities.repositories.DataStream
 import com.jbrunton.entities.repositories.MoviesRepository
-import com.jbrunton.mymovies.usecases.search.SearchState
 
 class FavoritesUseCase(val movies: MoviesRepository) {
-    fun favorites(): DataStream<SearchState> {
+    fun favorites(): DataStream<List<Movie>> {
         return movies.favorites()
                 .map(this::handleResult)
     }
 
-    private fun handleResult(result: AsyncResult<List<Movie>>): AsyncResult<SearchState> {
-        return SearchState.from(result)
-                .handleNetworkErrors()
+    private fun handleResult(result: AsyncResult<List<Movie>>): AsyncResult<List<Movie>> {
+        return result.handleNetworkErrors()
     }
 }
