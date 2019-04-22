@@ -1,4 +1,4 @@
-package com.jbrunton.mymovies.ui.account.favorites
+package com.jbrunton.features.account.favorites
 
 import com.jbrunton.async.AsyncResult
 import com.jbrunton.entities.errors.doOnNetworkError
