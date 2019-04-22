@@ -13,9 +13,9 @@ fi
 
 modules=(
     "app"
-    "features_account"
-    "shared_ui"
-    "libs_ui"
+    "features-account"
+    "shared-ui"
+    "libs-ui"
 )
 
 for module in "${modules[@]}"
