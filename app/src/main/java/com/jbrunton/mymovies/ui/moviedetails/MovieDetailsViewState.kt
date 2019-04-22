@@ -1,8 +1,7 @@
 package com.jbrunton.mymovies.ui.moviedetails
 
 import android.view.View
-import com.jbrunton.entities.models.Movie
-import com.jbrunton.mymovies.shared.ui.BaseMovieViewState
+import com.jbrunton.mymovies.entities.models.Movie
 
 data class MovieDetailsViewState(
         val movie: Movie,

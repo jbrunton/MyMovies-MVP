@@ -1,7 +1,7 @@
 package com.jbrunton.mymovies.helpers
 
 import android.content.Context
-import com.jbrunton.entities.repositories.ApplicationPreferences
+import com.jbrunton.mymovies.entities.repositories.ApplicationPreferences
 
 class SharedApplicationPreferences(val context: Context) : ApplicationPreferences {
     private val preferences = context.getSharedPreferences("MyMovies", Context.MODE_PRIVATE)

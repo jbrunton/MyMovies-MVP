@@ -1,7 +1,7 @@
 package com.jbrunton.mymovies.di
 
-import com.jbrunton.entities.SchedulerFactory
-import com.jbrunton.fixtures.ImmediateSchedulerFactory
+import com.jbrunton.mymovies.entities.SchedulerFactory
+import com.jbrunton.mymovies.fixtures.ImmediateSchedulerFactory
 import com.jbrunton.inject.module
 import kotlinx.coroutines.test.TestCoroutineContext
 import kotlin.coroutines.CoroutineContext

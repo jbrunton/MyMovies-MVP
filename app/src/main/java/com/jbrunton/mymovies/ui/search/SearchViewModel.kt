@@ -1,11 +1,11 @@
 package com.jbrunton.mymovies.ui.search
 
-import com.jbrunton.entities.models.Movie
-import com.jbrunton.entities.subscribe
+import com.jbrunton.mymovies.entities.models.Movie
+import com.jbrunton.mymovies.entities.subscribe
 import com.jbrunton.inject.Container
 import com.jbrunton.inject.inject
-import com.jbrunton.libs.ui.BaseLoadingViewModel
-import com.jbrunton.libs.ui.MovieDetailsRequest
+import com.jbrunton.mymovies.libs.ui.BaseLoadingViewModel
+import com.jbrunton.mymovies.libs.ui.MovieDetailsRequest
 import com.jbrunton.mymovies.shared.ui.SearchViewState
 import com.jbrunton.mymovies.usecases.search.SearchUseCase
 

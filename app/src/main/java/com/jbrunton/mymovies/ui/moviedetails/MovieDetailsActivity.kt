@@ -4,8 +4,8 @@ import android.view.View
 import androidx.appcompat.widget.Toolbar
 import com.jbrunton.inject.injectViewModel
 import com.jbrunton.inject.parametersOf
-import com.jbrunton.libs.ui.BaseActivity
-import com.jbrunton.libs.ui.observe
+import com.jbrunton.mymovies.libs.ui.BaseActivity
+import com.jbrunton.mymovies.libs.ui.observe
 import com.jbrunton.mymovies.R
 
 class MovieDetailsActivity : BaseActivity<MovieDetailsViewModel>() {

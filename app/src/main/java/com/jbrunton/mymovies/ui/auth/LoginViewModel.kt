@@ -3,17 +3,17 @@ package com.jbrunton.mymovies.ui.auth
 import com.jbrunton.async.AsyncResult
 import com.jbrunton.async.doOnSuccess
 import com.jbrunton.async.onError
-import com.jbrunton.entities.errors.onNetworkError
-import com.jbrunton.entities.models.AuthSession
-import com.jbrunton.entities.subscribe
+import com.jbrunton.mymovies.entities.errors.onNetworkError
+import com.jbrunton.mymovies.entities.models.AuthSession
+import com.jbrunton.mymovies.entities.subscribe
 import com.jbrunton.inject.Container
 import com.jbrunton.inject.inject
 import com.jbrunton.inject.parametersOf
-import com.jbrunton.libs.ui.BaseLoadingViewModel
-import com.jbrunton.libs.ui.SingleLiveEvent
+import com.jbrunton.mymovies.libs.ui.BaseLoadingViewModel
+import com.jbrunton.mymovies.libs.ui.SingleLiveEvent
 import com.jbrunton.mymovies.usecases.auth.LoginState
 import com.jbrunton.mymovies.usecases.auth.LoginUseCase
-import com.jbrunton.networking.parseStatusMessage
+import com.jbrunton.mymovies.networking.parseStatusMessage
 import retrofit2.HttpException
 
 class LoginViewModel(container: Container) : BaseLoadingViewModel<LoginViewState>(container) {

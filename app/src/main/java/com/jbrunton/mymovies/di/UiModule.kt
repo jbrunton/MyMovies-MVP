@@ -1,9 +1,9 @@
 package com.jbrunton.mymovies.di
 
 import com.jbrunton.inject.module
-import com.jbrunton.libs.ui.Navigator
-import com.jbrunton.features.account.AccountViewModel
-import com.jbrunton.features.account.favorites.FavoritesViewModel
+import com.jbrunton.mymovies.libs.ui.Navigator
+import com.jbrunton.mymovies.features.account.AccountViewModel
+import com.jbrunton.mymovies.features.account.favorites.FavoritesViewModel
 import com.jbrunton.mymovies.ui.auth.LoginViewModel
 import com.jbrunton.mymovies.ui.auth.LoginViewStateFactory
 import com.jbrunton.mymovies.ui.discover.DiscoverViewModel

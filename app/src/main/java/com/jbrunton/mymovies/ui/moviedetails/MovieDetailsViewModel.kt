@@ -2,11 +2,11 @@ package com.jbrunton.mymovies.ui.moviedetails
 
 import com.jbrunton.async.AsyncResult
 import com.jbrunton.async.doOnSuccess
-import com.jbrunton.entities.subscribe
+import com.jbrunton.mymovies.entities.subscribe
 import com.jbrunton.inject.Container
 import com.jbrunton.inject.inject
-import com.jbrunton.libs.ui.BaseLoadingViewModel
-import com.jbrunton.libs.ui.SnackbarEvent
+import com.jbrunton.mymovies.libs.ui.BaseLoadingViewModel
+import com.jbrunton.mymovies.libs.ui.SnackbarEvent
 import com.jbrunton.mymovies.usecases.moviedetails.FavoriteResult
 import com.jbrunton.mymovies.usecases.moviedetails.MovieDetailsUseCase
 
