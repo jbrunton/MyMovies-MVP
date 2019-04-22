@@ -2,17 +2,25 @@ package com.jbrunton.mymovies.ui.moviedetails
 
 import android.text.Html
 import android.view.View
+import android.widget.ImageView
+import android.widget.TextView
 import com.jbrunton.libs.ui.BaseLoadingViewController
+import com.jbrunton.libs.ui.PicassoHelper
 import com.jbrunton.mymovies.R
-import com.jbrunton.mymovies.helpers.PicassoHelper
-import kotlinx.android.extensions.LayoutContainer
-import kotlinx.android.synthetic.main.activity_movie_details.*
-import kotlinx.android.synthetic.main.content_movie_details.*
-import kotlinx.android.synthetic.main.item_movie_card_list.*
 
-class MovieDetailsViewController : BaseLoadingViewController<MovieDetailsViewState>(), LayoutContainer {
+class MovieDetailsViewController : BaseLoadingViewController<MovieDetailsViewState>() {
     override val layout = R.layout.activity_movie_details
-    override val contentView: View get() = movie_details
+    override val contentView: View get() = containerView.findViewById(R.id.movie_details)
+
+    val movie_title: TextView get() = containerView.findViewById(R.id.movie_title)
+    val rating: TextView get() = containerView.findViewById(R.id.rating)
+    val overview: TextView get() = containerView.findViewById(R.id.overview)
+    val release_date: TextView get() = containerView.findViewById(R.id.release_date)
+    val favorite: View get() = containerView.findViewById(R.id.favorite)
+    val unfavorite: View get() = containerView.findViewById(R.id.unfavorite)
+    val poster: ImageView get() = containerView.findViewById(R.id.poster)
+    val backdrop: ImageView get() = containerView.findViewById(R.id.backdrop)
+
     private val picassoHelper = PicassoHelper()
 
     override fun updateContentView(viewState: MovieDetailsViewState) {

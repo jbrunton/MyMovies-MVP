@@ -5,22 +5,22 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.chip.Chip
 import com.jbrunton.libs.ui.BaseLoadingViewController
 import com.jbrunton.mymovies.R
-import com.jbrunton.mymovies.ui.search.SearchResultsAdapter
+import com.jbrunton.mymovies.shared.ui.MoviesListAdapter
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.fragment_discover.*
 
 class DiscoverViewController(val viewModel: DiscoverViewModel) : BaseLoadingViewController<DiscoverViewState>(), LayoutContainer {
     override val layout = R.layout.fragment_discover
     override val contentView: View get() = discover_content
-    private lateinit var nowPlayingAdapter: SearchResultsAdapter
-    private lateinit var popularAdapter: SearchResultsAdapter
-    private lateinit var genreResultsAdapter: SearchResultsAdapter
+    private lateinit var nowPlayingAdapter: MoviesListAdapter
+    private lateinit var popularAdapter: MoviesListAdapter
+    private lateinit var genreResultsAdapter: MoviesListAdapter
 
     override fun bind(containerView: View) {
         super.bind(containerView)
-        nowPlayingAdapter = SearchResultsAdapter(context, R.layout.item_movie_card_grid)
-        popularAdapter = SearchResultsAdapter(context, R.layout.item_movie_card_grid)
-        genreResultsAdapter = SearchResultsAdapter(context, R.layout.item_movie_card_grid)
+        nowPlayingAdapter = MoviesListAdapter(context, R.layout.item_movie_card_grid, viewModel::onMovieSelected)
+        popularAdapter = MoviesListAdapter(context, R.layout.item_movie_card_grid, viewModel::onMovieSelected)
+        genreResultsAdapter = MoviesListAdapter(context, R.layout.item_movie_card_grid, viewModel::onMovieSelected)
 
         now_playing.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         now_playing.adapter = nowPlayingAdapter

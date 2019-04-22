@@ -2,7 +2,7 @@ package com.jbrunton.mymovies.ui.discover
 
 import android.view.View
 import com.jbrunton.async.AsyncResult
-import com.jbrunton.mymovies.ui.movies.MovieSearchResultViewState
+import com.jbrunton.mymovies.shared.ui.MovieSearchResultViewState
 import com.jbrunton.libs.ui.LoadingViewState
 
 object DiscoverViewStateFactory {
@@ -13,11 +13,11 @@ object DiscoverViewStateFactory {
                 listOf(GenreChipViewState(it, true))
             } ?: it.genres.map { GenreChipViewState(it, false) }
             DiscoverViewState(
-                    nowPlayingViewState = it.nowPlaying.map { MovieSearchResultViewState(it) },
-                    popularViewState = it.popular.map { MovieSearchResultViewState(it) },
+                    nowPlayingViewState = it.nowPlaying.map { com.jbrunton.mymovies.shared.ui.MovieSearchResultViewState(it) },
+                    popularViewState = it.popular.map { com.jbrunton.mymovies.shared.ui.MovieSearchResultViewState(it) },
                     genres = genres,
                     genreResultsVisibility = if (it.genreResults.isEmpty()) { View.GONE } else { View.VISIBLE },
-                    genreResults = it.genreResults.map { MovieSearchResultViewState(it) },
+                    genreResults = it.genreResults.map { com.jbrunton.mymovies.shared.ui.MovieSearchResultViewState(it) },
                     genreResultsLoadingIndicatorVisibility = if (it.selectedGenre != null && it.genreResults.isEmpty()) { View.VISIBLE } else { View.GONE },
                     scrollToGenreResults = !it.genreResults.isEmpty()
             )

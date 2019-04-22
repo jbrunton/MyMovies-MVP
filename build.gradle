@@ -109,11 +109,18 @@ task clean(type: Delete) {
 }
 
 task('allUnitTests') {
-    rootProject.subprojects {
-        def testTasks = it.getTasksByName("testDebugUnitTest", false)
+    rootProject.subprojects { project ->
+        def testTasks = project.getTasksByName("testDebugUnitTest", false)
         if (testTasks.isEmpty()) {
-            testTasks = it.getTasksByName("test", false)
+            testTasks = project.getTasksByName("test", false)
         }
+        testTasks.each { dependsOn it }
+    }
+}
+
+task('allConnectedTests') {
+    rootProject.subprojects { project ->
+        def testTasks = project.getTasksByName("connectedCheck", false)
         testTasks.each { dependsOn it }
     }
 }

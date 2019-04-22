@@ -5,6 +5,7 @@ import com.jbrunton.async.AsyncResult
 import com.jbrunton.libs.ui.LoadingViewState
 import com.jbrunton.libs.ui.LoadingViewStateError
 import com.jbrunton.mymovies.R
+import com.jbrunton.mymovies.shared.ui.SearchViewState
 import com.jbrunton.mymovies.usecases.search.SearchState
 
 class SearchViewStateFactory (private val context: Context) {

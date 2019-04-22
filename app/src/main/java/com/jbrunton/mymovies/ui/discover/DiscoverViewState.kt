@@ -1,13 +1,13 @@
 package com.jbrunton.mymovies.ui.discover
 
 import android.view.View
-import com.jbrunton.mymovies.ui.movies.MovieSearchResultViewState
+import com.jbrunton.mymovies.shared.ui.MovieSearchResultViewState
 
 data class DiscoverViewState(
-        val nowPlayingViewState: List<MovieSearchResultViewState>,
-        val popularViewState: List<MovieSearchResultViewState>,
+        val nowPlayingViewState: List<com.jbrunton.mymovies.shared.ui.MovieSearchResultViewState>,
+        val popularViewState: List<com.jbrunton.mymovies.shared.ui.MovieSearchResultViewState>,
         val genres: GenresViewState,
-        val genreResults: List<MovieSearchResultViewState>,
+        val genreResults: List<com.jbrunton.mymovies.shared.ui.MovieSearchResultViewState>,
         val genreResultsVisibility: Int,
         val genreResultsLoadingIndicatorVisibility: Int,
         val scrollToGenreResults: Boolean
