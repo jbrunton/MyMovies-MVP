@@ -11,7 +11,19 @@ fi
 
 ./gradlew assembleDebug assembleDebugAndroidTest
 
-gcloud firebase test android run firebase-test-matrices.yml:$TEST_MATRIX \
-    --type instrumentation \
-      --app ./app/build/outputs/apk/debug/app-debug.apk \
-      --test ./app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
+modules=(
+    "app"
+    "features_account"
+    "shared_ui"
+    "libs_ui"
+)
+
+for module in "${modules[@]}"
+do
+    test_apk="./${module}/build/outputs/apk/androidTest/debug/${module}-debug-androidTest.apk"
+    gcloud firebase test android run firebase-test-matrices.yml:$TEST_MATRIX \
+        --type instrumentation \
+        --app ./app/build/outputs/apk/debug/app-debug.apk \
+        --test "${test_apk}"
+done
+
