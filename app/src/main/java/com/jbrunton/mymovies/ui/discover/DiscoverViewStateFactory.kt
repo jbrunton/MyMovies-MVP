@@ -5,7 +5,7 @@ import com.jbrunton.async.AsyncResult
 import com.jbrunton.mymovies.libs.ui.LoadingViewState
 
 object DiscoverViewStateFactory {
-    fun viewState(result: AsyncResult<com.jbrunton.mymovies.usecases.discover.DiscoverState>): LoadingViewState<DiscoverViewState> {
+    fun viewState(result: AsyncResult<com.jbrunton.mymovies.usecases.discover.DiscoverResult>): LoadingViewState<DiscoverViewState> {
         return LoadingViewState.build(DiscoverViewState.Empty).map(result) {
             val selectedGenre = it.selectedGenre
             val genres = selectedGenre?.let {

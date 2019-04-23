@@ -9,7 +9,7 @@ import com.jbrunton.mymovies.entities.repositories.DataStream
 import io.reactivex.Observable
 
 class LoginUseCase(val repository: AccountRepository) {
-    fun login(username: String, password: String): DataStream<LoginState> {
+    fun login(username: String, password: String): DataStream<LoginResult> {
         val invalidState = validate(username, password)
         if (invalidState != null) {
             return Observable.just(AsyncResult.success(invalidState))
@@ -19,16 +19,16 @@ class LoginUseCase(val repository: AccountRepository) {
         }
     }
 
-    private fun handleResult(result: AsyncResult<AuthSession>): AsyncResult<LoginState> {
+    private fun handleResult(result: AsyncResult<AuthSession>): AsyncResult<LoginResult> {
         return result
-                .map { LoginState.SignedIn(it) }
+                .map { LoginResult.SignedIn(it) }
                 .handleNetworkErrors()
 
     }
 
-    private fun validate(username: String, password: String): LoginState.Invalid? {
+    private fun validate(username: String, password: String): LoginResult.Invalid? {
         if (username.isBlank() || password.isBlank()) {
-            return LoginState.Invalid(username.isBlank(), password.isBlank())
+            return LoginResult.Invalid(username.isBlank(), password.isBlank())
         }
         return null
     }

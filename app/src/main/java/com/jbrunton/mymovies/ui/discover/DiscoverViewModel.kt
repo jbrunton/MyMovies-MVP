@@ -11,7 +11,7 @@ import com.jbrunton.mymovies.entities.safelySubscribe
 import com.jbrunton.mymovies.entities.subscribe
 import com.jbrunton.mymovies.libs.ui.BaseLoadingViewModel
 import com.jbrunton.mymovies.libs.ui.MovieDetailsRequest
-import com.jbrunton.mymovies.usecases.discover.DiscoverState
+import com.jbrunton.mymovies.usecases.discover.DiscoverResult
 import com.jbrunton.mymovies.usecases.discover.DiscoverUseCase
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
@@ -24,7 +24,7 @@ sealed class DiscoverIntent {
 }
 
 sealed class DiscoverStateChange {
-    data class DiscoverResultsAvailable(val discoverState: AsyncResult<DiscoverState>) : DiscoverStateChange()
+    data class DiscoverResultsAvailable(val discoverResult: AsyncResult<DiscoverResult>) : DiscoverStateChange()
     data class GenreSelected(val selectedGenre: Genre) : DiscoverStateChange()
     data class GenreResultsAvailable(val genreResults: AsyncResult<List<Movie>>) : DiscoverStateChange()
     object SelectedGenreCleared : DiscoverStateChange()
@@ -33,7 +33,7 @@ sealed class DiscoverStateChange {
 class DiscoverViewModel(container: Container) : BaseLoadingViewModel<DiscoverViewState>(container) {
     val useCase: DiscoverUseCase by inject()
 
-    val state = PublishSubject.create<AsyncResult<DiscoverState>>()
+    val state = PublishSubject.create<AsyncResult<DiscoverResult>>()
     private val loadIntent = BehaviorSubject.create<DiscoverIntent.Load>()
     private val selectGenreIntent = BehaviorSubject.create<DiscoverIntent.SelectGenre>()
     private val clearSelectedGenreIntent = BehaviorSubject.create<DiscoverIntent.ClearSelectedGenre>()
@@ -49,7 +49,7 @@ class DiscoverViewModel(container: Container) : BaseLoadingViewModel<DiscoverVie
                 selectGenreIntent.flatMap(this::selectGenre),
                 clearSelectedGenreIntent.flatMap(this::clearSelectedGenre))
 
-        val initialState: AsyncResult<DiscoverState> = AsyncResult.loading(null)
+        val initialState: AsyncResult<DiscoverResult> = AsyncResult.loading(null)
         allIntents.scan(initialState, this::reduce)
                 .distinctUntilChanged()
                 .safelySubscribe(this, state::onNext)
@@ -100,9 +100,9 @@ class DiscoverViewModel(container: Container) : BaseLoadingViewModel<DiscoverVie
         return DiscoverStateChange.GenreResultsAvailable(genreResults)
     }
 
-    private fun reduce(previousState: AsyncResult<DiscoverState>, change: DiscoverStateChange): AsyncResult<DiscoverState> {
+    private fun reduce(previousState: AsyncResult<DiscoverResult>, change: DiscoverStateChange): AsyncResult<DiscoverResult> {
         return when (change) {
-            is DiscoverStateChange.DiscoverResultsAvailable -> change.discoverState
+            is DiscoverStateChange.DiscoverResultsAvailable -> change.discoverResult
             is DiscoverStateChange.GenreSelected -> previousState.map {
                 it.copy(selectedGenre = change.selectedGenre)
             }

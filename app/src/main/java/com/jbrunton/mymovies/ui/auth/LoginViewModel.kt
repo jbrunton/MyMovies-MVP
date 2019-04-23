@@ -11,7 +11,7 @@ import com.jbrunton.inject.inject
 import com.jbrunton.inject.parametersOf
 import com.jbrunton.mymovies.libs.ui.BaseLoadingViewModel
 import com.jbrunton.mymovies.libs.ui.SingleLiveEvent
-import com.jbrunton.mymovies.usecases.auth.LoginState
+import com.jbrunton.mymovies.usecases.auth.LoginResult
 import com.jbrunton.mymovies.usecases.auth.LoginUseCase
 import com.jbrunton.mymovies.networking.parseStatusMessage
 import retrofit2.HttpException
@@ -28,33 +28,33 @@ class LoginViewModel(container: Container) : BaseLoadingViewModel<LoginViewState
         }
     }
 
-    private fun handleResult(result: AsyncResult<LoginState>): AsyncResult<LoginState> {
+    private fun handleResult(result: AsyncResult<LoginResult>): AsyncResult<LoginResult> {
         return result.doOnSuccess(this::notifySuccess)
                 .let(this::handleSignedOut)
                 .onNetworkError(this::handleNetworkErrors)
     }
 
-    private fun notifySuccess(result: AsyncResult.Success<LoginState>) {
+    private fun notifySuccess(result: AsyncResult.Success<LoginResult>) {
         val state = result.value
-        if (state is LoginState.SignedIn) {
+        if (state is LoginResult.SignedIn) {
             loginSuccessful.postValue(state.session)
         }
     }
 
-    private fun handleNetworkErrors(result: AsyncResult.Failure<LoginState>): AsyncResult<LoginState> {
+    private fun handleNetworkErrors(result: AsyncResult.Failure<LoginResult>): AsyncResult<LoginResult> {
         snackbar.postValue(NetworkErrorSnackbar(retry = false))
-        return AsyncResult.success(LoginState.Valid)
+        return AsyncResult.success(LoginResult.Valid)
     }
 
-    private fun handleSignedOut(result: AsyncResult<LoginState>): AsyncResult<LoginState> {
+    private fun handleSignedOut(result: AsyncResult<LoginResult>): AsyncResult<LoginResult> {
         return result.onError(HttpException::class) {
             use(this@LoginViewModel::handleAuthFailure) whenever { it.code() == 401 }
         }
     }
 
-    private fun handleAuthFailure(result: AsyncResult.Failure<LoginState>): LoginState {
+    private fun handleAuthFailure(result: AsyncResult.Failure<LoginResult>): LoginResult {
         val message = (result.error as HttpException).parseStatusMessage()
         loginFailure.postValue(message)
-        return LoginState.Valid
+        return LoginResult.Valid
     }
 }

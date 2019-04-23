@@ -4,13 +4,13 @@ import com.jbrunton.async.AsyncResult
 import com.jbrunton.async.map
 import com.jbrunton.mymovies.entities.models.Movie
 
-sealed class SearchState {
-    object EmptyQuery : SearchState()
-    object NoResults : SearchState()
-    data class Some(val movies: List<Movie>) : SearchState()
+sealed class SearchResult {
+    object EmptyQuery : SearchResult()
+    object NoResults : SearchResult()
+    data class Some(val movies: List<Movie>) : SearchResult()
 
     companion object {
-        fun from(result: AsyncResult<List<Movie>>): AsyncResult<SearchState> {
+        fun from(result: AsyncResult<List<Movie>>): AsyncResult<SearchResult> {
             return result.map {
                 if (it.isEmpty()) {
                     NoResults

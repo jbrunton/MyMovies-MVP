@@ -14,25 +14,25 @@ class SearchUseCase(
 ) {
     private val searches = PublishSubject.create<String>()
 
-    val EmptyQueryResult = AsyncResult.success(SearchState.EmptyQuery)
+    val EmptyQueryResult = AsyncResult.success(SearchResult.EmptyQuery)
 
     fun search(query: String) {
         searches.onNext(query)
     }
 
-    fun results(): DataStream<SearchState> {
+    fun results(): DataStream<SearchResult> {
         return searches
                 .switchMap(this::doSearch)
                 .startWith(EmptyQueryResult)
     }
 
-    private fun doSearch(query: String): DataStream<SearchState> {
+    private fun doSearch(query: String): DataStream<SearchResult> {
         if (query.isEmpty()) {
             return Observable.just(EmptyQueryResult)
         }
 
         return repository.searchMovies(query)
-                .map { SearchState.from(it).handleNetworkErrors() }
+                .map { SearchResult.from(it).handleNetworkErrors() }
                 .subscribeOn(schedulerFactory.IO)
     }
 }
