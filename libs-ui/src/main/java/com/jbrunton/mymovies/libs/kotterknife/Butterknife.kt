@@ -8,6 +8,7 @@ import android.view.View
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
+import com.jbrunton.mymovies.libs.ui.ViewController
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
@@ -23,6 +24,8 @@ public fun <V : View> Fragment.bindView(id: Int)
         : ReadOnlyProperty<Fragment, V> = required(id, viewFinder)
 public fun <V : View> RecyclerView.ViewHolder.bindView(id: Int)
         : ReadOnlyProperty<RecyclerView.ViewHolder, V> = required(id, viewFinder)
+public fun <V : View> ViewController<*>.bindView(id: Int)
+        : ReadOnlyProperty<ViewController<*>, V> = required(id, viewFinder)
 
 public fun <V : View> View.bindOptionalView(id: Int)
         : ReadOnlyProperty<View, V?> = optional(id, viewFinder)
@@ -36,6 +39,8 @@ public fun <V : View> Fragment.bindOptionalView(id: Int)
         : ReadOnlyProperty<Fragment, V?> = optional(id, viewFinder)
 public fun <V : View> RecyclerView.ViewHolder.bindOptionalView(id: Int)
         : ReadOnlyProperty<RecyclerView.ViewHolder, V?> = optional(id, viewFinder)
+public fun <V : View> ViewController<*>.bindOptionalView(id: Int)
+        : ReadOnlyProperty<ViewController<*>, V?> = optional(id, viewFinder)
 
 public fun <V : View> View.bindViews(vararg ids: Int)
         : ReadOnlyProperty<View, List<V>> = required(ids, viewFinder)
@@ -49,6 +54,8 @@ public fun <V : View> Fragment.bindViews(vararg ids: Int)
         : ReadOnlyProperty<Fragment, List<V>> = required(ids, viewFinder)
 public fun <V : View> RecyclerView.ViewHolder.bindViews(vararg ids: Int)
         : ReadOnlyProperty<RecyclerView.ViewHolder, List<V>> = required(ids, viewFinder)
+public fun <V : View> ViewController<*>.bindViews(vararg ids: Int)
+        : ReadOnlyProperty<ViewController<*>, List<V>> = required(ids, viewFinder)
 
 public fun <V : View> View.bindOptionalViews(vararg ids: Int)
         : ReadOnlyProperty<View, List<V>> = optional(ids, viewFinder)
@@ -62,6 +69,8 @@ public fun <V : View> Fragment.bindOptionalViews(vararg ids: Int)
         : ReadOnlyProperty<Fragment, List<V>> = optional(ids, viewFinder)
 public fun <V : View> RecyclerView.ViewHolder.bindOptionalViews(vararg ids: Int)
         : ReadOnlyProperty<RecyclerView.ViewHolder, List<V>> = optional(ids, viewFinder)
+public fun <V : View> ViewController<*>.bindOptionalViews(vararg ids: Int)
+        : ReadOnlyProperty<ViewController<*>, List<V>> = optional(ids, viewFinder)
 
 private val View.viewFinder: Finder<View>
     get() = { findViewById(it) }
@@ -75,6 +84,8 @@ private val Fragment.viewFinder: Finder<Fragment>
     get() = { view?.findViewById(it) }
 private val RecyclerView.ViewHolder.viewFinder: Finder<RecyclerView.ViewHolder>
     get() = { itemView.findViewById(it) }
+private val ViewController<*>.viewFinder: Finder<ViewController<*>>
+    get() = { containerView.findViewById(it) }
 
 private fun viewNotFound(id:Int, desc: KProperty<*>): Nothing =
         throw IllegalStateException("View ID $id for '${desc.name}' not found.")
