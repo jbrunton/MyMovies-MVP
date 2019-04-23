@@ -7,6 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.jbrunton.mymovies.entities.models.Movie
+import com.jbrunton.mymovies.libs.kotterknife.bindOptionalView
 import com.jbrunton.mymovies.libs.kotterknife.bindView
 import com.jbrunton.mymovies.libs.ui.BaseRecyclerAdapter
 import com.jbrunton.mymovies.libs.ui.PicassoHelper
@@ -22,11 +23,11 @@ class MoviesListAdapter(
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val titleView: TextView by bindView(R.id.movie_title)
-        val releaseDateView: TextView? by bindView(R.id.release_date)
+        val releaseDateView: TextView? by bindOptionalView(R.id.release_date)
         val poster: ImageView by bindView(R.id.poster)
-        val ratingView: TextView? by bindView(R.id.rating)
+        val ratingView: TextView? by bindOptionalView(R.id.rating)
         val movieCardView: View by bindView(R.id.movie_card_view)
-        val divider: View? by bindView(R.id.divider)
+        val divider: View? by bindOptionalView(R.id.divider)
     }
 
     class ViewHolderFactory(
