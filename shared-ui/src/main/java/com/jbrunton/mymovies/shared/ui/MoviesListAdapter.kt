@@ -7,6 +7,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.jbrunton.mymovies.entities.models.Movie
+import com.jbrunton.mymovies.libs.kotterknife.bindOptionalView
+import com.jbrunton.mymovies.libs.kotterknife.bindView
 import com.jbrunton.mymovies.libs.ui.BaseRecyclerAdapter
 import com.jbrunton.mymovies.libs.ui.PicassoHelper
 
@@ -20,21 +22,12 @@ class MoviesListAdapter(
 ) {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val titleView: TextView
-        val releaseDateView: TextView?
-        val poster: ImageView
-        val ratingView: TextView?
-        val movieCardView: View
-        val divider: View?
-
-        init {
-            movieCardView = itemView.findViewById(R.id.movie_card_view)
-            titleView = itemView.findViewById(R.id.movie_title)
-            releaseDateView = itemView.findViewById(R.id.release_date)
-            ratingView = itemView.findViewById(R.id.rating)
-            poster = itemView.findViewById(R.id.poster)
-            divider = itemView.findViewById<View?>(R.id.divider)
-        }
+        val titleView: TextView by bindView(R.id.movie_title)
+        val releaseDateView: TextView? by bindOptionalView(R.id.release_date)
+        val poster: ImageView by bindView(R.id.poster)
+        val ratingView: TextView? by bindOptionalView(R.id.rating)
+        val movieCardView: View by bindView(R.id.movie_card_view)
+        val divider: View? by bindOptionalView(R.id.divider)
     }
 
     class ViewHolderFactory(
@@ -50,18 +43,14 @@ class MoviesListAdapter(
 
         override fun bindHolder(holder: ViewHolder, item: MovieSearchResultViewState, items: List<com.jbrunton.mymovies.shared.ui.MovieSearchResultViewState>, position: Int) {
             holder.titleView.text = item.title
-            if (holder.releaseDateView != null) {
-                holder.releaseDateView.text = item.yearReleased
-            }
-            if (holder.ratingView != null) {
-                holder.ratingView.text = Html.fromHtml(item.rating)
-            }
+            holder.releaseDateView?.let { it.text = item.yearReleased }
+            holder.ratingView?.let { it.text = Html.fromHtml(item.rating) }
             picassoHelper.loadSearchResultImage(context, holder.poster, item.posterUrl)
             holder.movieCardView.setOnClickListener {
                 onMovieSelected(item.movie)
             }
-            if (holder.divider != null) {
-                holder.divider.visibility = if (position < items.size - 1) {
+            holder.divider?.let {
+                it.visibility = if (position < items.size - 1) {
                     View.VISIBLE
                 } else {
                     View.GONE

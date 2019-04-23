@@ -3,15 +3,16 @@ package com.jbrunton.mymovies.libs.ui
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import com.jbrunton.mymovies.libs.kotterknife.bindView
 
 abstract class BaseLoadingViewController<T>: ViewController<LoadingViewState<T>>() {
     abstract val contentView: View
 
-    val loading_indicator: View get() = containerView.findViewById(R.id.loading_indicator)
-    val error_case: View get() = containerView.findViewById(R.id.error_case)
-    val error_text: TextView get() = containerView.findViewById(R.id.error_text)
-    val error_try_again: View get() = containerView.findViewById(R.id.error_try_again)
-    val error_image: ImageView get() = containerView.findViewById(R.id.error_image)
+    val loading_indicator: View by bindView(R.id.loading_indicator)
+    val error_case: View by bindView(R.id.error_case)
+    val error_text: TextView by bindView(R.id.error_text)
+    val error_try_again: View by bindView(R.id.error_try_again)
+    val error_image: ImageView by bindView(R.id.error_image)
 
     fun showLoadingIndicator() {
         contentView.visibility = View.GONE
