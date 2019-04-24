@@ -118,32 +118,18 @@ task('allUnitTests') {
     }
 }
 
-task('allConnectedTests') {
-    rootProject.subprojects { project ->
-        def testTasks = project.getTasksByName("connectedCheck", false)
-        testTasks.each { dependsOn it }
-    }
-}
-
-
 class TestMatrixPlugin implements Plugin<Project> {
     void apply(Project project) {
         def testApk = "./build/outputs/apk/androidTest/debug/${project.getName()}-debug-androidTest.apk"
 
-        project.task('firebaseSmokeTest', type:Exec) {
-            dependsOn 'assembleDebug', 'assembleDebugAndroidTest'
-            commandLine 'gcloud', 'firebase', 'test', 'android', 'run', '../firebase-test-matrices.yml:smoketest',
-                    '--type', 'instrumentation',
-                    '--app', '../app/build/outputs/apk/debug/app-debug.apk',
-                    '--test', "${testApk}"
-        }
-
-        project.task('firebaseRoadTest') {
-            dependsOn 'assembleDebug', 'assembleDebugAndroidTest'
-            commandLine 'gcloud', 'firebase', 'test', 'android', 'run', '../firebase-test-matrices.yml:roadtest',
-                    '--type', 'instrumentation',
-                    '--app', '../app/build/outputs/apk/debug/app-debug.apk',
-                    '--test', "${testApk}"
+        ['SmokeTest', 'RoadTest'].each { testMatrix ->
+            project.task("firebase${testMatrix}", type:Exec) {
+                dependsOn 'assembleDebug', 'assembleDebugAndroidTest'
+                commandLine 'gcloud', 'firebase', 'test', 'android', 'run', "../firebase-test-matrices.yml:${testMatrix.toLowerCase()}",
+                        '--type', 'instrumentation',
+                        '--app', '../app/build/outputs/apk/debug/app-debug.apk',
+                        '--test', "${testApk}"
+            }
         }
     }
 }
