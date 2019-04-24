@@ -1,4 +1,4 @@
-package com.jbrunton.mymovies.ui.search
+package com.jbrunton.mymovies.features.search
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,12 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
-import com.jbrunton.mymovies.entities.models.Movie
 import com.jbrunton.inject.injectViewModel
+import com.jbrunton.mymovies.entities.models.Movie
 import com.jbrunton.mymovies.libs.ui.BaseFragment
 import com.jbrunton.mymovies.libs.ui.observe
 import com.jbrunton.mymovies.libs.ui.onTextChanged
-import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.shared.ui.MoviesListViewController
 import kotlinx.android.synthetic.main.fragment_search.*
 

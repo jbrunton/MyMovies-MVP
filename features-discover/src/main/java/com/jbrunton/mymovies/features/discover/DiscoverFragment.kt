@@ -1,4 +1,4 @@
-package com.jbrunton.mymovies.ui.discover
+package com.jbrunton.mymovies.features.discover
 
 import android.os.Bundle
 import android.view.LayoutInflater

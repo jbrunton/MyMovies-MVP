@@ -54,6 +54,8 @@ dependencies {
     implementation project(':shared-ui')
     implementation project(':usecases')
     implementation project(':features-account')
+    implementation project(':features-discover')
+    implementation project(':features-search')
     implementation project(':networking')
 
     testImplementation project(':fixtures')

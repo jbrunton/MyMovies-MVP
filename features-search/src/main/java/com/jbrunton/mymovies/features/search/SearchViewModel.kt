@@ -1,9 +1,10 @@
-package com.jbrunton.mymovies.ui.search
+package com.jbrunton.mymovies.features.search
 
-import com.jbrunton.mymovies.entities.models.Movie
-import com.jbrunton.mymovies.entities.subscribe
 import com.jbrunton.inject.Container
 import com.jbrunton.inject.inject
+import com.jbrunton.mymovies.entities.models.Movie
+import com.jbrunton.mymovies.entities.subscribe
+import com.jbrunton.mymovies.features.search.SearchViewStateFactory
 import com.jbrunton.mymovies.libs.ui.BaseLoadingViewModel
 import com.jbrunton.mymovies.libs.ui.MovieDetailsRequest
 import com.jbrunton.mymovies.shared.ui.SearchViewState

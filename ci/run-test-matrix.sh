@@ -14,6 +14,8 @@ fi
 modules=(
     "app"
     "features-account"
+    "features-discover"
+    "features-search"
     "shared-ui"
     "libs-ui"
 )

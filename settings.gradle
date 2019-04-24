@@ -1,1 +1,1 @@
-include ':app', ':entities', ':fixtures', ':networking', ':usecases', ':libs-ui', ':features-account', ':shared-ui'
+include ':app', ':entities', ':fixtures', ':networking', ':usecases', ':libs-ui', ':features-account', ':shared-ui', ':features-search', ':features-discover'

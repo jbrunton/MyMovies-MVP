@@ -1,17 +1,16 @@
-package com.jbrunton.mymovies.ui.search
+package com.jbrunton.mymovies.features.search
 
 import android.content.Context
 import com.jbrunton.async.AsyncResult
 import com.jbrunton.mymovies.libs.ui.LoadingViewState
 import com.jbrunton.mymovies.libs.ui.LoadingViewStateError
-import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.shared.ui.SearchViewState
 import com.jbrunton.mymovies.usecases.search.SearchResult
 
 class SearchViewStateFactory (private val context: Context) {
     val NoResultsError = searchError(context.getString(R.string.search_no_results))
     val EmptyStateError = searchError(context.getString(R.string.search_empty))
-    
+
     fun viewState(result: AsyncResult<SearchResult>): LoadingViewState<SearchViewState> {
         return LoadingViewState.build(SearchViewState.Empty).flatMap(result, this::transform)
     }

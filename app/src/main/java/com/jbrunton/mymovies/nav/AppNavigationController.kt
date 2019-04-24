@@ -2,15 +2,15 @@ package com.jbrunton.mymovies.nav
 
 import android.content.Intent
 import androidx.fragment.app.FragmentActivity
+import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.features.account.AccountFragment
 import com.jbrunton.mymovies.features.account.favorites.FavoritesActivity
+import com.jbrunton.mymovies.features.search.SearchFragment
 import com.jbrunton.mymovies.libs.ui.*
-import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.ui.auth.LoginActivity
-import com.jbrunton.mymovies.ui.discover.DiscoverFragment
+import com.jbrunton.mymovies.features.discover.DiscoverFragment
 import com.jbrunton.mymovies.ui.main.MainActivity
 import com.jbrunton.mymovies.ui.moviedetails.MovieDetailsActivity
-import com.jbrunton.mymovies.ui.search.SearchFragment
 
 class AppNavigationController(val activity: FragmentActivity, val navigator: Navigator): NavigationController {
     override fun navigate(request: NavigationRequest) = when (request) {

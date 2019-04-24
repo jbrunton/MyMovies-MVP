@@ -1,20 +1,28 @@
-package com.jbrunton.mymovies.ui.discover
+package com.jbrunton.mymovies.features.discover
 
 import android.view.View
+import android.widget.ProgressBar
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
+import com.jbrunton.mymovies.libs.kotterknife.bindView
 import com.jbrunton.mymovies.libs.ui.BaseLoadingViewController
-import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.shared.ui.MoviesListAdapter
-import kotlinx.android.extensions.LayoutContainer
-import kotlinx.android.synthetic.main.fragment_discover.*
 
-class DiscoverViewController(val viewModel: DiscoverViewModel) : BaseLoadingViewController<DiscoverViewState>(), LayoutContainer {
+class DiscoverViewController(val viewModel: DiscoverViewModel) : BaseLoadingViewController<DiscoverViewState>() {
     override val layout = R.layout.fragment_discover
-    override val contentView: View get() = discover_content
+    override val contentView: View get() = containerView.findViewById(R.id.discover_content)
+
     private lateinit var nowPlayingAdapter: MoviesListAdapter
     private lateinit var popularAdapter: MoviesListAdapter
     private lateinit var genreResultsAdapter: MoviesListAdapter
+
+    private val now_playing: RecyclerView by bindView(R.id.now_playing)
+    private val popular: RecyclerView by bindView(R.id.popular)
+    private val genre_results: RecyclerView by bindView(R.id.genre_results)
+    private val genres: ChipGroup by bindView(R.id.genres)
+    private val genre_results_loading_indicator: ProgressBar by bindView(R.id.genre_results_loading_indicator)
 
     override fun bind(containerView: View) {
         super.bind(containerView)
@@ -48,7 +56,7 @@ class DiscoverViewController(val viewModel: DiscoverViewModel) : BaseLoadingView
         genre_results_loading_indicator.visibility = viewState.genreResultsLoadingIndicatorVisibility
 
         if (viewState.scrollToGenreResults) {
-            discover_content.scrollTo(0, genres.bottom)
+            contentView.scrollTo(0, genres.bottom)
         }
     }
 

@@ -1,4 +1,4 @@
-package com.jbrunton.mymovies.ui.discover
+package com.jbrunton.mymovies.features.discover
 
 import com.jbrunton.async.AsyncResult
 import com.jbrunton.async.getOr
