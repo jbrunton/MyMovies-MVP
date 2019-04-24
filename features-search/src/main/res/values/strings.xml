@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">features_search</string>
+    <string name="search_no_results">No Results</string>
+    <string name="search_empty">Search</string>
 </resources>

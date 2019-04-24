@@ -3,6 +3,8 @@ package com.jbrunton.mymovies.di
 import com.jbrunton.inject.module
 import com.jbrunton.mymovies.features.account.AccountViewModel
 import com.jbrunton.mymovies.features.account.favorites.FavoritesViewModel
+import com.jbrunton.mymovies.features.search.SearchViewModel
+import com.jbrunton.mymovies.features.search.SearchViewStateFactory
 import com.jbrunton.mymovies.libs.ui.Navigator
 import com.jbrunton.mymovies.ui.auth.LoginViewModel
 import com.jbrunton.mymovies.ui.auth.LoginViewStateFactory
@@ -10,8 +12,6 @@ import com.jbrunton.mymovies.ui.discover.DiscoverViewModel
 import com.jbrunton.mymovies.ui.main.MainViewModel
 import com.jbrunton.mymovies.ui.moviedetails.MovieDetailsViewModel
 import com.jbrunton.mymovies.ui.moviedetails.MovieDetailsViewStateFactory
-import com.jbrunton.mymovies.ui.search.SearchViewModel
-import com.jbrunton.mymovies.ui.search.SearchViewStateFactory
 import com.jbrunton.mymovies.usecases.account.AccountUseCase
 import com.jbrunton.mymovies.usecases.auth.LoginUseCase
 import com.jbrunton.mymovies.usecases.discover.DiscoverUseCase
