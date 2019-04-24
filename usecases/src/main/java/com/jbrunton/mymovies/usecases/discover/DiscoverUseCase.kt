@@ -12,12 +12,12 @@ class DiscoverUseCase(
         val movies: MoviesRepository,
         val genres: GenresRepository
 ) {
-    fun discover(): DataStream<DiscoverState> = Observables.zip(
+    fun discover(): DataStream<DiscoverResult> = Observables.zip(
             movies.nowPlaying(),
             movies.popular(),
             genres.genres()
     ) { nowPlaying, popular, genres ->
-        AsyncResult.zip(nowPlaying, popular, genres, ::DiscoverState)
+        AsyncResult.zip(nowPlaying, popular, genres, ::DiscoverResult)
                 .handleNetworkErrors()
     }
 

@@ -18,7 +18,7 @@ import com.jbrunton.mymovies.fixtures.rules.ViewControllerTestRule
 import com.jbrunton.mymovies.fixtures.rules.takeScreenshot
 import com.jbrunton.mymovies.shared.ui.MoviesListViewController
 import com.jbrunton.mymovies.shared.ui.SearchViewState
-import com.jbrunton.mymovies.usecases.search.SearchState
+import com.jbrunton.mymovies.usecases.search.SearchResult
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -49,10 +49,10 @@ class SearchViewControllerTest {
 
     @Before fun setUp() {
         viewStateFactory = SearchViewStateFactory(controllerRule.activity)
-        EMPTY_STATE = viewStateFactory.viewState(AsyncResult.success(SearchState.EmptyQuery))
+        EMPTY_STATE = viewStateFactory.viewState(AsyncResult.success(SearchResult.EmptyQuery))
         LOADING_STATE = viewStateFactory.viewState(AsyncResult.loading(null))
         NETWORK_ERROR_STATE = viewStateFactory.viewState(AsyncResult.failure(NETWORK_ERROR))
-        SUCCESS_STATE = viewStateFactory.viewState(AsyncResult.success(SearchState.Some(listOf(MOVIE1, MOVIE2))))
+        SUCCESS_STATE = viewStateFactory.viewState(AsyncResult.success(SearchResult.Some(listOf(MOVIE1, MOVIE2))))
     }
 
     @Test

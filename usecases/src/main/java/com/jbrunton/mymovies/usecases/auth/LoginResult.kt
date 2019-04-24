@@ -2,13 +2,13 @@ package com.jbrunton.mymovies.usecases.auth
 
 import com.jbrunton.mymovies.entities.models.AuthSession
 
-sealed class LoginState {
-    data class SignedIn(val session: AuthSession) : LoginState()
+sealed class LoginResult {
+    data class SignedIn(val session: AuthSession) : LoginResult()
 
-    object Valid : LoginState()
+    object Valid : LoginResult()
 
     data class Invalid(
             val requiresUsername: Boolean,
             val requiresPassword: Boolean
-    ) : LoginState()
+    ) : LoginResult()
 }

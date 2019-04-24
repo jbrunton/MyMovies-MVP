@@ -15,7 +15,7 @@ import org.mockito.Mockito
 class SearchUseCaseTest {
     private lateinit var repository: MoviesRepository
     private lateinit var useCase: SearchUseCase
-    private lateinit var observer: TestObserver<AsyncResult<SearchState>>
+    private lateinit var observer: TestObserver<AsyncResult<SearchResult>>
 
     private val movieFactory = MovieFactory()
 
@@ -23,9 +23,9 @@ class SearchUseCaseTest {
     private val LOADING_RESULT = AsyncResult.loading<List<Movie>>(null)
     private val SUCCESS_RESULT = AsyncResult.success(listOf(MOVIE))
 
-    private val EmptyQueryState = AsyncResult.success(SearchState.EmptyQuery)
+    private val EmptyQueryState = AsyncResult.success(SearchResult.EmptyQuery)
     private val LoadingState = AsyncResult.loading(null)
-    private val SuccessState = AsyncResult.success(SearchState.Some(listOf(MOVIE)))
+    private val SuccessState = AsyncResult.success(SearchResult.Some(listOf(MOVIE)))
 
     @Before
     fun setUp() {

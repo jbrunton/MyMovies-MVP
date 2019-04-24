@@ -18,7 +18,7 @@ class SearchUseCaseOrderingTest {
 
     private lateinit var repository: MoviesRepository
     private lateinit var useCase: SearchUseCase
-    private lateinit var observer: TestObserver<AsyncResult<SearchState>>
+    private lateinit var observer: TestObserver<AsyncResult<SearchResult>>
 
     private val movieFactory = MovieFactory()
 
@@ -26,9 +26,9 @@ class SearchUseCaseOrderingTest {
     private val MOVIE2 = movieFactory.create()
     private val MOVIE3 = movieFactory.create()
 
-    private val EMPTY_QUERY_STATE = AsyncResult.success(SearchState.EmptyQuery)
-    private val MOVIE1_STATE = AsyncResult.success(SearchState.Some(listOf(MOVIE1)))
-    private val MOVIE3_STATE = AsyncResult.success(SearchState.Some(listOf(MOVIE3)))
+    private val EMPTY_QUERY_STATE = AsyncResult.success(SearchResult.EmptyQuery)
+    private val MOVIE1_STATE = AsyncResult.success(SearchResult.Some(listOf(MOVIE1)))
+    private val MOVIE3_STATE = AsyncResult.success(SearchResult.Some(listOf(MOVIE3)))
 
     @Before
     fun setUp() {

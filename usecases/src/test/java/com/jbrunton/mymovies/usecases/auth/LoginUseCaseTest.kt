@@ -24,12 +24,12 @@ class LoginUseCaseTest {
     private val NETWORK_ERROR_RESULT = networkErrorResult<AuthSession>()
 
     private val LOADING_STATE = AsyncResult.loading(null)
-    private val SUCCESS_STATE = AsyncResult.success(LoginState.SignedIn(AUTH_SESSION))
+    private val SUCCESS_STATE = AsyncResult.success(LoginResult.SignedIn(AUTH_SESSION))
     private val NETWORK_ERROR_STATE = AsyncResult.failure(networkError(), null)
     private val AUTH_FAILURE_STATE = AsyncResult.failure(AUTH_FAILURE_RESULT.error, null)
 
-    private val INVALID_USERNAME_STATE = AsyncResult.success(LoginState.Invalid(requiresUsername = true, requiresPassword = false))
-    private val INVALID_PASSWORD_STATE = AsyncResult.success(LoginState.Invalid(requiresUsername = false, requiresPassword = true))
+    private val INVALID_USERNAME_STATE = AsyncResult.success(LoginResult.Invalid(requiresUsername = true, requiresPassword = false))
+    private val INVALID_PASSWORD_STATE = AsyncResult.success(LoginResult.Invalid(requiresUsername = false, requiresPassword = true))
 
     private val USERNAME = "myusername"
     private val PASSWORD = "mypassword"

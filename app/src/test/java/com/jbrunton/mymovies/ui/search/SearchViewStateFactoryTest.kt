@@ -6,7 +6,7 @@ import com.jbrunton.mymovies.fixtures.MovieFactory
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.libs.ui.toLoadingViewState
 import com.jbrunton.mymovies.shared.ui.SearchViewState
-import com.jbrunton.mymovies.usecases.search.SearchState
+import com.jbrunton.mymovies.usecases.search.SearchResult
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
 import org.assertj.core.api.Assertions.assertThat
@@ -22,7 +22,7 @@ class SearchViewStateFactoryTest {
 
     @Test
     fun handlesSuccess() {
-        val success = AsyncResult.success(SearchState.Some(listOf(movie)))
+        val success = AsyncResult.success(SearchResult.Some(listOf(movie)))
 
         val result = factory.viewState(success)
 
@@ -33,7 +33,7 @@ class SearchViewStateFactoryTest {
 
     @Test
     fun handlesNoResults() {
-        val failure = AsyncResult.success(SearchState.NoResults)
+        val failure = AsyncResult.success(SearchResult.NoResults)
 
         val result = factory.viewState(failure)
 
@@ -44,7 +44,7 @@ class SearchViewStateFactoryTest {
 
     @Test
     fun handlesEmptyQuery() {
-        val failure = AsyncResult.success(SearchState.EmptyQuery)
+        val failure = AsyncResult.success(SearchResult.EmptyQuery)
 
         val result = factory.viewState(failure)
 

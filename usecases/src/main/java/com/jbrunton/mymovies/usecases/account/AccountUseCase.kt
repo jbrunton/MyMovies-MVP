@@ -10,7 +10,7 @@ import com.jbrunton.mymovies.entities.repositories.DataStream
 import retrofit2.HttpException
 
 class AccountUseCase(val repository: AccountRepository) {
-    fun account(): DataStream<AccountState> {
+    fun account(): DataStream<AccountResult> {
         return repository.account()
                 .map(this::handleResult)
     }
@@ -19,15 +19,15 @@ class AccountUseCase(val repository: AccountRepository) {
         repository.signOut()
     }
 
-    private fun handleResult(result: AsyncResult<Account>): AsyncResult<AccountState> {
-        return result.map { AccountState.SignedIn(it) as AccountState }
+    private fun handleResult(result: AsyncResult<Account>): AsyncResult<AccountResult> {
+        return result.map { AccountResult.SignedIn(it) as AccountResult }
                 .let(this::handleSignedOut)
                 .handleNetworkErrors()
     }
 
-    private fun handleSignedOut(result: AsyncResult<AccountState>): AsyncResult<AccountState> {
+    private fun handleSignedOut(result: AsyncResult<AccountResult>): AsyncResult<AccountResult> {
         return result.onError(HttpException::class) {
-            use { AccountState.SignedOut } whenever { it.code() == 401 }
+            use { AccountResult.SignedOut } whenever { it.code() == 401 }
         }
     }
 }

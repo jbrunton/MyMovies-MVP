@@ -5,7 +5,7 @@ import com.jbrunton.mymovies.entities.subscribe
 import com.jbrunton.inject.Container
 import com.jbrunton.inject.inject
 import com.jbrunton.mymovies.libs.ui.*
-import com.jbrunton.mymovies.usecases.account.AccountState
+import com.jbrunton.mymovies.usecases.account.AccountResult
 import com.jbrunton.mymovies.usecases.account.AccountUseCase
 
 class AccountViewModel(container: Container) : BaseLoadingViewModel<AccountViewState>(container) {
@@ -29,7 +29,7 @@ class AccountViewModel(container: Container) : BaseLoadingViewModel<AccountViewS
 
     fun onSignOutClicked() {
         useCase.signOut()
-        val state = AsyncResult.success(AccountState.SignedOut)
+        val state = AsyncResult.success(AccountResult.SignedOut)
         viewState.postValue(AccountViewStateFactory.viewState(state))
     }
 
