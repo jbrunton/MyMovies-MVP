@@ -22,6 +22,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.jbrunton.mymovies.features.discover.test.bar", appContext.getPackageName());
+        assertEquals("com.jbrunton.mymovies.features.discover.test", appContext.getPackageName());
     }
 }
