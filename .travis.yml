@@ -47,13 +47,13 @@ jobs:
   include:
     - stage: test
       script:
-        - ./ci/test.sh
+        - ./gradlew allUnitTests --continue
     - stage: smoketest
       if: type = pull_request
       script:
         - gcloud -v
-        - ./ci/run-test-matrix.sh smoketest
+        - ./gradlew firebaseSmokeTest --continue
     - stage: roadtest
       if: branch = master and type != pull_request
       script:
-        - ./ci/run-test-matrix.sh roadtest
+        - ./gradlew firebaseRoadTest --continue
