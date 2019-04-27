@@ -1,14 +1,18 @@
 package com.jbrunton.mymovies.ui.auth
 
 import android.view.View
-import com.jbrunton.mymovies.libs.ui.controllers.BaseLoadingViewController
+import com.google.android.material.textfield.TextInputLayout
 import com.jbrunton.mymovies.R
-import kotlinx.android.extensions.LayoutContainer
-import kotlinx.android.synthetic.main.activity_login.*
+import com.jbrunton.mymovies.libs.kotterknife.bindView
+import com.jbrunton.mymovies.libs.ui.controllers.BaseLoadingViewController
 
-class LoginViewController : BaseLoadingViewController<LoginViewState>(), LayoutContainer {
+class LoginViewController : BaseLoadingViewController<LoginViewState>() {
     override val layout = R.layout.activity_login
     override val contentView: View get() = sign_in_details
+
+    val sign_in_details: View by bindView(R.id.sign_in_details)
+    val username_layout: TextInputLayout by bindView(R.id.username_layout)
+    val password_layout: TextInputLayout by bindView(R.id.password_layout)
 
     override fun updateContentView(viewState: LoginViewState) {
         username_layout.error = viewState.usernameError
