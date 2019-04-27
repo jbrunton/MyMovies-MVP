@@ -3,13 +3,12 @@ package com.jbrunton.mymovies.libs.ui
 import androidx.annotation.DrawableRes
 import androidx.lifecycle.ViewModel
 import com.jbrunton.async.AsyncResult
-import com.jbrunton.mymovies.entities.HasSchedulers
-import com.jbrunton.mymovies.entities.SchedulerContext
-import com.jbrunton.mymovies.entities.SchedulerFactory
-import com.jbrunton.mymovies.entities.subscribe
 import com.jbrunton.inject.Container
 import com.jbrunton.inject.HasContainer
 import com.jbrunton.inject.inject
+import com.jbrunton.mymovies.entities.HasSchedulers
+import com.jbrunton.mymovies.entities.SchedulerContext
+import com.jbrunton.mymovies.entities.SchedulerFactory
 
 abstract class BaseViewModel(override val container: Container) : ViewModel(),
         HasSchedulers, HasContainer, NavigationResultListener
@@ -21,11 +20,6 @@ abstract class BaseViewModel(override val container: Container) : ViewModel(),
 
     open fun start() {
         navigator.register(this)
-    }
-
-    fun start(useCase: BaseUseCase) {
-        subscribe(useCase.navigationRequest, navigator::navigate)
-        useCase.start(schedulerContext)
     }
 
     fun<T>failure(errorMessage: String,
