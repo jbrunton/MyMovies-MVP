@@ -1,4 +1,4 @@
-package com.jbrunton.mymovies.libs.ui
+package com.jbrunton.mymovies.libs.ui.livedata
 
 import androidx.annotation.MainThread
 import androidx.lifecycle.LifecycleOwner

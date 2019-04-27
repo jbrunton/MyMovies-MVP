@@ -1,4 +1,4 @@
-package com.jbrunton.mymovies.libs.ui
+package com.jbrunton.mymovies.libs.ui.views
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,6 +7,14 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
 import com.jbrunton.inject.HasContainer
 import com.jbrunton.inject.inject
+import com.jbrunton.mymovies.libs.ui.*
+import com.jbrunton.mymovies.libs.ui.livedata.observe
+import com.jbrunton.mymovies.libs.ui.nav.NavigationController
+import com.jbrunton.mymovies.libs.ui.nav.NavigationRequest
+import com.jbrunton.mymovies.libs.ui.nav.NavigationRequestListener
+import com.jbrunton.mymovies.libs.ui.nav.Navigator
+import com.jbrunton.mymovies.libs.ui.viewmodels.BaseViewModel
+import com.jbrunton.mymovies.libs.ui.viewmodels.ViewModelLifecycle
 import io.reactivex.ObservableTransformer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers

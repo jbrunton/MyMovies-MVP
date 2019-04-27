@@ -6,8 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import com.jbrunton.inject.injectViewModel
-import com.jbrunton.mymovies.libs.ui.BaseFragment
-import com.jbrunton.mymovies.libs.ui.observe
+import com.jbrunton.mymovies.libs.ui.views.BaseFragment
+import com.jbrunton.mymovies.libs.ui.livedata.observe
 import kotlinx.android.synthetic.main.fragment_discover.*
 
 class DiscoverFragment : BaseFragment<DiscoverViewModel>() {

@@ -9,8 +9,8 @@ import com.jbrunton.mymovies.entities.subscribe
 import com.jbrunton.inject.Container
 import com.jbrunton.inject.inject
 import com.jbrunton.inject.parametersOf
-import com.jbrunton.mymovies.libs.ui.BaseLoadingViewModel
-import com.jbrunton.mymovies.libs.ui.SingleLiveEvent
+import com.jbrunton.mymovies.libs.ui.viewmodels.BaseLoadingViewModel
+import com.jbrunton.mymovies.libs.ui.livedata.SingleLiveEvent
 import com.jbrunton.mymovies.usecases.auth.LoginResult
 import com.jbrunton.mymovies.usecases.auth.LoginUseCase
 import com.jbrunton.mymovies.networking.parseStatusMessage

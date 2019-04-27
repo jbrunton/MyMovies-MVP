@@ -1,7 +1,7 @@
 package com.jbrunton.mymovies.ui.auth
 
 import android.view.View
-import com.jbrunton.mymovies.libs.ui.BaseLoadingViewController
+import com.jbrunton.mymovies.libs.ui.controllers.BaseLoadingViewController
 import com.jbrunton.mymovies.R
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.activity_login.*

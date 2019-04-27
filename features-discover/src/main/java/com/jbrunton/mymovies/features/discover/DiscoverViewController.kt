@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.jbrunton.mymovies.libs.kotterknife.bindView
-import com.jbrunton.mymovies.libs.ui.BaseLoadingViewController
+import com.jbrunton.mymovies.libs.ui.controllers.BaseLoadingViewController
 import com.jbrunton.mymovies.shared.ui.MoviesListAdapter
 
 class DiscoverViewController(val viewModel: DiscoverViewModel) : BaseLoadingViewController<DiscoverViewState>() {

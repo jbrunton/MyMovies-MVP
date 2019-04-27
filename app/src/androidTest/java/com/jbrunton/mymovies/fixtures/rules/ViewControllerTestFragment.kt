@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.jbrunton.mymovies.libs.ui.ViewController
+import com.jbrunton.mymovies.libs.ui.controllers.ViewController
 
 class ViewControllerTestFragment<T>(val viewController: ViewController<T>): Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

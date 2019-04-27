@@ -8,7 +8,7 @@ import android.view.View
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
-import com.jbrunton.mymovies.libs.ui.ViewController
+import com.jbrunton.mymovies.libs.ui.controllers.ViewController
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 

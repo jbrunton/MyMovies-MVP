@@ -1,4 +1,4 @@
-package com.jbrunton.mymovies.libs.ui
+package com.jbrunton.mymovies.libs.ui.nav
 
 import com.jbrunton.mymovies.entities.models.AuthSession
 

@@ -1,4 +1,4 @@
-package com.jbrunton.mymovies.libs.ui
+package com.jbrunton.mymovies.libs.ui.controllers
 
 import android.view.View
 import androidx.annotation.LayoutRes

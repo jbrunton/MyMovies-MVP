@@ -4,7 +4,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import com.jbrunton.mymovies.libs.kotterknife.bindView
-import com.jbrunton.mymovies.libs.ui.BaseLoadingViewController
+import com.jbrunton.mymovies.libs.ui.controllers.BaseLoadingViewController
 import com.jbrunton.mymovies.libs.ui.PicassoHelper
 
 class AccountViewController : BaseLoadingViewController<AccountViewState>() {

@@ -8,8 +8,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.jbrunton.inject.injectViewModel
 import com.jbrunton.mymovies.entities.models.Movie
-import com.jbrunton.mymovies.libs.ui.BaseFragment
-import com.jbrunton.mymovies.libs.ui.observe
+import com.jbrunton.mymovies.libs.ui.views.BaseFragment
+import com.jbrunton.mymovies.libs.ui.livedata.observe
 import com.jbrunton.mymovies.libs.ui.onTextChanged
 import com.jbrunton.mymovies.shared.ui.MoviesListViewController
 import kotlinx.android.synthetic.main.fragment_search.*

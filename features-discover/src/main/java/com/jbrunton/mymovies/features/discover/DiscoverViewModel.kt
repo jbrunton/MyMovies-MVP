@@ -9,8 +9,8 @@ import com.jbrunton.mymovies.entities.models.Genre
 import com.jbrunton.mymovies.entities.models.Movie
 import com.jbrunton.mymovies.entities.safelySubscribe
 import com.jbrunton.mymovies.entities.subscribe
-import com.jbrunton.mymovies.libs.ui.BaseLoadingViewModel
-import com.jbrunton.mymovies.libs.ui.MovieDetailsRequest
+import com.jbrunton.mymovies.libs.ui.viewmodels.BaseLoadingViewModel
+import com.jbrunton.mymovies.libs.ui.nav.MovieDetailsRequest
 import com.jbrunton.mymovies.usecases.discover.DiscoverResult
 import com.jbrunton.mymovies.usecases.discover.DiscoverUseCase
 import io.reactivex.Observable

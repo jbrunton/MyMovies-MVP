@@ -1,4 +1,4 @@
-package com.jbrunton.mymovies.libs.ui
+package com.jbrunton.mymovies.libs.ui.viewstates
 
 import com.jbrunton.async.AsyncResult
 import com.jbrunton.async.flatMap
