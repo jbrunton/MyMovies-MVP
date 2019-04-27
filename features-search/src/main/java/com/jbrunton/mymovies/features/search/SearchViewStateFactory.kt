@@ -2,8 +2,8 @@ package com.jbrunton.mymovies.features.search
 
 import android.content.Context
 import com.jbrunton.async.AsyncResult
-import com.jbrunton.mymovies.libs.ui.LoadingViewState
-import com.jbrunton.mymovies.libs.ui.LoadingViewStateError
+import com.jbrunton.mymovies.libs.ui.viewstates.LoadingViewState
+import com.jbrunton.mymovies.libs.ui.viewstates.LoadingViewStateError
 import com.jbrunton.mymovies.shared.ui.SearchViewState
 import com.jbrunton.mymovies.usecases.search.SearchResult
 

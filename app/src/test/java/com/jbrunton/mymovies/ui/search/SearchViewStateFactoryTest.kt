@@ -5,7 +5,7 @@ import com.jbrunton.async.AsyncResult
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.features.search.SearchViewStateFactory
 import com.jbrunton.mymovies.fixtures.MovieFactory
-import com.jbrunton.mymovies.libs.ui.toLoadingViewState
+import com.jbrunton.mymovies.libs.ui.viewstates.toLoadingViewState
 import com.jbrunton.mymovies.shared.ui.SearchViewState
 import com.jbrunton.mymovies.usecases.search.SearchResult
 import com.nhaarman.mockito_kotlin.doReturn

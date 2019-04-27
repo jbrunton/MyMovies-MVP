@@ -1,4 +1,4 @@
-package com.jbrunton.mymovies.libs.ui
+package com.jbrunton.mymovies.libs.ui.nav
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity

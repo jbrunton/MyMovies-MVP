@@ -1,8 +1,10 @@
-package com.jbrunton.mymovies.libs.ui
+package com.jbrunton.mymovies.libs.ui.viewmodels
 
 import androidx.lifecycle.MutableLiveData
 import com.google.android.material.snackbar.Snackbar
 import com.jbrunton.inject.Container
+import com.jbrunton.mymovies.libs.ui.SnackbarEvent
+import com.jbrunton.mymovies.libs.ui.viewstates.LoadingViewState
 
 abstract class BaseLoadingViewModel<T>(container: Container) : BaseViewModel(container) {
     val viewState = MutableLiveData<LoadingViewState<T>>()

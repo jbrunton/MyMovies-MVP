@@ -15,8 +15,8 @@ import com.jbrunton.mymovies.fixtures.ProgressBarViewActions
 import com.jbrunton.mymovies.fixtures.RecyclerViewUtils.withRecyclerView
 import com.jbrunton.mymovies.fixtures.rules.ViewControllerTestRule
 import com.jbrunton.mymovies.fixtures.rules.takeScreenshot
-import com.jbrunton.mymovies.libs.ui.LoadingViewState
-import com.jbrunton.mymovies.libs.ui.LoadingViewStateError
+import com.jbrunton.mymovies.libs.ui.viewstates.LoadingViewState
+import com.jbrunton.mymovies.libs.ui.viewstates.LoadingViewStateError
 import com.jbrunton.mymovies.shared.ui.MoviesListViewController
 import com.jbrunton.mymovies.shared.ui.SearchViewState
 import com.jbrunton.mymovies.usecases.search.SearchResult
@@ -30,7 +30,7 @@ import org.junit.runner.RunWith
 class SearchViewControllerTest {
     @get:Rule
     val controllerRule = ViewControllerTestRule.create(object : MoviesListViewController(R.layout.fragment_search) {
-        override val contentView: RecyclerView get() = containerView.findViewById(R.id.movies_list)
+        override val contentView: RecyclerView get() = view.findViewById(R.id.movies_list)
         override fun onMovieSelected(movie: Movie) {}
     })
 

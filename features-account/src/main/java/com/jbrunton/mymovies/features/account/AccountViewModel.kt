@@ -4,7 +4,11 @@ import com.jbrunton.async.AsyncResult
 import com.jbrunton.mymovies.entities.subscribe
 import com.jbrunton.inject.Container
 import com.jbrunton.inject.inject
-import com.jbrunton.mymovies.libs.ui.*
+import com.jbrunton.mymovies.libs.ui.nav.FavoritesRequest
+import com.jbrunton.mymovies.libs.ui.nav.LoginRequest
+import com.jbrunton.mymovies.libs.ui.nav.LoginSuccess
+import com.jbrunton.mymovies.libs.ui.nav.NavigationResult
+import com.jbrunton.mymovies.libs.ui.viewmodels.BaseLoadingViewModel
 import com.jbrunton.mymovies.usecases.account.AccountResult
 import com.jbrunton.mymovies.usecases.account.AccountUseCase
 

@@ -5,7 +5,7 @@ import com.jbrunton.mymovies.features.account.AccountViewModel
 import com.jbrunton.mymovies.features.account.favorites.FavoritesViewModel
 import com.jbrunton.mymovies.features.search.SearchViewModel
 import com.jbrunton.mymovies.features.search.SearchViewStateFactory
-import com.jbrunton.mymovies.libs.ui.Navigator
+import com.jbrunton.mymovies.libs.ui.nav.Navigator
 import com.jbrunton.mymovies.ui.auth.LoginViewModel
 import com.jbrunton.mymovies.ui.auth.LoginViewStateFactory
 import com.jbrunton.mymovies.features.discover.DiscoverViewModel

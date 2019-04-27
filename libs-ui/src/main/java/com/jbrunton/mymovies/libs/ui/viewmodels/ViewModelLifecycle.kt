@@ -1,4 +1,4 @@
-package com.jbrunton.mymovies.libs.ui
+package com.jbrunton.mymovies.libs.ui.viewmodels
 
 interface ViewModelLifecycle {
     fun onBindListeners()

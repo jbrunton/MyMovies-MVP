@@ -8,8 +8,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.jbrunton.inject.injectViewModel
 import com.jbrunton.mymovies.entities.models.Movie
-import com.jbrunton.mymovies.libs.ui.BaseFragment
-import com.jbrunton.mymovies.libs.ui.observe
+import com.jbrunton.mymovies.libs.ui.views.BaseFragment
+import com.jbrunton.mymovies.libs.ui.livedata.observe
 import com.jbrunton.mymovies.libs.ui.onTextChanged
 import com.jbrunton.mymovies.shared.ui.MoviesListViewController
 import kotlinx.android.synthetic.main.fragment_search.*
@@ -18,7 +18,7 @@ class SearchFragment : BaseFragment<SearchViewModel>() {
     override val viewModel: SearchViewModel by injectViewModel()
 
     val layoutController = object : MoviesListViewController(R.layout.fragment_search) {
-        override val contentView: RecyclerView get() = containerView.findViewById(R.id.movies_list)
+        override val contentView: RecyclerView get() = view.findViewById(R.id.movies_list)
         override fun onMovieSelected(movie: Movie) = viewModel.onMovieSelected(movie)
     }
 
@@ -28,7 +28,7 @@ class SearchFragment : BaseFragment<SearchViewModel>() {
 
     override fun onCreateLayout() {
         (activity as AppCompatActivity).setSupportActionBar(toolbar)
-        layoutController.bind(this)
+        layoutController.initializeView(this)
     }
 
     override fun onBindListeners() {

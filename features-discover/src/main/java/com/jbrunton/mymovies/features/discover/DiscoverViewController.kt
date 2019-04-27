@@ -7,12 +7,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.jbrunton.mymovies.libs.kotterknife.bindView
-import com.jbrunton.mymovies.libs.ui.BaseLoadingViewController
+import com.jbrunton.mymovies.libs.ui.controllers.BaseLoadingViewController
 import com.jbrunton.mymovies.shared.ui.MoviesListAdapter
 
 class DiscoverViewController(val viewModel: DiscoverViewModel) : BaseLoadingViewController<DiscoverViewState>() {
     override val layout = R.layout.fragment_discover
-    override val contentView: View get() = containerView.findViewById(R.id.discover_content)
+    override val contentView: View get() = view.findViewById(R.id.discover_content)
 
     private lateinit var nowPlayingAdapter: MoviesListAdapter
     private lateinit var popularAdapter: MoviesListAdapter
@@ -24,8 +24,8 @@ class DiscoverViewController(val viewModel: DiscoverViewModel) : BaseLoadingView
     private val genres: ChipGroup by bindView(R.id.genres)
     private val genre_results_loading_indicator: ProgressBar by bindView(R.id.genre_results_loading_indicator)
 
-    override fun bind(containerView: View) {
-        super.bind(containerView)
+    override fun initializeView(view: View) {
+        super.initializeView(view)
         nowPlayingAdapter = MoviesListAdapter(context, R.layout.item_movie_card_grid, viewModel::onMovieSelected)
         popularAdapter = MoviesListAdapter(context, R.layout.item_movie_card_grid, viewModel::onMovieSelected)
         genreResultsAdapter = MoviesListAdapter(context, R.layout.item_movie_card_grid, viewModel::onMovieSelected)

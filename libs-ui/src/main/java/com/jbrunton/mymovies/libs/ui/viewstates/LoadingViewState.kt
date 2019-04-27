@@ -1,4 +1,4 @@
-package com.jbrunton.mymovies.libs.ui
+package com.jbrunton.mymovies.libs.ui.viewstates
 
 import android.view.View
 import androidx.annotation.DrawableRes
@@ -38,8 +38,8 @@ data class LoadingViewState<T>(
         )
 
         fun <T> failure(error: Throwable, emptyState: T) = when (error) {
-            is LoadingViewStateError -> Companion.failure(error, emptyState)
-            is NetworkError -> Companion.failure(error.toLoadingViewStateError(), emptyState)
+            is LoadingViewStateError -> failure(error, emptyState)
+            is NetworkError -> failure(error.toLoadingViewStateError(), emptyState)
             else -> throw error
         }
 
@@ -56,10 +56,10 @@ fun <T> AsyncResult<T>.toLoadingViewState(emptyState: T): LoadingViewState<T> {
                 it.useCachedValue()
             }
             .onError(NetworkError::class) {
-                use { LoadingViewState.Companion.failure(it.error, emptyState) }
+                use { LoadingViewState.failure(it.error, emptyState) }
             }
             .onError(LoadingViewStateError::class) {
-                use { LoadingViewState.Companion.failure(it.error, emptyState) }
+                use { LoadingViewState.failure(it.error, emptyState) }
             }
             .get()
 }

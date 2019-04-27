@@ -6,9 +6,9 @@ import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.features.account.AccountFragment
 import com.jbrunton.mymovies.features.account.favorites.FavoritesActivity
 import com.jbrunton.mymovies.features.search.SearchFragment
-import com.jbrunton.mymovies.libs.ui.*
 import com.jbrunton.mymovies.ui.auth.LoginActivity
 import com.jbrunton.mymovies.features.discover.DiscoverFragment
+import com.jbrunton.mymovies.libs.ui.nav.*
 import com.jbrunton.mymovies.ui.main.MainActivity
 import com.jbrunton.mymovies.ui.moviedetails.MovieDetailsActivity
 

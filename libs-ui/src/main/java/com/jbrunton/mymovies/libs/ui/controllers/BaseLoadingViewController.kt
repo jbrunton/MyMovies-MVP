@@ -1,9 +1,11 @@
-package com.jbrunton.mymovies.libs.ui
+package com.jbrunton.mymovies.libs.ui.controllers
 
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import com.jbrunton.mymovies.libs.kotterknife.bindView
+import com.jbrunton.mymovies.libs.ui.viewstates.LoadingViewState
+import com.jbrunton.mymovies.libs.ui.R
 
 abstract class BaseLoadingViewController<T>: ViewController<LoadingViewState<T>>() {
     abstract val contentView: View
