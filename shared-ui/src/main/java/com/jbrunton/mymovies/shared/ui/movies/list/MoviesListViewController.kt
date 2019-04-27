@@ -1,9 +1,10 @@
-package com.jbrunton.mymovies.shared.ui
+package com.jbrunton.mymovies.shared.ui.movies.list
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.jbrunton.mymovies.entities.models.Movie
 import com.jbrunton.mymovies.libs.ui.controllers.BaseLoadingViewController
+import com.jbrunton.mymovies.shared.ui.R
 
 abstract class MoviesListViewController(
         override val layout: Int

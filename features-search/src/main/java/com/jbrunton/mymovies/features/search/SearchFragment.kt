@@ -11,7 +11,7 @@ import com.jbrunton.mymovies.entities.models.Movie
 import com.jbrunton.mymovies.libs.ui.views.BaseFragment
 import com.jbrunton.mymovies.libs.ui.livedata.observe
 import com.jbrunton.mymovies.libs.ui.onTextChanged
-import com.jbrunton.mymovies.shared.ui.MoviesListViewController
+import com.jbrunton.mymovies.shared.ui.movies.list.MoviesListViewController
 import kotlinx.android.synthetic.main.fragment_search.*
 
 class SearchFragment : BaseFragment<SearchViewModel>() {

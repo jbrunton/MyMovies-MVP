@@ -8,7 +8,7 @@ import com.jbrunton.inject.Container
 import com.jbrunton.inject.inject
 import com.jbrunton.mymovies.libs.ui.viewmodels.BaseLoadingViewModel
 import com.jbrunton.mymovies.libs.ui.nav.MovieDetailsRequest
-import com.jbrunton.mymovies.shared.ui.SearchViewState
+import com.jbrunton.mymovies.shared.ui.movies.list.SearchViewState
 import com.jbrunton.mymovies.usecases.favorites.FavoritesUseCase
 
 class FavoritesViewModel(container: Container) : BaseLoadingViewModel<SearchViewState>(container) {

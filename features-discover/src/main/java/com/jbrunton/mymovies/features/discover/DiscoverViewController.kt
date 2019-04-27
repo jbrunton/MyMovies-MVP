@@ -8,7 +8,7 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.jbrunton.mymovies.libs.kotterknife.bindView
 import com.jbrunton.mymovies.libs.ui.controllers.BaseLoadingViewController
-import com.jbrunton.mymovies.shared.ui.MoviesListAdapter
+import com.jbrunton.mymovies.shared.ui.movies.list.MoviesListAdapter
 
 class DiscoverViewController(val viewModel: DiscoverViewModel) : BaseLoadingViewController<DiscoverViewState>() {
     override val layout = R.layout.fragment_discover

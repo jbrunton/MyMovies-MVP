@@ -4,7 +4,7 @@ import android.content.Context
 import com.jbrunton.async.AsyncResult
 import com.jbrunton.mymovies.libs.ui.viewstates.LoadingViewState
 import com.jbrunton.mymovies.libs.ui.viewstates.LoadingViewStateError
-import com.jbrunton.mymovies.shared.ui.SearchViewState
+import com.jbrunton.mymovies.shared.ui.movies.list.SearchViewState
 import com.jbrunton.mymovies.usecases.search.SearchResult
 
 class SearchViewStateFactory (private val context: Context) {

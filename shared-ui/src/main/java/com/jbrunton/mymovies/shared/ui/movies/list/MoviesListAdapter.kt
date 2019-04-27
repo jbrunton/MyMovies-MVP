@@ -1,4 +1,4 @@
-package com.jbrunton.mymovies.shared.ui
+package com.jbrunton.mymovies.shared.ui.movies.list
 
 import android.content.Context
 import android.text.Html
@@ -11,6 +11,7 @@ import com.jbrunton.mymovies.libs.kotterknife.bindOptionalView
 import com.jbrunton.mymovies.libs.kotterknife.bindView
 import com.jbrunton.mymovies.libs.ui.BaseRecyclerAdapter
 import com.jbrunton.mymovies.libs.ui.PicassoHelper
+import com.jbrunton.mymovies.shared.ui.R
 
 class MoviesListAdapter(
         context: Context,
@@ -41,7 +42,7 @@ class MoviesListAdapter(
             return ViewHolder(view)
         }
 
-        override fun bindHolder(holder: ViewHolder, item: MovieSearchResultViewState, items: List<com.jbrunton.mymovies.shared.ui.MovieSearchResultViewState>, position: Int) {
+        override fun bindHolder(holder: ViewHolder, item: MovieSearchResultViewState, items: List<MovieSearchResultViewState>, position: Int) {
             holder.titleView.text = item.title
             holder.releaseDateView?.let { it.text = item.yearReleased }
             holder.ratingView?.let { it.text = Html.fromHtml(item.rating) }

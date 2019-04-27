@@ -1,4 +1,4 @@
-package com.jbrunton.mymovies.shared.ui
+package com.jbrunton.mymovies.shared.ui.movies.list
 
 import com.jbrunton.mymovies.entities.models.Movie
 import org.joda.time.LocalDate

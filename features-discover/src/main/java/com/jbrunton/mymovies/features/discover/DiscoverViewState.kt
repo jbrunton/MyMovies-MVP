@@ -1,7 +1,7 @@
 package com.jbrunton.mymovies.features.discover
 
 import android.view.View
-import com.jbrunton.mymovies.shared.ui.MovieSearchResultViewState
+import com.jbrunton.mymovies.shared.ui.movies.list.MovieSearchResultViewState
 
 data class DiscoverViewState(
         val nowPlayingViewState: List<MovieSearchResultViewState>,

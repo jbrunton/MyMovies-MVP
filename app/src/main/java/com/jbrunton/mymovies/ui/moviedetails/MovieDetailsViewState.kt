@@ -2,12 +2,13 @@ package com.jbrunton.mymovies.ui.moviedetails
 
 import android.view.View
 import com.jbrunton.mymovies.entities.models.Movie
+import com.jbrunton.mymovies.shared.ui.movies.list.BaseMovieViewState
 
 data class MovieDetailsViewState(
         val movie: Movie,
         val favoriteVisibility: Int,
         val unfavoriteVisibility: Int
-) : com.jbrunton.mymovies.shared.ui.BaseMovieViewState(movie) {
+) : BaseMovieViewState(movie) {
     val overview = movie.overview ?: ""
 
     companion object {

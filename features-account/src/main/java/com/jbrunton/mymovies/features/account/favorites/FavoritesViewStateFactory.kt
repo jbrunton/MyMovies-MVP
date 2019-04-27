@@ -3,7 +3,7 @@ package com.jbrunton.mymovies.features.account.favorites
 import com.jbrunton.async.AsyncResult
 import com.jbrunton.mymovies.entities.models.Movie
 import com.jbrunton.mymovies.libs.ui.viewstates.LoadingViewState
-import com.jbrunton.mymovies.shared.ui.SearchViewState
+import com.jbrunton.mymovies.shared.ui.movies.list.SearchViewState
 
 object FavoritesViewStateFactory {
     fun viewState(result: AsyncResult<List<Movie>>): LoadingViewState<SearchViewState> {
