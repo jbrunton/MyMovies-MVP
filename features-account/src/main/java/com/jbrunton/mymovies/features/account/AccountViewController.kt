@@ -4,12 +4,12 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import com.jbrunton.mymovies.libs.kotterknife.bindView
-import com.jbrunton.mymovies.libs.ui.controllers.BaseLoadingViewController
 import com.jbrunton.mymovies.libs.ui.PicassoHelper
+import com.jbrunton.mymovies.libs.ui.controllers.BaseLoadingViewController
 
 class AccountViewController : BaseLoadingViewController<AccountViewState>() {
     override val layout = R.layout.fragment_account
-    override val contentView get() = containerView.findViewById<View>(R.id.account_details)
+    override val contentView get() = view.findViewById<View>(R.id.account_details)
     private val picassoHelper = PicassoHelper()
 
     private val account_username: TextView by bindView(R.id.account_username)

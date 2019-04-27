@@ -10,16 +10,16 @@ import com.jbrunton.mymovies.R
 
 class MovieDetailsViewController : BaseLoadingViewController<MovieDetailsViewState>() {
     override val layout = R.layout.activity_movie_details
-    override val contentView: View get() = containerView.findViewById(R.id.movie_details)
+    override val contentView: View get() = view.findViewById(R.id.movie_details)
 
-    val movie_title: TextView get() = containerView.findViewById(R.id.movie_title)
-    val rating: TextView get() = containerView.findViewById(R.id.rating)
-    val overview: TextView get() = containerView.findViewById(R.id.overview)
-    val release_date: TextView get() = containerView.findViewById(R.id.release_date)
-    val favorite: View get() = containerView.findViewById(R.id.favorite)
-    val unfavorite: View get() = containerView.findViewById(R.id.unfavorite)
-    val poster: ImageView get() = containerView.findViewById(R.id.poster)
-    val backdrop: ImageView get() = containerView.findViewById(R.id.backdrop)
+    val movie_title: TextView get() = view.findViewById(R.id.movie_title)
+    val rating: TextView get() = view.findViewById(R.id.rating)
+    val overview: TextView get() = view.findViewById(R.id.overview)
+    val release_date: TextView get() = view.findViewById(R.id.release_date)
+    val favorite: View get() = view.findViewById(R.id.favorite)
+    val unfavorite: View get() = view.findViewById(R.id.unfavorite)
+    val poster: ImageView get() = view.findViewById(R.id.poster)
+    val backdrop: ImageView get() = view.findViewById(R.id.backdrop)
 
     private val picassoHelper = PicassoHelper()
 

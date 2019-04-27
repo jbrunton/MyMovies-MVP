@@ -18,7 +18,7 @@ class SearchFragment : BaseFragment<SearchViewModel>() {
     override val viewModel: SearchViewModel by injectViewModel()
 
     val layoutController = object : MoviesListViewController(R.layout.fragment_search) {
-        override val contentView: RecyclerView get() = containerView.findViewById(R.id.movies_list)
+        override val contentView: RecyclerView get() = view.findViewById(R.id.movies_list)
         override fun onMovieSelected(movie: Movie) = viewModel.onMovieSelected(movie)
     }
 

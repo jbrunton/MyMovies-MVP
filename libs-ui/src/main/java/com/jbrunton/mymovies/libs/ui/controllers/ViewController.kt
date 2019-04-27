@@ -8,11 +8,11 @@ import androidx.fragment.app.Fragment
 abstract class ViewController<T> {
     abstract @get:LayoutRes val layout: Int
 
-    lateinit var containerView: View
-    val context get() = containerView.context
+    lateinit var view: View
+    val context get() = view.context
 
     open fun initializeView(containerView: View) {
-        this.containerView = containerView
+        this.view = containerView
     }
 
     fun initializeView(activity: AppCompatActivity) {

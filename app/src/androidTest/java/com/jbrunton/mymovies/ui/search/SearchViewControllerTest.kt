@@ -30,7 +30,7 @@ import org.junit.runner.RunWith
 class SearchViewControllerTest {
     @get:Rule
     val controllerRule = ViewControllerTestRule.create(object : MoviesListViewController(R.layout.fragment_search) {
-        override val contentView: RecyclerView get() = containerView.findViewById(R.id.movies_list)
+        override val contentView: RecyclerView get() = view.findViewById(R.id.movies_list)
         override fun onMovieSelected(movie: Movie) {}
     })
 

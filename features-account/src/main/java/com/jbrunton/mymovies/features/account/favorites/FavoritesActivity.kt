@@ -15,7 +15,7 @@ class FavoritesActivity : BaseActivity<FavoritesViewModel>() {
     val toolbar: Toolbar get() = findViewById(R.id.toolbar)
 
     private val layoutController = object : MoviesListViewController(R.layout.activity_favorites) {
-        override val contentView: RecyclerView get() = containerView.findViewById(R.id.movies_list)
+        override val contentView: RecyclerView get() = view.findViewById(R.id.movies_list)
         override fun onMovieSelected(movie: Movie) = viewModel.onMovieSelected(movie)
     }
 
