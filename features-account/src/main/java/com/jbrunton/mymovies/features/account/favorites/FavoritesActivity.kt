@@ -26,7 +26,7 @@ class FavoritesActivity : BaseActivity<FavoritesViewModel>() {
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         title = "Favorites"
 
-        layoutController.bind(this)
+        layoutController.initializeView(this)
     }
 
     override fun onBindListeners() {

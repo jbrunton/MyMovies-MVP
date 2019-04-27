@@ -14,6 +14,6 @@ class ViewControllerTestFragment<T>(val viewController: ViewController<T>): Frag
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewController.bind(view)
+        viewController.initializeView(view)
     }
 }

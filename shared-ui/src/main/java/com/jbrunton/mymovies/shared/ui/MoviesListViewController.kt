@@ -11,8 +11,8 @@ abstract class MoviesListViewController(
     abstract override val contentView: RecyclerView
     private lateinit var moviesAdapter: MoviesListAdapter
 
-    override fun bind(containerView: View) {
-        super.bind(containerView)
+    override fun initializeView(containerView: View) {
+        super.initializeView(containerView)
         moviesAdapter = MoviesListAdapter(context, R.layout.item_movie_card_list, this::onMovieSelected)
         contentView.adapter = moviesAdapter
         contentView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)

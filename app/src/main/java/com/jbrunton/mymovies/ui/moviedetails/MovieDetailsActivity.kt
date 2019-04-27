@@ -23,7 +23,7 @@ class MovieDetailsActivity : BaseActivity<MovieDetailsViewModel>() {
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         title = ""
 
-        viewController.bind(this)
+        viewController.initializeView(this)
     }
 
     override fun onBindListeners() {

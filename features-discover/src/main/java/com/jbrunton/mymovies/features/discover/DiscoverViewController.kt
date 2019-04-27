@@ -24,8 +24,8 @@ class DiscoverViewController(val viewModel: DiscoverViewModel) : BaseLoadingView
     private val genres: ChipGroup by bindView(R.id.genres)
     private val genre_results_loading_indicator: ProgressBar by bindView(R.id.genre_results_loading_indicator)
 
-    override fun bind(containerView: View) {
-        super.bind(containerView)
+    override fun initializeView(containerView: View) {
+        super.initializeView(containerView)
         nowPlayingAdapter = MoviesListAdapter(context, R.layout.item_movie_card_grid, viewModel::onMovieSelected)
         popularAdapter = MoviesListAdapter(context, R.layout.item_movie_card_grid, viewModel::onMovieSelected)
         genreResultsAdapter = MoviesListAdapter(context, R.layout.item_movie_card_grid, viewModel::onMovieSelected)

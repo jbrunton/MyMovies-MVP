@@ -30,7 +30,7 @@ class LoginActivity : BaseActivity<LoginViewModel>() {
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
-        viewController.bind(this)
+        viewController.initializeView(this)
     }
 
     override fun onBindListeners() {

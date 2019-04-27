@@ -11,16 +11,16 @@ abstract class ViewController<T> {
     lateinit var containerView: View
     val context get() = containerView.context
 
-    open fun bind(containerView: View) {
+    open fun initializeView(containerView: View) {
         this.containerView = containerView
     }
 
-    fun bind(activity: AppCompatActivity) {
-        bind(activity.findViewById<View>(android.R.id.content))
+    fun initializeView(activity: AppCompatActivity) {
+        initializeView(activity.findViewById<View>(android.R.id.content))
     }
 
-    fun bind(fragment: Fragment) {
-        bind(fragment.view!!)
+    fun initializeView(fragment: Fragment) {
+        initializeView(fragment.view!!)
     }
 
     abstract fun updateView(viewState: T)

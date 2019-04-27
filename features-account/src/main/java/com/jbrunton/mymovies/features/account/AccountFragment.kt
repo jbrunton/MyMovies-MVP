@@ -23,7 +23,7 @@ class AccountFragment : BaseFragment<AccountViewModel>() {
 
     override fun onCreateLayout() {
         (activity as AppCompatActivity).setSupportActionBar(toolbar)
-        viewController.bind(this)
+        viewController.initializeView(this)
         viewController.showLoadingIndicator()
     }
 

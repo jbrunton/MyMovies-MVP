@@ -28,7 +28,7 @@ class SearchFragment : BaseFragment<SearchViewModel>() {
 
     override fun onCreateLayout() {
         (activity as AppCompatActivity).setSupportActionBar(toolbar)
-        layoutController.bind(this)
+        layoutController.initializeView(this)
     }
 
     override fun onBindListeners() {
