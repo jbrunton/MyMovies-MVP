@@ -2,47 +2,35 @@ package com.jbrunton.mymovies.features.discover
 
 import android.view.View
 import android.widget.ProgressBar
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.jbrunton.mymovies.libs.kotterknife.bindView
 import com.jbrunton.mymovies.libs.ui.controllers.BaseLoadingViewController
-import com.jbrunton.mymovies.shared.ui.MoviesListAdapter
 
 class DiscoverViewController(val viewModel: DiscoverViewModel) : BaseLoadingViewController<DiscoverViewState>() {
     override val contentView: View get() = view.findViewById(R.id.discover_content)
 
-    private lateinit var nowPlayingAdapter: MoviesListAdapter
-    private lateinit var popularAdapter: MoviesListAdapter
-    private lateinit var genreResultsAdapter: MoviesListAdapter
+    val nowPlayingViewController by lazy { MoviesGridViewController(R.id.now_playing, viewModel::onMovieSelected) }
+    val popularViewController by lazy { MoviesGridViewController(R.id.popular, viewModel::onMovieSelected) }
+    val genreResultsViewController by lazy { MoviesGridViewController(R.id.genre_results, viewModel::onMovieSelected) }
 
-    private val now_playing: RecyclerView by bindView(R.id.now_playing)
-    private val popular: RecyclerView by bindView(R.id.popular)
-    private val genre_results: RecyclerView by bindView(R.id.genre_results)
-    private val genres: ChipGroup by bindView(R.id.genres)
-    private val genre_results_loading_indicator: ProgressBar by bindView(R.id.genre_results_loading_indicator)
+    val genre_results: RecyclerView by bindView(R.id.genre_results)
+    val genres: ChipGroup by bindView(R.id.genres)
+    val genre_results_loading_indicator: ProgressBar by bindView(R.id.genre_results_loading_indicator)
 
     override fun onViewCreated(view: View) {
         super.onViewCreated(view)
-        nowPlayingAdapter = MoviesListAdapter(context, R.layout.item_movie_card_grid, viewModel::onMovieSelected)
-        popularAdapter = MoviesListAdapter(context, R.layout.item_movie_card_grid, viewModel::onMovieSelected)
-        genreResultsAdapter = MoviesListAdapter(context, R.layout.item_movie_card_grid, viewModel::onMovieSelected)
 
-        now_playing.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        now_playing.adapter = nowPlayingAdapter
-
-        popular.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        popular.adapter = popularAdapter
-
-        genre_results.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        genre_results.adapter = genreResultsAdapter
+        nowPlayingViewController.onViewCreated(view)
+        popularViewController.onViewCreated(view)
+        genreResultsViewController.onViewCreated(view)
     }
 
     override fun updateContentView(viewState: DiscoverViewState) {
-        nowPlayingAdapter.setDataSource(viewState.nowPlayingViewState)
-        popularAdapter.setDataSource(viewState.popularViewState)
-        genreResultsAdapter.setDataSource(viewState.genreResults)
+        nowPlayingViewController.updateView(viewState.nowPlayingViewState)
+        popularViewController.updateView(viewState.popularViewState)
+        genreResultsViewController.updateView(viewState.genreResults)
 
         genres.removeAllViewsInLayout()
         genre_results.visibility = viewState.genreResultsVisibility

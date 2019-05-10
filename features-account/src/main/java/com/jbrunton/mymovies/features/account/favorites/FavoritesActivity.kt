@@ -1,24 +1,16 @@
 package com.jbrunton.mymovies.features.account.favorites
 
 import androidx.appcompat.widget.Toolbar
-import androidx.recyclerview.widget.RecyclerView
 import com.jbrunton.inject.injectViewModel
-import com.jbrunton.mymovies.entities.models.Movie
 import com.jbrunton.mymovies.features.account.R
 import com.jbrunton.mymovies.libs.ui.controllers.rootView
 import com.jbrunton.mymovies.libs.ui.livedata.observe
 import com.jbrunton.mymovies.libs.ui.views.BaseActivity
-import com.jbrunton.mymovies.shared.ui.MoviesListViewController
 
 class FavoritesActivity : BaseActivity<FavoritesViewModel>() {
     override val viewModel: FavoritesViewModel by injectViewModel()
-
     val toolbar: Toolbar get() = findViewById(R.id.toolbar)
-
-    private val layoutController = object : MoviesListViewController() {
-        override val contentView: RecyclerView get() = view.findViewById(R.id.movies_list)
-        override fun onMovieSelected(movie: Movie) = viewModel.onMovieSelected(movie)
-    }
+    private val layoutController by lazy { FavoritesViewController(viewModel) }
 
     override fun onCreateLayout() {
         setContentView(R.layout.activity_favorites)

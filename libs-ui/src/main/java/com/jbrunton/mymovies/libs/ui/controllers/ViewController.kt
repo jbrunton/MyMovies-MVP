@@ -8,8 +8,8 @@ abstract class ViewController<T> {
     lateinit var view: View
     val context get() = view.context
 
-    open fun onViewCreated(containerView: View) {
-        this.view = containerView
+    open fun onViewCreated(view: View) {
+        this.view = view
     }
 
     abstract fun updateView(viewState: T)
