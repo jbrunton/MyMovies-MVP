@@ -9,8 +9,8 @@ import com.jbrunton.mymovies.entities.models.Genre
 import com.jbrunton.mymovies.entities.models.Movie
 import com.jbrunton.mymovies.entities.safelySubscribe
 import com.jbrunton.mymovies.entities.subscribe
-import com.jbrunton.mymovies.libs.ui.viewmodels.BaseLoadingViewModel
 import com.jbrunton.mymovies.libs.ui.nav.MovieDetailsRequest
+import com.jbrunton.mymovies.libs.ui.viewmodels.BaseLoadingViewModel
 import com.jbrunton.mymovies.usecases.discover.DiscoverResult
 import com.jbrunton.mymovies.usecases.discover.DiscoverUseCase
 import io.reactivex.Observable
@@ -23,6 +23,10 @@ sealed class DiscoverIntent {
     object ClearSelectedGenre : DiscoverIntent()
 }
 
+interface DiscoverListener {
+    fun perform(intent: DiscoverIntent)
+}
+
 sealed class DiscoverStateChange {
     data class DiscoverResultsAvailable(val discoverResult: AsyncResult<DiscoverResult>) : DiscoverStateChange()
     data class GenreSelected(val selectedGenre: Genre) : DiscoverStateChange()
@@ -30,7 +34,7 @@ sealed class DiscoverStateChange {
     object SelectedGenreCleared : DiscoverStateChange()
 }
 
-class DiscoverViewModel(container: Container) : BaseLoadingViewModel<DiscoverViewState>(container) {
+class DiscoverViewModel(container: Container) : BaseLoadingViewModel<DiscoverViewState>(container), DiscoverListener {
     val useCase: DiscoverUseCase by inject()
 
     val state = PublishSubject.create<AsyncResult<DiscoverResult>>()
@@ -73,7 +77,7 @@ class DiscoverViewModel(container: Container) : BaseLoadingViewModel<DiscoverVie
         navigator.navigate(MovieDetailsRequest(movie.id))
     }
 
-    private fun perform(intent: DiscoverIntent) = when (intent) {
+    override fun perform(intent: DiscoverIntent) = when (intent) {
         is DiscoverIntent.Load -> loadIntent.onNext(intent)
         is DiscoverIntent.SelectGenre -> selectGenreIntent.onNext(intent)
         is DiscoverIntent.ClearSelectedGenre -> clearSelectedGenreIntent.onNext(intent)

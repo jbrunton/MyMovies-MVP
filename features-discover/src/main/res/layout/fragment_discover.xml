@@ -85,6 +85,12 @@
                 android:layout_gravity="center"
                 />
 
+            <com.jbrunton.mymovies.features.discover.GenresView
+                android:id="@+id/genres_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            </com.jbrunton.mymovies.features.discover.GenresView>
 
         </LinearLayout>
 

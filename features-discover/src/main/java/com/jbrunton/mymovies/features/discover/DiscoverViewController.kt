@@ -8,7 +8,9 @@ import com.jbrunton.mymovies.entities.models.Movie
 import com.jbrunton.mymovies.libs.kotterknife.bindView
 import com.jbrunton.mymovies.libs.ui.controllers.BaseLoadingViewController
 
-class DiscoverViewController(val viewModel: DiscoverViewModel) : BaseLoadingViewController<DiscoverViewState>() {
+class DiscoverViewController(
+        val viewModel: DiscoverViewModel
+) : BaseLoadingViewController<DiscoverViewState>() {
     override val contentView: View get() = view.findViewById(R.id.discover_content)
 
     val nowPlayingViewController by lazy { createGridViewController(R.id.now_playing) }
@@ -19,6 +21,8 @@ class DiscoverViewController(val viewModel: DiscoverViewModel) : BaseLoadingView
     val genre_results: RecyclerView by bindView(R.id.genre_results)
     val genres: ChipGroup by bindView(R.id.genres)
     val genre_results_loading_indicator: ProgressBar by bindView(R.id.genre_results_loading_indicator)
+
+    val genres_view: GenresView by bindView(R.id.genres_view)
 
     override fun onViewCreated(view: View) {
         super.onViewCreated(view)
@@ -38,9 +42,15 @@ class DiscoverViewController(val viewModel: DiscoverViewModel) : BaseLoadingView
         genre_results.visibility = viewState.genreResultsVisibility
         genre_results_loading_indicator.visibility = viewState.genreResultsLoadingIndicatorVisibility
 
+        genres_view.updateView(viewState.genres)
+
         if (viewState.scrollToGenreResults) {
             contentView.scrollTo(0, genres.bottom)
         }
+    }
+
+    fun setListener(listener: DiscoverListener) {
+        genres_view.listener = viewModel
     }
 
     fun createGridViewController(listId: Int) = object : MoviesGridViewController() {

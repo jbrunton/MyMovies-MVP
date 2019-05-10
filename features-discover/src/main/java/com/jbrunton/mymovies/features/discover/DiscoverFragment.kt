@@ -27,6 +27,7 @@ class DiscoverFragment : BaseFragment<DiscoverViewModel>() {
 
     override fun onBindListeners() {
         viewController.error_try_again.setOnClickListener { viewModel.onRetryClicked() }
+        viewController.setListener(viewModel)
     }
 
     override fun onObserveData() {

@@ -9,18 +9,18 @@ import com.jbrunton.inject.inject
 import com.jbrunton.mymovies.entities.HasSchedulers
 import com.jbrunton.mymovies.entities.SchedulerContext
 import com.jbrunton.mymovies.entities.SchedulerFactory
+import com.jbrunton.mymovies.libs.ui.SnackbarEvent
+import com.jbrunton.mymovies.libs.ui.livedata.SingleLiveEvent
 import com.jbrunton.mymovies.libs.ui.nav.NavigationResult
 import com.jbrunton.mymovies.libs.ui.nav.NavigationResultListener
 import com.jbrunton.mymovies.libs.ui.nav.Navigator
-import com.jbrunton.mymovies.libs.ui.SnackbarEvent
-import com.jbrunton.mymovies.libs.ui.livedata.SingleLiveEvent
 import com.jbrunton.mymovies.libs.ui.viewstates.LoadingViewStateError
 
 abstract class BaseViewModel(override val container: Container) : ViewModel(),
         HasSchedulers, HasContainer, NavigationResultListener
 {
-    val schedulerFactory: SchedulerFactory by inject()
     val navigator: Navigator by inject()
+    val schedulerFactory: SchedulerFactory by inject()
     override val schedulerContext = SchedulerContext(schedulerFactory)
     val snackbar = SingleLiveEvent<SnackbarEvent>()
 
