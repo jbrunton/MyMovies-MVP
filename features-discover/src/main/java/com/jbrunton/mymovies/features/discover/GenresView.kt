@@ -3,22 +3,30 @@ package com.jbrunton.mymovies.features.discover
 import android.content.Context
 import android.util.AttributeSet
 import android.widget.LinearLayout
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
-import com.google.android.material.chip.ChipGroup
+import com.jbrunton.mymovies.entities.models.Movie
 import com.jbrunton.mymovies.libs.kotterknife.bindView
+import kotlinx.android.synthetic.main.view_genres.view.*
 
 class GenresView(context: Context, attrs: AttributeSet): LinearLayout(context, attrs) {
-    val genres: ChipGroup by bindView(R.id.genres)
     lateinit var listener: DiscoverListener
+    val genreResultsViewController by lazy { createGridViewController(R.id.genre_results) }
 
     init {
         inflate(context, R.layout.view_genres, this)
+        genreResultsViewController.onViewCreated(this)
     }
 
-    fun updateView(viewState: List<GenreChipViewState>) {
+    fun updateView(viewState: GenresViewState) {
+        genreResultsViewController.updateView(viewState.genreResults)
+
+        genre_results.visibility = viewState.genreResultsVisibility
+        genre_results_loading_indicator.visibility = viewState.genreResultsLoadingIndicatorVisibility
+
         genres.removeAllViewsInLayout()
 
-        viewState.forEach { genre ->
+        viewState.genres.forEach { genre ->
             val chip = buildGenreChip(genre)
             genres.addView(chip)
         }
@@ -41,5 +49,10 @@ class GenresView(context: Context, attrs: AttributeSet): LinearLayout(context, a
         }
 
         return chip
+    }
+
+    fun createGridViewController(listId: Int) = object : MoviesGridViewController() {
+        override val recyclerView: RecyclerView by bindView(listId)
+        override fun onMovieSelected(movie: Movie) = listener.perform(DiscoverIntent.SelectMovie(movie))
     }
 }

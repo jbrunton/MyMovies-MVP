@@ -7,5 +7,3 @@ data class GenreChipViewState(val genre: Genre, val selected: Boolean) {
         val Empty = GenreChipViewState(Genre("", ""), false)
     }
 }
-
-typealias GenresViewState = List<GenreChipViewState>
