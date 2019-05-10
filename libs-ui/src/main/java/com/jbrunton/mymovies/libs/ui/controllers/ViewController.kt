@@ -8,17 +8,13 @@ abstract class ViewController<T> {
     lateinit var view: View
     val context get() = view.context
 
-    open fun initializeView(containerView: View) {
+    open fun onViewCreated(containerView: View) {
         this.view = containerView
-    }
-
-    fun initializeView(activity: AppCompatActivity) {
-        initializeView(activity.findViewById<View>(android.R.id.content))
-    }
-
-    fun initializeView(fragment: Fragment) {
-        initializeView(fragment.view!!)
     }
 
     abstract fun updateView(viewState: T)
 }
+
+val AppCompatActivity.rootView: View get() = findViewById<View>(android.R.id.content)
+
+val Fragment.rootView get() = view!!

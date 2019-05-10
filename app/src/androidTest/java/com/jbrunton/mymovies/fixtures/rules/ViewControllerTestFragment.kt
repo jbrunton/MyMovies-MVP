@@ -15,6 +15,6 @@ class ViewControllerTestFragment<T>(@get:LayoutRes val layoutId: Int, val viewCo
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewController.initializeView(view)
+        viewController.onViewCreated(view)
     }
 }

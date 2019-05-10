@@ -2,9 +2,10 @@ package com.jbrunton.mymovies.ui.auth
 
 import android.content.Intent
 import androidx.appcompat.app.AlertDialog
-import com.jbrunton.mymovies.entities.models.AuthSession
 import com.jbrunton.inject.injectViewModel
 import com.jbrunton.mymovies.R
+import com.jbrunton.mymovies.entities.models.AuthSession
+import com.jbrunton.mymovies.libs.ui.controllers.rootView
 import com.jbrunton.mymovies.libs.ui.livedata.observe
 import com.jbrunton.mymovies.libs.ui.views.BaseActivity
 import kotlinx.android.synthetic.main.activity_login.*
@@ -30,7 +31,7 @@ class LoginActivity : BaseActivity<LoginViewModel>() {
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
-        viewController.initializeView(this)
+        viewController.onViewCreated(rootView)
     }
 
     override fun onBindListeners() {

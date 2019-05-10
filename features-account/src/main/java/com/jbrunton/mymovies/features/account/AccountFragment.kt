@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import com.jbrunton.inject.injectViewModel
+import com.jbrunton.mymovies.libs.ui.controllers.rootView
 import com.jbrunton.mymovies.libs.ui.livedata.observe
 import com.jbrunton.mymovies.libs.ui.views.BaseFragment
 import kotlinx.android.synthetic.main.fragment_account.*
@@ -21,7 +22,7 @@ class AccountFragment : BaseFragment<AccountViewModel>() {
 
     override fun onCreateLayout() {
         (activity as AppCompatActivity).setSupportActionBar(toolbar)
-        viewController.initializeView(this)
+        viewController.onViewCreated(rootView)
         viewController.showLoadingIndicator()
     }
 

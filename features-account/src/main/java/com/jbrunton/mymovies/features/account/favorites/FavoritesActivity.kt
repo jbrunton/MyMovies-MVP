@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.jbrunton.inject.injectViewModel
 import com.jbrunton.mymovies.entities.models.Movie
 import com.jbrunton.mymovies.features.account.R
+import com.jbrunton.mymovies.libs.ui.controllers.rootView
 import com.jbrunton.mymovies.libs.ui.livedata.observe
 import com.jbrunton.mymovies.libs.ui.views.BaseActivity
 import com.jbrunton.mymovies.shared.ui.MoviesListViewController
@@ -26,7 +27,7 @@ class FavoritesActivity : BaseActivity<FavoritesViewModel>() {
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         title = "Favorites"
 
-        layoutController.initializeView(this)
+        layoutController.onViewCreated(rootView)
     }
 
     override fun onBindListeners() {

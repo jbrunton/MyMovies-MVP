@@ -9,8 +9,8 @@ abstract class MoviesListViewController : BaseLoadingViewController<SearchViewSt
     abstract override val contentView: RecyclerView
     private lateinit var moviesAdapter: MoviesListAdapter
 
-    override fun initializeView(view: View) {
-        super.initializeView(view)
+    override fun onViewCreated(view: View) {
+        super.onViewCreated(view)
         moviesAdapter = MoviesListAdapter(context, R.layout.item_movie_card_list, this::onMovieSelected)
         contentView.adapter = moviesAdapter
         contentView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
