@@ -1,13 +1,10 @@
 package com.jbrunton.mymovies.libs.ui.controllers
 
 import android.view.View
-import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 
 abstract class ViewController<T> {
-    abstract @get:LayoutRes val layout: Int
-
     lateinit var view: View
     val context get() = view.context
 

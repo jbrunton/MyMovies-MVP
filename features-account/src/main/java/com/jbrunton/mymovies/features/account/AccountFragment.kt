@@ -16,7 +16,7 @@ class AccountFragment : BaseFragment<AccountViewModel>() {
     private val viewController by lazy { AccountViewController(viewModel) }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(viewController.layout, container, false)
+        return inflater.inflate(R.layout.fragment_account, container, false)
     }
 
     override fun onCreateLayout() {

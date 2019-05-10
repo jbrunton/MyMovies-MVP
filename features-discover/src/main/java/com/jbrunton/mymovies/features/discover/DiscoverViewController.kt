@@ -11,7 +11,6 @@ import com.jbrunton.mymovies.libs.ui.controllers.BaseLoadingViewController
 import com.jbrunton.mymovies.shared.ui.MoviesListAdapter
 
 class DiscoverViewController(val viewModel: DiscoverViewModel) : BaseLoadingViewController<DiscoverViewState>() {
-    override val layout = R.layout.fragment_discover
     override val contentView: View get() = view.findViewById(R.id.discover_content)
 
     private lateinit var nowPlayingAdapter: MoviesListAdapter

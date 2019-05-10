@@ -15,7 +15,7 @@ class DiscoverFragment : BaseFragment<DiscoverViewModel>() {
     private val viewController by lazy { DiscoverViewController(viewModel) }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(viewController.layout, container, false)
+        return inflater.inflate(R.layout.fragment_discover, container, false)
     }
 
     override fun onCreateLayout() {

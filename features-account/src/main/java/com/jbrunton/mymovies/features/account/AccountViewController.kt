@@ -8,7 +8,6 @@ import com.jbrunton.mymovies.libs.ui.PicassoHelper
 import com.jbrunton.mymovies.libs.ui.controllers.BaseLoadingViewController
 
 class AccountViewController(val viewModel: AccountViewModel) : BaseLoadingViewController<AccountViewState>() {
-    override val layout = R.layout.fragment_account
     override val contentView get() = view.findViewById<View>(R.id.account_details)
     private val picassoHelper = PicassoHelper()
 

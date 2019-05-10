@@ -2,11 +2,11 @@ package com.jbrunton.mymovies.features.account.favorites
 
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.RecyclerView
+import com.jbrunton.inject.injectViewModel
 import com.jbrunton.mymovies.entities.models.Movie
 import com.jbrunton.mymovies.features.account.R
-import com.jbrunton.inject.injectViewModel
-import com.jbrunton.mymovies.libs.ui.views.BaseActivity
 import com.jbrunton.mymovies.libs.ui.livedata.observe
+import com.jbrunton.mymovies.libs.ui.views.BaseActivity
 import com.jbrunton.mymovies.shared.ui.MoviesListViewController
 
 class FavoritesActivity : BaseActivity<FavoritesViewModel>() {
@@ -14,7 +14,7 @@ class FavoritesActivity : BaseActivity<FavoritesViewModel>() {
 
     val toolbar: Toolbar get() = findViewById(R.id.toolbar)
 
-    private val layoutController = object : MoviesListViewController(R.layout.activity_favorites) {
+    private val layoutController = object : MoviesListViewController() {
         override val contentView: RecyclerView get() = view.findViewById(R.id.movies_list)
         override fun onMovieSelected(movie: Movie) = viewModel.onMovieSelected(movie)
     }

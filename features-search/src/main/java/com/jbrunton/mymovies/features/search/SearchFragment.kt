@@ -15,7 +15,7 @@ class SearchFragment : BaseFragment<SearchViewModel>() {
     val viewController by lazy { SearchViewController(viewModel) }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(viewController.layout, container, false)
+        return inflater.inflate(R.layout.fragment_search, container, false)
     }
 
     override fun onCreateLayout() {

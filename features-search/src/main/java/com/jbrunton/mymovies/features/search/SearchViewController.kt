@@ -8,7 +8,7 @@ import com.jbrunton.mymovies.libs.ui.onTextChanged
 import com.jbrunton.mymovies.shared.ui.MoviesListViewController
 import kotlin.coroutines.CoroutineContext
 
-class SearchViewController(val viewModel: SearchViewModel) : MoviesListViewController(R.layout.fragment_search) {
+class SearchViewController(val viewModel: SearchViewModel) : MoviesListViewController() {
     override val contentView: RecyclerView get() = view.findViewById(R.id.movies_list)
     private val search_query: EditText by bindView(R.id.search_query)
 

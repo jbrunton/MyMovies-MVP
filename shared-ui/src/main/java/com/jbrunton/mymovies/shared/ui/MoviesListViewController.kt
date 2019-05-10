@@ -5,9 +5,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.jbrunton.mymovies.entities.models.Movie
 import com.jbrunton.mymovies.libs.ui.controllers.BaseLoadingViewController
 
-abstract class MoviesListViewController(
-        override val layout: Int
-) : BaseLoadingViewController<SearchViewState>() {
+abstract class MoviesListViewController : BaseLoadingViewController<SearchViewState>() {
     abstract override val contentView: RecyclerView
     private lateinit var moviesAdapter: MoviesListAdapter
 

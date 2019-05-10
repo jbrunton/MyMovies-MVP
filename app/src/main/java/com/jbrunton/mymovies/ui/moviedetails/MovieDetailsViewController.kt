@@ -4,12 +4,11 @@ import android.text.Html
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import com.jbrunton.mymovies.libs.ui.controllers.BaseLoadingViewController
-import com.jbrunton.mymovies.libs.ui.PicassoHelper
 import com.jbrunton.mymovies.R
+import com.jbrunton.mymovies.libs.ui.PicassoHelper
+import com.jbrunton.mymovies.libs.ui.controllers.BaseLoadingViewController
 
 class MovieDetailsViewController : BaseLoadingViewController<MovieDetailsViewState>() {
-    override val layout = R.layout.activity_movie_details
     override val contentView: View get() = view.findViewById(R.id.movie_details)
 
     val movie_title: TextView get() = view.findViewById(R.id.movie_title)
