@@ -27,6 +27,8 @@ class DiscoverViewController(
     }
 
     fun setListener(listener: DiscoverListener) {
+        now_playing.setListener(listener)
+        popular.setListener(listener)
         genres_view.setListener(viewModel)
     }
 }

@@ -23,6 +23,10 @@ class MoviesGridView(context: Context, attrs: AttributeSet): RecyclerView(contex
         (adapter as MoviesListAdapter).setDataSource(viewState)
     }
 
+    fun setListener(listener: DiscoverListener) {
+        this.listener = listener
+    }
+
     private fun onMovieSelected(movie: Movie) {
         listener.perform(DiscoverIntent.SelectMovie(movie))
     }

@@ -32,6 +32,7 @@ class GenresView(context: Context, attrs: AttributeSet): LinearLayout(context, a
     fun setListener(listener: DiscoverListener) {
         this.listener = listener
         genres.setListener(listener)
+        genre_results.setListener(listener)
         selected_genre.setOnCloseIconClickListener { listener.perform(DiscoverIntent.ClearSelectedGenre) }
     }
 }
