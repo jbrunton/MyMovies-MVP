@@ -1,10 +1,12 @@
-package com.jbrunton.mymovies.features.discover
+package com.jbrunton.mymovies.features.discover.views
 
 import android.content.Context
 import android.util.AttributeSet
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.jbrunton.mymovies.entities.models.Genre
+import com.jbrunton.mymovies.features.discover.DiscoverIntent
+import com.jbrunton.mymovies.features.discover.DiscoverListener
 import kotlinx.android.synthetic.main.view_genres.view.*
 
 class GenresChipGroup(context: Context, attrs: AttributeSet): ChipGroup(context, attrs) {

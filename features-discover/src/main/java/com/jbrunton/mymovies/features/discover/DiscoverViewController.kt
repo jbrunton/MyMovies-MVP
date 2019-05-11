@@ -1,8 +1,8 @@
 package com.jbrunton.mymovies.features.discover
 
 import android.view.View
-import androidx.recyclerview.widget.RecyclerView
-import com.jbrunton.mymovies.entities.models.Movie
+import com.jbrunton.mymovies.features.discover.views.GenresView
+import com.jbrunton.mymovies.features.discover.views.MoviesGridView
 import com.jbrunton.mymovies.libs.kotterknife.bindView
 import com.jbrunton.mymovies.libs.ui.controllers.BaseLoadingViewController
 
@@ -11,21 +11,13 @@ class DiscoverViewController(
 ) : BaseLoadingViewController<DiscoverViewState>() {
     override val contentView: View get() = view.findViewById(R.id.discover_content)
 
-    val nowPlayingViewController by lazy { createGridViewController(R.id.now_playing) }
-    val popularViewController by lazy { createGridViewController(R.id.popular) }
-
+    val now_playing: MoviesGridView by bindView(R.id.now_playing)
+    val popular: MoviesGridView by bindView(R.id.popular)
     val genres_view: GenresView by bindView(R.id.genres_view)
 
-    override fun onViewCreated(view: View) {
-        super.onViewCreated(view)
-
-        nowPlayingViewController.onViewCreated(view)
-        popularViewController.onViewCreated(view)
-    }
-
     override fun updateContentView(viewState: DiscoverViewState) {
-        nowPlayingViewController.updateView(viewState.nowPlayingViewState)
-        popularViewController.updateView(viewState.popularViewState)
+        now_playing.updateView(viewState.nowPlayingViewState)
+        popular.updateView(viewState.popularViewState)
 
         genres_view.updateView(viewState.genresViewState)
 
@@ -36,10 +28,5 @@ class DiscoverViewController(
 
     fun setListener(listener: DiscoverListener) {
         genres_view.setListener(viewModel)
-    }
-
-    fun createGridViewController(listId: Int) = object : MoviesGridViewController() {
-        override val recyclerView: RecyclerView by bindView(listId)
-        override fun onMovieSelected(movie: Movie) = viewModel.onMovieSelected(movie)
     }
 }
