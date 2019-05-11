@@ -2,13 +2,14 @@ package com.jbrunton.mymovies.features.discover
 
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
+import com.jbrunton.mymovies.entities.models.Genre
 import com.jbrunton.mymovies.libs.kotterknife.bindView
 import com.jbrunton.mymovies.libs.ui.controllers.ViewController
 
-class GenreChipsViewController(val viewModel: DiscoverViewModel) : ViewController<List<GenreChipViewState>>() {
+class GenreChipsViewController(val viewModel: DiscoverViewModel) : ViewController<List<Genre>>() {
     val genres: ChipGroup by bindView(R.id.genres)
 
-    override fun updateView(viewState: List<GenreChipViewState>) {
+    override fun updateView(viewState: List<Genre>) {
         genres.removeAllViewsInLayout()
 
         viewState.forEach { genre ->
@@ -17,21 +18,21 @@ class GenreChipsViewController(val viewModel: DiscoverViewModel) : ViewControlle
         }
     }
 
-    private fun buildGenreChip(viewState: GenreChipViewState): Chip {
+    private fun buildGenreChip(genre: Genre): Chip {
         val chip = Chip(genres.context)
-        chip.text = viewState.genre.name
+        chip.text = genre.name
 
         chip.setOnClickListener {
-            viewModel.onGenreClicked(viewState.genre)
+            viewModel.onGenreClicked(genre)
         }
 
-        if (viewState.selected) {
-            chip.isCloseIconVisible = true
-            chip.isSelected = true
-            chip.setOnCloseIconClickListener {
-                viewModel.onClearGenreSelection()
-            }
-        }
+//        if (genre.selected) {
+//            chip.isCloseIconVisible = true
+//            chip.isSelected = true
+//            chip.setOnCloseIconClickListener {
+//                viewModel.onClearGenreSelection()
+//            }
+//        }
 
         return chip
     }

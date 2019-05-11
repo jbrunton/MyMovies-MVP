@@ -5,12 +5,13 @@ import android.util.AttributeSet
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
+import com.jbrunton.mymovies.entities.models.Genre
 import com.jbrunton.mymovies.entities.models.Movie
 import com.jbrunton.mymovies.libs.kotterknife.bindView
 import kotlinx.android.synthetic.main.view_genres.view.*
 
 class GenresView(context: Context, attrs: AttributeSet): LinearLayout(context, attrs) {
-    lateinit var listener: DiscoverListener
+    private lateinit var listener: DiscoverListener
     val genreResultsViewController by lazy { createGridViewController(R.id.genre_results) }
 
     init {
@@ -24,7 +25,11 @@ class GenresView(context: Context, attrs: AttributeSet): LinearLayout(context, a
         genre_results.visibility = viewState.genreResultsVisibility
         genre_results_loading_indicator.visibility = viewState.genreResultsLoadingIndicatorVisibility
 
+        genres.visibility = viewState.genresVisibility
         genres.removeAllViewsInLayout()
+
+        selected_genre.text = viewState.selectedGenreText
+        selected_genre.visibility = viewState.selectedGenreVisibility
 
         viewState.genres.forEach { genre ->
             val chip = buildGenreChip(genre)
@@ -32,20 +37,17 @@ class GenresView(context: Context, attrs: AttributeSet): LinearLayout(context, a
         }
     }
 
-    private fun buildGenreChip(viewState: GenreChipViewState): Chip {
+    fun setListener(listener: DiscoverListener) {
+        this.listener = listener
+        selected_genre.setOnCloseIconClickListener { listener.perform(DiscoverIntent.ClearSelectedGenre) }
+    }
+
+    private fun buildGenreChip(genre: Genre): Chip {
         val chip = Chip(genres.context)
-        chip.text = viewState.genre.name
+        chip.text = genre.name
 
         chip.setOnClickListener {
-            listener.perform(DiscoverIntent.SelectGenre(viewState.genre))
-        }
-
-        if (viewState.selected) {
-            chip.isCloseIconVisible = true
-            chip.isSelected = true
-            chip.setOnCloseIconClickListener {
-                listener.perform(DiscoverIntent.ClearSelectedGenre)
-            }
+            listener.perform(DiscoverIntent.SelectGenre(genre))
         }
 
         return chip

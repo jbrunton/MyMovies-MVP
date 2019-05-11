@@ -35,7 +35,7 @@ class DiscoverViewController(
     }
 
     fun setListener(listener: DiscoverListener) {
-        genres_view.listener = viewModel
+        genres_view.setListener(viewModel)
     }
 
     fun createGridViewController(listId: Int) = object : MoviesGridViewController() {
