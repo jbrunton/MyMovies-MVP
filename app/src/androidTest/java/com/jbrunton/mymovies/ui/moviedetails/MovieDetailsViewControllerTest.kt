@@ -7,19 +7,19 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
 import com.jbrunton.async.AsyncResult
-import com.jbrunton.mymovies.fixtures.MovieFactory
-import com.jbrunton.mymovies.libs.ui.viewstates.LoadingViewStateError
-import com.jbrunton.mymovies.libs.ui.viewstates.toLoadingViewState
 import com.jbrunton.mymovies.R
+import com.jbrunton.mymovies.fixtures.MovieFactory
 import com.jbrunton.mymovies.fixtures.ProgressBarViewActions
 import com.jbrunton.mymovies.fixtures.rules.ViewControllerTestRule
 import com.jbrunton.mymovies.fixtures.rules.takeScreenshot
+import com.jbrunton.mymovies.libs.ui.viewstates.LoadingViewStateError
+import com.jbrunton.mymovies.libs.ui.viewstates.toLoadingViewState
 import org.junit.Rule
 import org.junit.Test
 
 class MovieDetailsViewControllerTest {
     @get:Rule
-    val controllerRule = ViewControllerTestRule.create(MovieDetailsViewController())
+    val controllerRule = ViewControllerTestRule.create(MovieDetailsViewController(), R.layout.activity_movie_details)
 
     val LOADING_STATE = AsyncResult.Loading<MovieDetailsViewState>()
 

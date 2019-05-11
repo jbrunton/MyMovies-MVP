@@ -1,23 +1,16 @@
 package com.jbrunton.mymovies.features.account.favorites
 
 import androidx.appcompat.widget.Toolbar
-import androidx.recyclerview.widget.RecyclerView
-import com.jbrunton.mymovies.entities.models.Movie
-import com.jbrunton.mymovies.features.account.R
 import com.jbrunton.inject.injectViewModel
-import com.jbrunton.mymovies.libs.ui.views.BaseActivity
+import com.jbrunton.mymovies.features.account.R
+import com.jbrunton.mymovies.libs.ui.controllers.rootView
 import com.jbrunton.mymovies.libs.ui.livedata.observe
-import com.jbrunton.mymovies.shared.ui.MoviesListViewController
+import com.jbrunton.mymovies.libs.ui.views.BaseActivity
 
 class FavoritesActivity : BaseActivity<FavoritesViewModel>() {
     override val viewModel: FavoritesViewModel by injectViewModel()
-
     val toolbar: Toolbar get() = findViewById(R.id.toolbar)
-
-    private val layoutController = object : MoviesListViewController(R.layout.activity_favorites) {
-        override val contentView: RecyclerView get() = view.findViewById(R.id.movies_list)
-        override fun onMovieSelected(movie: Movie) = viewModel.onMovieSelected(movie)
-    }
+    private val layoutController by lazy { FavoritesViewController(viewModel) }
 
     override fun onCreateLayout() {
         setContentView(R.layout.activity_favorites)
@@ -26,7 +19,7 @@ class FavoritesActivity : BaseActivity<FavoritesViewModel>() {
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         title = "Favorites"
 
-        layoutController.initializeView(this)
+        layoutController.onViewCreated(rootView)
     }
 
     override fun onBindListeners() {

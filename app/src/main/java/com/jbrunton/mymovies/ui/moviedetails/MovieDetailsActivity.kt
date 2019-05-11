@@ -4,9 +4,10 @@ import android.view.View
 import androidx.appcompat.widget.Toolbar
 import com.jbrunton.inject.injectViewModel
 import com.jbrunton.inject.parametersOf
-import com.jbrunton.mymovies.libs.ui.views.BaseActivity
-import com.jbrunton.mymovies.libs.ui.livedata.observe
 import com.jbrunton.mymovies.R
+import com.jbrunton.mymovies.libs.ui.controllers.rootView
+import com.jbrunton.mymovies.libs.ui.livedata.observe
+import com.jbrunton.mymovies.libs.ui.views.BaseActivity
 
 class MovieDetailsActivity : BaseActivity<MovieDetailsViewModel>() {
     val toolbar: Toolbar get() = findViewById(R.id.toolbar)
@@ -23,7 +24,7 @@ class MovieDetailsActivity : BaseActivity<MovieDetailsViewModel>() {
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         title = ""
 
-        viewController.initializeView(this)
+        viewController.onViewCreated(rootView)
     }
 
     override fun onBindListeners() {

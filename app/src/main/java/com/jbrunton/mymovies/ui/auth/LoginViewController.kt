@@ -7,7 +7,6 @@ import com.jbrunton.mymovies.libs.kotterknife.bindView
 import com.jbrunton.mymovies.libs.ui.controllers.BaseLoadingViewController
 
 class LoginViewController : BaseLoadingViewController<LoginViewState>() {
-    override val layout = R.layout.activity_login
     override val contentView: View get() = sign_in_details
 
     val sign_in_details: View by bindView(R.id.sign_in_details)
