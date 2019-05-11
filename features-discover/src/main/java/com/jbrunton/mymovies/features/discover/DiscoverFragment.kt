@@ -32,5 +32,8 @@ class DiscoverFragment : BaseFragment<DiscoverViewModel>() {
 
     override fun onObserveData() {
         viewModel.viewState.observe(viewLifecycleOwner, viewController::updateView)
+        viewModel.scrollToGenreResults.observe(viewLifecycleOwner) {
+            discover_content.scrollTo(0, genres_view.bottom)
+        }
     }
 }

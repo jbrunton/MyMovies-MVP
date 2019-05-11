@@ -9,6 +9,7 @@ import com.jbrunton.mymovies.entities.models.Genre
 import com.jbrunton.mymovies.entities.models.Movie
 import com.jbrunton.mymovies.entities.safelySubscribe
 import com.jbrunton.mymovies.entities.subscribe
+import com.jbrunton.mymovies.libs.ui.livedata.SingleLiveEvent
 import com.jbrunton.mymovies.libs.ui.nav.MovieDetailsRequest
 import com.jbrunton.mymovies.libs.ui.viewmodels.BaseLoadingViewModel
 import com.jbrunton.mymovies.usecases.discover.DiscoverResult
@@ -37,9 +38,11 @@ sealed class DiscoverStateChange {
 }
 
 class DiscoverViewModel(container: Container) : BaseLoadingViewModel<DiscoverViewState>(container), DiscoverListener {
-    val useCase: DiscoverUseCase by inject()
+    val scrollToGenreResults = SingleLiveEvent<Unit>()
 
-    val state = PublishSubject.create<AsyncResult<DiscoverResult>>()
+    private val useCase: DiscoverUseCase by inject()
+    private val state = PublishSubject.create<AsyncResult<DiscoverResult>>()
+
     private val loadIntent = BehaviorSubject.create<DiscoverIntent.Load>()
     private val selectGenreIntent = BehaviorSubject.create<DiscoverIntent.SelectGenre>()
     private val selectMovieIntent = BehaviorSubject.create<DiscoverIntent.SelectMovie>()
@@ -67,18 +70,6 @@ class DiscoverViewModel(container: Container) : BaseLoadingViewModel<DiscoverVie
 
     fun onRetryClicked() {
         perform(DiscoverIntent.Load)
-    }
-
-    fun onGenreClicked(genre: Genre) {
-        perform(DiscoverIntent.SelectGenre(genre))
-    }
-
-    fun onClearGenreSelection() {
-        perform(DiscoverIntent.ClearSelectedGenre)
-    }
-
-    fun onMovieSelected(movie: Movie) {
-        perform(DiscoverIntent.SelectMovie(movie))
     }
 
     override fun perform(intent: DiscoverIntent) = when (intent) {
@@ -121,7 +112,11 @@ class DiscoverViewModel(container: Container) : BaseLoadingViewModel<DiscoverVie
                 it.copy(selectedGenre = change.selectedGenre)
             }
             is DiscoverStateChange.GenreResultsAvailable -> previousState.map {
-                it.copy(genreResults = change.genreResults.getOr(emptyList()))
+                val genreResults = change.genreResults.getOr(emptyList())
+                if (genreResults.any()) {
+                    scrollToGenreResults.call()
+                }
+                it.copy(genreResults = genreResults)
             }
             is DiscoverStateChange.SelectedGenreCleared -> previousState.map {
                 it.copy(genreResults = emptyList(), selectedGenre = null)

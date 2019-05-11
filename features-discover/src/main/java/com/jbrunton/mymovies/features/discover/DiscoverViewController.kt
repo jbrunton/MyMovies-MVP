@@ -18,12 +18,7 @@ class DiscoverViewController(
     override fun updateContentView(viewState: DiscoverViewState) {
         now_playing.updateView(viewState.nowPlayingViewState)
         popular.updateView(viewState.popularViewState)
-
         genres_view.updateView(viewState.genresViewState)
-
-        if (viewState.scrollToGenreResults) {
-            contentView.scrollTo(0, genres_view.bottom)
-        }
     }
 
     fun setListener(listener: DiscoverListener) {

@@ -14,8 +14,7 @@ object DiscoverViewStateFactory {
             DiscoverViewState(
                     nowPlayingViewState = it.nowPlaying.map { MovieSearchResultViewState(it) },
                     popularViewState = it.popular.map { MovieSearchResultViewState(it) },
-                    genresViewState = genresViewState(it, genres),
-                    scrollToGenreResults = !it.genreResults.isEmpty()
+                    genresViewState = genresViewState(it, genres)
             )
         }
     }
