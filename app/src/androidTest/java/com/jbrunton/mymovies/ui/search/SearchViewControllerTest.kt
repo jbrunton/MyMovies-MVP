@@ -32,7 +32,7 @@ class SearchViewControllerTest {
     val controllerRule = ViewControllerTestRule.create(object : MoviesListViewController() {
         override val contentView: RecyclerView get() = view.findViewById(R.id.movies_list)
         override fun onMovieSelected(movie: Movie) {}
-    })
+    }, R.layout.fragment_search)
 
     val MOVIE_FACTORY = MovieFactory()
     val MOVIE1 = MOVIE_FACTORY.create()
