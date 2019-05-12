@@ -34,7 +34,7 @@ sealed class DiscoverStateChange {
     data class GenreSelected(val selectedGenre: Genre) : DiscoverStateChange()
     data class GenreResultsAvailable(val genreResults: AsyncResult<List<Movie>>) : DiscoverStateChange()
     object SelectedGenreCleared : DiscoverStateChange()
-    object Nothing : DiscoverStateChange()
+    data class SelectMovie(val movie: Movie) : DiscoverStateChange()
 }
 
 class DiscoverViewModel(container: Container) : BaseLoadingViewModel<DiscoverViewState>(container), DiscoverListener {
@@ -97,8 +97,7 @@ class DiscoverViewModel(container: Container) : BaseLoadingViewModel<DiscoverVie
     }
 
     private fun selectMovie(intent: DiscoverIntent.SelectMovie): Observable<DiscoverStateChange> {
-        navigator.navigate(MovieDetailsRequest(intent.movie.id))
-        return Observable.just(DiscoverStateChange.Nothing)
+        return Observable.just(DiscoverStateChange.SelectMovie(intent.movie))
     }
 
     private fun buildGenreResults(genreResults: AsyncResult<List<Movie>>): DiscoverStateChange {
@@ -121,7 +120,10 @@ class DiscoverViewModel(container: Container) : BaseLoadingViewModel<DiscoverVie
             is DiscoverStateChange.SelectedGenreCleared -> previousState.map {
                 it.copy(genreResults = emptyList(), selectedGenre = null)
             }
-            is DiscoverStateChange.Nothing -> previousState
+            is DiscoverStateChange.SelectMovie -> {
+                navigator.navigate(MovieDetailsRequest(change.movie.id))
+                previousState
+            }
         }
     }
 }
