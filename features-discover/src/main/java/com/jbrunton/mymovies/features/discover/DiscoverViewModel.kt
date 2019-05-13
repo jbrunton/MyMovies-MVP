@@ -15,6 +15,7 @@ import com.jbrunton.mymovies.libs.ui.viewmodels.BaseLoadingViewModel
 import com.jbrunton.mymovies.usecases.discover.DiscoverResult
 import com.jbrunton.mymovies.usecases.discover.DiscoverUseCase
 import io.reactivex.Observable
+import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 
 sealed class DiscoverIntent {
@@ -33,7 +34,7 @@ sealed class DiscoverStateChange {
     data class GenreSelected(val selectedGenre: Genre) : DiscoverStateChange()
     data class GenreResultsAvailable(val genreResults: AsyncResult<List<Movie>>) : DiscoverStateChange()
     object SelectedGenreCleared : DiscoverStateChange()
-    data class SelectMovie(val movie: Movie) : DiscoverStateChange()
+    object Nothing : DiscoverStateChange()
 }
 
 class DiscoverViewModel(container: Container) : BaseLoadingViewModel<DiscoverViewState>(container), DiscoverListener {
@@ -41,16 +42,26 @@ class DiscoverViewModel(container: Container) : BaseLoadingViewModel<DiscoverVie
 
     private val useCase: DiscoverUseCase by inject()
     private val state = PublishSubject.create<AsyncResult<DiscoverResult>>()
-    private val intents = PublishSubject.create<DiscoverIntent>()
+
+    private val loadIntent = BehaviorSubject.create<DiscoverIntent.Load>()
+    private val selectGenreIntent = BehaviorSubject.create<DiscoverIntent.SelectGenre>()
+    private val selectMovieIntent = BehaviorSubject.create<DiscoverIntent.SelectMovie>()
+    private val clearSelectedGenreIntent = BehaviorSubject.create<DiscoverIntent.ClearSelectedGenre>()
 
     override fun start() {
         super.start()
         subscribe(state) {
             viewState.postValue(DiscoverViewStateFactory.viewState(it))
         }
-        
+
+        val allIntents = Observable.merge(
+                loadIntent.flatMap(this::load),
+                selectGenreIntent.flatMap(this::selectGenre),
+                selectMovieIntent.flatMap(this::selectMovie),
+                clearSelectedGenreIntent.flatMap(this::clearSelectedGenre))
+
         val initialState: AsyncResult<DiscoverResult> = AsyncResult.loading(null)
-        intents.switchMap(this::performIntent).scan(initialState, this::reduce)
+        allIntents.scan(initialState, this::reduce)
                 .distinctUntilChanged()
                 .safelySubscribe(this, state::onNext)
 
@@ -61,15 +72,11 @@ class DiscoverViewModel(container: Container) : BaseLoadingViewModel<DiscoverVie
         perform(DiscoverIntent.Load)
     }
 
-    override fun perform(intent: DiscoverIntent) {
-        intents.onNext(intent)
-    }
-
-    private fun performIntent(intent: DiscoverIntent) = when (intent) {
-        is DiscoverIntent.Load -> load(intent)
-        is DiscoverIntent.SelectGenre -> selectGenre(intent)
-        is DiscoverIntent.ClearSelectedGenre -> clearSelectedGenre(intent)
-        is DiscoverIntent.SelectMovie -> selectMovie(intent)
+    override fun perform(intent: DiscoverIntent) = when (intent) {
+        is DiscoverIntent.Load -> loadIntent.onNext(intent)
+        is DiscoverIntent.SelectGenre -> selectGenreIntent.onNext(intent)
+        is DiscoverIntent.ClearSelectedGenre -> clearSelectedGenreIntent.onNext(intent)
+        is DiscoverIntent.SelectMovie -> selectMovieIntent.onNext(intent)
     }
 
     private fun load(intent: DiscoverIntent.Load): Observable<DiscoverStateChange> {
@@ -90,7 +97,8 @@ class DiscoverViewModel(container: Container) : BaseLoadingViewModel<DiscoverVie
     }
 
     private fun selectMovie(intent: DiscoverIntent.SelectMovie): Observable<DiscoverStateChange> {
-        return Observable.just(DiscoverStateChange.SelectMovie(intent.movie))
+        navigator.navigate(MovieDetailsRequest(intent.movie.id))
+        return Observable.just(DiscoverStateChange.Nothing)
     }
 
     private fun buildGenreResults(genreResults: AsyncResult<List<Movie>>): DiscoverStateChange {
@@ -113,10 +121,7 @@ class DiscoverViewModel(container: Container) : BaseLoadingViewModel<DiscoverVie
             is DiscoverStateChange.SelectedGenreCleared -> previousState.map {
                 it.copy(genreResults = emptyList(), selectedGenre = null)
             }
-            is DiscoverStateChange.SelectMovie -> {
-                navigator.navigate(MovieDetailsRequest(change.movie.id))
-                previousState
-            }
+            is DiscoverStateChange.Nothing -> previousState
         }
     }
 }
