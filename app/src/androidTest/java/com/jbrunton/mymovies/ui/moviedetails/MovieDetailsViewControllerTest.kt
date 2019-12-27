@@ -1,12 +1,14 @@
 package com.jbrunton.mymovies.ui.moviedetails
 
-import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers.*
 import com.jbrunton.async.AsyncResult
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.fixtures.MovieFactory
-import com.jbrunton.mymovies.fixtures.robots.MovieDetailsRobot.Companion.movieDetails
+import com.jbrunton.mymovies.fixtures.robots.LoadingLayoutRobot.assertErrorMessage
+import com.jbrunton.mymovies.fixtures.robots.LoadingLayoutRobot.assertLoadingIndicatorDisplayed
+import com.jbrunton.mymovies.fixtures.robots.LoadingLayoutRobot.assertTryAgainDisplayed
+import com.jbrunton.mymovies.fixtures.robots.LoadingLayoutRobot.replaceDrawables
+import com.jbrunton.mymovies.fixtures.robots.MovieDetailsRobot.assertDetailsDisplayed
+import com.jbrunton.mymovies.fixtures.robots.MovieDetailsRobot.assertOverview
 import com.jbrunton.mymovies.fixtures.rules.ViewControllerTestRule
 import com.jbrunton.mymovies.fixtures.rules.takeScreenshot
 import com.jbrunton.mymovies.libs.ui.viewstates.LoadingViewStateError
@@ -26,15 +28,13 @@ class MovieDetailsViewControllerTest {
     private val NETWORK_ERROR = LoadingViewStateError("Network Error", R.drawable.ic_error_outline_black_24dp, true)
 
     @Test
-    fun showsLoadingState() {
-        movieDetails {
-            replaceDrawables()
+    fun showsLoadingState()  {
+        replaceDrawables()
 
-            controllerRule.setViewState(LOADING_STATE.toLoadingViewState(MovieDetailsViewState.Empty))
+        controllerRule.setViewState(LOADING_STATE.toLoadingViewState(MovieDetailsViewState.Empty))
 
-            controllerRule.takeScreenshot("showsLoadingState")
-            assertLoadingIndicatorDisplayed()
-        }
+        controllerRule.takeScreenshot("showsLoadingState")
+        assertLoadingIndicatorDisplayed()
     }
 
     @Test
@@ -42,10 +42,8 @@ class MovieDetailsViewControllerTest {
         controllerRule.setViewState(AsyncResult.Failure<MovieDetailsViewState>(NETWORK_ERROR).toLoadingViewState(MovieDetailsViewState.Empty))
 
         controllerRule.takeScreenshot("showsErrorState")
-        movieDetails {
-            assertErrorMessage(NETWORK_ERROR.message)
-            assertTryAgainDisplayed()
-        }
+        assertErrorMessage(NETWORK_ERROR.message)
+        assertTryAgainDisplayed()
     }
 
     @Test
@@ -54,9 +52,7 @@ class MovieDetailsViewControllerTest {
         controllerRule.setViewState(AsyncResult.Success(viewState).toLoadingViewState(MovieDetailsViewState.Empty))
 
         controllerRule.takeScreenshot()
-        movieDetails {
-            assertDetailsDisplayed()
-            assertOverview(viewState.overview)
-        }
+        assertDetailsDisplayed()
+        assertOverview(viewState.overview)
     }
 }

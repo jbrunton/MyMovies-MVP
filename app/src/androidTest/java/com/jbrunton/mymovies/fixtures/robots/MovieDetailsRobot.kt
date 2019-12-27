@@ -1,27 +1,23 @@
 package com.jbrunton.mymovies.fixtures.robots
 
-import android.widget.ProgressBar
-import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
 import com.jbrunton.mymovies.R
-import com.jbrunton.mymovies.fixtures.ProgressBarViewActions
+import com.jbrunton.mymovies.fixtures.robots.MovieDetailsRobot.Matchers.MOVIE_DETAILS
+import com.jbrunton.mymovies.fixtures.robots.MovieDetailsRobot.Matchers.OVERVIEW
 
-class MovieDetailsRobot : LoadingLayoutRobot() {
-    fun assertDetailsDisplayed(): MovieDetailsRobot {
-        onView(withId(R.id.movie_details)).check(matches(isDisplayed()))
-        return this
+object MovieDetailsRobot {
+    object Matchers {
+        val MOVIE_DETAILS = withId(R.id.movie_details)
+        val OVERVIEW = withId(R.id.overview)
     }
 
-    fun assertOverview(overview: String): MovieDetailsRobot {
-        onView(withId(R.id.overview)).check(matches(withText(overview)))
-        return this
+    fun assertDetailsDisplayed() {
+        onView(MOVIE_DETAILS).check(matches(isDisplayed()))
     }
 
-    companion object {
-        fun movieDetails(block: MovieDetailsRobot.() -> Unit) = MovieDetailsRobot().apply(block)
+    fun assertOverview(overview: String) {
+        onView(OVERVIEW).check(matches(withText(overview)))
     }
 }
