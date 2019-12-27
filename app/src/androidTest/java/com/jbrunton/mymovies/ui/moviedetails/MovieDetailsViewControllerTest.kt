@@ -1,15 +1,14 @@
 package com.jbrunton.mymovies.ui.moviedetails
 
-import android.widget.ProgressBar
-import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.assertion.ViewAssertions
-import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers
-import androidx.test.espresso.matcher.ViewMatchers.*
 import com.jbrunton.async.AsyncResult
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.fixtures.MovieFactory
-import com.jbrunton.mymovies.fixtures.ProgressBarViewActions
+import com.jbrunton.mymovies.fixtures.robots.LoadingLayoutRobot.assertErrorMessage
+import com.jbrunton.mymovies.fixtures.robots.LoadingLayoutRobot.assertLoadingIndicatorDisplayed
+import com.jbrunton.mymovies.fixtures.robots.LoadingLayoutRobot.assertTryAgainDisplayed
+import com.jbrunton.mymovies.fixtures.robots.LoadingLayoutRobot.replaceDrawables
+import com.jbrunton.mymovies.fixtures.robots.MovieDetailsRobot.assertDetailsDisplayed
+import com.jbrunton.mymovies.fixtures.robots.MovieDetailsRobot.assertOverview
 import com.jbrunton.mymovies.fixtures.rules.ViewControllerTestRule
 import com.jbrunton.mymovies.fixtures.rules.takeScreenshot
 import com.jbrunton.mymovies.libs.ui.viewstates.LoadingViewStateError
@@ -30,12 +29,12 @@ class MovieDetailsViewControllerTest {
 
     @Test
     fun showsLoadingState() {
-        onView(ViewMatchers.isAssignableFrom(ProgressBar::class.java)).perform(ProgressBarViewActions.replaceProgressBarDrawable())
+        replaceDrawables()
+
         controllerRule.setViewState(LOADING_STATE.toLoadingViewState(MovieDetailsViewState.Empty))
 
         controllerRule.takeScreenshot("showsLoadingState")
-        onView(ViewMatchers.withId(R.id.loading_indicator))
-                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        assertLoadingIndicatorDisplayed()
     }
 
     @Test
@@ -43,10 +42,8 @@ class MovieDetailsViewControllerTest {
         controllerRule.setViewState(AsyncResult.Failure<MovieDetailsViewState>(NETWORK_ERROR).toLoadingViewState(MovieDetailsViewState.Empty))
 
         controllerRule.takeScreenshot("showsErrorState")
-        onView(withId(R.id.error_text))
-                .check(matches(withText(NETWORK_ERROR.message)))
-        onView(withId(R.id.error_try_again))
-                .check(matches(isDisplayed()))
+        assertErrorMessage(NETWORK_ERROR.message)
+        assertTryAgainDisplayed()
     }
 
     @Test
@@ -55,8 +52,7 @@ class MovieDetailsViewControllerTest {
         controllerRule.setViewState(AsyncResult.Success(viewState).toLoadingViewState(MovieDetailsViewState.Empty))
 
         controllerRule.takeScreenshot()
-
-        onView(withId(R.id.movie_details)).check(matches(isDisplayed()))
-        onView(withId(R.id.overview)).check(matches(withText(viewState.overview)))
+        assertDetailsDisplayed()
+        assertOverview(viewState.overview)
     }
 }
