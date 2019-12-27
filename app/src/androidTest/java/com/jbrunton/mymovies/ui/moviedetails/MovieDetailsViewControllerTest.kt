@@ -28,7 +28,7 @@ class MovieDetailsViewControllerTest {
     private val NETWORK_ERROR = LoadingViewStateError("Network Error", R.drawable.ic_error_outline_black_24dp, true)
 
     @Test
-    fun showsLoadingState()  {
+    fun showsLoadingState() {
         replaceDrawables()
 
         controllerRule.setViewState(LOADING_STATE.toLoadingViewState(MovieDetailsViewState.Empty))
