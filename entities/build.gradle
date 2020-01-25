@@ -1,19 +1,25 @@
-plugins {
-    id "net.ltgt.apt" version "0.13"
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
 }
 
+apply plugin: 'java'
 apply plugin: 'kotlin'
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation libs.kotlin.core
-    implementation libs.rx.core
+    api libs.kotlin.core
+    api libs.rx.core
     testImplementation libs.test.core
 
-    implementation 'com.github.jbrunton:async-result:0.8.0'
+    api 'com.github.jbrunton:async-result:0.8.0'
+    api 'joda-time:joda-time:2.9.9'
 
-    implementation 'joda-time:joda-time:2.9.9'
     implementation 'com.google.guava:guava:23.5-android'
 }
 
