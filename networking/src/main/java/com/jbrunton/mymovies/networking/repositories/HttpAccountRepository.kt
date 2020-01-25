@@ -2,10 +2,7 @@ package com.jbrunton.mymovies.networking.repositories
 
 import com.jbrunton.mymovies.entities.models.Account
 import com.jbrunton.mymovies.entities.models.AuthSession
-import com.jbrunton.mymovies.entities.repositories.AccountRepository
-import com.jbrunton.mymovies.entities.repositories.ApplicationPreferences
-import com.jbrunton.mymovies.entities.repositories.DataStream
-import com.jbrunton.mymovies.entities.repositories.toDataStream
+import com.jbrunton.mymovies.entities.repositories.*
 import com.jbrunton.mymovies.networking.resources.account.AccountResponse
 import com.jbrunton.mymovies.networking.resources.auth.AuthSessionRequest
 import com.jbrunton.mymovies.networking.resources.auth.LoginRequest
@@ -25,11 +22,12 @@ class HttpAccountRepository(
             preferences.sessionId = value.sessionId
         }
 
-    override fun account(): DataStream<Account> {
-        return service.account(session.sessionId)
-                .map(AccountResponse::toAccount)
-                .doAfterNext { preferences.accountId = it.id }
-                .toDataStream()
+    override suspend fun account(): FlowDataStream<Account> {
+        return buildFlowDataStream {
+            val account = service.account(session.sessionId).toAccount()
+            preferences.accountId = account.id
+            account
+        }
     }
 
     override fun login(username: String, password: String): DataStream<AuthSession> {

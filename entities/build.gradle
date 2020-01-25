@@ -17,9 +17,9 @@ dependencies {
     implementation libs.rx.core
     testImplementation libs.test.core
 
-    implementation 'com.github.jbrunton:async-result:0.8.0'
+    api 'com.github.jbrunton:async-result:0.8.0'
 
-    implementation 'joda-time:joda-time:2.9.9'
+    api 'joda-time:joda-time:2.9.9'
     implementation 'com.google.guava:guava:23.5-android'
 }
 
