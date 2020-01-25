@@ -24,9 +24,9 @@ class HttpAccountRepository(
 
     override suspend fun account(): FlowDataStream<Account> {
         return buildFlowDataStream {
-            val account = service.account(session.sessionId).toAccount()
-            preferences.accountId = account.id
-            account
+            service.account(session.sessionId).toAccount().apply {
+                preferences.accountId = id
+            }
         }
     }
 

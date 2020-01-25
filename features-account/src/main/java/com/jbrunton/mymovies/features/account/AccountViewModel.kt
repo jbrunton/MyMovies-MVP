@@ -54,8 +54,5 @@ class AccountViewModel(container: Container) : BaseLoadingViewModel<AccountViewS
                 viewState.postValue(AccountViewStateFactory.viewState(result))
             }
         }
-//        subscribe(useCase.account()) {
-//            viewState.postValue(AccountViewStateFactory.viewState(it))
-//        }
     }
 }
