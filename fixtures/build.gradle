@@ -8,7 +8,7 @@ dependencies {
     implementation libs.kotlin.core
     implementation libs.test.core
 
-    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.7.1'
 }
 
 sourceCompatibility = "1.8"

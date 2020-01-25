@@ -9,6 +9,6 @@ import java.lang.NullPointerException
 private val gson = Gson()
 
 fun HttpException.parseStatusMessage(): String {
-    val errorResponse = gson.fromJson(this.response().errorBody()?.string(), HttpErrorResponse::class.java)
+    val errorResponse = gson.fromJson(this.response()?.errorBody()?.string(), HttpErrorResponse::class.java)
     return errorResponse.statusMessage ?: throw NullPointerException()
 }
