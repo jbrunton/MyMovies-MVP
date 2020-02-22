@@ -2,6 +2,7 @@ package com.jbrunton.mymovies.networking.repositories
 
 import androidx.collection.LruCache
 import com.jbrunton.async.doOnSuccess
+import com.jbrunton.async.get
 import com.jbrunton.mymovies.entities.models.Configuration
 import com.jbrunton.mymovies.entities.models.Movie
 import com.jbrunton.mymovies.entities.repositories.*
@@ -13,8 +14,8 @@ import io.reactivex.Observable
 import io.reactivex.rxkotlin.Observables
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.onEach
-import org.intellij.lang.annotations.Flow
 
 class HttpMoviesRepository(
         private val service: MovieService,
@@ -23,12 +24,14 @@ class HttpMoviesRepository(
     private val cache = LruCache<String, Movie>(1024)
     private var favoritesCache: List<Movie>? = null
 
-    override fun getMovie(movieId: String): DataStream<Movie> {
-        return Observables.zip(service.movie(movieId), rxConfig()) {
-            response, config -> MovieDetailsResponse.toMovie(response, config)
-        }.doOnNext {
-            cache.put(it.id, it)
-        }.toDataStream(cache.get(movieId))
+    override suspend fun getMovie(movieId: String): FlowDataStream<Movie> = coroutineScope {
+        val response = async { service.movie(movieId) }
+        val config = async { config() }
+        buildFlowDataStream(cache.get(movieId)) {
+            MovieDetailsResponse.toMovie(response.await(), config.await()).apply {
+                cache.put(id, this)
+            }
+        }
     }
 
     override fun searchMovies(query: String): DataStream<List<Movie>> {

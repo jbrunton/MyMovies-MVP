@@ -9,6 +9,7 @@ import com.jbrunton.mymovies.entities.repositories.ApplicationPreferences
 import com.jbrunton.mymovies.entities.repositories.DataStream
 import com.jbrunton.mymovies.entities.repositories.FlowDataStream
 import com.jbrunton.mymovies.entities.repositories.MoviesRepository
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.rx2.asObservable
 import retrofit2.HttpException
@@ -22,9 +23,9 @@ class MovieDetailsUseCase(
         val repository: MoviesRepository,
         val preferences: ApplicationPreferences
 ) {
-    fun details(movieId: String): DataStream<MovieDetails> {
-        return repository.getMovie(movieId)
-                .map(this::handleMovieResult)
+    suspend fun details(movieId: String): FlowDataStream<MovieDetails> = coroutineScope {
+        repository.getMovie(movieId)
+                .map { handleMovieResult(it) }
     }
 
     suspend fun favorite(movieId: String): FlowDataStream<FavoriteResult> {

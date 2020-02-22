@@ -33,7 +33,7 @@ interface MovieService {
     suspend fun account(@Query("session_id") sessionId: String): AccountResponse
 
     @GET("movie/{movie_id}")
-    fun movie(@Path("movie_id") movieId: String): Observable<MovieDetailsResponse>
+    suspend fun movie(@Path("movie_id") movieId: String): MovieDetailsResponse
 
     @GET("search/movie")
     fun search(@Query("query") query: String): Observable<MoviesCollection>

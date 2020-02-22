@@ -50,8 +50,10 @@ class MovieDetailsViewModel(val movieId: String, container: Container) :
     }
 
     private fun loadDetails() {
-        subscribe(useCase.details(movieId)) {
-            viewState.postValue(viewStateFactory.viewState(it))
+        viewModelScope.launch {
+            useCase.details(movieId).collect {
+                viewState.postValue(viewStateFactory.viewState(it))
+            }
         }
     }
 
