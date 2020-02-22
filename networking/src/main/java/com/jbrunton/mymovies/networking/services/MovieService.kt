@@ -27,7 +27,7 @@ interface MovieService {
     fun configuration(): Observable<ConfigurationResponse>
 
     @GET("account")
-    fun account(@Query("session_id") sessionId: String): Observable<AccountResponse>
+    suspend fun account(@Query("session_id") sessionId: String): AccountResponse
 
     @GET("movie/{movie_id}")
     fun movie(@Path("movie_id") movieId: String): Observable<MovieDetailsResponse>

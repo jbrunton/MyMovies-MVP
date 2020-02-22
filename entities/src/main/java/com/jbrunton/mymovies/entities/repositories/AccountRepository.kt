@@ -5,7 +5,7 @@ import com.jbrunton.mymovies.entities.models.AuthSession
 
 interface AccountRepository {
     val session: AuthSession
-    fun account(): DataStream<Account>
+    suspend fun account(): FlowDataStream<Account>
     fun login(username: String, password: String): DataStream<AuthSession>
     fun signOut()
 }

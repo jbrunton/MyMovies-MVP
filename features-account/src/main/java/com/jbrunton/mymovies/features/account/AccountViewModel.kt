@@ -1,5 +1,6 @@
 package com.jbrunton.mymovies.features.account
 
+import androidx.lifecycle.viewModelScope
 import com.jbrunton.async.AsyncResult
 import com.jbrunton.mymovies.entities.subscribe
 import com.jbrunton.inject.Container
@@ -11,6 +12,8 @@ import com.jbrunton.mymovies.libs.ui.nav.NavigationResult
 import com.jbrunton.mymovies.libs.ui.viewmodels.BaseLoadingViewModel
 import com.jbrunton.mymovies.usecases.account.AccountResult
 import com.jbrunton.mymovies.usecases.account.AccountUseCase
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 class AccountViewModel(container: Container) : BaseLoadingViewModel<AccountViewState>(container) {
     val useCase: AccountUseCase by inject()
@@ -46,8 +49,10 @@ class AccountViewModel(container: Container) : BaseLoadingViewModel<AccountViewS
     }
 
     private fun loadAccount() {
-        subscribe(useCase.account()) {
-            viewState.postValue(AccountViewStateFactory.viewState(it))
+        viewModelScope.launch {
+            useCase.account().collect { result ->
+                viewState.postValue(AccountViewStateFactory.viewState(result))
+            }
         }
     }
 }

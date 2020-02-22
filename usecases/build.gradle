@@ -17,6 +17,7 @@ dependencies {
     implementation project(':networking')
     testImplementation project(':fixtures')
 
+    implementation libs.rx.core
     implementation libs.kotlin.core
     testImplementation libs.test.core
 }
