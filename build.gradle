@@ -22,7 +22,8 @@ buildscript {
                                 'junit:junit:4.12',
                                 'org.assertj:assertj-core:3.8.0',
                                 'org.mockito:mockito-core:2.8.47',
-                                'com.nhaarman:mockito-kotlin:1.5.0',
+                                'com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0',
+                                "org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlinx_coroutines_version"
                         ],
                         android: [
                                 'org.mockito:mockito-android:2.13.0',

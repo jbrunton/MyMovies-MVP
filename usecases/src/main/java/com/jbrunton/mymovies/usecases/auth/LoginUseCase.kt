@@ -5,17 +5,18 @@ import com.jbrunton.async.map
 import com.jbrunton.mymovies.entities.errors.handleNetworkErrors
 import com.jbrunton.mymovies.entities.models.AuthSession
 import com.jbrunton.mymovies.entities.repositories.AccountRepository
-import com.jbrunton.mymovies.entities.repositories.DataStream
-import io.reactivex.Observable
+import com.jbrunton.mymovies.entities.repositories.FlowDataStream
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.map
 
 class LoginUseCase(val repository: AccountRepository) {
-    fun login(username: String, password: String): DataStream<LoginResult> {
+    suspend fun login(username: String, password: String): FlowDataStream<LoginResult> {
         val invalidState = validate(username, password)
-        if (invalidState != null) {
-            return Observable.just(AsyncResult.success(invalidState))
+        return if (invalidState != null) {
+            flowOf(AsyncResult.success(invalidState))
         } else {
-            return repository.login(username, password)
-                    .map(this::handleResult)
+            repository.login(username, password)
+                    .map { handleResult(it) }
         }
     }
 

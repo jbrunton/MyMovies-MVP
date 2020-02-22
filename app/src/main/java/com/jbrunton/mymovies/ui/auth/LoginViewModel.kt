@@ -1,5 +1,6 @@
 package com.jbrunton.mymovies.ui.auth
 
+import androidx.lifecycle.viewModelScope
 import com.jbrunton.async.AsyncResult
 import com.jbrunton.async.doOnSuccess
 import com.jbrunton.async.onError
@@ -14,6 +15,8 @@ import com.jbrunton.mymovies.libs.ui.livedata.SingleLiveEvent
 import com.jbrunton.mymovies.usecases.auth.LoginResult
 import com.jbrunton.mymovies.usecases.auth.LoginUseCase
 import com.jbrunton.mymovies.networking.parseStatusMessage
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import retrofit2.HttpException
 
 class LoginViewModel(container: Container) : BaseLoadingViewModel<LoginViewState>(container) {
@@ -23,8 +26,10 @@ class LoginViewModel(container: Container) : BaseLoadingViewModel<LoginViewState
     val viewStateFactory: LoginViewStateFactory by inject()
 
     fun onLoginClicked(username: String, password: String) {
-        subscribe(useCase.login(username, password)) {
-            viewState.postValue(viewStateFactory.viewState(handleResult(it)))
+        viewModelScope.launch {
+            useCase.login(username, password).collect { result ->
+                viewState.postValue(viewStateFactory.viewState(handleResult(result)))
+            }
         }
     }
 

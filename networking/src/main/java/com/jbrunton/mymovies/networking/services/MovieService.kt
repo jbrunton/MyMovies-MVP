@@ -15,13 +15,13 @@ import retrofit2.http.*
 
 interface MovieService {
     @GET("authentication/token/new")
-    fun newAuthToken(): Observable<AuthToken>
+    suspend fun newAuthToken(): AuthToken
 
     @POST("authentication/token/validate_with_login")
-    fun login(@Body request: LoginRequest): Observable<AuthToken>
+    suspend fun login(@Body request: LoginRequest): AuthToken
 
     @POST("authentication/session/new")
-    fun newSession(@Body request: AuthSessionRequest): Observable<AuthSession>
+    suspend fun newSession(@Body request: AuthSessionRequest): AuthSession
 
     @GET("configuration")
     fun configuration(): Observable<ConfigurationResponse>
