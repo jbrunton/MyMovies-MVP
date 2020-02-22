@@ -12,9 +12,9 @@ import com.jbrunton.mymovies.libs.ui.nav.MovieDetailsRequest
 import com.jbrunton.mymovies.shared.ui.SearchViewState
 import com.jbrunton.mymovies.usecases.favorites.FavoritesUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-@ExperimentalCoroutinesApi
 class FavoritesViewModel(container: Container) : BaseLoadingViewModel<SearchViewState>(container) {
     val useCase: FavoritesUseCase by inject()
 
@@ -32,7 +32,7 @@ class FavoritesViewModel(container: Container) : BaseLoadingViewModel<SearchView
 
     private fun loadFavorites() {
         viewModelScope.launch {
-            subscribe(useCase.favorites()) { result ->
+            useCase.favorites().collect { result ->
                 result.doOnNetworkError(this@FavoritesViewModel::showSnackbarIfCachedValue)
                 viewState.postValue(FavoritesViewStateFactory.viewState(result))
             }
