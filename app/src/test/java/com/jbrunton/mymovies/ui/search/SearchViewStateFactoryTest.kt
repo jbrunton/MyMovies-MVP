@@ -8,8 +8,8 @@ import com.jbrunton.mymovies.fixtures.MovieFactory
 import com.jbrunton.mymovies.libs.ui.viewstates.toLoadingViewState
 import com.jbrunton.mymovies.shared.ui.SearchViewState
 import com.jbrunton.mymovies.usecases.search.SearchResult
-import com.nhaarman.mockito_kotlin.doReturn
-import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockitokotlin2.doReturn
+import com.nhaarman.mockitokotlin2.mock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 
