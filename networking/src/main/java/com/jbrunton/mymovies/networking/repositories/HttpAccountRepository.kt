@@ -3,7 +3,6 @@ package com.jbrunton.mymovies.networking.repositories
 import com.jbrunton.mymovies.entities.models.Account
 import com.jbrunton.mymovies.entities.models.AuthSession
 import com.jbrunton.mymovies.entities.repositories.*
-import com.jbrunton.mymovies.networking.resources.account.AccountResponse
 import com.jbrunton.mymovies.networking.resources.auth.AuthSessionRequest
 import com.jbrunton.mymovies.networking.resources.auth.LoginRequest
 import com.jbrunton.mymovies.networking.services.MovieService
@@ -30,23 +29,28 @@ class HttpAccountRepository(
         }
     }
 
-    override fun login(username: String, password: String): DataStream<AuthSession> {
-        return service.newAuthToken()
-                .flatMap {
-                    val loginRequest = LoginRequest(
-                            username = username,
-                            password = password,
-                            requestToken = it.requestToken
-                    )
-                    service.login(loginRequest)
-                }.flatMap {
-                    val sessionRequest = AuthSessionRequest(
-                            requestToken = it.requestToken
-                    )
-                    service.newSession(sessionRequest)
-                }.doAfterNext{
-                    session = it
-                }.toDataStream()
+    override suspend fun login(username: String, password: String): FlowDataStream<AuthSession> {
+        return buildFlowDataStream {
+            // Per the docs:
+            // https://developers.themoviedb.org/3/authentication/how-do-i-generate-a-session-id
+
+            // Step 1: Create a request token
+            val requestToken = service.newAuthToken()
+
+            // Step 2: Authorize the request token
+            val loginRequest = LoginRequest(
+                    username = username,
+                    password = password,
+                    requestToken = requestToken.requestToken
+            )
+            val loginResponse = service.login(loginRequest)
+
+            // Step 3: Create a new session id
+            val sessionRequest = AuthSessionRequest(loginResponse.requestToken)
+            service.newSession(sessionRequest).apply {
+                session = this
+            }
+        }
     }
 
     override fun signOut() {
