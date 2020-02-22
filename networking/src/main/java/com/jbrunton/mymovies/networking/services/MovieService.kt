@@ -24,7 +24,10 @@ interface MovieService {
     suspend fun newSession(@Body request: AuthSessionRequest): AuthSession
 
     @GET("configuration")
-    fun configuration(): Observable<ConfigurationResponse>
+    fun rxConfiguration(): Observable<ConfigurationResponse>
+
+    @GET("configuration")
+    suspend fun configuration(): ConfigurationResponse
 
     @GET("account")
     suspend fun account(@Query("session_id") sessionId: String): AccountResponse
@@ -48,15 +51,15 @@ interface MovieService {
     fun discoverByGenre(@Query("with_genres") genreId: String): Observable<MoviesCollection>
 
     @GET("account/{account_id}/favorite/movies")
-    fun favorites(
+    suspend fun favorites(
             @Path("account_id") accountId: String,
             @Query("session_id") sessionId: String
-    ): Observable<MoviesCollection>
+    ): MoviesCollection
 
     @POST("account/{account_id}/favorite")
-    fun favorite(
+    suspend fun favorite(
             @Path("account_id") accountId: String,
             @Query("session_id") sessionId: String,
             @Body request: FavoriteRequest
-    ): Observable<Any>
+    )
 }

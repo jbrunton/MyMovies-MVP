@@ -1,5 +1,6 @@
 package com.jbrunton.mymovies.features.account.favorites
 
+import androidx.lifecycle.viewModelScope
 import com.jbrunton.async.AsyncResult
 import com.jbrunton.mymovies.entities.errors.doOnNetworkError
 import com.jbrunton.mymovies.entities.models.Movie
@@ -10,7 +11,10 @@ import com.jbrunton.mymovies.libs.ui.viewmodels.BaseLoadingViewModel
 import com.jbrunton.mymovies.libs.ui.nav.MovieDetailsRequest
 import com.jbrunton.mymovies.shared.ui.SearchViewState
 import com.jbrunton.mymovies.usecases.favorites.FavoritesUseCase
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.launch
 
+@ExperimentalCoroutinesApi
 class FavoritesViewModel(container: Container) : BaseLoadingViewModel<SearchViewState>(container) {
     val useCase: FavoritesUseCase by inject()
 
@@ -27,9 +31,11 @@ class FavoritesViewModel(container: Container) : BaseLoadingViewModel<SearchView
     }
 
     private fun loadFavorites() {
-        subscribe(useCase.favorites()) { result ->
-            result.doOnNetworkError(this::showSnackbarIfCachedValue)
-            viewState.postValue(FavoritesViewStateFactory.viewState(result))
+        viewModelScope.launch {
+            subscribe(useCase.favorites()) { result ->
+                result.doOnNetworkError(this@FavoritesViewModel::showSnackbarIfCachedValue)
+                viewState.postValue(FavoritesViewStateFactory.viewState(result))
+            }
         }
     }
 

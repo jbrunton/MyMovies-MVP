@@ -8,6 +8,7 @@ import com.jbrunton.mymovies.entities.models.Movie
 import com.jbrunton.mymovies.entities.repositories.ApplicationPreferences
 import com.jbrunton.mymovies.entities.repositories.DataStream
 import com.jbrunton.mymovies.entities.repositories.MoviesRepository
+import kotlinx.coroutines.rx2.asObservable
 import retrofit2.HttpException
 
 sealed class FavoriteResult {
@@ -24,13 +25,13 @@ class MovieDetailsUseCase(
                 .map(this::handleMovieResult)
     }
 
-    fun favorite(movieId: String): DataStream<FavoriteResult> {
-        return repository.favorite(movieId)
+    suspend fun favorite(movieId: String): DataStream<FavoriteResult> {
+        return repository.favorite(movieId).asObservable()
                 .map(this::handleFavoriteResult)
     }
 
-    fun unfavorite(movieId: String): DataStream<FavoriteResult> {
-        return repository.unfavorite(movieId)
+    suspend fun unfavorite(movieId: String): DataStream<FavoriteResult> {
+        return repository.unfavorite(movieId).asObservable()
                 .map(this::handleFavoriteResult)
     }
 

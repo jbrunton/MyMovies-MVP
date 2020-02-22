@@ -1,5 +1,6 @@
 package com.jbrunton.mymovies.ui.moviedetails
 
+import androidx.lifecycle.viewModelScope
 import com.jbrunton.async.AsyncResult
 import com.jbrunton.async.doOnSuccess
 import com.jbrunton.mymovies.entities.subscribe
@@ -9,6 +10,7 @@ import com.jbrunton.mymovies.libs.ui.viewmodels.BaseLoadingViewModel
 import com.jbrunton.mymovies.libs.ui.SnackbarEvent
 import com.jbrunton.mymovies.usecases.moviedetails.FavoriteResult
 import com.jbrunton.mymovies.usecases.moviedetails.MovieDetailsUseCase
+import kotlinx.coroutines.launch
 
 class MovieDetailsViewModel(val movieId: String, container: Container) :
         BaseLoadingViewModel<MovieDetailsViewState>(container)
@@ -26,17 +28,21 @@ class MovieDetailsViewModel(val movieId: String, container: Container) :
     }
 
     fun onFavoriteClicked() {
-        subscribe(useCase.favorite(movieId)) {
-            it.doOnSuccess {
-                handleFavoriteResult(it, viewStateFactory.FavoriteAddedEvent(this::onUnfavoriteClicked))
+        viewModelScope.launch {
+            subscribe(useCase.favorite(movieId)) {
+                it.doOnSuccess {
+                    handleFavoriteResult(it, viewStateFactory.FavoriteAddedEvent(this@MovieDetailsViewModel::onUnfavoriteClicked))
+                }
             }
         }
     }
 
     fun onUnfavoriteClicked() {
-        subscribe(useCase.unfavorite(movieId)) {
-            it.doOnSuccess {
-                handleFavoriteResult(it, viewStateFactory.FavoriteRemovedEvent(this::onUnfavoriteClicked))
+        viewModelScope.launch {
+            subscribe(useCase.unfavorite(movieId)) {
+                it.doOnSuccess {
+                    handleFavoriteResult(it, viewStateFactory.FavoriteRemovedEvent(this@MovieDetailsViewModel::onUnfavoriteClicked))
+                }
             }
         }
     }
