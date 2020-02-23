@@ -3,8 +3,6 @@ package com.jbrunton.mymovies.features.account
 import androidx.lifecycle.viewModelScope
 import com.jbrunton.async.AsyncResult
 import com.jbrunton.mymovies.entities.subscribe
-import com.jbrunton.inject.Container
-import com.jbrunton.inject.inject
 import com.jbrunton.mymovies.libs.ui.nav.FavoritesRequest
 import com.jbrunton.mymovies.libs.ui.nav.LoginRequest
 import com.jbrunton.mymovies.libs.ui.nav.LoginSuccess
@@ -14,9 +12,11 @@ import com.jbrunton.mymovies.usecases.account.AccountResult
 import com.jbrunton.mymovies.usecases.account.AccountUseCase
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import org.kodein.di.Kodein
+import org.kodein.di.generic.instance
 
-class AccountViewModel(container: Container) : BaseLoadingViewModel<AccountViewState>(container) {
-    val useCase: AccountUseCase by inject()
+class AccountViewModel(kodein: Kodein) : BaseLoadingViewModel<AccountViewState>(kodein) {
+    val useCase: AccountUseCase by instance()
 
     override fun start() {
         super.start()

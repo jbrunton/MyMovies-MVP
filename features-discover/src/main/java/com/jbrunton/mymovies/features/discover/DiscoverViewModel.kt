@@ -3,8 +3,6 @@ package com.jbrunton.mymovies.features.discover
 import com.jbrunton.async.AsyncResult
 import com.jbrunton.async.getOr
 import com.jbrunton.async.map
-import com.jbrunton.inject.Container
-import com.jbrunton.inject.inject
 import com.jbrunton.mymovies.entities.models.Genre
 import com.jbrunton.mymovies.entities.models.Movie
 import com.jbrunton.mymovies.entities.safelySubscribe
@@ -17,6 +15,8 @@ import com.jbrunton.mymovies.usecases.discover.DiscoverUseCase
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
+import org.kodein.di.Kodein
+import org.kodein.di.generic.instance
 
 sealed class DiscoverIntent {
     object Load : DiscoverIntent()
@@ -37,10 +37,10 @@ sealed class DiscoverStateChange {
     object Nothing : DiscoverStateChange()
 }
 
-class DiscoverViewModel(container: Container) : BaseLoadingViewModel<DiscoverViewState>(container), DiscoverListener {
+class DiscoverViewModel(kodein: Kodein) : BaseLoadingViewModel<DiscoverViewState>(kodein), DiscoverListener {
     val scrollToGenreResults = SingleLiveEvent<Unit>()
 
-    private val useCase: DiscoverUseCase by inject()
+    private val useCase: DiscoverUseCase by instance()
     private val state = PublishSubject.create<AsyncResult<DiscoverResult>>()
 
     private val loadIntent = BehaviorSubject.create<DiscoverIntent.Load>()

@@ -1,8 +1,8 @@
 package com.jbrunton.mymovies.libs.ui
 
 import androidx.appcompat.app.AppCompatActivity
-import com.jbrunton.inject.Container
+import org.kodein.di.Kodein
 
 interface ActivityContainerFactory {
-    fun createActivityContainer(activity: AppCompatActivity): Container
+    fun createActivityContainer(activity: AppCompatActivity): Kodein
 }

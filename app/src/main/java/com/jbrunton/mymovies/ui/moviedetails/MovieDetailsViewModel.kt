@@ -3,18 +3,18 @@ package com.jbrunton.mymovies.ui.moviedetails
 import com.jbrunton.async.AsyncResult
 import com.jbrunton.async.doOnSuccess
 import com.jbrunton.mymovies.entities.subscribe
-import com.jbrunton.inject.Container
-import com.jbrunton.inject.inject
 import com.jbrunton.mymovies.libs.ui.viewmodels.BaseLoadingViewModel
 import com.jbrunton.mymovies.libs.ui.SnackbarEvent
 import com.jbrunton.mymovies.usecases.moviedetails.FavoriteResult
 import com.jbrunton.mymovies.usecases.moviedetails.MovieDetailsUseCase
+import org.kodein.di.Kodein
+import org.kodein.di.generic.instance
 
-class MovieDetailsViewModel(val movieId: String, container: Container) :
-        BaseLoadingViewModel<MovieDetailsViewState>(container)
+class MovieDetailsViewModel(val movieId: String, kodein: Kodein) :
+        BaseLoadingViewModel<MovieDetailsViewState>(kodein)
 {
-    val useCase: MovieDetailsUseCase by inject()
-    val viewStateFactory: MovieDetailsViewStateFactory by inject()
+    val useCase: MovieDetailsUseCase by instance()
+    val viewStateFactory: MovieDetailsViewStateFactory by instance()
 
     override fun start() {
         super.start()

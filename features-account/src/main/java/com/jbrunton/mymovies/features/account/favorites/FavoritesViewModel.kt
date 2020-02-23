@@ -4,15 +4,15 @@ import com.jbrunton.async.AsyncResult
 import com.jbrunton.mymovies.entities.errors.doOnNetworkError
 import com.jbrunton.mymovies.entities.models.Movie
 import com.jbrunton.mymovies.entities.subscribe
-import com.jbrunton.inject.Container
-import com.jbrunton.inject.inject
 import com.jbrunton.mymovies.libs.ui.viewmodels.BaseLoadingViewModel
 import com.jbrunton.mymovies.libs.ui.nav.MovieDetailsRequest
 import com.jbrunton.mymovies.shared.ui.SearchViewState
 import com.jbrunton.mymovies.usecases.favorites.FavoritesUseCase
+import org.kodein.di.Kodein
+import org.kodein.di.generic.instance
 
-class FavoritesViewModel(container: Container) : BaseLoadingViewModel<SearchViewState>(container) {
-    val useCase: FavoritesUseCase by inject()
+class FavoritesViewModel(kodein: Kodein) : BaseLoadingViewModel<SearchViewState>(kodein) {
+    val useCase: FavoritesUseCase by instance()
 
     override fun start() {
         loadFavorites()

@@ -1,11 +1,11 @@
 package com.jbrunton.mymovies.features.account.favorites
 
 import androidx.appcompat.widget.Toolbar
-import com.jbrunton.inject.injectViewModel
 import com.jbrunton.mymovies.features.account.R
 import com.jbrunton.mymovies.libs.ui.controllers.rootView
 import com.jbrunton.mymovies.libs.ui.livedata.observe
 import com.jbrunton.mymovies.libs.ui.views.BaseActivity
+import com.jbrunton.mymovies.libs.ui.views.injectViewModel
 
 class FavoritesActivity : BaseActivity<FavoritesViewModel>() {
     override val viewModel: FavoritesViewModel by injectViewModel()

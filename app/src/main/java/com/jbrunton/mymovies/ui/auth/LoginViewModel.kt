@@ -6,10 +6,6 @@ import com.jbrunton.async.doOnSuccess
 import com.jbrunton.async.onError
 import com.jbrunton.mymovies.entities.errors.onNetworkError
 import com.jbrunton.mymovies.entities.models.AuthSession
-import com.jbrunton.mymovies.entities.subscribe
-import com.jbrunton.inject.Container
-import com.jbrunton.inject.inject
-import com.jbrunton.inject.parametersOf
 import com.jbrunton.mymovies.libs.ui.viewmodels.BaseLoadingViewModel
 import com.jbrunton.mymovies.libs.ui.livedata.SingleLiveEvent
 import com.jbrunton.mymovies.usecases.auth.LoginResult
@@ -17,13 +13,16 @@ import com.jbrunton.mymovies.usecases.auth.LoginUseCase
 import com.jbrunton.mymovies.networking.parseStatusMessage
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import org.kodein.di.Kodein
+import org.kodein.di.generic.factory
+import org.kodein.di.generic.instance
 import retrofit2.HttpException
 
-class LoginViewModel(container: Container) : BaseLoadingViewModel<LoginViewState>(container) {
-    val useCase: LoginUseCase by inject { parametersOf(schedulerContext) }
+class LoginViewModel(kodein: Kodein) : BaseLoadingViewModel<LoginViewState>(kodein) {
+    val useCase: LoginUseCase by instance()
     val loginSuccessful = SingleLiveEvent<AuthSession>()
     val loginFailure = SingleLiveEvent<String>()
-    val viewStateFactory: LoginViewStateFactory by inject()
+    val viewStateFactory: LoginViewStateFactory by instance()
 
     fun onLoginClicked(username: String, password: String) {
         viewModelScope.launch {
