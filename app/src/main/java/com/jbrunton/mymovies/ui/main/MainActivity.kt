@@ -8,9 +8,10 @@ import com.jbrunton.mymovies.libs.ui.nav.SearchRequest
 import com.jbrunton.mymovies.libs.ui.views.BaseActivity
 import io.fabric.sdk.android.Fabric
 import kotlinx.android.synthetic.main.activity_main.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : BaseActivity<MainViewModel>() {
-    override val viewModel: MainViewModel by injectViewModel()
+    override val viewModel: MainViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

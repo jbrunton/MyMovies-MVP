@@ -10,9 +10,10 @@ import com.jbrunton.mymovies.libs.ui.controllers.rootView
 import com.jbrunton.mymovies.libs.ui.livedata.observe
 import com.jbrunton.mymovies.libs.ui.views.BaseFragment
 import kotlinx.android.synthetic.main.fragment_discover.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class DiscoverFragment : BaseFragment<DiscoverViewModel>() {
-    override val viewModel: DiscoverViewModel by injectViewModel()
+    override val viewModel: DiscoverViewModel by viewModel()
     private val viewController by lazy { DiscoverViewController(viewModel) }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

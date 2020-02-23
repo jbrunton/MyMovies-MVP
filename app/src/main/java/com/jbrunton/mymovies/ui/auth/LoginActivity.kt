@@ -9,9 +9,10 @@ import com.jbrunton.mymovies.libs.ui.controllers.rootView
 import com.jbrunton.mymovies.libs.ui.livedata.observe
 import com.jbrunton.mymovies.libs.ui.views.BaseActivity
 import kotlinx.android.synthetic.main.activity_login.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LoginActivity : BaseActivity<LoginViewModel>() {
-    override val viewModel: LoginViewModel by injectViewModel()
+    override val viewModel: LoginViewModel by viewModel()
     private val viewController = LoginViewController()
 
     companion object {

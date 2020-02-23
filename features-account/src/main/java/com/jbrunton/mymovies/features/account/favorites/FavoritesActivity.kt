@@ -6,9 +6,10 @@ import com.jbrunton.mymovies.features.account.R
 import com.jbrunton.mymovies.libs.ui.controllers.rootView
 import com.jbrunton.mymovies.libs.ui.livedata.observe
 import com.jbrunton.mymovies.libs.ui.views.BaseActivity
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class FavoritesActivity : BaseActivity<FavoritesViewModel>() {
-    override val viewModel: FavoritesViewModel by injectViewModel()
+    override val viewModel: FavoritesViewModel by viewModel()
     val toolbar: Toolbar get() = findViewById(R.id.toolbar)
     private val layoutController by lazy { FavoritesViewController(viewModel) }
 
