@@ -9,8 +9,9 @@ import com.jbrunton.mymovies.libs.ui.ActivityContainerFactory
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 import org.koin.core.module.Module
+import org.koin.dsl.module
 
-open class MyMoviesApplication : Application() {
+open class MyMoviesApplication : Application(), ActivityContainerFactory {
     //override val container = Container()
 
     //inline fun <reified T : Any> get() = container.get<T>()
@@ -29,7 +30,18 @@ open class MyMoviesApplication : Application() {
                 KoinApplicationModule(this),
                 KoinSchedulersModule,
                 KoinHttpModule,
-                KoinUiModule)
+                KoinUiModule,
+                module {
+                    single<ActivityContainerFactory> {
+                        object : ActivityContainerFactory {
+                            override fun createActivityModule(activity: AppCompatActivity) = KoinActivityModule(activity)
+                        }
+                    }
+                })
+    }
+
+    override fun createActivityModule(activity: AppCompatActivity): Module {
+        return KoinActivityModule(activity)
     }
 
 //    open fun configureContainer(container: Container) {

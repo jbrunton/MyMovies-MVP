@@ -6,7 +6,7 @@ import com.jbrunton.inject.Container
 import com.jbrunton.mymovies.libs.ui.SnackbarEvent
 import com.jbrunton.mymovies.libs.ui.viewstates.LoadingViewState
 
-abstract class BaseLoadingViewModel<T>(container: Container) : BaseViewModel(container) {
+abstract class BaseLoadingViewModel<T>() : BaseViewModel() {
     val viewState = MutableLiveData<LoadingViewState<T>>()
 
     open fun retry() {}

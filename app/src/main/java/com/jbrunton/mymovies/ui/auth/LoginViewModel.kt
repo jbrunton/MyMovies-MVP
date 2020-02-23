@@ -17,10 +17,11 @@ import com.jbrunton.mymovies.usecases.auth.LoginUseCase
 import com.jbrunton.mymovies.networking.parseStatusMessage
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import org.koin.core.inject
 import retrofit2.HttpException
 
-class LoginViewModel(container: Container) : BaseLoadingViewModel<LoginViewState>(container) {
-    val useCase: LoginUseCase by inject { parametersOf(schedulerContext) }
+class LoginViewModel(container: Container) : BaseLoadingViewModel<LoginViewState>() {
+    val useCase: LoginUseCase by inject { org.koin.core.parameter.parametersOf(schedulerContext) }
     val loginSuccessful = SingleLiveEvent<AuthSession>()
     val loginFailure = SingleLiveEvent<String>()
     val viewStateFactory: LoginViewStateFactory by inject()

@@ -9,9 +9,10 @@ import com.jbrunton.mymovies.libs.ui.viewmodels.BaseLoadingViewModel
 import com.jbrunton.mymovies.libs.ui.SnackbarEvent
 import com.jbrunton.mymovies.usecases.moviedetails.FavoriteResult
 import com.jbrunton.mymovies.usecases.moviedetails.MovieDetailsUseCase
+import org.koin.core.inject
 
-class MovieDetailsViewModel(val movieId: String, container: Container) :
-        BaseLoadingViewModel<MovieDetailsViewState>(container)
+class MovieDetailsViewModel(val movieId: String) :
+        BaseLoadingViewModel<MovieDetailsViewState>()
 {
     val useCase: MovieDetailsUseCase by inject()
     val viewStateFactory: MovieDetailsViewStateFactory by inject()

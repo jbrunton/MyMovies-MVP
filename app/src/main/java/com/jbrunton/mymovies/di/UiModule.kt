@@ -22,51 +22,51 @@ import com.jbrunton.mymovies.usecases.search.SearchUseCase
 val UiModule = module {
     single { Navigator() }
 
-    factory { MainViewModel(get()) }
+    factory { MainViewModel() }
 
     factory { LoginUseCase(get()) }
     factory { LoginViewModel(get()) }
     factory { LoginViewStateFactory(get()) }
 
     factory { SearchUseCase(get(), get()) }
-    factory { SearchViewModel(get()) }
+    factory { SearchViewModel() }
     factory { SearchViewStateFactory(get()) }
 
     factory { MovieDetailsUseCase(get(), get()) }
-    factory { (movieId: String) -> MovieDetailsViewModel(movieId, get()) }
+    factory { (movieId: String) -> MovieDetailsViewModel(movieId) }
     factory { MovieDetailsViewStateFactory(get()) }
 
     factory { DiscoverUseCase(get(), get()) }
-    factory { DiscoverViewModel(get()) }
+    factory { DiscoverViewModel() }
 
-    factory { AccountViewModel(get()) }
+    factory { AccountViewModel() }
     factory { AccountUseCase(get()) }
-    factory { FavoritesViewModel(get()) }
+    factory { FavoritesViewModel() }
     factory { FavoritesUseCase(get()) }
 }
 
 val KoinUiModule = org.koin.dsl.module {
     single { Navigator() }
 
-    factory { MainViewModel(get()) }
+    factory { MainViewModel() }
 
     factory { LoginUseCase(get()) }
     factory { LoginViewModel(get()) }
     factory { LoginViewStateFactory(get()) }
 
     factory { SearchUseCase(get(), get()) }
-    factory { SearchViewModel(get()) }
+    factory { SearchViewModel() }
     factory { SearchViewStateFactory(get()) }
 
     factory { MovieDetailsUseCase(get(), get()) }
-    factory { (movieId: String) -> MovieDetailsViewModel(movieId, get()) }
+    factory { (movieId: String) -> MovieDetailsViewModel(movieId) }
     factory { MovieDetailsViewStateFactory(get()) }
 
     factory { DiscoverUseCase(get(), get()) }
-    factory { DiscoverViewModel(get()) }
+    factory { DiscoverViewModel() }
 
-    factory { AccountViewModel(get()) }
+    factory { AccountViewModel() }
     factory { AccountUseCase(get()) }
-    factory { FavoritesViewModel(get()) }
+    factory { FavoritesViewModel() }
     factory { FavoritesUseCase(get()) }
 }

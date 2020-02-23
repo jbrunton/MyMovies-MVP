@@ -10,8 +10,9 @@ import com.jbrunton.mymovies.libs.ui.viewmodels.BaseLoadingViewModel
 import com.jbrunton.mymovies.libs.ui.nav.MovieDetailsRequest
 import com.jbrunton.mymovies.shared.ui.SearchViewState
 import com.jbrunton.mymovies.usecases.favorites.FavoritesUseCase
+import org.koin.core.inject
 
-class FavoritesViewModel(container: Container) : BaseLoadingViewModel<SearchViewState>(container) {
+class FavoritesViewModel() : BaseLoadingViewModel<SearchViewState>() {
     val useCase: FavoritesUseCase by inject()
 
     override fun start() {

@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentActivity
 import com.google.android.material.snackbar.Snackbar
 import com.jbrunton.inject.HasContainer
 import com.jbrunton.inject.inject
@@ -18,13 +19,31 @@ import com.jbrunton.mymovies.libs.ui.viewmodels.ViewModelLifecycle
 import io.reactivex.ObservableTransformer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import org.koin.android.ext.android.get
+import org.koin.android.ext.android.getKoin
 import org.koin.android.ext.android.inject
+import org.koin.androidx.scope.currentScope
+import org.koin.androidx.scope.lifecycleScope
+import org.koin.core.KoinComponent
+import org.koin.core.context.loadKoinModules
+import org.koin.core.qualifier.named
+import org.koin.core.scope.Scope
+import org.koin.core.scope.ScopeID
+import org.koin.ext.getOrCreateScope
+import org.koin.ext.getScopeId
+
+
 
 abstract class BaseActivity<T : BaseViewModel> : AppCompatActivity(),
         ViewModelLifecycle, NavigationRequestListener
 {
-    val navigator: Navigator by inject()
-    val navigationController: NavigationController by inject()
+    init {
+        loadKoinModules(get<ActivityContainerFactory>().createActivityModule(this))
+    }
+
+    //private val scope get() = getKoin().getScope((this as BaseActivity<*>).getScopeId())
+    val navigator: Navigator by lifecycleScope.inject()
+    val navigationController: NavigationController by lifecycleScope.inject()
     abstract val viewModel: T
 
 //    override val container by lazy {
