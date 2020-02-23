@@ -44,3 +44,29 @@ val UiModule = module {
     factory { FavoritesViewModel(get()) }
     factory { FavoritesUseCase(get()) }
 }
+
+val KoinUiModule = org.koin.dsl.module {
+    single { Navigator() }
+
+    factory { MainViewModel(get()) }
+
+    factory { LoginUseCase(get()) }
+    factory { LoginViewModel(get()) }
+    factory { LoginViewStateFactory(get()) }
+
+    factory { SearchUseCase(get(), get()) }
+    factory { SearchViewModel(get()) }
+    factory { SearchViewStateFactory(get()) }
+
+    factory { MovieDetailsUseCase(get(), get()) }
+    factory { (movieId: String) -> MovieDetailsViewModel(movieId, get()) }
+    factory { MovieDetailsViewStateFactory(get()) }
+
+    factory { DiscoverUseCase(get(), get()) }
+    factory { DiscoverViewModel(get()) }
+
+    factory { AccountViewModel(get()) }
+    factory { AccountUseCase(get()) }
+    factory { FavoritesViewModel(get()) }
+    factory { FavoritesUseCase(get()) }
+}

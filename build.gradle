@@ -5,6 +5,8 @@ buildscript {
         kotlin_version = '1.3.61'
         kotlinx_coroutines_version = '1.3.3'
 
+        koin_version = '2.0.1'
+
         android_min_sdk = 24
         android_target_sdk = 27
         android_compile_sdk = 28
@@ -40,8 +42,16 @@ buildscript {
                         android: "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlinx_coroutines_version"
                 ],
                 inject: [
-                        core: 'com.github.jbrunton:mini-container:0.2.0',
-                        android: 'com.github.jbrunton:mini-container-android:0.2.0'
+                        core: [
+                                'com.github.jbrunton:mini-container:0.2.0',
+                                "org.koin:koin-core:$koin_version"
+                        ],
+                        android: [
+                                'com.github.jbrunton:mini-container-android:0.2.0',
+                                "org.koin:koin-android:$koin_version",
+                                "org.koin:koin-androidx-scope:$koin_version",
+                                "org.koin:koin-androidx-viewmodel:$koin_version"
+                        ]
 
                 ],
                 android: [

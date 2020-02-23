@@ -15,3 +15,10 @@ val HttpModule = module {
     single { HttpGenresRepository(get()) as GenresRepository }
     single { HttpAccountRepository(get(), get()) as AccountRepository }
 }
+
+val KoinHttpModule = org.koin.dsl.module {
+    single { ServiceFactory.createService() }
+    single { HttpMoviesRepository(get(), get()) as MoviesRepository }
+    single { HttpGenresRepository(get()) as GenresRepository }
+    single { HttpAccountRepository(get(), get()) as AccountRepository }
+}

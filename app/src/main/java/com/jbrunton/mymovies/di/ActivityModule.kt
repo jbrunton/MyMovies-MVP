@@ -9,3 +9,8 @@ fun ActivityModule(activity: FragmentActivity) = module {
     single { activity }
     single { AppNavigationController(get(), get()) as NavigationController }
 }
+
+fun KoinActivityModule(activity: FragmentActivity) = org.koin.dsl.module {
+    single { activity }
+    single { AppNavigationController(get(), get()) as NavigationController }
+}

@@ -10,3 +10,8 @@ fun ApplicationModule(application: MyMoviesApplication) = module {
     single { application as Context }
     single { SharedApplicationPreferences(get()) as ApplicationPreferences }
 }
+
+fun KoinApplicationModule(application: MyMoviesApplication) = org.koin.dsl.module {
+    single { application as Context }
+    single { SharedApplicationPreferences(get()) as ApplicationPreferences }
+}
