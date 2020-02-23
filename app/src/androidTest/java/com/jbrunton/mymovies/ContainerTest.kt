@@ -30,7 +30,7 @@ class ContainerTest : KoinTest {
         create<MovieDetailsUseCase> { parametersOf("1") }
     }
 
-    @Test @Ignore
+    @Test
     fun checkAppModule() {
         val applicationModules = ApplicationComponent(activityRule.application).createModules()
         koinApplication {
@@ -39,7 +39,7 @@ class ContainerTest : KoinTest {
         }.checkModules(parameters)
     }
 
-    @Test @Ignore
+    @Test
     fun checkTestAppModule() {
         val applicationModules = TestApplicationComponent(activityRule.application).createModules()
         koinApplication {
