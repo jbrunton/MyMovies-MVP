@@ -6,6 +6,7 @@ import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.libs.ui.controllers.rootView
 import com.jbrunton.mymovies.libs.ui.livedata.observe
 import com.jbrunton.mymovies.libs.ui.views.BaseActivity
+import com.jbrunton.mymovies.libs.ui.views.injectViewModel
 import org.kodein.di.generic.instance
 
 class MovieDetailsActivity : BaseActivity<MovieDetailsViewModel>() {
@@ -13,7 +14,7 @@ class MovieDetailsActivity : BaseActivity<MovieDetailsViewModel>() {
     val favorite: View get() = findViewById(R.id.favorite)
     val unfavorite: View get() = findViewById(R.id.unfavorite)
 
-    override val viewModel: MovieDetailsViewModel by instance { movieId() }
+    override val viewModel: MovieDetailsViewModel by injectViewModel { movieId() }
     private val viewController = MovieDetailsViewController()
 
     override fun onCreateLayout() {
