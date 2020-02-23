@@ -15,6 +15,7 @@ import com.jbrunton.mymovies.fixtures.rules.FragmentTestRule
 import com.jbrunton.mymovies.fixtures.rules.takeScreenshot
 import com.jbrunton.mymovies.libs.ui.DebounceTextWatcher
 import kotlinx.coroutines.test.TestCoroutineContext
+import kotlinx.coroutines.test.TestCoroutineScope
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -33,7 +34,8 @@ class SearchFragmentTest : KoinTest {
     val MOVIE2 = MOVIE_FACTORY.create()
 
     val moviesRepository: MoviesRepository by inject()
-    val testCoroutineContext: TestCoroutineContext by inject()
+    val coroutineContext: CoroutineContext by inject()
+    val testCoroutineContext = coroutineContext as TestCoroutineContext
 
     @Test
     fun defaultsToSearchFragment() {
