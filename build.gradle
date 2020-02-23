@@ -30,7 +30,8 @@ buildscript {
                         android: [
                                 'org.mockito:mockito-android:2.13.0',
                                 'com.android.support.test:rules:1.0.2',
-                                'com.android.support.test:runner:1.0.2'
+                                'com.android.support.test:runner:1.0.2',
+                                "org.koin:koin-test:$koin_version"
                         ],
                 ],
                 kotlin: [
