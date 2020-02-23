@@ -22,25 +22,25 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 val UiModule = org.koin.dsl.module {
     single { Navigator() }
 
-    viewModel { MainViewModel(get()) }
+    viewModel { MainViewModel(get(), get()) }
 
     factory { LoginUseCase(get()) }
-    viewModel { LoginViewModel(get()) }
+    viewModel { LoginViewModel(get(), get(), get(), get()) }
     factory { LoginViewStateFactory(get()) }
 
     factory { SearchUseCase(get(), get()) }
-    viewModel { SearchViewModel(get()) }
+    viewModel { SearchViewModel(get(), get(), get(), get()) }
     factory { SearchViewStateFactory(get()) }
 
     factory { MovieDetailsUseCase(get(), get()) }
-    viewModel { (movieId: String) -> MovieDetailsViewModel(movieId, get()) }
+    viewModel { (movieId: String) -> MovieDetailsViewModel(movieId, get(), get(), get(), get()) }
     factory { MovieDetailsViewStateFactory(get()) }
 
     factory { DiscoverUseCase(get(), get()) }
-    viewModel { DiscoverViewModel(get()) }
+    viewModel { DiscoverViewModel(get(), get(), get()) }
 
-    viewModel { AccountViewModel(get()) }
+    viewModel { AccountViewModel(get(), get(), get()) }
     factory { AccountUseCase(get()) }
-    viewModel { FavoritesViewModel(get()) }
+    viewModel { FavoritesViewModel(get(), get(), get()) }
     factory { FavoritesUseCase(get()) }
 }

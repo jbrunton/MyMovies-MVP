@@ -16,11 +16,12 @@ import org.koin.core.Koin
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 
-abstract class BaseViewModel(koin: Koin) : ViewModel(),
+abstract class BaseViewModel(
+        val navigator: Navigator,
+        schedulerFactory: SchedulerFactory
+) : ViewModel(),
         HasSchedulers, NavigationResultListener
 {
-    val navigator: Navigator by koin.inject()
-    val schedulerFactory: SchedulerFactory by koin.inject()
     override val schedulerContext = SchedulerContext(schedulerFactory)
     val snackbar = SingleLiveEvent<SnackbarEvent>()
 

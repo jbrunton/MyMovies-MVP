@@ -5,10 +5,12 @@ import com.jbrunton.async.AsyncResult
 import com.jbrunton.async.doOnSuccess
 import com.jbrunton.async.onError
 import com.jbrunton.mymovies.entities.SchedulerContext
+import com.jbrunton.mymovies.entities.SchedulerFactory
 import com.jbrunton.mymovies.entities.errors.onNetworkError
 import com.jbrunton.mymovies.entities.models.AuthSession
 import com.jbrunton.mymovies.libs.ui.viewmodels.BaseLoadingViewModel
 import com.jbrunton.mymovies.libs.ui.livedata.SingleLiveEvent
+import com.jbrunton.mymovies.libs.ui.nav.Navigator
 import com.jbrunton.mymovies.usecases.auth.LoginResult
 import com.jbrunton.mymovies.usecases.auth.LoginUseCase
 import com.jbrunton.mymovies.networking.parseStatusMessage
@@ -19,11 +21,14 @@ import org.koin.core.inject
 import org.koin.java.KoinJavaComponent.inject
 import retrofit2.HttpException
 
-class LoginViewModel(koin: Koin) : BaseLoadingViewModel<LoginViewState>(koin) {
-    val useCase: LoginUseCase by koin.inject { org.koin.core.parameter.parametersOf(schedulerContext) }
+class LoginViewModel(
+        val useCase: LoginUseCase,
+        val viewStateFactory: LoginViewStateFactory,
+        navigator: Navigator,
+        schedulerFactory: SchedulerFactory
+) : BaseLoadingViewModel<LoginViewState>(navigator, schedulerFactory) {
     val loginSuccessful = SingleLiveEvent<AuthSession>()
     val loginFailure = SingleLiveEvent<String>()
-    val viewStateFactory: LoginViewStateFactory by koin.inject()
 
     fun onLoginClicked(username: String, password: String) {
         viewModelScope.launch {
