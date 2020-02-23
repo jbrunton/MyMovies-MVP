@@ -5,8 +5,6 @@ import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
-import com.jbrunton.inject.HasContainer
-import com.jbrunton.inject.inject
 import com.jbrunton.mymovies.libs.ui.*
 import com.jbrunton.mymovies.libs.ui.livedata.observe
 import com.jbrunton.mymovies.libs.ui.nav.NavigationController
@@ -18,16 +16,19 @@ import com.jbrunton.mymovies.libs.ui.viewmodels.ViewModelLifecycle
 import io.reactivex.ObservableTransformer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import org.kodein.di.*
+import org.kodein.di.generic.instance
 
-abstract class BaseActivity<T : BaseViewModel> : AppCompatActivity(), HasContainer,
+abstract class BaseActivity<T : BaseViewModel> : AppCompatActivity(), KodeinAware,
         ViewModelLifecycle, NavigationRequestListener
 {
-    val navigator: Navigator by inject()
-    val navigationController: NavigationController by inject()
+    val navigator: Navigator by instance()
+    val navigationController: NavigationController by instance()
     abstract val viewModel: T
 
-    override val container by lazy {
-        (applicationContext as ActivityContainerFactory).createActivityContainer(this)
+    override val kodein by lazy {
+        (applicationContext as ActivityContainerFactory)
+                .createActivityContainer(this@BaseActivity)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

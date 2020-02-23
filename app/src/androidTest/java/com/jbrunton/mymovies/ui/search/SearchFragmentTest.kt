@@ -5,9 +5,6 @@ import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.runner.AndroidJUnit4
-import com.jbrunton.inject.Container
-import com.jbrunton.inject.HasContainer
-import com.jbrunton.inject.inject
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.entities.repositories.MoviesRepository
 import com.jbrunton.mymovies.features.search.SearchFragment
@@ -22,24 +19,28 @@ import kotlinx.coroutines.test.TestCoroutineContext
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.kodein.di.Kodein
+import org.kodein.di.KodeinAware
+import org.kodein.di.direct
+import org.kodein.di.generic.instance
 import java.util.concurrent.TimeUnit
 import kotlin.coroutines.CoroutineContext
 
 
 @RunWith(AndroidJUnit4::class)
-class SearchFragmentTest : HasContainer {
+class SearchFragmentTest : KodeinAware {
     @get:Rule val fragmentTestRule = FragmentTestRule.create(SearchFragment::class.java)
 
-    override val container: Container
+    override val kodein: Kodein
         get() = fragmentTestRule.container
 
     val MOVIE_FACTORY = MovieFactory()
     val MOVIE1 = MOVIE_FACTORY.create()
     val MOVIE2 = MOVIE_FACTORY.create()
 
-    val moviesRepository: MoviesRepository by inject()
+    val moviesRepository: MoviesRepository by instance()
     val testCoroutineContext: TestCoroutineContext by lazy {
-        container.get<CoroutineContext>() as TestCoroutineContext
+        kodein.direct.instance<CoroutineContext>() as TestCoroutineContext
     }
 
     @Test

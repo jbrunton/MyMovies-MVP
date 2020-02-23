@@ -1,13 +1,11 @@
 package com.jbrunton.mymovies.di
 
-import com.jbrunton.inject.Container
-import com.jbrunton.inject.Module
 import com.jbrunton.mymovies.MyMoviesApplication
+import org.kodein.di.Kodein.Module
 
-open class ApplicationComponent(val application: MyMoviesApplication) : Module {
-    override fun registerTypes(container: Container) {
-        container.single { container }
-        container.register(
+open class ApplicationComponent(val application: MyMoviesApplication) {
+    open fun createModules(): List<Module> {
+        return listOf(
                 appModule(),
                 schedulersModule(),
                 httpModule(),

@@ -40,8 +40,8 @@ buildscript {
                         android: "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlinx_coroutines_version"
                 ],
                 inject: [
-                        core: 'com.github.jbrunton:mini-container:0.2.0',
-                        android: 'com.github.jbrunton:mini-container-android:0.2.0'
+                        core: 'org.kodein.di:kodein-di-generic-jvm:6.5.0',
+                        android: 'org.kodein.di:kodein-di-framework-android-x:6.5.0'
 
                 ],
                 android: [
@@ -140,4 +140,8 @@ rootProject.subprojects { project ->
     if (!testTasks.isEmpty()) {
         project.apply(plugin: TestMatrixPlugin)
     }
+}
+
+static Boolean isAndroidProject(Project project) {
+    return project.plugins.hasPlugin('com.android.application') || project.plugins.hasPlugin('com.android.library')
 }

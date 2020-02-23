@@ -1,6 +1,5 @@
 package com.jbrunton.mymovies.di
 
-import com.jbrunton.inject.module
 import com.jbrunton.mymovies.features.account.AccountViewModel
 import com.jbrunton.mymovies.features.account.favorites.FavoritesViewModel
 import com.jbrunton.mymovies.features.search.SearchViewModel
@@ -18,29 +17,32 @@ import com.jbrunton.mymovies.usecases.discover.DiscoverUseCase
 import com.jbrunton.mymovies.usecases.favorites.FavoritesUseCase
 import com.jbrunton.mymovies.usecases.moviedetails.MovieDetailsUseCase
 import com.jbrunton.mymovies.usecases.search.SearchUseCase
+import org.kodein.di.Kodein
+import org.kodein.di.Kodein.Module
+import org.kodein.di.generic.*
 
-val UiModule = module {
-    single { Navigator() }
+val UiModule = Module("UiModule") {
+    bind() from singleton { Navigator() }
 
-    factory { MainViewModel(get()) }
+    bind() from provider { MainViewModel(instance()) }
 
-    factory { LoginUseCase(get()) }
-    factory { LoginViewModel(get()) }
-    factory { LoginViewStateFactory(get()) }
+    bind() from provider { LoginUseCase(instance()) }
+    bind() from provider { LoginViewModel(instance()) }
+    bind() from provider { LoginViewStateFactory(instance()) }
 
-    factory { SearchUseCase(get(), get()) }
-    factory { SearchViewModel(get()) }
-    factory { SearchViewStateFactory(get()) }
+    bind() from provider { SearchUseCase(instance(), instance()) }
+    bind() from provider { SearchViewModel(instance()) }
+    bind() from provider { SearchViewStateFactory(instance()) }
 
-    factory { MovieDetailsUseCase(get(), get()) }
-    factory { (movieId: String) -> MovieDetailsViewModel(movieId, get()) }
-    factory { MovieDetailsViewStateFactory(get()) }
+    bind() from provider { MovieDetailsUseCase(instance(), instance()) }
+    bind() from factory { movieId: String -> MovieDetailsViewModel(movieId, instance()) }
+    bind() from provider { MovieDetailsViewStateFactory(instance()) }
 
-    factory { DiscoverUseCase(get(), get()) }
-    factory { DiscoverViewModel(get()) }
+    bind() from provider { DiscoverUseCase(instance(), instance()) }
+    bind() from provider { DiscoverViewModel(instance()) }
 
-    factory { AccountViewModel(get()) }
-    factory { AccountUseCase(get()) }
-    factory { FavoritesViewModel(get()) }
-    factory { FavoritesUseCase(get()) }
+    bind() from provider { AccountViewModel(instance()) }
+    bind() from provider { AccountUseCase(instance()) }
+    bind() from provider { FavoritesViewModel(instance()) }
+    bind() from provider { FavoritesUseCase(instance()) }
 }
