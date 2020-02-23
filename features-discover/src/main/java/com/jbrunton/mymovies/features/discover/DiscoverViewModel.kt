@@ -3,8 +3,6 @@ package com.jbrunton.mymovies.features.discover
 import com.jbrunton.async.AsyncResult
 import com.jbrunton.async.getOr
 import com.jbrunton.async.map
-import com.jbrunton.inject.Container
-import com.jbrunton.inject.inject
 import com.jbrunton.mymovies.entities.models.Genre
 import com.jbrunton.mymovies.entities.models.Movie
 import com.jbrunton.mymovies.entities.safelySubscribe

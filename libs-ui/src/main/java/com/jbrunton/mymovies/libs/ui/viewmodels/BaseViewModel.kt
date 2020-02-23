@@ -3,9 +3,6 @@ package com.jbrunton.mymovies.libs.ui.viewmodels
 import androidx.annotation.DrawableRes
 import androidx.lifecycle.ViewModel
 import com.jbrunton.async.AsyncResult
-import com.jbrunton.inject.Container
-import com.jbrunton.inject.HasContainer
-import com.jbrunton.inject.inject
 import com.jbrunton.mymovies.entities.HasSchedulers
 import com.jbrunton.mymovies.entities.SchedulerContext
 import com.jbrunton.mymovies.entities.SchedulerFactory

@@ -43,11 +43,9 @@ buildscript {
                 ],
                 inject: [
                         core: [
-                                'com.github.jbrunton:mini-container:0.2.0',
                                 "org.koin:koin-core:$koin_version"
                         ],
                         android: [
-                                'com.github.jbrunton:mini-container-android:0.2.0',
                                 "org.koin:koin-android:$koin_version",
                                 "org.koin:koin-androidx-scope:$koin_version",
                                 "org.koin:koin-androidx-viewmodel:$koin_version"

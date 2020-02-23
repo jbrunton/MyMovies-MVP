@@ -1,7 +1,5 @@
 package com.jbrunton.mymovies.features.search
 
-import com.jbrunton.inject.Container
-import com.jbrunton.inject.inject
 import com.jbrunton.mymovies.entities.models.Movie
 import com.jbrunton.mymovies.entities.subscribe
 import com.jbrunton.mymovies.libs.ui.viewmodels.BaseLoadingViewModel

@@ -2,7 +2,6 @@ package com.jbrunton.mymovies.ui.auth
 
 import android.content.Intent
 import androidx.appcompat.app.AlertDialog
-import com.jbrunton.inject.injectViewModel
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.entities.models.AuthSession
 import com.jbrunton.mymovies.libs.ui.controllers.rootView

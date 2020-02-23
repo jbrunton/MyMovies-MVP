@@ -2,7 +2,6 @@ package com.jbrunton.mymovies.ui.main
 
 import android.os.Bundle
 import com.crashlytics.android.Crashlytics
-import com.jbrunton.inject.injectViewModel
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.libs.ui.nav.SearchRequest
 import com.jbrunton.mymovies.libs.ui.views.BaseActivity

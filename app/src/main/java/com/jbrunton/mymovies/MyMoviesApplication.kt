@@ -2,16 +2,14 @@ package com.jbrunton.mymovies
 
 import android.app.Application
 import androidx.appcompat.app.AppCompatActivity
-import com.jbrunton.inject.Container
-import com.jbrunton.inject.HasContainer
 import com.jbrunton.mymovies.di.*
-import com.jbrunton.mymovies.libs.ui.ActivityContainerFactory
+import com.jbrunton.mymovies.libs.ui.ActivityModuleFactory
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 import org.koin.core.module.Module
 import org.koin.dsl.module
 
-open class MyMoviesApplication : Application(), ActivityContainerFactory {
+open class MyMoviesApplication : Application(), ActivityModuleFactory {
     //override val container = Container()
 
     //inline fun <reified T : Any> get() = container.get<T>()
@@ -32,8 +30,8 @@ open class MyMoviesApplication : Application(), ActivityContainerFactory {
                 KoinHttpModule,
                 KoinUiModule,
                 module {
-                    single<ActivityContainerFactory> {
-                        object : ActivityContainerFactory {
+                    single<ActivityModuleFactory> {
+                        object : ActivityModuleFactory {
                             override fun createActivityModule(activity: AppCompatActivity) = KoinActivityModule(activity)
                         }
                     }

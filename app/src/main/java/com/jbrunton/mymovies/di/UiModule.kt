@@ -1,6 +1,5 @@
 package com.jbrunton.mymovies.di
 
-import com.jbrunton.inject.module
 import com.jbrunton.mymovies.features.account.AccountViewModel
 import com.jbrunton.mymovies.features.account.favorites.FavoritesViewModel
 import com.jbrunton.mymovies.features.search.SearchViewModel
@@ -19,39 +18,13 @@ import com.jbrunton.mymovies.usecases.favorites.FavoritesUseCase
 import com.jbrunton.mymovies.usecases.moviedetails.MovieDetailsUseCase
 import com.jbrunton.mymovies.usecases.search.SearchUseCase
 
-val UiModule = module {
-    single { Navigator() }
-
-    factory { MainViewModel() }
-
-    factory { LoginUseCase(get()) }
-    factory { LoginViewModel(get()) }
-    factory { LoginViewStateFactory(get()) }
-
-    factory { SearchUseCase(get(), get()) }
-    factory { SearchViewModel() }
-    factory { SearchViewStateFactory(get()) }
-
-    factory { MovieDetailsUseCase(get(), get()) }
-    factory { (movieId: String) -> MovieDetailsViewModel(movieId) }
-    factory { MovieDetailsViewStateFactory(get()) }
-
-    factory { DiscoverUseCase(get(), get()) }
-    factory { DiscoverViewModel() }
-
-    factory { AccountViewModel() }
-    factory { AccountUseCase(get()) }
-    factory { FavoritesViewModel() }
-    factory { FavoritesUseCase(get()) }
-}
-
 val KoinUiModule = org.koin.dsl.module {
     single { Navigator() }
 
     factory { MainViewModel() }
 
     factory { LoginUseCase(get()) }
-    factory { LoginViewModel(get()) }
+    factory { LoginViewModel() }
     factory { LoginViewStateFactory(get()) }
 
     factory { SearchUseCase(get(), get()) }

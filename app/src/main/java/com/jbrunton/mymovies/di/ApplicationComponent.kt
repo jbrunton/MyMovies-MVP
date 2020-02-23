@@ -1,13 +1,11 @@
 package com.jbrunton.mymovies.di
 
-import com.jbrunton.inject.Container
-import com.jbrunton.inject.Module
 import com.jbrunton.mymovies.MyMoviesApplication
+import org.koin.core.module.Module
 
-open class ApplicationComponent(val application: MyMoviesApplication) : Module {
-    override fun registerTypes(container: Container) {
-        container.single { container }
-        container.register(
+open class ApplicationComponent(val application: MyMoviesApplication) {
+    open fun createModules(): List<Module> {
+        return listOf(
                 appModule(),
                 schedulersModule(),
                 httpModule(),
@@ -15,8 +13,8 @@ open class ApplicationComponent(val application: MyMoviesApplication) : Module {
         )
     }
 
-    open fun appModule(): Module = ApplicationModule(application)
-    open fun schedulersModule(): Module = SchedulersModule
-    open fun httpModule(): Module = HttpModule
-    open fun uiModule(): Module = UiModule
+    open fun appModule(): Module = KoinApplicationModule(application)
+    open fun schedulersModule(): Module = KoinSchedulersModule
+    open fun httpModule(): Module = KoinHttpModule
+    open fun uiModule(): Module = KoinUiModule
 }

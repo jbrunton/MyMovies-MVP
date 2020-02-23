@@ -2,8 +2,6 @@ package com.jbrunton.mymovies.libs.ui.views
 
 import android.os.Bundle
 import android.view.View
-import com.jbrunton.inject.Container
-import com.jbrunton.inject.HasContainer
 import com.jbrunton.mymovies.libs.ui.viewmodels.BaseViewModel
 import com.jbrunton.mymovies.libs.ui.viewmodels.ViewModelLifecycle
 import kotlinx.coroutines.CoroutineScope
