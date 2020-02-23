@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.jbrunton.mymovies.libs.ui.controllers.rootView
 import com.jbrunton.mymovies.libs.ui.livedata.observe
 import com.jbrunton.mymovies.libs.ui.views.BaseFragment
-import com.jbrunton.mymovies.libs.ui.views.injectViewModel
+import com.jbrunton.mymovies.libs.ui.viewmodels.injectViewModel
 import kotlinx.android.synthetic.main.fragment_account.*
 
 

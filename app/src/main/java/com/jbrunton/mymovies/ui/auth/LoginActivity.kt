@@ -6,8 +6,8 @@ import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.entities.models.AuthSession
 import com.jbrunton.mymovies.libs.ui.controllers.rootView
 import com.jbrunton.mymovies.libs.ui.livedata.observe
+import com.jbrunton.mymovies.libs.ui.viewmodels.injectViewModel
 import com.jbrunton.mymovies.libs.ui.views.BaseActivity
-import com.jbrunton.mymovies.libs.ui.views.injectViewModel
 import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : BaseActivity<LoginViewModel>() {

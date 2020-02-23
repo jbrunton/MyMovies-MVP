@@ -4,11 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.snackbar.Snackbar
 import com.jbrunton.mymovies.libs.ui.*
 import com.jbrunton.mymovies.libs.ui.livedata.observe
@@ -22,86 +17,7 @@ import io.reactivex.ObservableTransformer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import org.kodein.di.*
-import org.kodein.di.android.subKodein
 import org.kodein.di.generic.instance
-import kotlin.reflect.KClass
-
-class KodeinViewModelFactory(
-        val kodein: Kodein
-) : ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T =
-            kodein.direct.Instance(TT(modelClass))
-}
-
-class KodeinViewModelFactoryWithArgument<T : Any>(
-        val kodein: Kodein,
-        val argClass: Class<T>,
-        val arg: T
-) : ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T =
-            kodein.direct.Instance(type = TT(modelClass), arg = arg, argType = TT(argClass))
-}
-
-fun <T, VM: ViewModel> T.resolveViewModel(
-        viewModelClass: Class<VM>
-): VM
-        where T : FragmentActivity, T : KodeinAware
-{
-    return ViewModelProvider(this, KodeinViewModelFactory(kodein)).get(viewModelClass)
-}
-
-fun <T, VM: ViewModel> T.resolveViewModel(
-        viewModelClass: Class<VM>
-): VM
-        where T : Fragment, T : KodeinAware
-{
-    return ViewModelProvider(this, KodeinViewModelFactory(kodein)).get(viewModelClass)
-}
-
-fun <T, VM: ViewModel, S : Any> T.resolveViewModel(
-        viewModelClass: Class<VM>,
-        argClass: Class<S>,
-        arg: S
-): VM
-        where T : FragmentActivity, T : KodeinAware
-{
-    val factory = KodeinViewModelFactoryWithArgument(kodein, argClass, arg)
-    return ViewModelProvider(this, factory).get(viewModelClass)
-}
-
-fun <T, VM: ViewModel, S : Any> T.resolveViewModel(
-        viewModelClass: Class<VM>,
-        argClass: Class<S>,
-        arg: S
-): VM
-        where T : Fragment, T : KodeinAware
-{
-    val factory = KodeinViewModelFactoryWithArgument(kodein, argClass, arg)
-    return ViewModelProvider(this, factory).get(viewModelClass)
-}
-
-inline fun <T, reified VM: ViewModel> T.injectViewModel(): Lazy<VM>
-        where T : FragmentActivity, T : KodeinAware
-{
-    return lazy { resolveViewModel(VM::class.java) }
-}
-
-inline fun <T, reified VM: ViewModel> T.injectViewModel(): Lazy<VM>
-        where T : Fragment, T : KodeinAware {
-    return lazy { resolveViewModel(VM::class.java) }
-}
-
-inline fun <T, reified VM: ViewModel, reified S : Any> T.injectViewModel(crossinline arg: () -> S): Lazy<VM>
-        where T : FragmentActivity, T : KodeinAware
-{
-    return lazy { resolveViewModel(VM::class.java, S::class.java, arg()) }
-}
-
-inline fun <T, reified VM: ViewModel, reified S : Any> T.injectViewModel(crossinline arg: () -> S): Lazy<VM>
-        where T : Fragment, T : KodeinAware
-{
-    return lazy { resolveViewModel(VM::class.java, S::class.java, arg()) }
-}
 
 abstract class BaseActivity<T : BaseViewModel> : AppCompatActivity(), KodeinAware,
         ViewModelLifecycle, NavigationRequestListener

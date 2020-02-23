@@ -6,8 +6,7 @@ import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.libs.ui.controllers.rootView
 import com.jbrunton.mymovies.libs.ui.livedata.observe
 import com.jbrunton.mymovies.libs.ui.views.BaseActivity
-import com.jbrunton.mymovies.libs.ui.views.injectViewModel
-import org.kodein.di.generic.instance
+import com.jbrunton.mymovies.libs.ui.viewmodels.injectViewModel
 
 class MovieDetailsActivity : BaseActivity<MovieDetailsViewModel>() {
     val toolbar: Toolbar get() = findViewById(R.id.toolbar)

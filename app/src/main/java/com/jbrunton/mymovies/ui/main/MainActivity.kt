@@ -5,7 +5,7 @@ import com.crashlytics.android.Crashlytics
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.libs.ui.nav.SearchRequest
 import com.jbrunton.mymovies.libs.ui.views.BaseActivity
-import com.jbrunton.mymovies.libs.ui.views.injectViewModel
+import com.jbrunton.mymovies.libs.ui.viewmodels.injectViewModel
 import io.fabric.sdk.android.Fabric
 import kotlinx.android.synthetic.main.activity_main.*
 
