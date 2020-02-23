@@ -8,7 +8,6 @@ import com.jbrunton.mymovies.libs.ui.ActivityModuleFactory
 
 
 fun ApplicationModule(application: MyMoviesApplication) = org.koin.dsl.module {
-    single { application.getKoin() }
     //single { application as Context }
     single { SharedApplicationPreferences(get()) as ApplicationPreferences }
     single { application as ActivityModuleFactory }

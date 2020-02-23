@@ -12,10 +12,12 @@ import com.jbrunton.mymovies.entities.repositories.MoviesRepository
 import com.jbrunton.mymovies.fixtures.MovieFactory
 import com.jbrunton.mymovies.R
 import com.jbrunton.mymovies.fixtures.repositories.stubWith
+import com.jbrunton.mymovies.fixtures.rules.application
 import com.jbrunton.mymovies.fixtures.rules.takeScreenshot
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.koin.core.Koin
 import org.koin.test.KoinTest
 import org.koin.test.inject
 
@@ -23,6 +25,8 @@ import org.koin.test.inject
 class MovieDetailsActivityTest : KoinTest {
     @get:Rule
     val activityRule = ActivityTestRule(MovieDetailsActivity::class.java, false, false)
+
+    override fun getKoin() = activityRule.application.getKoin()
 
     val MOVIE_FACTORY = MovieFactory()
     val MOVIE1 = MOVIE_FACTORY.create()

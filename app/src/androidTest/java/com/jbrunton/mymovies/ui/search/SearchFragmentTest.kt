@@ -19,7 +19,9 @@ import kotlinx.coroutines.test.TestCoroutineScope
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.koin.core.Koin
 import org.koin.test.KoinTest
+import org.koin.test.get
 import org.koin.test.inject
 import java.util.concurrent.TimeUnit
 import kotlin.coroutines.CoroutineContext
@@ -29,13 +31,16 @@ import kotlin.coroutines.CoroutineContext
 class SearchFragmentTest : KoinTest {
     @get:Rule val fragmentTestRule = FragmentTestRule.create(SearchFragment::class.java)
 
+    override fun getKoin() = fragmentTestRule.fragment.getKoin()
+
     val MOVIE_FACTORY = MovieFactory()
     val MOVIE1 = MOVIE_FACTORY.create()
     val MOVIE2 = MOVIE_FACTORY.create()
 
     val moviesRepository: MoviesRepository by inject()
-    val coroutineContext: CoroutineContext by inject()
-    val testCoroutineContext = coroutineContext as TestCoroutineContext
+    val testCoroutineContext: TestCoroutineContext by lazy {
+        get<CoroutineContext>() as TestCoroutineContext
+    }
 
     @Test
     fun defaultsToSearchFragment() {

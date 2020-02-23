@@ -7,6 +7,7 @@ import androidx.test.InstrumentationRegistry
 import androidx.test.rule.ActivityTestRule
 import com.google.android.libraries.cloudtesting.screenshots.ScreenShotter
 import com.jbrunton.mymovies.MyMoviesApplication
+import org.koin.android.ext.android.getKoin
 
 fun <T : Activity> ActivityTestRule<T>.takeScreenshot(tag: String = "_") {
     ScreenShotter.takeScreenshot(tag, activity)

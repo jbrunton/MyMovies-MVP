@@ -23,36 +23,39 @@ import org.koin.test.check.CheckParameters
 import org.koin.test.check.ParametersBinding
 import org.koin.test.check.checkModules
 
-//@RunWith(JUnit4::class)
-//class ContainerTest : KoinTest {
+@RunWith(AndroidJUnit4::class)
+class ContainerTest : KoinTest {
+
+    @get:Rule
+    val activityRule = ActivityTestRule(MainActivity::class.java)
+
+    val application get() = activityRule.application
+
+    val parameters: CheckParameters = {
+        create<MovieDetailsViewModel> { parametersOf("1") }
+        create<MovieDetailsUseCase> { parametersOf("1") }
+    }
+
+    @Test
+    fun checkAppModule() {
+        val applicationModules = ApplicationComponent(application).createModules()
+        koinApplication {
+            androidContext(application)
+            modules(applicationModules)
+        }.checkModules(parameters)
+    }
+
+    @Test
+    fun checkTestAppModule() {
+        val applicationModules = TestApplicationComponent(application).createModules()
+        koinApplication {
+            androidContext(application)
+            modules(applicationModules)
+        }.checkModules(parameters)
+    }
 //
-//    val application = mockk<MyMoviesApplication>()
-//
-//    val parameters: CheckParameters = {
-//        create<MovieDetailsViewModel> { parametersOf("1") }
-//        create<MovieDetailsUseCase> { parametersOf("1") }
+//    @Ignore @Test // ActivityModule is not a complete module - need to allow others to be passed in
+//    fun checkActivityModule() {
+//        ActivityModule(activityRule.activity).check()
 //    }
-//
-//    @Test
-//    fun checkAppModule() {
-//        val applicationModules = ApplicationComponent(application).createModules()
-//        koinApplication {
-//            androidContext(application)
-//            modules(applicationModules)
-//        }.checkModules(parameters)
-//    }
-//
-//    @Test
-//    fun checkTestAppModule() {
-//        val applicationModules = TestApplicationComponent(application).createModules()
-//        koinApplication {
-//            androidContext(application)
-//            modules(applicationModules)
-//        }.checkModules(parameters)
-//    }
-////
-////    @Ignore @Test // ActivityModule is not a complete module - need to allow others to be passed in
-////    fun checkActivityModule() {
-////        ActivityModule(activityRule.activity).check()
-////    }
-//}
+}
