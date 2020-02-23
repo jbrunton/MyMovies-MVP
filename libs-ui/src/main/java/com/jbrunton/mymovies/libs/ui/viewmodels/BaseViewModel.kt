@@ -12,14 +12,15 @@ import com.jbrunton.mymovies.libs.ui.nav.NavigationResult
 import com.jbrunton.mymovies.libs.ui.nav.NavigationResultListener
 import com.jbrunton.mymovies.libs.ui.nav.Navigator
 import com.jbrunton.mymovies.libs.ui.viewstates.LoadingViewStateError
+import org.koin.core.Koin
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 
-abstract class BaseViewModel() : ViewModel(),
-        HasSchedulers, NavigationResultListener, KoinComponent
+abstract class BaseViewModel(koin: Koin) : ViewModel(),
+        HasSchedulers, NavigationResultListener
 {
-    val navigator: Navigator by inject()
-    val schedulerFactory: SchedulerFactory by inject()
+    val navigator: Navigator by koin.inject()
+    val schedulerFactory: SchedulerFactory by koin.inject()
     override val schedulerContext = SchedulerContext(schedulerFactory)
     val snackbar = SingleLiveEvent<SnackbarEvent>()
 

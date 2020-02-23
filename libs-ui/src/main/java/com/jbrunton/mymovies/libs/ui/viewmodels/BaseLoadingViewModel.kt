@@ -4,8 +4,9 @@ import androidx.lifecycle.MutableLiveData
 import com.google.android.material.snackbar.Snackbar
 import com.jbrunton.mymovies.libs.ui.SnackbarEvent
 import com.jbrunton.mymovies.libs.ui.viewstates.LoadingViewState
+import org.koin.core.Koin
 
-abstract class BaseLoadingViewModel<T>() : BaseViewModel() {
+abstract class BaseLoadingViewModel<T>(koin: Koin) : BaseViewModel(koin) {
     val viewState = MutableLiveData<LoadingViewState<T>>()
 
     open fun retry() {}

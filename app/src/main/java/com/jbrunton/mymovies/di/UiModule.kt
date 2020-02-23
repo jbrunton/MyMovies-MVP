@@ -17,29 +17,30 @@ import com.jbrunton.mymovies.usecases.discover.DiscoverUseCase
 import com.jbrunton.mymovies.usecases.favorites.FavoritesUseCase
 import com.jbrunton.mymovies.usecases.moviedetails.MovieDetailsUseCase
 import com.jbrunton.mymovies.usecases.search.SearchUseCase
+import org.koin.androidx.viewmodel.dsl.viewModel
 
 val UiModule = org.koin.dsl.module {
     single { Navigator() }
 
-    factory { MainViewModel() }
+    viewModel { MainViewModel(get()) }
 
     factory { LoginUseCase(get()) }
-    factory { LoginViewModel() }
+    viewModel { LoginViewModel(get()) }
     factory { LoginViewStateFactory(get()) }
 
     factory { SearchUseCase(get(), get()) }
-    factory { SearchViewModel() }
+    viewModel { SearchViewModel(get()) }
     factory { SearchViewStateFactory(get()) }
 
     factory { MovieDetailsUseCase(get(), get()) }
-    factory { (movieId: String) -> MovieDetailsViewModel(movieId) }
+    viewModel { (movieId: String) -> MovieDetailsViewModel(movieId, get()) }
     factory { MovieDetailsViewStateFactory(get()) }
 
     factory { DiscoverUseCase(get(), get()) }
-    factory { DiscoverViewModel() }
+    viewModel { DiscoverViewModel(get()) }
 
-    factory { AccountViewModel() }
+    viewModel { AccountViewModel(get()) }
     factory { AccountUseCase(get()) }
-    factory { FavoritesViewModel() }
+    viewModel { FavoritesViewModel(get()) }
     factory { FavoritesUseCase(get()) }
 }

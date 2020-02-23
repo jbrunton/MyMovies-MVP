@@ -18,27 +18,28 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import org.koin.android.ext.android.get
 import org.koin.androidx.scope.lifecycleScope
-import org.koin.core.context.loadKoinModules
+import org.koin.core.Koin
+import org.koin.core.KoinComponent
+import org.koin.core.module.Module
 
 
 abstract class BaseActivity<T : BaseViewModel> : AppCompatActivity(),
-        ViewModelLifecycle, NavigationRequestListener
+        ViewModelLifecycle, NavigationRequestListener, KoinComponent
 {
-    init {
-        loadKoinModules(get<ActivityModuleFactory>().createActivityModule(this))
-    }
-
-    //private val scope get() = getKoin().getScope((this as BaseActivity<*>).getScopeId())
-    val navigator: Navigator by lifecycleScope.inject()
-    val navigationController: NavigationController by lifecycleScope.inject()
+    val navigator by lazy { lifecycleScope.get<Navigator>() }
+    val navigationController by lazy { lifecycleScope.get<NavigationController>() }
     abstract val viewModel: T
 
-//    override val container by lazy {
-//        (applicationContext as ActivityContainerFactory).createActivityContainer(this)
-//    }
+    override fun getKoin(): Koin = (application as KoinComponent).getKoin()
+
+    private lateinit var activityModule: Module
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        activityModule = get<ActivityModuleFactory>().createActivityModule(this)
+        getKoin().loadModules(listOf(activityModule))
+
         onCreateLayout()
         onBindListeners()
         onObserveData()
@@ -71,6 +72,11 @@ abstract class BaseActivity<T : BaseViewModel> : AppCompatActivity(),
 
     override fun onNavigationRequest(request: NavigationRequest) {
         navigationController.navigate(request)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        getKoin().unloadModules(listOf(activityModule))
     }
 
     override fun onCreateLayout() {}

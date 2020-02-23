@@ -5,13 +5,22 @@ import androidx.appcompat.app.AppCompatActivity
 import com.jbrunton.mymovies.di.*
 import com.jbrunton.mymovies.libs.ui.ActivityModuleFactory
 import org.koin.android.ext.koin.androidContext
+import org.koin.core.Koin
+import org.koin.core.KoinComponent
 import org.koin.core.context.startKoin
 import org.koin.core.module.Module
+import org.koin.dsl.koinApplication
 
-open class MyMoviesApplication : Application(), ActivityModuleFactory {
+open class MyMoviesApplication : Application(), ActivityModuleFactory, KoinComponent {
     //override val container = Container()
 
     //inline fun <reified T : Any> get() = container.get<T>()
+
+    private lateinit var koin: Koin
+
+    override fun getKoin(): Koin {
+        return koin
+    }
 
     override fun onCreate() {
         super.onCreate()
@@ -26,10 +35,10 @@ open class MyMoviesApplication : Application(), ActivityModuleFactory {
 
     private fun configureDependencies() {
         val applicationModules = createApplicationComponent().createModules()
-        startKoin {
+        koin = koinApplication {
             androidContext(this@MyMoviesApplication)
             modules(applicationModules)
-        }
+        }.koin
     }
 
 //    open fun configureContainer(container: Container) {

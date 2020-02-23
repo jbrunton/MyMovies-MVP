@@ -15,6 +15,7 @@ import com.jbrunton.mymovies.usecases.discover.DiscoverUseCase
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
+import org.koin.core.Koin
 import org.koin.core.inject
 
 sealed class DiscoverIntent {
@@ -36,10 +37,10 @@ sealed class DiscoverStateChange {
     object Nothing : DiscoverStateChange()
 }
 
-class DiscoverViewModel() : BaseLoadingViewModel<DiscoverViewState>(), DiscoverListener {
+class DiscoverViewModel(koin: Koin) : BaseLoadingViewModel<DiscoverViewState>(koin), DiscoverListener {
     val scrollToGenreResults = SingleLiveEvent<Unit>()
 
-    private val useCase: DiscoverUseCase by inject()
+    private val useCase: DiscoverUseCase by koin.inject()
     private val state = PublishSubject.create<AsyncResult<DiscoverResult>>()
 
     private val loadIntent = BehaviorSubject.create<DiscoverIntent.Load>()

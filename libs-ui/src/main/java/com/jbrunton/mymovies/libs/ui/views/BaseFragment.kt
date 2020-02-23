@@ -6,10 +6,13 @@ import com.jbrunton.mymovies.libs.ui.viewmodels.BaseViewModel
 import com.jbrunton.mymovies.libs.ui.viewmodels.ViewModelLifecycle
 import kotlinx.coroutines.CoroutineScope
 import org.koin.android.ext.android.inject
+import org.koin.core.Koin
+import org.koin.core.KoinComponent
+import org.koin.core.get
 import kotlin.coroutines.CoroutineContext
 
 abstract class BaseFragment<T : BaseViewModel> : androidx.fragment.app.Fragment(),
-        CoroutineScope, ViewModelLifecycle
+        CoroutineScope, ViewModelLifecycle, KoinComponent
 {
     abstract val viewModel: T
 
@@ -19,6 +22,11 @@ abstract class BaseFragment<T : BaseViewModel> : androidx.fragment.app.Fragment(
 //    }
 
     override val coroutineContext: CoroutineContext by inject()
+
+    override fun getKoin(): Koin {
+        return (activity as? KoinComponent)?.getKoin()
+                ?: (activity!!.application as KoinComponent).getKoin()
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

@@ -11,10 +11,11 @@ import com.jbrunton.mymovies.usecases.account.AccountResult
 import com.jbrunton.mymovies.usecases.account.AccountUseCase
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import org.koin.core.Koin
 import org.koin.core.inject
 
-class AccountViewModel() : BaseLoadingViewModel<AccountViewState>() {
-    val useCase: AccountUseCase by inject()
+class AccountViewModel(koin: Koin) : BaseLoadingViewModel<AccountViewState>(koin) {
+    val useCase: AccountUseCase by koin.inject()
 
     override fun start() {
         super.start()

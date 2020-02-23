@@ -7,13 +7,14 @@ import com.jbrunton.mymovies.libs.ui.viewmodels.BaseLoadingViewModel
 import com.jbrunton.mymovies.libs.ui.SnackbarEvent
 import com.jbrunton.mymovies.usecases.moviedetails.FavoriteResult
 import com.jbrunton.mymovies.usecases.moviedetails.MovieDetailsUseCase
+import org.koin.core.Koin
 import org.koin.core.inject
 
-class MovieDetailsViewModel(val movieId: String) :
-        BaseLoadingViewModel<MovieDetailsViewState>()
+class MovieDetailsViewModel(val movieId: String, koin: Koin) :
+        BaseLoadingViewModel<MovieDetailsViewState>(koin)
 {
-    val useCase: MovieDetailsUseCase by inject()
-    val viewStateFactory: MovieDetailsViewStateFactory by inject()
+    val useCase: MovieDetailsUseCase by koin.inject()
+    val viewStateFactory: MovieDetailsViewStateFactory by koin.inject()
 
     override fun start() {
         super.start()
