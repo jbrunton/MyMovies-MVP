@@ -10,6 +10,7 @@ import org.kodein.di.generic.instance
 import org.kodein.di.generic.singleton
 
 fun ApplicationModule(application: MyMoviesApplication) = Kodein.Module("ApplicationModule") {
+    bind() from singleton { application.kodein }
     bind() from singleton { application as Context }
     bind() from singleton { SharedApplicationPreferences(instance()) as ApplicationPreferences }
 }
