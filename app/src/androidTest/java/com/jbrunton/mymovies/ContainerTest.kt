@@ -8,6 +8,7 @@ import com.jbrunton.mymovies.fixtures.rules.application
 import com.jbrunton.mymovies.ui.main.MainActivity
 import com.jbrunton.mymovies.ui.moviedetails.MovieDetailsViewModel
 import com.jbrunton.mymovies.usecases.moviedetails.MovieDetailsUseCase
+import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -29,7 +30,7 @@ class ContainerTest : KoinTest {
         create<MovieDetailsUseCase> { parametersOf("1") }
     }
 
-    @Test
+    @Test @Ignore
     fun checkAppModule() {
         val applicationModules = ApplicationComponent(activityRule.application).createModules()
         koinApplication {
@@ -38,7 +39,7 @@ class ContainerTest : KoinTest {
         }.checkModules(parameters)
     }
 
-    @Test
+    @Test @Ignore
     fun checkTestAppModule() {
         val applicationModules = TestApplicationComponent(activityRule.application).createModules()
         koinApplication {
