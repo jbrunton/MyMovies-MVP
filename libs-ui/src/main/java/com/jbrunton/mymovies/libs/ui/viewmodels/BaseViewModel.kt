@@ -3,9 +3,6 @@ package com.jbrunton.mymovies.libs.ui.viewmodels
 import androidx.annotation.DrawableRes
 import androidx.lifecycle.ViewModel
 import com.jbrunton.async.AsyncResult
-import com.jbrunton.inject.Container
-import com.jbrunton.inject.HasContainer
-import com.jbrunton.inject.inject
 import com.jbrunton.mymovies.entities.HasSchedulers
 import com.jbrunton.mymovies.entities.SchedulerContext
 import com.jbrunton.mymovies.entities.SchedulerFactory
@@ -15,12 +12,16 @@ import com.jbrunton.mymovies.libs.ui.nav.NavigationResult
 import com.jbrunton.mymovies.libs.ui.nav.NavigationResultListener
 import com.jbrunton.mymovies.libs.ui.nav.Navigator
 import com.jbrunton.mymovies.libs.ui.viewstates.LoadingViewStateError
+import org.koin.core.Koin
+import org.koin.core.KoinComponent
+import org.koin.core.inject
 
-abstract class BaseViewModel(override val container: Container) : ViewModel(),
-        HasSchedulers, HasContainer, NavigationResultListener
+abstract class BaseViewModel(
+        val navigator: Navigator,
+        schedulerFactory: SchedulerFactory
+) : ViewModel(),
+        HasSchedulers, NavigationResultListener
 {
-    val navigator: Navigator by inject()
-    val schedulerFactory: SchedulerFactory by inject()
     override val schedulerContext = SchedulerContext(schedulerFactory)
     val snackbar = SingleLiveEvent<SnackbarEvent>()
 

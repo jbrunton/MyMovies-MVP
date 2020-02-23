@@ -3,20 +3,22 @@ package com.jbrunton.mymovies.features.discover
 import com.jbrunton.async.AsyncResult
 import com.jbrunton.async.getOr
 import com.jbrunton.async.map
-import com.jbrunton.inject.Container
-import com.jbrunton.inject.inject
+import com.jbrunton.mymovies.entities.SchedulerFactory
 import com.jbrunton.mymovies.entities.models.Genre
 import com.jbrunton.mymovies.entities.models.Movie
 import com.jbrunton.mymovies.entities.safelySubscribe
 import com.jbrunton.mymovies.entities.subscribe
 import com.jbrunton.mymovies.libs.ui.livedata.SingleLiveEvent
 import com.jbrunton.mymovies.libs.ui.nav.MovieDetailsRequest
+import com.jbrunton.mymovies.libs.ui.nav.Navigator
 import com.jbrunton.mymovies.libs.ui.viewmodels.BaseLoadingViewModel
 import com.jbrunton.mymovies.usecases.discover.DiscoverResult
 import com.jbrunton.mymovies.usecases.discover.DiscoverUseCase
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
+import org.koin.core.Koin
+import org.koin.core.inject
 
 sealed class DiscoverIntent {
     object Load : DiscoverIntent()
@@ -37,10 +39,13 @@ sealed class DiscoverStateChange {
     object Nothing : DiscoverStateChange()
 }
 
-class DiscoverViewModel(container: Container) : BaseLoadingViewModel<DiscoverViewState>(container), DiscoverListener {
+class DiscoverViewModel(
+        val useCase: DiscoverUseCase,
+        navigator: Navigator,
+        schedulerFactory: SchedulerFactory
+) : BaseLoadingViewModel<DiscoverViewState>(navigator, schedulerFactory), DiscoverListener {
     val scrollToGenreResults = SingleLiveEvent<Unit>()
 
-    private val useCase: DiscoverUseCase by inject()
     private val state = PublishSubject.create<AsyncResult<DiscoverResult>>()
 
     private val loadIntent = BehaviorSubject.create<DiscoverIntent.Load>()

@@ -5,8 +5,6 @@ import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
-import com.jbrunton.inject.HasContainer
-import com.jbrunton.inject.inject
 import com.jbrunton.mymovies.libs.ui.*
 import com.jbrunton.mymovies.libs.ui.livedata.observe
 import com.jbrunton.mymovies.libs.ui.nav.NavigationController
@@ -18,20 +16,30 @@ import com.jbrunton.mymovies.libs.ui.viewmodels.ViewModelLifecycle
 import io.reactivex.ObservableTransformer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import org.koin.android.ext.android.get
+import org.koin.androidx.scope.lifecycleScope
+import org.koin.core.Koin
+import org.koin.core.KoinComponent
+import org.koin.core.module.Module
 
-abstract class BaseActivity<T : BaseViewModel> : AppCompatActivity(), HasContainer,
-        ViewModelLifecycle, NavigationRequestListener
+
+abstract class BaseActivity<T : BaseViewModel> : AppCompatActivity(),
+        ViewModelLifecycle, NavigationRequestListener, KoinComponent
 {
-    val navigator: Navigator by inject()
-    val navigationController: NavigationController by inject()
+    val navigator by lazy { lifecycleScope.get<Navigator>() }
+    val navigationController by lazy { lifecycleScope.get<NavigationController>() }
     abstract val viewModel: T
 
-    override val container by lazy {
-        (applicationContext as ActivityContainerFactory).createActivityContainer(this)
-    }
+    override fun getKoin(): Koin = (application as KoinComponent).getKoin()
+
+    private lateinit var activityModule: Module
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        activityModule = get<ActivityModuleFactory>().createActivityModule(this)
+        getKoin().loadModules(listOf(activityModule))
+
         onCreateLayout()
         onBindListeners()
         onObserveData()
@@ -64,6 +72,11 @@ abstract class BaseActivity<T : BaseViewModel> : AppCompatActivity(), HasContain
 
     override fun onNavigationRequest(request: NavigationRequest) {
         navigationController.navigate(request)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        getKoin().unloadModules(listOf(activityModule))
     }
 
     override fun onCreateLayout() {}

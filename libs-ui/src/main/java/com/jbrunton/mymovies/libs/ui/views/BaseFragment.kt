@@ -2,25 +2,30 @@ package com.jbrunton.mymovies.libs.ui.views
 
 import android.os.Bundle
 import android.view.View
-import com.jbrunton.inject.Container
-import com.jbrunton.inject.HasContainer
 import com.jbrunton.mymovies.libs.ui.viewmodels.BaseViewModel
 import com.jbrunton.mymovies.libs.ui.viewmodels.ViewModelLifecycle
 import kotlinx.coroutines.CoroutineScope
+import org.koin.android.ext.android.inject
+import org.koin.core.Koin
+import org.koin.core.KoinComponent
+import org.koin.core.get
 import kotlin.coroutines.CoroutineContext
 
 abstract class BaseFragment<T : BaseViewModel> : androidx.fragment.app.Fragment(),
-        HasContainer, CoroutineScope, ViewModelLifecycle
+        CoroutineScope, ViewModelLifecycle, KoinComponent
 {
     abstract val viewModel: T
 
-    override val container: Container by lazy {
-        (activity as? HasContainer)?.container
-                ?: (activity!!.application as HasContainer).container
-    }
+//    override val container: Container by lazy {
+//        (activity as? HasContainer)?.container
+//                ?: (activity!!.application as HasContainer).container
+//    }
 
-    override val coroutineContext: CoroutineContext by lazy {
-        container.get<CoroutineContext>()
+    override val coroutineContext: CoroutineContext by inject()
+
+    override fun getKoin(): Koin {
+        return (activity as? KoinComponent)?.getKoin()
+                ?: (activity!!.application as KoinComponent).getKoin()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

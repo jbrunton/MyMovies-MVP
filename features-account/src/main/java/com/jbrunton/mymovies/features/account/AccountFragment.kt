@@ -5,15 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import com.jbrunton.inject.injectViewModel
 import com.jbrunton.mymovies.libs.ui.controllers.rootView
 import com.jbrunton.mymovies.libs.ui.livedata.observe
 import com.jbrunton.mymovies.libs.ui.views.BaseFragment
 import kotlinx.android.synthetic.main.fragment_account.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class AccountFragment : BaseFragment<AccountViewModel>() {
-    override val viewModel: AccountViewModel by injectViewModel()
+    override val viewModel: AccountViewModel by viewModel()
     private val viewController by lazy { AccountViewController(viewModel) }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
