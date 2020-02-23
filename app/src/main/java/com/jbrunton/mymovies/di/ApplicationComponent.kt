@@ -13,8 +13,8 @@ open class ApplicationComponent(val application: MyMoviesApplication) {
         )
     }
 
-    open fun appModule(): Module = KoinApplicationModule(application)
-    open fun schedulersModule(): Module = KoinSchedulersModule
-    open fun httpModule(): Module = KoinHttpModule
-    open fun uiModule(): Module = KoinUiModule
+    open fun appModule(): Module = ApplicationModule(application)
+    open fun schedulersModule(): Module = SchedulersModule
+    open fun httpModule(): Module = HttpModule
+    open fun uiModule(): Module = UiModule
 }

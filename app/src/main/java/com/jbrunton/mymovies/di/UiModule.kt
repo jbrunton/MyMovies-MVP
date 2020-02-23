@@ -18,7 +18,7 @@ import com.jbrunton.mymovies.usecases.favorites.FavoritesUseCase
 import com.jbrunton.mymovies.usecases.moviedetails.MovieDetailsUseCase
 import com.jbrunton.mymovies.usecases.search.SearchUseCase
 
-val KoinUiModule = org.koin.dsl.module {
+val UiModule = org.koin.dsl.module {
     single { Navigator() }
 
     factory { MainViewModel() }

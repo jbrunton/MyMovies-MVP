@@ -8,7 +8,7 @@ import com.jbrunton.mymovies.networking.repositories.HttpGenresRepository
 import com.jbrunton.mymovies.networking.repositories.HttpMoviesRepository
 import com.jbrunton.mymovies.networking.services.ServiceFactory
 
-val KoinHttpModule = org.koin.dsl.module {
+val HttpModule = org.koin.dsl.module {
     single { ServiceFactory.createService() }
     single { HttpMoviesRepository(get(), get()) as MoviesRepository }
     single { HttpGenresRepository(get()) as GenresRepository }

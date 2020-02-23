@@ -7,7 +7,6 @@ import com.jbrunton.mymovies.libs.ui.ActivityModuleFactory
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 import org.koin.core.module.Module
-import org.koin.dsl.module
 
 open class MyMoviesApplication : Application(), ActivityModuleFactory {
     //override val container = Container()
@@ -16,30 +15,21 @@ open class MyMoviesApplication : Application(), ActivityModuleFactory {
 
     override fun onCreate() {
         super.onCreate()
-        //configureContainer(container)
-        startKoin {
-            androidContext(this@MyMoviesApplication)
-            modules(createModules())
-        }
-    }
-
-    open fun createModules(): List<Module> {
-        return listOf(
-                KoinApplicationModule(this),
-                KoinSchedulersModule,
-                KoinHttpModule,
-                KoinUiModule,
-                module {
-                    single<ActivityModuleFactory> {
-                        object : ActivityModuleFactory {
-                            override fun createActivityModule(activity: AppCompatActivity) = KoinActivityModule(activity)
-                        }
-                    }
-                })
+        configureDependencies()
     }
 
     override fun createActivityModule(activity: AppCompatActivity): Module {
-        return KoinActivityModule(activity)
+        return ActivityModule(activity)
+    }
+
+    protected open fun createApplicationComponent() = ApplicationComponent(this)
+
+    private fun configureDependencies() {
+        val applicationModules = createApplicationComponent().createModules()
+        startKoin {
+            androidContext(this@MyMoviesApplication)
+            modules(applicationModules)
+        }
     }
 
 //    open fun configureContainer(container: Container) {
