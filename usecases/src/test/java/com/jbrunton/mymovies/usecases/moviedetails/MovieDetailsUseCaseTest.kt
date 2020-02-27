@@ -10,16 +10,26 @@ import com.jbrunton.mymovies.fixtures.ImmediateSchedulerFactory
 import com.jbrunton.mymovies.fixtures.MovieFactory
 import com.jbrunton.mymovies.fixtures.NetworkErrorFixtures
 import com.nhaarman.mockitokotlin2.whenever
+import io.mockk.MockKAnnotations
+import io.mockk.coEvery
+import io.mockk.every
+import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
 import io.reactivex.Observable
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.toList
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runBlockingTest
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mockito
 
 class MovieDetailsUseCaseTest : HasSchedulers {
     override lateinit var schedulerContext: SchedulerContext
-    private lateinit var repository: MoviesRepository
+    @MockK private lateinit var repository: MoviesRepository
+    @MockK private lateinit var preferences: ApplicationPreferences
     private lateinit var useCase: MovieDetailsUseCase
-    private lateinit var preferences: ApplicationPreferences
 
     private val factory = MovieFactory()
     private val MOVIE = factory.create()
@@ -35,46 +45,45 @@ class MovieDetailsUseCaseTest : HasSchedulers {
 
     @Before
     fun setUp() {
+        MockKAnnotations.init(this)
         schedulerContext = SchedulerContext(ImmediateSchedulerFactory())
-        repository = Mockito.mock(MoviesRepository::class.java)
-        preferences = Mockito.mock(ApplicationPreferences::class.java)
-        whenever(preferences.favorites).thenReturn(setOf(MOVIE_ID))
+        every { preferences.favorites } returns setOf(MOVIE_ID)
         useCase = MovieDetailsUseCase(repository, preferences)
-        stubRepoToReturn(SUCCESS_RESULT)
     }
 
     @Test
     fun testSuccess() {
-        useCase.details(MOVIE_ID).test()
-                .assertValues(LOADING_STATE, SUCCESS_STATE)
+        runBlocking {
+            coEvery { repository.getMovie(MOVIE_ID) } returns flowOf(LOADING_RESULT, SUCCESS_RESULT)
+            val states = useCase.details(MOVIE_ID).toList()
+            assertThat(states).isEqualTo(listOf(LOADING_STATE, SUCCESS_STATE))
+        }
     }
 
     @Test
     fun testFavorite() {
-        whenever(repository.favorite(MOVIE_ID)).thenReturn(Observable.just(AsyncResult.success(Unit)))
-
-        useCase.favorite(MOVIE_ID).test()
-                .assertValues(AsyncResult.success(FavoriteResult.Success))
+        runBlocking {
+            coEvery { repository.favorite(MOVIE_ID) } returns flowOf(AsyncResult.success(Unit))
+            val states = useCase.favorite(MOVIE_ID).toList()
+            assertThat(states).isEqualTo(listOf(AsyncResult.success(FavoriteResult.Success)))
+        }
     }
 
     @Test
     fun testUnfavorite() {
-        whenever(repository.unfavorite(MOVIE_ID)).thenReturn(Observable.just(AsyncResult.success(Unit)))
-
-        useCase.unfavorite(MOVIE_ID).test()
-                .assertValues(AsyncResult.success(FavoriteResult.Success))
+        runBlocking {
+            coEvery { repository.unfavorite(MOVIE_ID) } returns flowOf(AsyncResult.success(Unit))
+            val states = useCase.unfavorite(MOVIE_ID).toList()
+            assertThat(states).isEqualTo(listOf(AsyncResult.success(FavoriteResult.Success)))
+        }
     }
 
     @Test
     fun testSignedOut() {
-        whenever(repository.favorite(MOVIE_ID)).thenReturn(Observable.just(AUTH_FAILURE_RESULT))
-
-        useCase.favorite(MOVIE_ID).test()
-                .assertValues(AsyncResult.success(FavoriteResult.SignedOut))
-    }
-
-    private fun stubRepoToReturn(result: AsyncResult<Movie>) {
-        whenever(repository.getMovie(MOVIE_ID))
-                .thenReturn(Observable.just(LOADING_RESULT, result))
+        runBlocking {
+            coEvery { repository.favorite(MOVIE_ID) } returns flowOf(AUTH_FAILURE_RESULT)
+            val states = useCase.favorite(MOVIE_ID).toList()
+            assertThat(states).isEqualTo(listOf(AsyncResult.success(FavoriteResult.SignedOut)))
+        }
     }
 }

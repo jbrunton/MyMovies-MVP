@@ -3,7 +3,7 @@ package com.jbrunton.mymovies.usecases.search
 import com.jbrunton.async.AsyncResult
 import com.jbrunton.mymovies.entities.repositories.MoviesRepository
 import com.jbrunton.mymovies.fixtures.MovieFactory
-import com.jbrunton.mymovies.fixtures.RepositoryFixtures
+//import com.jbrunton.mymovies.fixtures.RepositoryFixtures
 import com.jbrunton.mymovies.fixtures.TestSchedulerFactory
 import com.jbrunton.mymovies.fixtures.TestSchedulerRule
 import io.reactivex.observers.TestObserver
@@ -40,9 +40,9 @@ class SearchUseCaseOrderingTest {
         schedulerRule.TEST_SCHEDULER.triggerActions()
 
         // Note that movie 2 will take longer to arrive
-        RepositoryFixtures.stubSearch(repository, "movie1").toReturnDelayed(listOf(MOVIE1), 1)
-        RepositoryFixtures.stubSearch(repository, "movie2").toReturnDelayed(listOf(MOVIE2), 3)
-        RepositoryFixtures.stubSearch(repository, "movie3").toReturnDelayed(listOf(MOVIE3), 1)
+//        RepositoryFixtures.stubSearch(repository, "movie1").toReturnDelayed(listOf(MOVIE1), 1)
+//        RepositoryFixtures.stubSearch(repository, "movie2").toReturnDelayed(listOf(MOVIE2), 3)
+//        RepositoryFixtures.stubSearch(repository, "movie3").toReturnDelayed(listOf(MOVIE3), 1)
     }
 
     @Test
