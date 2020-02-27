@@ -39,13 +39,13 @@ interface MovieService {
     fun search(@Query("query") query: String): Observable<MoviesCollection>
 
     @GET("movie/now_playing")
-    fun nowPlaying(): Observable<MoviesCollection>
+    suspend fun nowPlaying(): MoviesCollection
 
     @GET("movie/popular")
-    fun popular(): Observable<MoviesCollection>
+    suspend fun popular(): MoviesCollection
 
     @GET("genre/movie/list")
-    fun genres(): Observable<GenresResponse>
+    suspend fun genres(): GenresResponse
 
     @GET("discover/movie")
     fun discoverByGenre(@Query("with_genres") genreId: String): Observable<MoviesCollection>

@@ -2,7 +2,6 @@ package com.jbrunton.mymovies.networking.repositories
 
 import androidx.collection.LruCache
 import com.jbrunton.async.doOnSuccess
-import com.jbrunton.async.get
 import com.jbrunton.mymovies.entities.models.Configuration
 import com.jbrunton.mymovies.entities.models.Movie
 import com.jbrunton.mymovies.entities.repositories.*
@@ -14,7 +13,6 @@ import io.reactivex.Observable
 import io.reactivex.rxkotlin.Observables
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.onEach
 
 class HttpMoviesRepository(
@@ -35,19 +33,19 @@ class HttpMoviesRepository(
     }
 
     override fun searchMovies(query: String): DataStream<List<Movie>> {
-        return buildResponse(service.search(query))
+        return buildResponseRx(service.search(query))
     }
 
-    override fun nowPlaying(): DataStream<List<Movie>> {
-        return buildResponse(service.nowPlaying())
+    override suspend fun nowPlaying(): FlowDataStream<List<Movie>> {
+        return buildResponse({ service.nowPlaying() })
     }
 
-    override fun popular(): DataStream<List<Movie>> {
-        return buildResponse(service.popular())
+    override suspend fun popular(): FlowDataStream<List<Movie>> {
+        return buildResponse({ service.popular() })
     }
 
     override fun discoverByGenre(genreId: String): DataStream<List<Movie>> {
-        return buildResponse(service.discoverByGenre(genreId))
+        return buildResponseRx(service.discoverByGenre(genreId))
     }
 
     override suspend fun favorites(): FlowDataStream<List<Movie>> {
@@ -98,7 +96,7 @@ class HttpMoviesRepository(
         }
     }
 
-    private fun buildResponse(
+    private fun buildResponseRx(
             apiSource: Observable<MoviesCollection>,
             cachedValue: List<Movie>? = null
     ): DataStream<List<Movie>> {
