@@ -105,8 +105,4 @@ repositories {
     jcenter()
 }
 
-androidExtensions {
-    experimental = true
-}
-
 apply plugin: 'kotlin-android-extensions'
