@@ -7,7 +7,11 @@ import com.jbrunton.mymovies.entities.errors.handleNetworkErrors
 import com.jbrunton.mymovies.entities.models.Movie
 import com.jbrunton.mymovies.entities.repositories.ApplicationPreferences
 import com.jbrunton.mymovies.entities.repositories.DataStream
+import com.jbrunton.mymovies.entities.repositories.FlowDataStream
 import com.jbrunton.mymovies.entities.repositories.MoviesRepository
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.rx2.asObservable
 import retrofit2.HttpException
 
 sealed class FavoriteResult {
@@ -19,19 +23,19 @@ class MovieDetailsUseCase(
         val repository: MoviesRepository,
         val preferences: ApplicationPreferences
 ) {
-    fun details(movieId: String): DataStream<MovieDetails> {
-        return repository.getMovie(movieId)
-                .map(this::handleMovieResult)
+    suspend fun details(movieId: String): FlowDataStream<MovieDetails> = coroutineScope {
+        repository.getMovie(movieId)
+                .map { handleMovieResult(it) }
     }
 
-    fun favorite(movieId: String): DataStream<FavoriteResult> {
+    suspend fun favorite(movieId: String): FlowDataStream<FavoriteResult> {
         return repository.favorite(movieId)
-                .map(this::handleFavoriteResult)
+                .map { handleFavoriteResult(it) }
     }
 
-    fun unfavorite(movieId: String): DataStream<FavoriteResult> {
+    suspend fun unfavorite(movieId: String): FlowDataStream<FavoriteResult> {
         return repository.unfavorite(movieId)
-                .map(this::handleFavoriteResult)
+                .map { handleFavoriteResult(it) }
     }
 
     private fun handleMovieResult(result: AsyncResult<Movie>): AsyncResult<MovieDetails> {

@@ -1,5 +1,6 @@
 package com.jbrunton.mymovies.ui.moviedetails
 
+import androidx.lifecycle.viewModelScope
 import com.jbrunton.async.AsyncResult
 import com.jbrunton.async.doOnSuccess
 import com.jbrunton.mymovies.entities.subscribe
@@ -9,6 +10,9 @@ import com.jbrunton.mymovies.libs.ui.viewmodels.BaseLoadingViewModel
 import com.jbrunton.mymovies.libs.ui.SnackbarEvent
 import com.jbrunton.mymovies.usecases.moviedetails.FavoriteResult
 import com.jbrunton.mymovies.usecases.moviedetails.MovieDetailsUseCase
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 class MovieDetailsViewModel(val movieId: String, container: Container) :
         BaseLoadingViewModel<MovieDetailsViewState>(container)
@@ -26,24 +30,30 @@ class MovieDetailsViewModel(val movieId: String, container: Container) :
     }
 
     fun onFavoriteClicked() {
-        subscribe(useCase.favorite(movieId)) {
-            it.doOnSuccess {
-                handleFavoriteResult(it, viewStateFactory.FavoriteAddedEvent(this::onUnfavoriteClicked))
+        viewModelScope.launch {
+            useCase.favorite(movieId).collect {
+                it.doOnSuccess {
+                    handleFavoriteResult(it, viewStateFactory.FavoriteAddedEvent(this@MovieDetailsViewModel::onUnfavoriteClicked))
+                }
             }
         }
     }
 
     fun onUnfavoriteClicked() {
-        subscribe(useCase.unfavorite(movieId)) {
-            it.doOnSuccess {
-                handleFavoriteResult(it, viewStateFactory.FavoriteRemovedEvent(this::onUnfavoriteClicked))
+        viewModelScope.launch {
+            useCase.unfavorite(movieId).collect {
+                it.doOnSuccess {
+                    handleFavoriteResult(it, viewStateFactory.FavoriteRemovedEvent(this@MovieDetailsViewModel::onUnfavoriteClicked))
+                }
             }
         }
     }
 
     private fun loadDetails() {
-        subscribe(useCase.details(movieId)) {
-            viewState.postValue(viewStateFactory.viewState(it))
+        viewModelScope.launch {
+            useCase.details(movieId).collect {
+                viewState.postValue(viewStateFactory.viewState(it))
+            }
         }
     }
 

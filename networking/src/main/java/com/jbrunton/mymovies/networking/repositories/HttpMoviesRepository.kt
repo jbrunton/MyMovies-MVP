@@ -2,18 +2,20 @@ package com.jbrunton.mymovies.networking.repositories
 
 import androidx.collection.LruCache
 import com.jbrunton.async.doOnSuccess
+import com.jbrunton.async.get
 import com.jbrunton.mymovies.entities.models.Configuration
 import com.jbrunton.mymovies.entities.models.Movie
-import com.jbrunton.mymovies.entities.repositories.ApplicationPreferences
-import com.jbrunton.mymovies.entities.repositories.DataStream
-import com.jbrunton.mymovies.entities.repositories.MoviesRepository
-import com.jbrunton.mymovies.entities.repositories.toDataStream
+import com.jbrunton.mymovies.entities.repositories.*
 import com.jbrunton.mymovies.networking.resources.account.FavoriteRequest
 import com.jbrunton.mymovies.networking.resources.movies.MovieDetailsResponse
 import com.jbrunton.mymovies.networking.resources.movies.MoviesCollection
 import com.jbrunton.mymovies.networking.services.MovieService
 import io.reactivex.Observable
 import io.reactivex.rxkotlin.Observables
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.onEach
 
 class HttpMoviesRepository(
         private val service: MovieService,
@@ -22,12 +24,14 @@ class HttpMoviesRepository(
     private val cache = LruCache<String, Movie>(1024)
     private var favoritesCache: List<Movie>? = null
 
-    override fun getMovie(movieId: String): DataStream<Movie> {
-        return Observables.zip(service.movie(movieId), config()) {
-            response, config -> MovieDetailsResponse.toMovie(response, config)
-        }.doOnNext {
-            cache.put(it.id, it)
-        }.toDataStream(cache.get(movieId))
+    override suspend fun getMovie(movieId: String): FlowDataStream<Movie> = coroutineScope {
+        val response = async { service.movie(movieId) }
+        val config = async { config() }
+        buildFlowDataStream(cache.get(movieId)) {
+            MovieDetailsResponse.toMovie(response.await(), config.await()).apply {
+                cache.put(id, this)
+            }
+        }
     }
 
     override fun searchMovies(query: String): DataStream<List<Movie>> {
@@ -46,12 +50,12 @@ class HttpMoviesRepository(
         return buildResponse(service.discoverByGenre(genreId))
     }
 
-    override fun favorites(): DataStream<List<Movie>> {
+    override suspend fun favorites(): FlowDataStream<List<Movie>> {
         return buildResponse(
-                service.favorites(preferences.accountId, preferences.sessionId),
+                { service.favorites(preferences.accountId, preferences.sessionId) },
                 favoritesCache
 
-        ).doOnNext {
+        ).onEach {
             it.doOnSuccess {
                 it.value.forEach { cache.put(it.id, it) }
                 favoritesCache = it.value
@@ -59,36 +63,55 @@ class HttpMoviesRepository(
         }
     }
 
-    override fun favorite(movieId: String): DataStream<Unit> {
-        return service.favorite(
-                preferences.accountId,
-                preferences.sessionId,
-                FavoriteRequest(mediaId = movieId, favorite = true)
-        ).map { Unit }.doOnNext {
-            preferences.addFavorite(movieId)
-        }.toDataStream()
+    override suspend fun favorite(movieId: String): FlowDataStream<Unit> {
+        return buildFlowDataStream {
+            service.favorite(
+                    preferences.accountId,
+                    preferences.sessionId,
+                    FavoriteRequest(mediaId = movieId, favorite = true)
+            ).apply {
+                preferences.addFavorite(movieId)
+            }
+        }
     }
 
-    override fun unfavorite(movieId: String): DataStream<Unit> {
-        return service.favorite(
-                preferences.accountId,
-                preferences.sessionId,
-                FavoriteRequest(mediaId = movieId, favorite = false)
-        ).map { Unit }.doOnNext {
-            preferences.removeFavorite(movieId)
-        }.toDataStream()
+    override suspend fun unfavorite(movieId: String): FlowDataStream<Unit> {
+        return buildFlowDataStream {
+            service.favorite(
+                    preferences.accountId,
+                    preferences.sessionId,
+                    FavoriteRequest(mediaId = movieId, favorite = false)
+            ).apply {
+                preferences.removeFavorite(movieId)
+            }
+        }
+    }
+
+    private suspend fun buildResponse(
+            apiSource: suspend () -> MoviesCollection,
+            cachedValue: List<Movie>? = null
+    ): FlowDataStream<List<Movie>> = coroutineScope {
+        val response = async { apiSource() }
+        val config = async { config() }
+        buildFlowDataStream {
+            MoviesCollection.toCollection(response.await(), config.await())
+        }
     }
 
     private fun buildResponse(
             apiSource: Observable<MoviesCollection>,
             cachedValue: List<Movie>? = null
     ): DataStream<List<Movie>> {
-        return Observables.zip(apiSource, config()) {
-            response, config -> MoviesCollection.toCollection(response, config)
+        return Observables.zip(apiSource, rxConfig()) { response, config ->
+            MoviesCollection.toCollection(response, config)
         }.toDataStream(cachedValue)
     }
 
-    private fun config(): Observable<Configuration> {
-        return service.configuration().map { it.toModel() }
+    private suspend fun config(): Configuration {
+        return service.configuration().toModel()
+    }
+
+    private fun rxConfig(): Observable<Configuration> {
+        return service.rxConfiguration().map { it.toModel() }
     }
 }

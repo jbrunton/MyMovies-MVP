@@ -3,21 +3,23 @@ package com.jbrunton.mymovies.fixtures.repositories
 import com.jbrunton.async.AsyncResult
 import com.jbrunton.mymovies.entities.models.Movie
 import com.jbrunton.mymovies.entities.repositories.DataStream
+import com.jbrunton.mymovies.entities.repositories.FlowDataStream
 import com.jbrunton.mymovies.entities.repositories.MoviesRepository
 import io.reactivex.Observable
+import kotlinx.coroutines.flow.flowOf
 import java.util.*
 import kotlin.collections.HashMap
 
 class TestMoviesRepository : MoviesRepository {
-    override fun favorites(): DataStream<List<Movie>> {
+    override suspend fun favorites(): FlowDataStream<List<Movie>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun favorite(movieId: String): DataStream<Unit> {
+    override suspend fun favorite(movieId: String): FlowDataStream<Unit> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun unfavorite(movieId: String): DataStream<Unit> {
+    override suspend fun unfavorite(movieId: String): FlowDataStream<Unit> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
@@ -33,8 +35,8 @@ class TestMoviesRepository : MoviesRepository {
         stubbedSearches[query] = results
     }
 
-    override fun getMovie(movieId: String): DataStream<Movie> {
-        return Observable.just(AsyncResult.Success(movies.find { it.id == movieId }!!))
+    override suspend fun getMovie(movieId: String): FlowDataStream<Movie> {
+        return flowOf(AsyncResult.Success(movies.find { it.id == movieId }!!))
     }
 
     override fun searchMovies(query: String): DataStream<List<Movie>> {

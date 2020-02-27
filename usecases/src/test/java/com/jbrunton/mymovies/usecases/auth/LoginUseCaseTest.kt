@@ -9,16 +9,15 @@ import com.jbrunton.mymovies.fixtures.NetworkErrorFixtures.httpErrorResult
 import com.jbrunton.mymovies.fixtures.NetworkErrorFixtures.networkErrorResult
 import io.mockk.coEvery
 import io.mockk.mockk
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.toList
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runBlockingTest
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
-@ExperimentalCoroutinesApi
 class LoginUseCaseTest {
     @get:Rule val coroutineScope =  MainCoroutineScopeRule()
 
@@ -50,36 +49,46 @@ class LoginUseCaseTest {
     }
 
     @Test
-    fun testSuccess() = runBlockingTest {
-        stubLoginToReturn(SUCCESS_RESULT)
-        val states = useCase.login(USERNAME, PASSWORD).toList()
-        assertThat(states).isEqualTo(listOf(LOADING_STATE, SUCCESS_STATE))
+    fun testSuccess() {
+        runBlocking {
+            stubLoginToReturn(SUCCESS_RESULT)
+            val states = useCase.login(USERNAME, PASSWORD).toList()
+            assertThat(states).isEqualTo(listOf(LOADING_STATE, SUCCESS_STATE))
+        }
     }
 
     @Test
-    fun testAuthFailure() = runBlockingTest {
-        stubLoginToReturn(AUTH_FAILURE_RESULT)
-        val states = useCase.login(USERNAME, PASSWORD).toList()
-        assertThat(states).isEqualTo(listOf(LOADING_STATE, AUTH_FAILURE_STATE))
+    fun testAuthFailure() {
+        runBlocking {
+            stubLoginToReturn(AUTH_FAILURE_RESULT)
+            val states = useCase.login(USERNAME, PASSWORD).toList()
+            assertThat(states).isEqualTo(listOf(LOADING_STATE, AUTH_FAILURE_STATE))
+        }
     }
 
     @Test
-    fun testNetworkError() = runBlockingTest {
-        stubLoginToReturn(NETWORK_ERROR_RESULT)
-        val states = useCase.login(USERNAME, PASSWORD).toList()
-        assertThat(states).isEqualTo(listOf(LOADING_STATE, NETWORK_ERROR_STATE))
+    fun testNetworkError() {
+        runBlocking {
+            stubLoginToReturn(NETWORK_ERROR_RESULT)
+            val states = useCase.login(USERNAME, PASSWORD).toList()
+            assertThat(states).isEqualTo(listOf(LOADING_STATE, NETWORK_ERROR_STATE))
+        }
     }
 
     @Test
-    fun testInvalidUsername() = runBlockingTest {
-        val states = useCase.login("", PASSWORD).toList()
-        assertThat(states).isEqualTo(listOf(INVALID_USERNAME_STATE))
+    fun testInvalidUsername() {
+        runBlocking {
+            val states = useCase.login("", PASSWORD).toList()
+            assertThat(states).isEqualTo(listOf(INVALID_USERNAME_STATE))
+        }
     }
 
     @Test
-    fun testInvalidPassword() = runBlockingTest {
-        val states = useCase.login(USERNAME, "").toList()
-        assertThat(states).isEqualTo(listOf(INVALID_PASSWORD_STATE))
+    fun testInvalidPassword() {
+        runBlocking {
+            val states = useCase.login(USERNAME, "").toList()
+            assertThat(states).isEqualTo(listOf(INVALID_PASSWORD_STATE))
+        }
     }
 
     private suspend fun stubLoginToReturn(result: AsyncResult<AuthSession>) {

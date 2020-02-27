@@ -4,8 +4,10 @@ import com.jbrunton.async.AsyncResult
 import com.jbrunton.mymovies.entities.repositories.MoviesRepository
 import com.jbrunton.mymovies.fixtures.MovieFactory
 import com.jbrunton.mymovies.fixtures.RepositoryFixtures
+//import com.jbrunton.mymovies.fixtures.RepositoryFixtures
 import com.jbrunton.mymovies.fixtures.TestSchedulerFactory
 import com.jbrunton.mymovies.fixtures.TestSchedulerRule
+import io.mockk.mockk
 import io.reactivex.observers.TestObserver
 import org.junit.Before
 import org.junit.Rule
@@ -32,7 +34,7 @@ class SearchUseCaseOrderingTest {
 
     @Before
     fun setUp() {
-        repository = Mockito.mock(MoviesRepository::class.java)
+        repository = mockk()
         val factory = TestSchedulerFactory(schedulerRule.TEST_SCHEDULER)
         useCase = SearchUseCase(repository, factory)
 
