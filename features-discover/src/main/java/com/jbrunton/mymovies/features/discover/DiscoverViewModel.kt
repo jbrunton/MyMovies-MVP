@@ -50,11 +50,11 @@ class DiscoverViewModel(container: Container) : BaseViewModel(container), Discov
     private val useCase: DiscoverUseCase by inject()
     private val changes = MediatorLiveData<DiscoverStateChange>()
 
-    val viewState: LiveData<LoadingViewState<DiscoverViewState>> get() {
+    val viewState by lazy {
         val initialState = AsyncResult.loading(null)
         val state = changes.scan(initialState, ::reduce)
                 .distinctUntilChanged()
-        return state.map { DiscoverViewStateFactory.viewState(it) }
+        state.map { DiscoverViewStateFactory.viewState(it) }
     }
 
     override fun start() {
