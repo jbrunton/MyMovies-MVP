@@ -28,8 +28,8 @@ class SearchUseCase(
     @FlowPreview
     fun results(): FlowDataStream<SearchResult> {
         return searches.asFlow()
-                .flatMapLatest { doSearch(it) }
-                .onStart { EmptyQueryResult }
+                .flatMapConcat { doSearch(it) }
+                .onStart { emit(EmptyQueryResult) }
     }
 
     private suspend fun doSearch(query: String): FlowDataStream<SearchResult> {
