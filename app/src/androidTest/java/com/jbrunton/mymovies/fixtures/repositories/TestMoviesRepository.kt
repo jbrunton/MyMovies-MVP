@@ -43,15 +43,15 @@ class TestMoviesRepository : MoviesRepository {
         return Observable.just(AsyncResult.Success(stubbedSearches[query]!!));
     }
 
-    override fun nowPlaying(): DataStream<List<Movie>> {
-        return Observable.just(AsyncResult.Success(movies))
+    override suspend fun nowPlaying(): FlowDataStream<List<Movie>> {
+        return flowOf(AsyncResult.Success(movies))
     }
 
-    override fun popular(): DataStream<List<Movie>> {
-        return Observable.just(AsyncResult.Success(movies))
+    override suspend fun popular(): FlowDataStream<List<Movie>> {
+        return flowOf(AsyncResult.Success(movies))
     }
 
-    override fun discoverByGenre(genreId: String): DataStream<List<Movie>> {
-        return Observable.just(AsyncResult.Success(movies))
+    override suspend fun discoverByGenre(genreId: String): FlowDataStream<List<Movie>> {
+        return flowOf(AsyncResult.Success(movies))
     }
 }
