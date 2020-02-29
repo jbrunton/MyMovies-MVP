@@ -29,14 +29,15 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':entities')
 
-    implementation libs.kotlin.core
-    implementation libs.kotlin.android
-    implementation libs.rx.core
-    implementation libs.rx.android
-    implementation libs.inject.core
-    implementation libs.inject.android
+    api libs.kotlin.core
+    api libs.kotlin.android
+    api libs.rx.core
+    api libs.rx.android
+    api libs.inject.core
+    api libs.inject.android
 
-    implementation libs.android.material
+    api libs.android.material
+    api libs.android.arch
 
     testImplementation libs.test.core
     testImplementation libs.test.android

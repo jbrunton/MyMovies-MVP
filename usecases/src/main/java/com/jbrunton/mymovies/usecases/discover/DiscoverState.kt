@@ -3,7 +3,7 @@ package com.jbrunton.mymovies.usecases.discover
 import com.jbrunton.mymovies.entities.models.Genre
 import com.jbrunton.mymovies.entities.models.Movie
 
-data class DiscoverResult(
+data class DiscoverState(
         val nowPlaying: List<Movie>,
         val popular: List<Movie>,
         val genres: List<Genre>,
