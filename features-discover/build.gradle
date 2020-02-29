@@ -36,6 +36,7 @@ dependencies {
     implementation project(':libs-ui')
     implementation project(':shared-ui')
     implementation project(':usecases')
+    testImplementation project(':fixtures')
 
     implementation libs.kotlin.core
     implementation libs.kotlin.android
