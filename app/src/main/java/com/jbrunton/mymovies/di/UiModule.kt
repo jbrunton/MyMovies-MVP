@@ -18,7 +18,9 @@ import com.jbrunton.mymovies.usecases.discover.DiscoverUseCase
 import com.jbrunton.mymovies.usecases.favorites.FavoritesUseCase
 import com.jbrunton.mymovies.usecases.moviedetails.MovieDetailsUseCase
 import com.jbrunton.mymovies.usecases.search.SearchUseCase
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalCoroutinesApi
 val UiModule = module {
     single { Navigator() }
 
@@ -28,7 +30,7 @@ val UiModule = module {
     factory { LoginViewModel(get()) }
     factory { LoginViewStateFactory(get()) }
 
-    factory { SearchUseCase(get(), get()) }
+    factory { SearchUseCase(get()) }
     factory { SearchViewModel(get()) }
     factory { SearchViewStateFactory(get()) }
 

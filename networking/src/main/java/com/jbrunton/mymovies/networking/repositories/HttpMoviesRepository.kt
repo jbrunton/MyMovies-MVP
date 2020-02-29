@@ -13,6 +13,7 @@ import io.reactivex.Observable
 import io.reactivex.rxkotlin.Observables
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.flow.onEach
 
 class HttpMoviesRepository(
@@ -32,8 +33,8 @@ class HttpMoviesRepository(
         }
     }
 
-    override fun searchMovies(query: String): DataStream<List<Movie>> {
-        return buildResponseRx(service.search(query))
+    override suspend fun searchMovies(query: String): FlowDataStream<List<Movie>> {
+        return buildResponse({ service.search(query) })
     }
 
     override suspend fun nowPlaying(): FlowDataStream<List<Movie>> {
@@ -91,25 +92,12 @@ class HttpMoviesRepository(
     ): FlowDataStream<List<Movie>> = coroutineScope {
         val response = async { apiSource() }
         val config = async { config() }
-        buildFlowDataStream {
+        buildFlowDataStream(cachedValue) {
             MoviesCollection.toCollection(response.await(), config.await())
         }
     }
 
-    private fun buildResponseRx(
-            apiSource: Observable<MoviesCollection>,
-            cachedValue: List<Movie>? = null
-    ): DataStream<List<Movie>> {
-        return Observables.zip(apiSource, rxConfig()) { response, config ->
-            MoviesCollection.toCollection(response, config)
-        }.toDataStream(cachedValue)
-    }
-
     private suspend fun config(): Configuration {
         return service.configuration().toModel()
-    }
-
-    private fun rxConfig(): Observable<Configuration> {
-        return service.rxConfiguration().map { it.toModel() }
     }
 }
