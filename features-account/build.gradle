@@ -40,8 +40,6 @@ dependencies {
     implementation libs.inject.core
     implementation libs.inject.android
 
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0-rc03'
-
     implementation libs.android.material
 
     testImplementation libs.test.core

@@ -48,7 +48,7 @@ interface MovieService {
     suspend fun genres(): GenresResponse
 
     @GET("discover/movie")
-    fun discoverByGenre(@Query("with_genres") genreId: String): Observable<MoviesCollection>
+    suspend fun discoverByGenre(@Query("with_genres") genreId: String): MoviesCollection
 
     @GET("account/{account_id}/favorite/movies")
     suspend fun favorites(

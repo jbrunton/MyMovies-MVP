@@ -1,5 +1,6 @@
 package com.jbrunton.mymovies.features.discover
 
+import androidx.lifecycle.*
 import com.jbrunton.async.AsyncResult
 import com.jbrunton.async.getOr
 import com.jbrunton.async.map
@@ -12,11 +13,17 @@ import com.jbrunton.mymovies.entities.subscribe
 import com.jbrunton.mymovies.libs.ui.livedata.SingleLiveEvent
 import com.jbrunton.mymovies.libs.ui.nav.MovieDetailsRequest
 import com.jbrunton.mymovies.libs.ui.viewmodels.BaseLoadingViewModel
+import com.jbrunton.mymovies.libs.ui.viewmodels.BaseViewModel
+import com.jbrunton.mymovies.libs.ui.viewstates.LoadingViewState
 import com.jbrunton.mymovies.usecases.discover.DiscoverResult
 import com.jbrunton.mymovies.usecases.discover.DiscoverUseCase
+import com.snakydesign.livedataextensions.scan
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.rx2.collect
 
 sealed class DiscoverIntent {
     object Load : DiscoverIntent()
@@ -37,34 +44,21 @@ sealed class DiscoverStateChange {
     object Nothing : DiscoverStateChange()
 }
 
-class DiscoverViewModel(container: Container) : BaseLoadingViewModel<DiscoverViewState>(container), DiscoverListener {
+class DiscoverViewModel(container: Container) : BaseViewModel(container), DiscoverListener {
     val scrollToGenreResults = SingleLiveEvent<Unit>()
 
     private val useCase: DiscoverUseCase by inject()
-    private val state = PublishSubject.create<AsyncResult<DiscoverResult>>()
+    private val changes = MediatorLiveData<DiscoverStateChange>()
 
-    private val loadIntent = BehaviorSubject.create<DiscoverIntent.Load>()
-    private val selectGenreIntent = BehaviorSubject.create<DiscoverIntent.SelectGenre>()
-    private val selectMovieIntent = BehaviorSubject.create<DiscoverIntent.SelectMovie>()
-    private val clearSelectedGenreIntent = BehaviorSubject.create<DiscoverIntent.ClearSelectedGenre>()
+    val viewState: LiveData<LoadingViewState<DiscoverViewState>> get() {
+        val initialState = AsyncResult.loading(null)
+        val state = changes.scan(initialState, ::reduce)
+                .distinctUntilChanged()
+        return state.map { DiscoverViewStateFactory.viewState(it) }
+    }
 
     override fun start() {
         super.start()
-        subscribe(state) {
-            viewState.postValue(DiscoverViewStateFactory.viewState(it))
-        }
-
-        val allIntents = Observable.merge(
-                loadIntent.flatMap(this::load),
-                selectGenreIntent.flatMap(this::selectGenre),
-                selectMovieIntent.flatMap(this::selectMovie),
-                clearSelectedGenreIntent.flatMap(this::clearSelectedGenre))
-
-        val initialState: AsyncResult<DiscoverResult> = AsyncResult.loading(null)
-        allIntents.scan(initialState, this::reduce)
-                .distinctUntilChanged()
-                .safelySubscribe(this, state::onNext)
-
         perform(DiscoverIntent.Load)
     }
 
@@ -73,32 +67,36 @@ class DiscoverViewModel(container: Container) : BaseLoadingViewModel<DiscoverVie
     }
 
     override fun perform(intent: DiscoverIntent) = when (intent) {
-        is DiscoverIntent.Load -> loadIntent.onNext(intent)
-        is DiscoverIntent.SelectGenre -> selectGenreIntent.onNext(intent)
-        is DiscoverIntent.ClearSelectedGenre -> clearSelectedGenreIntent.onNext(intent)
-        is DiscoverIntent.SelectMovie -> selectMovieIntent.onNext(intent)
+        is DiscoverIntent.Load -> load(intent)
+        is DiscoverIntent.SelectGenre -> selectGenre(intent)
+        is DiscoverIntent.ClearSelectedGenre -> clearSelectedGenre(intent)
+        is DiscoverIntent.SelectMovie -> selectMovie(intent)
     }
 
-    private fun load(intent: DiscoverIntent.Load): Observable<DiscoverStateChange> {
-        return useCase.discover()
-                .map(DiscoverStateChange::DiscoverResultsAvailable)
-                .compose(schedulerContext.applySchedulers())
+    private fun load(intent: DiscoverIntent.Load) {
+        viewModelScope.launch {
+            useCase.discover()
+                    .map { DiscoverStateChange.DiscoverResultsAvailable(it) }
+                    .collect { changes.postValue(it) }
+        }
     }
 
-    private fun selectGenre(intent: DiscoverIntent.SelectGenre): Observable<DiscoverStateChange> {
+    private fun selectGenre(intent: DiscoverIntent.SelectGenre) {
         val selectedChange: DiscoverStateChange = DiscoverStateChange.GenreSelected(intent.genre)
-        return useCase.discoverByGenre(intent.genre.id).map(this::buildGenreResults)
-                .startWith(selectedChange)
-                .compose(schedulerContext.applySchedulers())
+        changes.postValue(selectedChange)
+        viewModelScope.launch {
+            useCase.discoverByGenre(intent.genre.id)
+                    .map { buildGenreResults(it) }
+                    .collect { changes.postValue(it) }
+        }
     }
 
-    private fun clearSelectedGenre(intent: DiscoverIntent.ClearSelectedGenre): Observable<DiscoverStateChange> {
-        return Observable.just(DiscoverStateChange.SelectedGenreCleared)
+    private fun clearSelectedGenre(intent: DiscoverIntent.ClearSelectedGenre) {
+        return changes.postValue(DiscoverStateChange.SelectedGenreCleared)
     }
 
-    private fun selectMovie(intent: DiscoverIntent.SelectMovie): Observable<DiscoverStateChange> {
+    private fun selectMovie(intent: DiscoverIntent.SelectMovie) {
         navigator.navigate(MovieDetailsRequest(intent.movie.id))
-        return Observable.just(DiscoverStateChange.Nothing)
     }
 
     private fun buildGenreResults(genreResults: AsyncResult<List<Movie>>): DiscoverStateChange {

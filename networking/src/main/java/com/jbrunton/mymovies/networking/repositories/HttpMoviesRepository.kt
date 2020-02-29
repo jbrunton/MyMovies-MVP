@@ -44,8 +44,8 @@ class HttpMoviesRepository(
         return buildResponse({ service.popular() })
     }
 
-    override fun discoverByGenre(genreId: String): DataStream<List<Movie>> {
-        return buildResponseRx(service.discoverByGenre(genreId))
+    override suspend fun discoverByGenre(genreId: String): FlowDataStream<List<Movie>> {
+        return buildResponse({ service.discoverByGenre(genreId) })
     }
 
     override suspend fun favorites(): FlowDataStream<List<Movie>> {

@@ -9,6 +9,9 @@ buildscript {
         android_target_sdk = 27
         android_compile_sdk = 28
 
+        android_lifecycle_version = '2.2.0'
+        android_arch_version = '2.1.0'
+
         libs = [
                 rx: [
                         core: [
@@ -30,7 +33,8 @@ buildscript {
                         android: [
                                 'org.mockito:mockito-android:2.13.0',
                                 'com.android.support.test:rules:1.0.2',
-                                'com.android.support.test:runner:1.0.2'
+                                'com.android.support.test:runner:1.0.2',
+                                "androidx.arch.core:core-testing:$android_arch_version"
                         ],
                 ],
                 kotlin: [
@@ -53,6 +57,14 @@ buildscript {
                                 'androidx.recyclerview:recyclerview:1.0.0-rc02',
                                 'androidx.cardview:cardview:1.0.0-rc02',
                                 'androidx.constraintlayout:constraintlayout:2.0.0-alpha2'
+                        ],
+                        arch: [
+                                "androidx.lifecycle:lifecycle-viewmodel-ktx:$android_lifecycle_version",
+                                "androidx.lifecycle:lifecycle-livedata-ktx:$android_lifecycle_version",
+                                "androidx.lifecycle:lifecycle-viewmodel-savedstate:$android_lifecycle_version",
+                                // TODO: this library is deprecated - replace
+                                "androidx.lifecycle:lifecycle-extensions:$android_lifecycle_version",
+                                'com.snakydesign.livedataextensions:lives:1.3.0'
                         ]
                 ]
         ]
@@ -95,6 +107,16 @@ allprojects {
         flatDir {
             dirs '../aars'
         }
+    }
+}
+
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8
     }
 }
 
