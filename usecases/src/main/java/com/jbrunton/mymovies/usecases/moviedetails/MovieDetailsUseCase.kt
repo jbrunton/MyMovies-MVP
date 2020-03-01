@@ -23,8 +23,8 @@ class MovieDetailsUseCase(
         val repository: MoviesRepository,
         val preferences: ApplicationPreferences
 ) {
-    suspend fun details(movieId: String): FlowDataStream<MovieDetails> = coroutineScope {
-        repository.getMovie(movieId)
+    suspend fun details(movieId: String): FlowDataStream<MovieDetails> {
+        return repository.getMovie(movieId)
                 .map { handleMovieResult(it) }
     }
 

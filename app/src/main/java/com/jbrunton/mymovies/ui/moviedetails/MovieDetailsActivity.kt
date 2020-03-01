@@ -35,7 +35,7 @@ class MovieDetailsActivity : BaseActivity<MovieDetailsViewModel>() {
 
     override fun onObserveData() {
         super.onObserveData()
-        viewModel.viewState.observe(this, viewController::updateView)
+        viewModel.viewState.observe(this) { viewController.updateView(it) }
     }
 
     private fun movieId(): String = intent.extras["MOVIE_ID"] as String
