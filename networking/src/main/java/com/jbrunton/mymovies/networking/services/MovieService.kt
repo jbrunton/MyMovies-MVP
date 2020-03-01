@@ -24,9 +24,6 @@ interface MovieService {
     suspend fun newSession(@Body request: AuthSessionRequest): AuthSession
 
     @GET("configuration")
-    fun rxConfiguration(): Observable<ConfigurationResponse>
-
-    @GET("configuration")
     suspend fun configuration(): ConfigurationResponse
 
     @GET("account")
@@ -36,7 +33,7 @@ interface MovieService {
     suspend fun movie(@Path("movie_id") movieId: String): MovieDetailsResponse
 
     @GET("search/movie")
-    fun search(@Query("query") query: String): Observable<MoviesCollection>
+    suspend fun search(@Query("query") query: String): MoviesCollection
 
     @GET("movie/now_playing")
     suspend fun nowPlaying(): MoviesCollection

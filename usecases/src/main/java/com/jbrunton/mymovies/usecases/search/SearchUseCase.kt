@@ -4,35 +4,43 @@ import com.jbrunton.async.AsyncResult
 import com.jbrunton.mymovies.entities.SchedulerFactory
 import com.jbrunton.mymovies.entities.errors.handleNetworkErrors
 import com.jbrunton.mymovies.entities.repositories.DataStream
+import com.jbrunton.mymovies.entities.repositories.FlowDataStream
 import com.jbrunton.mymovies.entities.repositories.MoviesRepository
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.channels.BroadcastChannel
+import kotlinx.coroutines.flow.*
 
 class SearchUseCase(
-        val repository: MoviesRepository,
-        val schedulerFactory: SchedulerFactory
+        val repository: MoviesRepository
 ) {
-    private val searches = PublishSubject.create<String>()
+
+    @ExperimentalCoroutinesApi
+    private val searches = BroadcastChannel<String>(100)
 
     val EmptyQueryResult = AsyncResult.success(SearchResult.EmptyQuery)
 
+    @ExperimentalCoroutinesApi
     fun search(query: String) {
-        searches.onNext(query)
+        searches.offer(query)
     }
 
-    fun results(): DataStream<SearchResult> {
-        return searches
-                .switchMap(this::doSearch)
-                .startWith(EmptyQueryResult)
+    @FlowPreview
+    @ExperimentalCoroutinesApi
+    fun results(): FlowDataStream<SearchResult> {
+        return searches.asFlow()
+                .flatMapConcat { doSearch(it) }
+                .onStart { emit(EmptyQueryResult) }
     }
 
-    private fun doSearch(query: String): DataStream<SearchResult> {
+    private suspend fun doSearch(query: String): FlowDataStream<SearchResult> {
         if (query.isEmpty()) {
-            return Observable.just(EmptyQueryResult)
+            return flowOf(EmptyQueryResult)
         }
 
         return repository.searchMovies(query)
                 .map { SearchResult.from(it).handleNetworkErrors() }
-                .subscribeOn(schedulerFactory.IO)
     }
 }

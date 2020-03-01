@@ -4,7 +4,7 @@ import com.jbrunton.mymovies.entities.models.Movie
 
 interface MoviesRepository {
     suspend fun getMovie(movieId: String): FlowDataStream<Movie>
-    fun searchMovies(query: String): DataStream<List<Movie>>
+    suspend fun searchMovies(query: String): FlowDataStream<List<Movie>>
     suspend fun nowPlaying(): FlowDataStream<List<Movie>>
     suspend fun popular(): FlowDataStream<List<Movie>>
     suspend fun discoverByGenre(genreId: String): FlowDataStream<List<Movie>>

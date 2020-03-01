@@ -10,7 +10,9 @@ import com.jbrunton.mymovies.libs.ui.controllers.rootView
 import com.jbrunton.mymovies.libs.ui.livedata.observe
 import com.jbrunton.mymovies.libs.ui.views.BaseFragment
 import kotlinx.android.synthetic.main.fragment_search.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalCoroutinesApi
 class SearchFragment : BaseFragment<SearchViewModel>() {
     override val viewModel: SearchViewModel by injectViewModel()
     val viewController by lazy { SearchViewController(viewModel) }

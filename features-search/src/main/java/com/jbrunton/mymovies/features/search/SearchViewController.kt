@@ -6,6 +6,7 @@ import com.jbrunton.mymovies.entities.models.Movie
 import com.jbrunton.mymovies.libs.kotterknife.bindView
 import com.jbrunton.mymovies.libs.ui.onTextChanged
 import com.jbrunton.mymovies.shared.ui.MoviesListViewController
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlin.coroutines.CoroutineContext
 
 class SearchViewController(val viewModel: SearchViewModel) : MoviesListViewController() {
@@ -14,11 +15,13 @@ class SearchViewController(val viewModel: SearchViewModel) : MoviesListViewContr
 
     override fun onMovieSelected(movie: Movie) = viewModel.onMovieSelected(movie)
 
+    @ExperimentalCoroutinesApi
     fun bindListeners(coroutineContext: CoroutineContext) {
         search_query.onTextChanged(coroutineContext) { performSearch() }
         error_try_again.setOnClickListener { performSearch() }
     }
 
+    @ExperimentalCoroutinesApi
     private fun performSearch() {
         viewModel.onSearchQueryChanged(search_query.text.toString())
     }

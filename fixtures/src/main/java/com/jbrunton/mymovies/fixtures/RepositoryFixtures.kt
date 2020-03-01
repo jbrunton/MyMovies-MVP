@@ -43,18 +43,20 @@ object RepositoryFixtures {
             toReturnDelayed(movies, 0)
         }
 
-        fun toReturnDelayed(movies: List<Movie>, delay: Int) {
+        fun toReturnDelayed(movies: List<Movie>, delayInSeconds: Int) {
             val result: AsyncResult<List<Movie>> = AsyncResult.Success(movies)
-            every { repository.searchMovies(query) } returns Observable.just(result).delay(delay.toLong(), TimeUnit.SECONDS)
+            coEvery { repository.searchMovies(query) } returns
+                    flowOf(result).onEach { delay(delayInSeconds.toLong() * 1000) }
         }
 
         fun toErrorWith(throwable: Throwable) {
             toErrorWithDelayed(throwable, 0)
         }
 
-        fun toErrorWithDelayed(throwable: Throwable, delay: Int) {
+        fun toErrorWithDelayed(throwable: Throwable, delayInSeconds: Int) {
             val result: AsyncResult<List<Movie>> = AsyncResult.Failure(throwable, null)
-            every { repository.searchMovies(query) } returns Observable.just(result).delay(delay.toLong(), TimeUnit.SECONDS)
+            coEvery { repository.searchMovies(query) } returns
+                    flowOf(result).onEach { delay(delayInSeconds.toLong() * 1000) }
         }
     }
 

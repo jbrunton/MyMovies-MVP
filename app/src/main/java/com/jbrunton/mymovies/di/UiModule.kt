@@ -28,7 +28,7 @@ val UiModule = module {
     factory { LoginViewModel(get()) }
     factory { LoginViewStateFactory(get()) }
 
-    factory { SearchUseCase(get(), get()) }
+    factory { SearchUseCase(get()) }
     factory { SearchViewModel(get()) }
     factory { SearchViewStateFactory(get()) }
 

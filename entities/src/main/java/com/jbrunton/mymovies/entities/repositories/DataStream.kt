@@ -2,7 +2,7 @@ package com.jbrunton.mymovies.entities.repositories
 
 import com.jbrunton.async.AsyncResult
 import io.reactivex.Observable
-import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import java.lang.Exception
@@ -18,13 +18,18 @@ fun <T> Observable<T>.toDataStream(cachedValue: T? = null): DataStream<T> {
 
 typealias FlowDataStream<T> = Flow<AsyncResult<T>>
 
-suspend fun <T> buildFlowDataStream(cachedValue: T? = null, source: suspend () -> T) = coroutineScope {
-    flow {
+suspend fun <T> buildFlowDataStream(cachedValue: T? = null, source: suspend () -> T): FlowDataStream<T> {
+    return flow {
         emit(AsyncResult.Loading(cachedValue))
-        try {
-            emit(AsyncResult.Success(source.invoke()) as AsyncResult<T>)
-        } catch (error: Exception) {
-            emit(AsyncResult.Failure(error, cachedValue))
+        coroutineScope {
+            try {
+                val result = source()
+                if (coroutineContext.isActive) { // TODO: still need this check?
+                    emit(AsyncResult.Success(result) as AsyncResult<T>)
+                }
+            } catch (error: Exception) {
+                emit(AsyncResult.Failure(error, cachedValue))
+            }
         }
     }
 }
