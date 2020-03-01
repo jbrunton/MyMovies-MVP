@@ -13,19 +13,22 @@ import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.flow.*
 
-@ExperimentalCoroutinesApi
 class SearchUseCase(
         val repository: MoviesRepository
 ) {
-    private val searches = BroadcastChannel<String>(1)
+
+    @ExperimentalCoroutinesApi
+    private val searches = BroadcastChannel<String>(100)
 
     val EmptyQueryResult = AsyncResult.success(SearchResult.EmptyQuery)
 
+    @ExperimentalCoroutinesApi
     fun search(query: String) {
         searches.offer(query)
     }
 
     @FlowPreview
+    @ExperimentalCoroutinesApi
     fun results(): FlowDataStream<SearchResult> {
         return searches.asFlow()
                 .flatMapConcat { doSearch(it) }

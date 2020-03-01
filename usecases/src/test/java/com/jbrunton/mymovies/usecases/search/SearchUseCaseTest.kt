@@ -3,19 +3,33 @@ package com.jbrunton.mymovies.usecases.search
 import com.jbrunton.async.AsyncResult
 import com.jbrunton.mymovies.entities.models.Movie
 import com.jbrunton.mymovies.entities.repositories.MoviesRepository
-import com.jbrunton.mymovies.fixtures.ImmediateSchedulerFactory
+import com.jbrunton.mymovies.fixtures.MainCoroutineScopeRule
 import com.jbrunton.mymovies.fixtures.MovieFactory
-import com.nhaarman.mockitokotlin2.whenever
-import io.reactivex.Observable
-import io.reactivex.observers.TestObserver
+import com.jbrunton.mymovies.fixtures.TestFlowCollector
+import com.jbrunton.mymovies.fixtures.test
+import io.mockk.MockKAnnotations
+import io.mockk.coEvery
+import io.mockk.impl.annotations.MockK
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.rx2.asFlowable
+import kotlinx.coroutines.test.runBlockingTest
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
-import org.mockito.Mockito
 
+@FlowPreview
+@ExperimentalCoroutinesApi
 class SearchUseCaseTest {
-    private lateinit var repository: MoviesRepository
+    @get:Rule val coroutineScope =  MainCoroutineScopeRule()
+
+    @MockK private lateinit var repository: MoviesRepository
     private lateinit var useCase: SearchUseCase
-    private lateinit var observer: TestObserver<AsyncResult<SearchResult>>
 
     private val movieFactory = MovieFactory()
 
@@ -29,29 +43,32 @@ class SearchUseCaseTest {
 
     @Before
     fun setUp() {
-        repository = Mockito.mock(MoviesRepository::class.java)
-        useCase = SearchUseCase(repository, ImmediateSchedulerFactory())
+        MockKAnnotations.init(this)
+        useCase = SearchUseCase(repository)
 
-        whenever(repository.searchMovies("Star"))
-                .thenReturn(Observable.just(LOADING_RESULT, SUCCESS_RESULT))
-
-        observer = useCase.results().test()
+        coEvery { repository.searchMovies("Star") } returns
+                flowOf(LOADING_RESULT, SUCCESS_RESULT)
     }
 
     @Test
-    fun startsWithEmptyState() {
-        observer.assertValue(EmptyQueryState)
+    fun startsWithEmptyState() = runBlockingTest {
+        useCase.results().test().assertValuesThenCancel(EmptyQueryState)
     }
 
     @Test
     fun showsEmptyStateForEmptyQuery() {
-        useCase.search("")
-        observer.assertValues(EmptyQueryState, EmptyQueryState)
+        runBlocking {
+            launch { useCase.search("") }
+            useCase.results().test().assertValuesThenCancel(EmptyQueryState, EmptyQueryState)
+        }
     }
 
     @Test
     fun searchesForQuery() {
-        useCase.search("Star")
-        observer.assertValues(EmptyQueryState, LoadingState, SuccessState)
+        runBlocking {
+            launch { useCase.search("Star") }
+            useCase.results().test()
+                    .assertValuesThenCancel(EmptyQueryState, LoadingState, SuccessState)
+        }
     }
 }
