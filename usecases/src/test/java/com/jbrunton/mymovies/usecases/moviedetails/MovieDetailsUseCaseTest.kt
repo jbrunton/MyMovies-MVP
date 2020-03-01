@@ -1,32 +1,23 @@
 package com.jbrunton.mymovies.usecases.moviedetails
 
 import com.jbrunton.async.AsyncResult
-import com.jbrunton.mymovies.entities.HasSchedulers
-import com.jbrunton.mymovies.entities.SchedulerContext
 import com.jbrunton.mymovies.entities.models.Movie
 import com.jbrunton.mymovies.entities.repositories.ApplicationPreferences
 import com.jbrunton.mymovies.entities.repositories.MoviesRepository
-import com.jbrunton.mymovies.fixtures.ImmediateSchedulerFactory
 import com.jbrunton.mymovies.fixtures.MovieFactory
 import com.jbrunton.mymovies.fixtures.NetworkErrorFixtures
-import com.nhaarman.mockitokotlin2.whenever
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import io.mockk.mockk
-import io.reactivex.Observable
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.test.runBlockingTest
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Test
-import org.mockito.Mockito
 
-class MovieDetailsUseCaseTest : HasSchedulers {
-    override lateinit var schedulerContext: SchedulerContext
+class MovieDetailsUseCaseTest {
     @MockK private lateinit var repository: MoviesRepository
     @MockK private lateinit var preferences: ApplicationPreferences
     private lateinit var useCase: MovieDetailsUseCase
@@ -46,7 +37,6 @@ class MovieDetailsUseCaseTest : HasSchedulers {
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
-        schedulerContext = SchedulerContext(ImmediateSchedulerFactory())
         every { preferences.favorites } returns setOf(MOVIE_ID)
         useCase = MovieDetailsUseCase(repository, preferences)
     }

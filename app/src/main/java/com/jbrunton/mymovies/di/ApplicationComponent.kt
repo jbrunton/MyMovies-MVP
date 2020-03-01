@@ -9,14 +9,12 @@ open class ApplicationComponent(val application: MyMoviesApplication) : Module {
         container.single { container }
         container.register(
                 appModule(),
-                schedulersModule(),
                 httpModule(),
                 uiModule()
         )
     }
 
     open fun appModule(): Module = ApplicationModule(application)
-    open fun schedulersModule(): Module = SchedulersModule
     open fun httpModule(): Module = HttpModule
     open fun uiModule(): Module = UiModule
 }

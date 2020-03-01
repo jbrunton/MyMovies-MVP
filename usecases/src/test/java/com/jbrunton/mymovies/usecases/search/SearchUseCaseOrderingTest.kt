@@ -4,9 +4,6 @@ import com.jbrunton.async.AsyncResult
 import com.jbrunton.mymovies.entities.repositories.MoviesRepository
 import com.jbrunton.mymovies.fixtures.MovieFactory
 import com.jbrunton.mymovies.fixtures.RepositoryFixtures
-//import com.jbrunton.mymovies.fixtures.RepositoryFixtures
-import com.jbrunton.mymovies.fixtures.TestSchedulerFactory
-import com.jbrunton.mymovies.fixtures.TestSchedulerRule
 import io.mockk.mockk
 import io.reactivex.observers.TestObserver
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -16,15 +13,12 @@ import kotlinx.coroutines.runBlocking
 import org.assertj.core.api.Assertions
 import org.junit.Before
 import org.junit.Ignore
-import org.junit.Rule
 import org.junit.Test
-import org.mockito.Mockito
-import java.util.concurrent.TimeUnit
 
 @FlowPreview
 @ExperimentalCoroutinesApi
 class SearchUseCaseOrderingTest {
-    @get:Rule var schedulerRule = TestSchedulerRule()
+    //@get:Rule var schedulerRule = TestSchedulerRule()
 
     private lateinit var repository: MoviesRepository
     private lateinit var useCase: SearchUseCase
@@ -45,7 +39,7 @@ class SearchUseCaseOrderingTest {
         repository = mockk()
         useCase = SearchUseCase(repository)
 
-        schedulerRule.TEST_SCHEDULER.triggerActions()
+        //schedulerRule.TEST_SCHEDULER.triggerActions()
 
         // Note that movie 2 will take longer to arrive
         RepositoryFixtures.stubSearch(repository, "movie1").toReturnDelayed(listOf(MOVIE1), 1)
@@ -58,7 +52,7 @@ class SearchUseCaseOrderingTest {
     fun returnsResultsInOrder() {
         // first result arrives in order
         useCase.search("movie1")
-        schedulerRule.TEST_SCHEDULER.advanceTimeBy(3, TimeUnit.SECONDS)
+        //schedulerRule.TEST_SCHEDULER.advanceTimeBy(3, TimeUnit.SECONDS)
         runBlocking {
             val states = useCase.results().toList()
             Assertions.assertThat(states).isEqualTo(listOf(EMPTY_QUERY_STATE, MOVIE1_STATE))
@@ -66,7 +60,7 @@ class SearchUseCaseOrderingTest {
 
         // second result takes longer to respond, isn't shown yet
         useCase.search("movie2")
-        schedulerRule.TEST_SCHEDULER.advanceTimeBy(1, TimeUnit.SECONDS)
+        //schedulerRule.TEST_SCHEDULER.advanceTimeBy(1, TimeUnit.SECONDS)
         runBlocking {
             val states = useCase.results().toList()
             Assertions.assertThat(states).isEqualTo(listOf(EMPTY_QUERY_STATE, MOVIE1_STATE))
@@ -74,7 +68,7 @@ class SearchUseCaseOrderingTest {
 
         // third result arrives before second, so supersedes it
         useCase.search("movie3")
-        schedulerRule.TEST_SCHEDULER.advanceTimeBy(1, TimeUnit.SECONDS)
+        //schedulerRule.TEST_SCHEDULER.advanceTimeBy(1, TimeUnit.SECONDS)
         runBlocking {
             val states = useCase.results().toList()
             Assertions.assertThat(states).isEqualTo(listOf(EMPTY_QUERY_STATE, MOVIE1_STATE, MOVIE3_STATE))

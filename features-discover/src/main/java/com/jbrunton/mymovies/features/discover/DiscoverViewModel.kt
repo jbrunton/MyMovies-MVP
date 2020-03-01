@@ -12,6 +12,7 @@ import com.jbrunton.mymovies.libs.ui.viewmodels.BaseViewModel
 import com.jbrunton.mymovies.usecases.discover.DiscoverState
 import com.jbrunton.mymovies.usecases.discover.DiscoverUseCase
 import com.snakydesign.livedataextensions.scan
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
@@ -63,6 +64,7 @@ class DiscoverViewModel(container: Container) : BaseViewModel(container), Discov
         is DiscoverIntent.SelectMovie -> selectMovie(intent)
     }
 
+    @ExperimentalCoroutinesApi
     private fun load(intent: DiscoverIntent.Load) {
         viewModelScope.launch {
             useCase.discover()
