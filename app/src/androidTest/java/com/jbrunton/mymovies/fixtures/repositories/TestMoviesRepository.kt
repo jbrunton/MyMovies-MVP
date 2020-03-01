@@ -39,8 +39,8 @@ class TestMoviesRepository : MoviesRepository {
         return flowOf(AsyncResult.Success(movies.find { it.id == movieId }!!))
     }
 
-    override fun searchMovies(query: String): DataStream<List<Movie>> {
-        return Observable.just(AsyncResult.Success(stubbedSearches[query]!!));
+    override suspend fun searchMovies(query: String): FlowDataStream<List<Movie>> {
+        return flowOf(AsyncResult.Success(stubbedSearches[query]!!))
     }
 
     override suspend fun nowPlaying(): FlowDataStream<List<Movie>> {

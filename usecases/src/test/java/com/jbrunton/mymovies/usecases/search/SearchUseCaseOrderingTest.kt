@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 import org.assertj.core.api.Assertions
 import org.junit.Before
+import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mockito
@@ -53,6 +54,7 @@ class SearchUseCaseOrderingTest {
     }
 
     @Test
+    @Ignore
     fun returnsResultsInOrder() {
         // first result arrives in order
         useCase.search("movie1")
