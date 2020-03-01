@@ -7,12 +7,11 @@ import com.jbrunton.mymovies.entities.errors.handleNetworkErrors
 import com.jbrunton.mymovies.entities.models.Account
 import com.jbrunton.mymovies.entities.repositories.AccountRepository
 import com.jbrunton.mymovies.entities.repositories.DataStream
-import com.jbrunton.mymovies.entities.repositories.FlowDataStream
 import kotlinx.coroutines.flow.map
 import retrofit2.HttpException
 
 class AccountUseCase(val repository: AccountRepository) {
-    suspend fun account(): FlowDataStream<AccountResult> {
+    suspend fun account(): DataStream<AccountResult> {
         return repository.account()
                 .map(this::handleResult)
     }

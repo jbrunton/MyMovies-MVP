@@ -12,7 +12,7 @@ class DiscoverUseCase(
         val movies: MoviesRepository,
         val genres: GenresRepository
 ) {
-    suspend fun discover(): FlowDataStream<DiscoverState> {
+    suspend fun discover(): DataStream<DiscoverState> {
         return combine(
                 movies.nowPlaying(),
                 movies.popular(),
@@ -24,7 +24,7 @@ class DiscoverUseCase(
         }
     }
 
-    suspend fun discoverByGenre(genreId: String): FlowDataStream<List<Movie>> {
+    suspend fun discoverByGenre(genreId: String): DataStream<List<Movie>> {
         return movies.discoverByGenre(genreId).map { it.handleNetworkErrors() }
     }
 }

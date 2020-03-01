@@ -9,11 +9,8 @@ import com.jbrunton.mymovies.networking.resources.account.FavoriteRequest
 import com.jbrunton.mymovies.networking.resources.movies.MovieDetailsResponse
 import com.jbrunton.mymovies.networking.resources.movies.MoviesCollection
 import com.jbrunton.mymovies.networking.services.MovieService
-import io.reactivex.Observable
-import io.reactivex.rxkotlin.Observables
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.flow.onEach
 
 class HttpMoviesRepository(
@@ -23,8 +20,8 @@ class HttpMoviesRepository(
     private val cache = LruCache<String, Movie>(1024)
     private var favoritesCache: List<Movie>? = null
 
-    override suspend fun getMovie(movieId: String): FlowDataStream<Movie>  {
-        return buildFlowDataStream(cache.get(movieId)) {
+    override suspend fun getMovie(movieId: String): DataStream<Movie>  {
+        return buildDataStream(cache.get(movieId)) {
             coroutineScope {
                 val movie = async { service.movie(movieId) }
                 val config = async { config() }
@@ -35,23 +32,23 @@ class HttpMoviesRepository(
         }
     }
 
-    override suspend fun searchMovies(query: String): FlowDataStream<List<Movie>> {
+    override suspend fun searchMovies(query: String): DataStream<List<Movie>> {
         return buildResponse({ service.search(query) })
     }
 
-    override suspend fun nowPlaying(): FlowDataStream<List<Movie>> {
+    override suspend fun nowPlaying(): DataStream<List<Movie>> {
         return buildResponse({ service.nowPlaying() })
     }
 
-    override suspend fun popular(): FlowDataStream<List<Movie>> {
+    override suspend fun popular(): DataStream<List<Movie>> {
         return buildResponse({ service.popular() })
     }
 
-    override suspend fun discoverByGenre(genreId: String): FlowDataStream<List<Movie>> {
+    override suspend fun discoverByGenre(genreId: String): DataStream<List<Movie>> {
         return buildResponse({ service.discoverByGenre(genreId) })
     }
 
-    override suspend fun favorites(): FlowDataStream<List<Movie>> {
+    override suspend fun favorites(): DataStream<List<Movie>> {
         return buildResponse(
                 { service.favorites(preferences.accountId, preferences.sessionId) },
                 favoritesCache
@@ -64,8 +61,8 @@ class HttpMoviesRepository(
         }
     }
 
-    override suspend fun favorite(movieId: String): FlowDataStream<Unit> {
-        return buildFlowDataStream {
+    override suspend fun favorite(movieId: String): DataStream<Unit> {
+        return buildDataStream {
             service.favorite(
                     preferences.accountId,
                     preferences.sessionId,
@@ -76,8 +73,8 @@ class HttpMoviesRepository(
         }
     }
 
-    override suspend fun unfavorite(movieId: String): FlowDataStream<Unit> {
-        return buildFlowDataStream {
+    override suspend fun unfavorite(movieId: String): DataStream<Unit> {
+        return buildDataStream {
             service.favorite(
                     preferences.accountId,
                     preferences.sessionId,
@@ -91,8 +88,8 @@ class HttpMoviesRepository(
     private suspend fun buildResponse(
             apiSource: suspend () -> MoviesCollection,
             cachedValue: List<Movie>? = null
-    ): FlowDataStream<List<Movie>> = coroutineScope {
-        buildFlowDataStream(cachedValue) {
+    ): DataStream<List<Movie>> = coroutineScope {
+        buildDataStream(cachedValue) {
             coroutineScope {
                 val response = async { apiSource() }
                 val config = async { config() }
