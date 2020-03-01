@@ -92,9 +92,11 @@ class HttpMoviesRepository(
             cachedValue: List<Movie>? = null
     ): FlowDataStream<List<Movie>> = coroutineScope {
         buildFlowDataStream {
-            val response = apiSource()
-            val config = config()
-            MoviesCollection.toCollection(response, config)
+            coroutineScope {
+                val response = async { apiSource() }
+                val config = async { config() }
+                MoviesCollection.toCollection(response.await(), config.await())
+            }
         }
     }
 

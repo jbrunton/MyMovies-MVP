@@ -23,9 +23,8 @@ suspend fun <T> buildFlowDataStream(cachedValue: T? = null, source: suspend () -
         emit(AsyncResult.Loading(cachedValue))
         coroutineScope {
             try {
-                //delay(5000)
                 val result = source()
-                if (coroutineContext.isActive) {
+                if (coroutineContext.isActive) { // TODO: still need this check?
                     emit(AsyncResult.Success(result) as AsyncResult<T>)
                 }
             } catch (error: Exception) {
