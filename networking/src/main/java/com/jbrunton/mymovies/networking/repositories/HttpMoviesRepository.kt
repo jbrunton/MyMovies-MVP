@@ -23,12 +23,14 @@ class HttpMoviesRepository(
     private val cache = LruCache<String, Movie>(1024)
     private var favoritesCache: List<Movie>? = null
 
-    override suspend fun getMovie(movieId: String): FlowDataStream<Movie> = coroutineScope {
-        val response = async { service.movie(movieId) }
-        val config = async { config() }
-        buildFlowDataStream(cache.get(movieId)) {
-            MovieDetailsResponse.toMovie(response.await(), config.await()).apply {
-                cache.put(id, this)
+    override suspend fun getMovie(movieId: String): FlowDataStream<Movie>  {
+        return buildFlowDataStream(cache.get(movieId)) {
+            coroutineScope {
+                val movie = async { service.movie(movieId) }
+                val config = async { config() }
+                MovieDetailsResponse.toMovie(movie.await(), config.await()).apply {
+                    cache.put(id, this)
+                }
             }
         }
     }
@@ -90,10 +92,12 @@ class HttpMoviesRepository(
             apiSource: suspend () -> MoviesCollection,
             cachedValue: List<Movie>? = null
     ): FlowDataStream<List<Movie>> = coroutineScope {
-        val response = async { apiSource() }
-        val config = async { config() }
         buildFlowDataStream(cachedValue) {
-            MoviesCollection.toCollection(response.await(), config.await())
+            coroutineScope {
+                val response = async { apiSource() }
+                val config = async { config() }
+                MoviesCollection.toCollection(response.await(), config.await())
+            }
         }
     }
 
