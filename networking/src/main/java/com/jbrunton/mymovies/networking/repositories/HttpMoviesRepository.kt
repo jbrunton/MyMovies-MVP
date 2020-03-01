@@ -25,9 +25,9 @@ class HttpMoviesRepository(
     override suspend fun getMovie(movieId: String): FlowDataStream<Movie>  {
         return buildFlowDataStream(cache.get(movieId)) {
             coroutineScope {
-                val response = async { service.movie(movieId) }
+                val movie = async { service.movie(movieId) }
                 val config = async { config() }
-                MovieDetailsResponse.toMovie(response.await(), config.await()).apply {
+                MovieDetailsResponse.toMovie(movie.await(), config.await()).apply {
                     cache.put(id, this)
                 }
             }
