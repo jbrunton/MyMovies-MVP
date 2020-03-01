@@ -5,14 +5,6 @@ import kotlinx.coroutines.flow.*
 import org.assertj.core.api.Assertions.assertThat
 
 class TestFlowCollector<T>(private val flow: Flow<T>) {
-//    fun test(flow: Flow<T>) = coroutineScope {
-//        launch {
-//            flow.collect {
-//                values.add(it)
-//            }
-//        }
-//    }
-
     suspend fun assertValues(vararg values: T) {
         assertThat(flow.toList()).isEqualTo(values.toList())
     }
