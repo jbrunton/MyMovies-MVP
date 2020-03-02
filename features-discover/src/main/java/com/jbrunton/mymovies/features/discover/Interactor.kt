@@ -9,7 +9,17 @@ import com.snakydesign.livedataextensions.filter
 import com.snakydesign.livedataextensions.map
 import com.snakydesign.livedataextensions.scan
 
-abstract class Interactor<Intent, State, Change> {
+interface Dispatcher<Intent, Change> {
+    fun dispatch(intent: Intent): LiveData<Change>
+}
+
+interface Reducer<State, Change> {
+    fun combine(previousState: State, change: Change): State
+}
+
+abstract class Interactor<Intent, State, Change>
+    : Dispatcher<Intent, Change>, Reducer<State, Change>
+{
 
     protected abstract val initialState: State
     private val intents = MutableLiveData<Intent>()
@@ -23,7 +33,4 @@ abstract class Interactor<Intent, State, Change> {
     fun perform(intent: Intent) {
         intents.postValue(intent)
     }
-
-    internal abstract fun dispatch(intent: Intent): LiveData<Change>
-    internal abstract fun combine(previousState: State, change: Change): State
 }
