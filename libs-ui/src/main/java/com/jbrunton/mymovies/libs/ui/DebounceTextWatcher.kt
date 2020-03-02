@@ -6,12 +6,11 @@ import android.widget.EditText
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlin.coroutines.CoroutineContext
 
 class DebounceTextWatcher(
-        override val coroutineContext: CoroutineContext,
+        val scope: CoroutineScope,
         val action: (String) -> Unit
-) : TextWatcher, CoroutineScope {
+) : TextWatcher {
     private var previousValue = ""
     private var newValue = ""
 
@@ -31,7 +30,7 @@ class DebounceTextWatcher(
     override fun beforeTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
 
     private fun waitAndCheck() {
-        launch {
+        scope.launch {
             delay(Delay)
             if (newValue == previousValue) {
                 action(newValue)
@@ -42,5 +41,5 @@ class DebounceTextWatcher(
     }
 }
 
-fun EditText.onTextChanged(context: CoroutineContext, action: (String) -> Unit): Unit =
-        addTextChangedListener(DebounceTextWatcher(context, action))
+fun EditText.onTextChanged(scope: CoroutineScope, action: (String) -> Unit): Unit =
+        addTextChangedListener(DebounceTextWatcher(scope, action))

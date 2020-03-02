@@ -21,16 +21,16 @@ class HttpAccountRepository(
             preferences.sessionId = value.sessionId
         }
 
-    override suspend fun account(): FlowDataStream<Account> {
-        return buildFlowDataStream {
+    override suspend fun account(): DataStream<Account> {
+        return buildDataStream {
             service.account(session.sessionId).toAccount().apply {
                 preferences.accountId = id
             }
         }
     }
 
-    override suspend fun login(username: String, password: String): FlowDataStream<AuthSession> {
-        return buildFlowDataStream {
+    override suspend fun login(username: String, password: String): DataStream<AuthSession> {
+        return buildDataStream {
             // Per the docs:
             // https://developers.themoviedb.org/3/authentication/how-do-i-generate-a-session-id
 

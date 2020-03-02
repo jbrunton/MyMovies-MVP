@@ -6,10 +6,8 @@ import com.jbrunton.async.doOnSuccess
 import com.jbrunton.async.onError
 import com.jbrunton.mymovies.entities.errors.onNetworkError
 import com.jbrunton.mymovies.entities.models.AuthSession
-import com.jbrunton.mymovies.entities.subscribe
 import com.jbrunton.inject.Container
 import com.jbrunton.inject.inject
-import com.jbrunton.inject.parametersOf
 import com.jbrunton.mymovies.libs.ui.viewmodels.BaseLoadingViewModel
 import com.jbrunton.mymovies.libs.ui.livedata.SingleLiveEvent
 import com.jbrunton.mymovies.usecases.auth.LoginResult
@@ -20,7 +18,7 @@ import kotlinx.coroutines.launch
 import retrofit2.HttpException
 
 class LoginViewModel(container: Container) : BaseLoadingViewModel<LoginViewState>(container) {
-    val useCase: LoginUseCase by inject { parametersOf(schedulerContext) }
+    val useCase: LoginUseCase by inject()
     val loginSuccessful = SingleLiveEvent<AuthSession>()
     val loginFailure = SingleLiveEvent<String>()
     val viewStateFactory: LoginViewStateFactory by inject()

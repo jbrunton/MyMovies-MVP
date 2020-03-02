@@ -4,7 +4,7 @@ import com.jbrunton.async.AsyncResult
 import com.jbrunton.mymovies.entities.errors.networkError
 import com.jbrunton.mymovies.entities.models.AuthSession
 import com.jbrunton.mymovies.entities.repositories.AccountRepository
-import com.jbrunton.mymovies.fixtures.MainCoroutineScopeRule
+import com.jbrunton.mymovies.fixtures.TestCoroutineScopeRule
 import com.jbrunton.mymovies.fixtures.NetworkErrorFixtures.httpErrorResult
 import com.jbrunton.mymovies.fixtures.NetworkErrorFixtures.networkErrorResult
 import io.mockk.coEvery
@@ -12,14 +12,13 @@ import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.test.runBlockingTest
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
 class LoginUseCaseTest {
-    @get:Rule val coroutineScope =  MainCoroutineScopeRule()
+    @get:Rule val coroutineScope =  TestCoroutineScopeRule()
 
     private lateinit var repository: AccountRepository
     private lateinit var useCase: LoginUseCase

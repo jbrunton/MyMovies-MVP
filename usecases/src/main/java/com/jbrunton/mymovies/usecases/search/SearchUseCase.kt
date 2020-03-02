@@ -1,13 +1,9 @@
 package com.jbrunton.mymovies.usecases.search
 
 import com.jbrunton.async.AsyncResult
-import com.jbrunton.mymovies.entities.SchedulerFactory
 import com.jbrunton.mymovies.entities.errors.handleNetworkErrors
 import com.jbrunton.mymovies.entities.repositories.DataStream
-import com.jbrunton.mymovies.entities.repositories.FlowDataStream
 import com.jbrunton.mymovies.entities.repositories.MoviesRepository
-import io.reactivex.Observable
-import io.reactivex.subjects.PublishSubject
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.BroadcastChannel
@@ -29,13 +25,13 @@ class SearchUseCase(
 
     @FlowPreview
     @ExperimentalCoroutinesApi
-    fun results(): FlowDataStream<SearchResult> {
+    fun results(): DataStream<SearchResult> {
         return searches.asFlow()
                 .flatMapConcat { doSearch(it) }
                 .onStart { emit(EmptyQueryResult) }
     }
 
-    private suspend fun doSearch(query: String): FlowDataStream<SearchResult> {
+    private suspend fun doSearch(query: String): DataStream<SearchResult> {
         if (query.isEmpty()) {
             return flowOf(EmptyQueryResult)
         }

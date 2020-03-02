@@ -7,11 +7,8 @@ import com.jbrunton.mymovies.entities.errors.handleNetworkErrors
 import com.jbrunton.mymovies.entities.models.Movie
 import com.jbrunton.mymovies.entities.repositories.ApplicationPreferences
 import com.jbrunton.mymovies.entities.repositories.DataStream
-import com.jbrunton.mymovies.entities.repositories.FlowDataStream
 import com.jbrunton.mymovies.entities.repositories.MoviesRepository
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.rx2.asObservable
 import retrofit2.HttpException
 
 sealed class FavoriteResult {
@@ -23,17 +20,17 @@ class MovieDetailsUseCase(
         val repository: MoviesRepository,
         val preferences: ApplicationPreferences
 ) {
-    suspend fun details(movieId: String): FlowDataStream<MovieDetails> {
+    suspend fun details(movieId: String): DataStream<MovieDetails> {
         return repository.getMovie(movieId)
                 .map { handleMovieResult(it) }
     }
 
-    suspend fun favorite(movieId: String): FlowDataStream<FavoriteResult> {
+    suspend fun favorite(movieId: String): DataStream<FavoriteResult> {
         return repository.favorite(movieId)
                 .map { handleFavoriteResult(it) }
     }
 
-    suspend fun unfavorite(movieId: String): FlowDataStream<FavoriteResult> {
+    suspend fun unfavorite(movieId: String): DataStream<FavoriteResult> {
         return repository.unfavorite(movieId)
                 .map { handleFavoriteResult(it) }
     }

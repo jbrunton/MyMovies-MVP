@@ -2,7 +2,6 @@ package com.jbrunton.mymovies.features.account
 
 import androidx.lifecycle.viewModelScope
 import com.jbrunton.async.AsyncResult
-import com.jbrunton.mymovies.entities.subscribe
 import com.jbrunton.inject.Container
 import com.jbrunton.inject.inject
 import com.jbrunton.mymovies.libs.ui.nav.FavoritesRequest
