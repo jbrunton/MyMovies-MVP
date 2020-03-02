@@ -39,7 +39,7 @@ class ContainerTest : HasContainer {
         TestApplicationComponent(activityRule.application).check(parameters)
     }
 
-    @Ignore @Test // ActivityModule is not a complete module - need to allow others to be passed in
+    @Test @Ignore("ActivityModule is not a complete module - need to allow others to be passed in")
     fun checkActivityModule() {
         ActivityModule(activityRule.activity).check()
     }
