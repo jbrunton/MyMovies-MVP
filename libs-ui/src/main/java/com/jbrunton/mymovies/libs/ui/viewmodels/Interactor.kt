@@ -13,8 +13,7 @@ abstract class Interactor<Intent, State, Action> {
     private val changes = MutableLiveData<Action>()
 
     val state = lazy {
-        changes.scan(initialState, ::combine)
-                .distinctUntilChanged()
+        changes.scan(initialState, ::combine).distinctUntilChanged()
     }
 
     abstract suspend fun actionsFor(intent: Intent): Flow<Action>

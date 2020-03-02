@@ -25,6 +25,10 @@ sealed class DiscoverStateChange {
     object Nothing : DiscoverStateChange()
 }
 
+interface DiscoverListener {
+    fun perform(intent: DiscoverIntent)
+}
+
 class DiscoverInteractor(
         val scrollToGenreResults: SingleLiveEvent<Unit>
 ) : Interactor<DiscoverIntent, AsyncResult<DiscoverState>, DiscoverStateChange>() {
