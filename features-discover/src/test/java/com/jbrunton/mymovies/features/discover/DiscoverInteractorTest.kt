@@ -8,16 +8,20 @@ import com.jbrunton.mymovies.features.discover.DiscoverStateChange.DiscoverResul
 import com.jbrunton.mymovies.fixtures.MovieFactory
 import com.jbrunton.mymovies.libs.ui.livedata.SingleLiveEvent
 import com.jbrunton.mymovies.usecases.discover.DiscoverState
+import io.mockk.MockKAnnotations
+import io.mockk.impl.annotations.MockK
+import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.mockk
 import io.mockk.verify
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Test
 
-class DiscoverViewStateReducerTest {
+class DiscoverInteractorTest {
 
-    private lateinit var scrollToGenreResults: SingleLiveEvent<Unit>
-    private lateinit var reducer: DiscoverViewStateReducer
+    @RelaxedMockK private lateinit var callbacks: DiscoverInteractor.Callbacks
+
+    private lateinit var reducer: DiscoverInteractor
 
     private val movieFactory = MovieFactory()
 
@@ -39,8 +43,8 @@ class DiscoverViewStateReducerTest {
 
     @Before
     fun setUp() {
-        scrollToGenreResults = mockk(relaxed = true)
-        reducer = DiscoverViewStateReducer(scrollToGenreResults)
+        MockKAnnotations.init(this)
+        reducer = DiscoverInteractor(mockk(), mockk(), callbacks)
     }
 
     @Test
@@ -48,7 +52,7 @@ class DiscoverViewStateReducerTest {
         val previousState = AsyncResult.loading<DiscoverState>(null)
         val change = DiscoverResultsAvailable(successfulResult)
 
-        val newState = reducer.reduce(previousState, change)
+        val newState = reducer.combine(previousState, change)
 
         assertThat(newState).isEqualTo(successfulResult)
     }
@@ -58,7 +62,7 @@ class DiscoverViewStateReducerTest {
         val previousState = successfulResult
         val change = DiscoverStateChange.GenreSelected(sciFi)
 
-        val newState = reducer.reduce(previousState, change)
+        val newState = reducer.combine(previousState, change)
 
         assertThat(previousState.value.selectedGenre).isNull()
         assertThat(newState.get().selectedGenre).isEqualTo(sciFi)
@@ -69,11 +73,11 @@ class DiscoverViewStateReducerTest {
         val previousState = successfulResult
         val change = DiscoverStateChange.GenreResultsAvailable(sciFiResult)
 
-        val newState = reducer.reduce(previousState, change)
+        val newState = reducer.combine(previousState, change)
 
         assertThat(previousState.value.genreResults).isEmpty()
         assertThat(newState.get().genreResults).isEqualTo(sciFiResult.value)
-        verify { scrollToGenreResults.call() }
+        verify { callbacks.scrollToGenreResults() }
     }
 
     @Test
@@ -81,7 +85,7 @@ class DiscoverViewStateReducerTest {
         val previousState = success(discoverState.copy(genreResults = sciFiMovies, selectedGenre = sciFi))
         val change = DiscoverStateChange.SelectedGenreCleared
 
-        val newState = reducer.reduce(previousState, change)
+        val newState = reducer.combine(previousState, change)
 
         assertThat(previousState.value.genreResults).isNotEmpty
         assertThat(newState.get().genreResults).isEmpty()
