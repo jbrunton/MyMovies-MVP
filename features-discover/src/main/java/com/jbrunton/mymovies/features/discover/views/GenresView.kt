@@ -3,14 +3,14 @@ package com.jbrunton.mymovies.features.discover.views
 import android.content.Context
 import android.util.AttributeSet
 import android.widget.LinearLayout
+import com.jbrunton.mymovies.features.discover.DiscoverIntentListener
 import com.jbrunton.mymovies.features.discover.interactor.DiscoverIntent
-import com.jbrunton.mymovies.features.discover.interactor.DiscoverListener
 import com.jbrunton.mymovies.features.discover.GenresViewState
 import com.jbrunton.mymovies.features.discover.R
 import kotlinx.android.synthetic.main.view_genres.view.*
 
 class GenresView(context: Context, attrs: AttributeSet): LinearLayout(context, attrs) {
-    private lateinit var listener: DiscoverListener
+    private lateinit var listener: DiscoverIntentListener
 
     init {
         inflate(context, R.layout.view_genres, this)
@@ -29,7 +29,7 @@ class GenresView(context: Context, attrs: AttributeSet): LinearLayout(context, a
         selected_genre.visibility = viewState.selectedGenreVisibility
     }
 
-    fun setListener(listener: DiscoverListener) {
+    fun setListener(listener: DiscoverIntentListener) {
         this.listener = listener
         genres.setListener(listener)
         genre_results.setListener(listener)

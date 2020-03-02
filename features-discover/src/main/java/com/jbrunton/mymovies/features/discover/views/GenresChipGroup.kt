@@ -5,14 +5,14 @@ import android.util.AttributeSet
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.jbrunton.mymovies.entities.models.Genre
+import com.jbrunton.mymovies.features.discover.DiscoverIntentListener
 import com.jbrunton.mymovies.features.discover.interactor.DiscoverIntent
-import com.jbrunton.mymovies.features.discover.interactor.DiscoverListener
 import kotlinx.android.synthetic.main.view_genres.view.*
 
 class GenresChipGroup(context: Context, attrs: AttributeSet): ChipGroup(context, attrs) {
-    private lateinit var listener: DiscoverListener
+    private lateinit var listener: DiscoverIntentListener
 
-    fun setListener(listener: DiscoverListener) {
+    fun setListener(listener: DiscoverIntentListener) {
         this.listener = listener
     }
 
