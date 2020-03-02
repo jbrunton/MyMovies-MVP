@@ -24,6 +24,6 @@ abstract class Interactor<Intent, State, Change> {
         intents.postValue(intent)
     }
 
-    protected abstract fun dispatch(intent: Intent): LiveData<Change>
-    protected abstract fun combine(previousState: State, change: Change): State
+    internal abstract fun dispatch(intent: Intent): LiveData<Change>
+    internal abstract fun combine(previousState: State, change: Change): State
 }
