@@ -1,6 +1,7 @@
 package com.jbrunton.mymovies.features.discover
 
 import android.view.View
+import com.jbrunton.mymovies.features.discover.interactor.DiscoverListener
 import com.jbrunton.mymovies.features.discover.views.GenresView
 import com.jbrunton.mymovies.features.discover.views.MoviesGridView
 import com.jbrunton.mymovies.libs.kotterknife.bindView

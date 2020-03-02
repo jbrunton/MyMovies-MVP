@@ -3,8 +3,8 @@ package com.jbrunton.mymovies.features.discover.views
 import android.content.Context
 import android.util.AttributeSet
 import android.widget.LinearLayout
-import com.jbrunton.mymovies.features.discover.DiscoverIntent
-import com.jbrunton.mymovies.features.discover.DiscoverListener
+import com.jbrunton.mymovies.features.discover.interactor.DiscoverIntent
+import com.jbrunton.mymovies.features.discover.interactor.DiscoverListener
 import com.jbrunton.mymovies.features.discover.GenresViewState
 import com.jbrunton.mymovies.features.discover.R
 import kotlinx.android.synthetic.main.view_genres.view.*

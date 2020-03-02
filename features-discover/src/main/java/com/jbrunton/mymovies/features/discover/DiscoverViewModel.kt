@@ -1,17 +1,24 @@
 package com.jbrunton.mymovies.features.discover
 
 import androidx.lifecycle.*
-import com.jbrunton.async.AsyncResult
 import com.jbrunton.inject.Container
-import com.jbrunton.mymovies.entities.models.Genre
+import com.jbrunton.inject.inject
 import com.jbrunton.mymovies.entities.models.Movie
+import com.jbrunton.mymovies.features.discover.interactor.DiscoverIntent
+import com.jbrunton.mymovies.features.discover.interactor.DiscoverInteractor
+import com.jbrunton.mymovies.features.discover.interactor.DiscoverListener
 import com.jbrunton.mymovies.libs.ui.livedata.SingleLiveEvent
+import com.jbrunton.mymovies.libs.ui.nav.MovieDetailsRequest
+import com.jbrunton.mymovies.libs.ui.nav.NavigationRequest
+import com.jbrunton.mymovies.libs.ui.nav.Navigator
 import com.jbrunton.mymovies.libs.ui.viewmodels.BaseViewModel
-import com.jbrunton.mymovies.usecases.discover.DiscoverState
 
-class DiscoverViewModel(container: Container) : BaseViewModel(container), DiscoverListener, DiscoverInteractor.Callbacks {
+class DiscoverViewModel(container: Container) : BaseViewModel(container),
+        DiscoverListener,
+        DiscoverInteractor.Callbacks
+{
     val scrollToGenreResults = SingleLiveEvent<Unit>()
-    val interactor = DiscoverInteractor(container.get(), container.get(), this)
+    private val interactor = DiscoverInteractor(container.get(), this)
 
     val viewState by lazy {
         interactor.state.map { DiscoverViewStateFactory.viewState(it) }
@@ -30,5 +37,9 @@ class DiscoverViewModel(container: Container) : BaseViewModel(container), Discov
 
     override fun scrollToGenreResults() {
         scrollToGenreResults.call()
+    }
+
+    override fun showMovieDetails(movie: Movie) {
+        navigator.navigate(MovieDetailsRequest(movie.id))
     }
 }

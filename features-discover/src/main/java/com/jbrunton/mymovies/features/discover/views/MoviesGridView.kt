@@ -5,8 +5,8 @@ import android.util.AttributeSet
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.jbrunton.mymovies.entities.models.Movie
-import com.jbrunton.mymovies.features.discover.DiscoverIntent
-import com.jbrunton.mymovies.features.discover.DiscoverListener
+import com.jbrunton.mymovies.features.discover.interactor.DiscoverIntent
+import com.jbrunton.mymovies.features.discover.interactor.DiscoverListener
 import com.jbrunton.mymovies.shared.ui.MovieSearchResultViewState
 import com.jbrunton.mymovies.shared.ui.MoviesListAdapter
 import com.jbrunton.mymovies.shared.ui.R

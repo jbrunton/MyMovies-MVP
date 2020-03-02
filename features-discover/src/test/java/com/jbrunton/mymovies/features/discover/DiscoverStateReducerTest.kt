@@ -4,12 +4,13 @@ import com.jbrunton.async.AsyncResult
 import com.jbrunton.async.AsyncResult.Companion.success
 import com.jbrunton.async.get
 import com.jbrunton.mymovies.entities.models.Genre
-import com.jbrunton.mymovies.features.discover.DiscoverStateChange.DiscoverResultsAvailable
+import com.jbrunton.mymovies.features.discover.interactor.DiscoverInteractor
+import com.jbrunton.mymovies.features.discover.interactor.DiscoverStateChange
+import com.jbrunton.mymovies.features.discover.interactor.DiscoverStateChange.DiscoverResultsAvailable
+import com.jbrunton.mymovies.features.discover.interactor.DiscoverStateReducer
 import com.jbrunton.mymovies.fixtures.MovieFactory
-import com.jbrunton.mymovies.libs.ui.livedata.SingleLiveEvent
 import com.jbrunton.mymovies.usecases.discover.DiscoverState
 import io.mockk.MockKAnnotations
-import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.mockk
 import io.mockk.verify
@@ -17,11 +18,11 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Test
 
-class DiscoverInteractorTest {
+class DiscoverStateReducerTest {
 
     @RelaxedMockK private lateinit var callbacks: DiscoverInteractor.Callbacks
 
-    private lateinit var reducer: DiscoverInteractor
+    private lateinit var reducer: DiscoverStateReducer
 
     private val movieFactory = MovieFactory()
 
@@ -44,7 +45,7 @@ class DiscoverInteractorTest {
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
-        reducer = DiscoverInteractor(mockk(), mockk(), callbacks)
+        reducer = DiscoverStateReducer(callbacks)
     }
 
     @Test
