@@ -2,8 +2,9 @@ package com.jbrunton.mymovies.features.discover
 
 import androidx.lifecycle.*
 import com.jbrunton.async.AsyncResult
+import com.jbrunton.async.getOr
+import com.jbrunton.async.map
 import com.jbrunton.inject.Container
-import com.jbrunton.inject.inject
 import com.jbrunton.mymovies.entities.models.Genre
 import com.jbrunton.mymovies.entities.models.Movie
 import com.jbrunton.mymovies.libs.ui.livedata.SingleLiveEvent
@@ -12,12 +13,9 @@ import com.jbrunton.mymovies.libs.ui.nav.Navigator
 import com.jbrunton.mymovies.libs.ui.viewmodels.BaseViewModel
 import com.jbrunton.mymovies.usecases.discover.DiscoverState
 import com.jbrunton.mymovies.usecases.discover.DiscoverUseCase
-import com.snakydesign.livedataextensions.emptyLiveData
 import com.snakydesign.livedataextensions.liveDataOf
-import com.snakydesign.livedataextensions.scan
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 
 sealed class DiscoverIntent {
     object Load : DiscoverIntent()
@@ -41,9 +39,12 @@ sealed class DiscoverStateChange {
 class DiscoverInteractor(
         val useCase: DiscoverUseCase,
         val navigator: Navigator,
-        val scrollToGenreResults: SingleLiveEvent<Unit>
+        val callbacks: Callbacks
 ) : Interactor<DiscoverIntent, AsyncResult<DiscoverState>, DiscoverStateChange>() {
-    private val reducer = DiscoverViewStateReducer(scrollToGenreResults)
+
+    interface Callbacks {
+        fun scrollToGenreResults()
+    }
 
     override val initialState: AsyncResult<DiscoverState> = AsyncResult.loading(null)
 
@@ -55,8 +56,22 @@ class DiscoverInteractor(
         is DiscoverIntent.SelectMovie -> selectMovie(intent)
     }
 
-    override fun combine(previousState: AsyncResult<DiscoverState>, change: DiscoverStateChange): AsyncResult<DiscoverState> {
-        return reducer.reduce(previousState, change)
+    override fun combine(previousState: AsyncResult<DiscoverState>, change: DiscoverStateChange) = when (change) {
+        is DiscoverStateChange.DiscoverResultsAvailable -> change.discoverResult
+        is DiscoverStateChange.GenreSelected -> previousState.map {
+            it.copy(selectedGenre = change.selectedGenre)
+        }
+        is DiscoverStateChange.GenreResultsAvailable -> previousState.map {
+            val genreResults = change.genreResults.getOr(emptyList())
+            if (genreResults.any()) {
+                callbacks.scrollToGenreResults()
+            }
+            it.copy(genreResults = genreResults)
+        }
+        is DiscoverStateChange.SelectedGenreCleared -> previousState.map {
+            it.copy(genreResults = emptyList(), selectedGenre = null)
+        }
+        is DiscoverStateChange.Nothing -> previousState
     }
 
     @ExperimentalCoroutinesApi
@@ -89,9 +104,9 @@ class DiscoverInteractor(
 
 }
 
-class DiscoverViewModel(container: Container) : BaseViewModel(container), DiscoverListener {
+class DiscoverViewModel(container: Container) : BaseViewModel(container), DiscoverListener, DiscoverInteractor.Callbacks {
     val scrollToGenreResults = SingleLiveEvent<Unit>()
-    val interactor = DiscoverInteractor(container.get(), container.get(), scrollToGenreResults)
+    val interactor = DiscoverInteractor(container.get(), container.get(), this)
 
     val viewState by lazy {
         interactor.state.map { DiscoverViewStateFactory.viewState(it) }
@@ -107,4 +122,8 @@ class DiscoverViewModel(container: Container) : BaseViewModel(container), Discov
     }
 
     override fun perform(intent: DiscoverIntent) = interactor.perform(intent)
+
+    override fun scrollToGenreResults() {
+        scrollToGenreResults.call()
+    }
 }
