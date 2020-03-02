@@ -3,22 +3,18 @@ package com.jbrunton.mymovies.usecases.search
 import com.jbrunton.async.AsyncResult
 import com.jbrunton.mymovies.entities.models.Movie
 import com.jbrunton.mymovies.entities.repositories.MoviesRepository
-import com.jbrunton.mymovies.fixtures.MainCoroutineScopeRule
+import com.jbrunton.mymovies.fixtures.TestCoroutineScopeRule
 import com.jbrunton.mymovies.fixtures.MovieFactory
-import com.jbrunton.mymovies.fixtures.TestFlowCollector
 import com.jbrunton.mymovies.fixtures.test
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.rx2.asFlowable
 import kotlinx.coroutines.test.runBlockingTest
-import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -26,7 +22,7 @@ import org.junit.Test
 @FlowPreview
 @ExperimentalCoroutinesApi
 class SearchUseCaseTest {
-    @get:Rule val coroutineScope =  MainCoroutineScopeRule()
+    @get:Rule val coroutineScope =  TestCoroutineScopeRule()
 
     @MockK private lateinit var repository: MoviesRepository
     private lateinit var useCase: SearchUseCase

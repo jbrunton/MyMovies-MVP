@@ -11,7 +11,7 @@ import org.junit.runner.Description
 /**
  * Taken from https://github.com/googlecodelabs/kotlin-coroutines/blob/master/coroutines-codelab/finished_code/src/test/java/com/example/android/kotlincoroutines/main/utils/MainCoroutineScopeRule.kt
  */
-class MainCoroutineScopeRule(val dispatcher: TestCoroutineDispatcher = TestCoroutineDispatcher()) :
+class TestCoroutineScopeRule(val dispatcher: TestCoroutineDispatcher = TestCoroutineDispatcher()) :
         TestWatcher(),
         TestCoroutineScope by TestCoroutineScope(dispatcher) {
     override fun starting(description: Description?) {
