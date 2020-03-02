@@ -16,30 +16,11 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
-sealed class DiscoverIntent {
-    object Load : DiscoverIntent()
-    data class SelectGenre(val genre: Genre) : DiscoverIntent()
-    data class SelectMovie(val movie: Movie) : DiscoverIntent()
-    object ClearSelectedGenre : DiscoverIntent()
-}
-
-interface DiscoverListener {
-    fun perform(intent: DiscoverIntent)
-}
-
-sealed class DiscoverStateChange {
-    data class DiscoverResultsAvailable(val discoverResult: AsyncResult<DiscoverState>) : DiscoverStateChange()
-    data class GenreSelected(val selectedGenre: Genre) : DiscoverStateChange()
-    data class GenreResultsAvailable(val genreResults: AsyncResult<List<Movie>>) : DiscoverStateChange()
-    object SelectedGenreCleared : DiscoverStateChange()
-    object Nothing : DiscoverStateChange()
-}
-
-class DiscoverViewModel(container: Container) : BaseViewModel(container), DiscoverListener {
+class DiscoverViewModel(container: Container) : BaseViewModel(container) {
     val scrollToGenreResults = SingleLiveEvent<Unit>()
     private val useCase: DiscoverUseCase by inject()
     private val changes = MediatorLiveData<DiscoverStateChange>()
-    private val reducer = DiscoverViewStateReducer(scrollToGenreResults)
+    private val interactor = DiscoverViewStateReducer(scrollToGenreResults)
 
     val viewState by lazy {
         val initialState = AsyncResult.loading(null)
