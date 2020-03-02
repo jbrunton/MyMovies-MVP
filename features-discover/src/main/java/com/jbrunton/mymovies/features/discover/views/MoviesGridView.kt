@@ -5,14 +5,14 @@ import android.util.AttributeSet
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.jbrunton.mymovies.entities.models.Movie
-import com.jbrunton.mymovies.features.discover.DiscoverIntent
-import com.jbrunton.mymovies.features.discover.DiscoverListener
+import com.jbrunton.mymovies.features.discover.DiscoverIntentListener
+import com.jbrunton.mymovies.features.discover.interactor.DiscoverIntent
 import com.jbrunton.mymovies.shared.ui.MovieSearchResultViewState
 import com.jbrunton.mymovies.shared.ui.MoviesListAdapter
 import com.jbrunton.mymovies.shared.ui.R
 
 class MoviesGridView(context: Context, attrs: AttributeSet): RecyclerView(context, attrs) {
-    private lateinit var listener: DiscoverListener
+    private lateinit var listener: DiscoverIntentListener
 
     init {
         adapter = MoviesListAdapter(context, R.layout.item_movie_card_grid, this::onMovieSelected)
@@ -23,7 +23,7 @@ class MoviesGridView(context: Context, attrs: AttributeSet): RecyclerView(contex
         (adapter as MoviesListAdapter).setDataSource(viewState)
     }
 
-    fun setListener(listener: DiscoverListener) {
+    fun setListener(listener: DiscoverIntentListener) {
         this.listener = listener
     }
 
