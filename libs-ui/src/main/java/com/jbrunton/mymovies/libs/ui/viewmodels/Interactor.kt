@@ -1,12 +1,9 @@
-package com.jbrunton.mymovies.features.discover
+package com.jbrunton.mymovies.libs.ui.viewmodels
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.switchMap
 import com.snakydesign.livedataextensions.distinctUntilChanged
-import com.snakydesign.livedataextensions.filter
-import com.snakydesign.livedataextensions.map
 import com.snakydesign.livedataextensions.scan
 
 interface Dispatcher<Intent, Change> {
