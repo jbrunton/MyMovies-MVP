@@ -3,6 +3,8 @@ package com.jbrunton.mymovies.features.discover.views
 import android.content.Context
 import android.util.AttributeSet
 import android.widget.LinearLayout
+import androidx.transition.Fade
+import androidx.transition.TransitionManager
 import com.jbrunton.mymovies.features.discover.DiscoverIntentListener
 import com.jbrunton.mymovies.features.discover.interactor.DiscoverIntent
 import com.jbrunton.mymovies.features.discover.GenresViewState
@@ -18,6 +20,9 @@ class GenresView(context: Context, attrs: AttributeSet): LinearLayout(context, a
 
     fun updateView(viewState: GenresViewState) {
         genre_results.updateView(viewState.genreResults)
+
+        TransitionManager.beginDelayedTransition(genres, Fade())
+        TransitionManager.beginDelayedTransition(genre_results, Fade())
 
         genre_results.visibility = viewState.genreResultsVisibility
         genre_results_loading_indicator.visibility = viewState.genreResultsLoadingIndicatorVisibility
