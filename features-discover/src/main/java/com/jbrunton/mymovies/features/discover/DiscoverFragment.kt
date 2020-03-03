@@ -11,6 +11,7 @@ import com.jbrunton.mymovies.libs.ui.livedata.observe
 import com.jbrunton.mymovies.libs.ui.views.BaseFragment
 import kotlinx.android.synthetic.main.fragment_discover.*
 
+
 class DiscoverFragment : BaseFragment<DiscoverViewModel>() {
     override val viewModel: DiscoverViewModel by injectViewModel()
     private val viewController by lazy { DiscoverViewController(viewModel) }
@@ -33,7 +34,9 @@ class DiscoverFragment : BaseFragment<DiscoverViewModel>() {
     override fun onObserveData() {
         viewModel.viewState.observe(viewLifecycleOwner, viewController::updateView)
         viewModel.scrollToGenreResults.observe(viewLifecycleOwner) {
-            discover_content.scrollTo(0, genres_view.bottom)
+            view?.postDelayed({
+                discover_content.smoothScrollTo(0, genres_view.bottom)
+            }, 100)
         }
     }
 }

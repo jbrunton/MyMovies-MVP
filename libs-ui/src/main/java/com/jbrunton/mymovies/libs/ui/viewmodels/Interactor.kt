@@ -14,16 +14,16 @@ interface Reducer<State, Change> {
     fun combine(previousState: State, change: Change): State
 }
 
-abstract class Interactor<Intent, State, Change>
-    : Dispatcher<Intent, Change>, Reducer<State, Change>
-{
-
-    protected abstract val initialState: State
+open class Interactor<Intent, State, Change>(
+        private val initialState: State,
+        private val dispatcher: Dispatcher<Intent, Change>,
+        private val reducer: Reducer<State, Change>
+) {
     private val intents = MutableLiveData<Intent>()
-    private val changes: LiveData<Change> by lazy { intents.switchMap { dispatch(it) } }
+    private val changes: LiveData<Change> by lazy { intents.switchMap { dispatcher.dispatch(it) } }
 
     val state: LiveData<State> by lazy {
-        changes.scan(initialState, ::combine)
+        changes.scan(initialState, reducer::combine)
                 .distinctUntilChanged()
     }
 
