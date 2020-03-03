@@ -36,7 +36,7 @@ class DiscoverFragment : BaseFragment<DiscoverViewModel>() {
         viewModel.scrollToGenreResults.observe(viewLifecycleOwner) {
             view?.postDelayed({
                 discover_content.smoothScrollTo(0, genres_view.bottom)
-            }, 100)
+            }, 10)
         }
     }
 }
