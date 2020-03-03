@@ -3,7 +3,6 @@ package com.jbrunton.mymovies.features.discover.views
 import android.content.Context
 import android.util.AttributeSet
 import android.widget.LinearLayout
-import androidx.transition.ChangeBounds
 import androidx.transition.Fade
 import androidx.transition.TransitionManager
 import com.jbrunton.mymovies.features.discover.DiscoverIntentListener
