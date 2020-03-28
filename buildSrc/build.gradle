@@ -1,0 +1,23 @@
+buildscript {
+    repositories {
+        google()
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.5.3'
+    }
+}
+
+apply plugin: 'groovy'
+apply plugin: 'maven'
+
+dependencies {
+    repositories {
+        google()
+        jcenter()
+    }
+
+    implementation gradleApi()
+    implementation localGroovy()
+}
