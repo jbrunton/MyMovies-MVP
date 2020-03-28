@@ -1,11 +1,14 @@
 package com.jbrunton.mymovies.networking.repositories
 
+import com.jbrunton.async.AsyncResult
 import com.jbrunton.mymovies.entities.models.Account
 import com.jbrunton.mymovies.entities.models.AuthSession
 import com.jbrunton.mymovies.entities.repositories.*
 import com.jbrunton.mymovies.networking.resources.auth.AuthSessionRequest
 import com.jbrunton.mymovies.networking.resources.auth.LoginRequest
 import com.jbrunton.mymovies.networking.services.MovieService
+import kotlinx.coroutines.isActive
+import java.lang.Exception
 
 class HttpAccountRepository(
         private val service: MovieService,
@@ -21,16 +24,16 @@ class HttpAccountRepository(
             preferences.sessionId = value.sessionId
         }
 
-    override suspend fun account(): DataStream<Account> {
-        return buildDataStream {
+    override suspend fun account(): AsyncResult<Account> {
+        return asyncResult {
             service.account(session.sessionId).toAccount().apply {
-                preferences.accountId = id
+                preferences.accountId = this.id
             }
         }
     }
 
-    override suspend fun login(username: String, password: String): DataStream<AuthSession> {
-        return buildDataStream {
+    override suspend fun login(username: String, password: String): AsyncResult<AuthSession> {
+        return asyncResult {
             // Per the docs:
             // https://developers.themoviedb.org/3/authentication/how-do-i-generate-a-session-id
 

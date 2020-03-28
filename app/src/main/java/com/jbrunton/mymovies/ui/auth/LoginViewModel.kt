@@ -24,10 +24,10 @@ class LoginViewModel(container: Container) : BaseLoadingViewModel<LoginViewState
     val viewStateFactory: LoginViewStateFactory by inject()
 
     fun onLoginClicked(username: String, password: String) {
+        viewState.postValue(viewStateFactory.viewState(AsyncResult.loading(null)))
         viewModelScope.launch {
-            useCase.login(username, password).collect { result ->
-                viewState.postValue(viewStateFactory.viewState(handleResult(result)))
-            }
+            val result = useCase.login(username, password)
+            viewState.postValue(viewStateFactory.viewState(handleResult(result)))
         }
     }
 

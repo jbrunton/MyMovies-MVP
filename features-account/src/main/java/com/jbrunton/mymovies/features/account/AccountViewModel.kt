@@ -48,10 +48,10 @@ class AccountViewModel(container: Container) : BaseLoadingViewModel<AccountViewS
     }
 
     private fun loadAccount() {
+        viewState.postValue(AccountViewStateFactory.viewState(AsyncResult.loading(null)))
         viewModelScope.launch {
-            useCase.account().collect { result ->
-                viewState.postValue(AccountViewStateFactory.viewState(result))
-            }
+            val result = useCase.account()
+            viewState.postValue(AccountViewStateFactory.viewState(result))
         }
     }
 }
