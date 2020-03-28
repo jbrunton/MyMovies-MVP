@@ -24,13 +24,11 @@ class LoginUseCaseTest {
     private lateinit var useCase: LoginUseCase
 
     private val AUTH_SESSION = AuthSession("1234")
-    private val LOADING_RESULT = AsyncResult.loading<AuthSession>(null)
     private val SUCCESS_RESULT = AsyncResult.success(AUTH_SESSION)
     private val AUTH_FAILURE_MESSAGE = "Some Error"
     private val AUTH_FAILURE_RESULT = httpErrorResult<AuthSession>(401, AUTH_FAILURE_MESSAGE)
     private val NETWORK_ERROR_RESULT = networkErrorResult<AuthSession>()
 
-    private val LOADING_STATE = AsyncResult.loading(null)
     private val SUCCESS_STATE = AsyncResult.success(LoginResult.SignedIn(AUTH_SESSION))
     private val NETWORK_ERROR_STATE = AsyncResult.failure(networkError(), null)
     private val AUTH_FAILURE_STATE = AsyncResult.failure(AUTH_FAILURE_RESULT.error, null)
