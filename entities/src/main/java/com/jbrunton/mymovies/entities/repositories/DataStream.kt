@@ -23,3 +23,11 @@ suspend fun <T> buildDataStream(cachedValue: T? = null, source: suspend () -> T)
         }
     }
 }
+
+suspend fun <T> asyncResult(cachedValue: T? = null, source: suspend () -> T): AsyncResult<T> {
+    return try {
+        AsyncResult.success(source())
+    } catch (error: Exception) {
+        AsyncResult.failure(error, cachedValue)
+    }
+}
