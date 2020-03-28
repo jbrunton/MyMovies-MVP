@@ -4,3 +4,4 @@
 [![Code Climate](https://codeclimate.com/github/jbrunton/MyMovies-MVP/badges/gpa.svg)](https://codeclimate.com/github/jbrunton/MyMovies-MVP)
 
 Trying out architectural patterns
+
