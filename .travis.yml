@@ -47,7 +47,7 @@ jobs:
   include:
     - stage: test
       script:
-        - ./gradlew allUnitTests --continue
+        - ./gradlew runUnitTests --continue
     - stage: smoketest
       if: type = pull_request
       script:
